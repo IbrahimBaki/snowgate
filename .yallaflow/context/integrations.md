@@ -29,10 +29,10 @@
 - **Source work:** PF-0010
 - **Knowledge ID:** K-014
 - **Promoted at:** 2026-10-19T19:06:25.449Z
-- **Verified:** 2026-10-19T19:06:25.449Z (commit 534f164)
+- **Verified:** 2026-10-19T22:36:32.267Z (commit 1df6e09)
 - **Evidence:**
-  - dev446072 2026-10-19 Basic 401, session+X-UserToken 200 (runtime)
-  - src/playwright/session.js (repository @ 534f164)
+  - [object Object] (reference)
+  - src/playwright/session.js (repository @ 1df6e09)
 
 <!-- yallaflow-fact:CTX-0059 -->
 ### CTX-0059 — On a real instance (dev446072, glide australia patch 7, 2026-10-19) all 19 discovery inventory tables were read with 0 unreadable, and the project-map artifact tables (incl. sp_instance with the sp_widget.name dot-walk) answered by sys_id; other instances or releases may differ, so unreadable tables stay limitations.

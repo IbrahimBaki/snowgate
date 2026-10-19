@@ -49,6 +49,7 @@ function session(state, calls) {
         locator: (sel) => ({ fill: async (v) => calls.push(`fill ${sel}=${v}`), first: () => ({ click: async () => { calls.push(`click ${sel}`); state.sets.push({ sys_id: SET, name: page.name ?? 'PF-0003 - Fix register page title', state: 'in progress' }); state.prefs = [{ user: ME, value: SET }]; } }) }),
         getByText: (t) => ({ first: () => ({ click: async () => { calls.push(`click ${t}`); state.prefs = [{ user: ME, value: SET }]; } }) }),
         waitForLoadState: async () => {},
+        waitForURL: async () => {},
       });
     },
     async close() {},

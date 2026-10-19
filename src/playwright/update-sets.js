@@ -74,10 +74,10 @@ export async function commitUpdateSet(page, origin, client, remote) {
 export async function createAndMakeCurrent(page, origin, name) {
   await page.goto(`${origin}/sys_update_set.do?sys_id=-1`, { waitUntil: 'load' });
   await page.locator('[id="sys_update_set.name"]').fill(name);
-  await Promise.all([
-    page.waitForLoadState('load').catch(() => {}),
-    page.locator('[id="sysverb_insert_and_make_current"]').first().click(),
-  ]);
+  await page.locator('[id="sysverb_insert_and_make_current"]').first().click();
+  // Wait for the submit itself, not the page that is already loaded.
+  await page.waitForURL((url) => !/sys_id=-1/.test(String(url)), { timeout: 20000 }).catch(() => {});
+  await page.waitForLoadState('load').catch(() => {});
 }
 
 export async function makeCurrent(page, origin, sysId) {

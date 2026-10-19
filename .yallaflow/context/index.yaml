@@ -4861,33 +4861,33 @@
           "type": "repository",
           "path": "src/credentials.js",
           "contentHash": "sha256:2013d589a9bb402020963c85e20de0a503ed93d6e7cc56596bdf988dec837c8c",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
           "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/rest/client.js",
           "contentHash": "sha256:3a1648839b1110409e6ab381b038574b887038ebda9d3626d7e95ff993ae46d5",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
-          "workingTree": "modified"
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+          "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/playwright/session.js",
-          "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
-          "workingTree": "head"
+          "contentHash": "sha256:b13092c4d65b52f50e4837aa00ff4c6386ba7dab6503679ed85c76b3c4346ff2",
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+          "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "src/config.js",
           "contentHash": "sha256:3c5e5a807e26e6f1e8e27d353ba5375b9ec2743f5e45212735e05aa316a17067",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
-          "workingTree": "modified"
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+          "workingTree": "head"
         }
       ],
-      "verifiedAt": "2026-10-19T22:06:07.159Z",
-      "verifiedAtCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+      "verifiedAt": "2026-10-19T22:36:32.095Z",
+      "verifiedAtCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
       "supersedes": [
         "CTX-0040"
       ],
@@ -5013,10 +5013,48 @@
           ],
           "previousVerifiedAt": "2026-10-19T21:40:23.346Z",
           "previousVerifiedAtCommit": "87b03c61b34cfd165faea73141b662448e61b79a"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T22:36:32.095Z",
+          "workId": "PF-0017",
+          "candidateId": "K-002",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/credentials.js",
+              "contentHash": "sha256:2013d589a9bb402020963c85e20de0a503ed93d6e7cc56596bdf988dec837c8c",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/rest/client.js",
+              "contentHash": "sha256:3a1648839b1110409e6ab381b038574b887038ebda9d3626d7e95ff993ae46d5",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/config.js",
+              "contentHash": "sha256:3c5e5a807e26e6f1e8e27d353ba5375b9ec2743f5e45212735e05aa316a17067",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T22:06:07.159Z",
+          "previousVerifiedAtCommit": "0b3e5ecc4b0c68283e06929605643b312703683a"
         }
       ],
       "createdAt": "2026-10-19T19:06:25.266Z",
-      "updatedAt": "2026-10-19T22:06:07.159Z"
+      "updatedAt": "2026-10-19T22:36:32.095Z"
     },
     {
       "id": "CTX-0056",
@@ -5031,19 +5069,19 @@
       },
       "evidence": [
         {
-          "type": "runtime",
-          "description": "dev446072 2026-10-19 Basic 401, session+X-UserToken 200"
+          "type": "reference",
+          "ref": "[object Object]"
         },
         {
           "type": "repository",
           "path": "src/playwright/session.js",
-          "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
-          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "contentHash": "sha256:b13092c4d65b52f50e4837aa00ff4c6386ba7dab6503679ed85c76b3c4346ff2",
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
           "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T19:06:25.449Z",
-      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "verifiedAt": "2026-10-19T22:36:32.267Z",
+      "verifiedAtCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
       "supersedes": [],
       "supersededBy": null,
       "history": [
@@ -5052,10 +5090,31 @@
           "at": "2026-10-19T19:06:25.449Z",
           "workId": "PF-0010",
           "candidateId": "K-014"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T22:36:32.267Z",
+          "workId": "PF-0017",
+          "candidateId": "K-003",
+          "previousEvidence": [
+            {
+              "type": "runtime",
+              "description": "dev446072 2026-10-19 Basic 401, session+X-UserToken 200"
+            },
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T19:06:25.449Z",
+          "previousVerifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2"
         }
       ],
       "createdAt": "2026-10-19T19:06:25.449Z",
-      "updatedAt": "2026-10-19T19:06:25.449Z"
+      "updatedAt": "2026-10-19T22:36:32.267Z"
     },
     {
       "id": "CTX-0057",
@@ -6296,33 +6355,33 @@
           "type": "repository",
           "path": "src/gateway/tools.js",
           "contentHash": "sha256:627fb99e9c14c9981fbbe9efe147cb7d987b328adaea223d985f3ef9fc6bb1ce",
-          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
-          "workingTree": "modified"
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+          "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "skills/servicenow-changes/SKILL.md",
           "contentHash": "sha256:7857e23f4ca01d800a132fccce829e6e8465c9fdbe24c8b32f24aca6cf3bc6f8",
-          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
-          "workingTree": "untracked"
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+          "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/adapters/run-hook.js",
           "contentHash": "sha256:7e610021b1e8497a0af423c617f4e6d2aefefb4ae031f91576a326b4d4e8dd5b",
-          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
-          "workingTree": "modified"
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+          "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "test/use-update-set.test.js",
-          "contentHash": "sha256:17d83d2f510506d1798d60e7a819529e44f4d9a3039e3476160a8d34e24a0ac9",
-          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
-          "workingTree": "untracked"
+          "contentHash": "sha256:defb6bb4880a2690fc6aa5ccf181b692e97aa6b12ce04cd5ad7b2383f130f2cf",
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+          "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T22:27:04.760Z",
-      "verifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+      "verifiedAt": "2026-10-19T22:36:32.432Z",
+      "verifiedAtCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
       "supersedes": [],
       "supersededBy": null,
       "history": [
@@ -6331,10 +6390,48 @@
           "at": "2026-10-19T22:27:04.760Z",
           "workId": "PF-0016",
           "candidateId": "K-006"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T22:36:32.432Z",
+          "workId": "PF-0017",
+          "candidateId": "K-004",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/gateway/tools.js",
+              "contentHash": "sha256:627fb99e9c14c9981fbbe9efe147cb7d987b328adaea223d985f3ef9fc6bb1ce",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "skills/servicenow-changes/SKILL.md",
+              "contentHash": "sha256:7857e23f4ca01d800a132fccce829e6e8465c9fdbe24c8b32f24aca6cf3bc6f8",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/run-hook.js",
+              "contentHash": "sha256:7e610021b1e8497a0af423c617f4e6d2aefefb4ae031f91576a326b4d4e8dd5b",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/use-update-set.test.js",
+              "contentHash": "sha256:17d83d2f510506d1798d60e7a819529e44f4d9a3039e3476160a8d34e24a0ac9",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "untracked"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T22:27:04.760Z",
+          "previousVerifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a"
         }
       ],
       "createdAt": "2026-10-19T22:27:04.760Z",
-      "updatedAt": "2026-10-19T22:27:04.760Z"
+      "updatedAt": "2026-10-19T22:36:32.432Z"
     },
     {
       "id": "CTX-0076",
@@ -6367,7 +6464,49 @@
       ],
       "createdAt": "2026-10-19T22:27:04.924Z",
       "updatedAt": "2026-10-19T22:27:04.924Z"
+    },
+    {
+      "id": "CTX-0077",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "The gateway browser accepts 'leave page?' (beforeunload) prompts, because dismissing one cancels the navigation (net::ERR_ABORTED); alerts and confirms are dismissed unless a dedicated tool handles them. After each dedicated update-set step and on any lock violation the page is replaced by a fresh one in the same context, so no locked or half-submitted page is left behind.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0017",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:b13092c4d65b52f50e4837aa00ff4c6386ba7dab6503679ed85c76b3c4346ff2",
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/browser-recovery.test.js",
+          "contentHash": "sha256:08b71e05062cefb855196310736c4e17869f78a324be27c83328b61153926a6b",
+          "gitCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-10-19T22:36:20.009Z",
+      "verifiedAtCommit": "1df6e09cbda7430b47352fa0b329a6ee13561689",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T22:36:20.009Z",
+          "workId": "PF-0017",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-10-19T22:36:20.009Z",
+      "updatedAt": "2026-10-19T22:36:20.009Z"
     }
   ],
-  "updatedAt": "2026-10-19T22:27:04.924Z"
+  "updatedAt": "2026-10-19T22:36:32.432Z"
 }

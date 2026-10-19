@@ -161,11 +161,25 @@
 - **Source work:** PF-0016
 - **Knowledge ID:** K-006
 - **Promoted at:** 2026-10-19T22:27:04.760Z
-- **Verified:** 2026-10-19T22:27:04.760Z (commit 0dbadcc)
+- **Verified:** 2026-10-19T22:36:32.432Z (commit 1df6e09)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ 0dbadcc)
-  - skills/servicenow-changes/SKILL.md (repository @ 0dbadcc)
-  - src/adapters/run-hook.js (repository @ 0dbadcc)
-  - test/use-update-set.test.js (repository @ 0dbadcc)
+  - src/gateway/tools.js (repository @ 1df6e09)
+  - skills/servicenow-changes/SKILL.md (repository @ 1df6e09)
+  - src/adapters/run-hook.js (repository @ 1df6e09)
+  - test/use-update-set.test.js (repository @ 1df6e09)
+
+<!-- yallaflow-fact:CTX-0077 -->
+### CTX-0077 — The gateway browser accepts 'leave page?' (beforeunload) prompts, because dismissing one cancels the navigation (net::ERR_ABORTED); alerts and confirms are dismissed unless a dedicated tool handles them. After each dedicated update-set step and on any lock violation the page is replaced by a fresh one in the same context, so no locked or half-submitted page is left behind.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0017
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-10-19T22:36:20.009Z
+- **Verified:** 2026-10-19T22:36:20.009Z (commit 1df6e09)
+- **Evidence:**
+  - src/playwright/session.js (repository @ 1df6e09)
+  - test/browser-recovery.test.js (repository @ 1df6e09)
 
 <!-- yallaflow-context:end -->

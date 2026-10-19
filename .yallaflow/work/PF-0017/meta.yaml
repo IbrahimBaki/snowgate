@@ -1,0 +1,43 @@
+{
+  "id": "PF-0017",
+  "type": "bug",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Gateway browser stuck on the update-set form after ui_use_update_set (ERR_ABORTED on every navigation)",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T22:32:57.414Z",
+  "updatedAt": "2026-10-19T22:36:32.766Z",
+  "title": "Gateway browser stuck on the update-set form after ui_use_update_set (ERR_ABORTED on every navigation)",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow bug --scope bounded`.",
+  "routedAt": "2026-10-19T22:32:57.417Z",
+  "workflow": "bug",
+  "requiredCapabilities": [
+    "discover",
+    "systematic-debugging",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "systematic-debugging",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T22:36:32.766Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

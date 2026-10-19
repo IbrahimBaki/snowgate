@@ -34,6 +34,7 @@ export class BrowserSession {
   #blocked = [];
   #missingHint;
   #userToken = null;
+  #opening = false;
 
   constructor({
     origin,
@@ -77,13 +78,39 @@ export class BrowserSession {
       this.#context = await this.#browser.newContext(options);
     }
     await this.#context.route('**/*', (route, request) => this.#onRequest(route, request));
+    // Popups opened by a page are closed; pages the gateway opens itself are not.
     this.#context.on('page', (p) => {
-      if (this.#page && p !== this.#page) p.close().catch(() => {});
+      if (this.#opening || !this.#page || p === this.#page) return;
+      p.close().catch(() => {});
     });
     const [existing, ...extra] = this.#context.pages();
     for (const p of extra) await p.close().catch(() => {});
-    this.#page = existing ?? (await this.#context.newPage());
-    this.#page.on('dialog', (d) => (this.#dialog ? this.#dialog(d) : d.dismiss()).catch(() => {}));
+    this.#attach(existing ?? (await this.#context.newPage()));
+  }
+
+  // Dialogs: a "leave page?" (beforeunload) prompt is accepted, since leaving
+  // was asked for explicitly — dismissing it cancels the navigation itself
+  // (net::ERR_ABORTED). Alerts and confirms are dismissed unless a dedicated
+  // tool handles them.
+  #attach(page) {
+    this.#page = page;
+    page.on('dialog', (d) => {
+      const answer = d.type() === 'beforeunload' ? d.accept() : this.#dialog ? this.#dialog(d) : d.dismiss();
+      return Promise.resolve(answer).catch(() => {});
+    });
+  }
+
+  // Leave whatever the page is doing: a fresh page in the same context keeps
+  // the session (cookies) but none of the old page's state.
+  async #resetPage() {
+    const old = this.#page;
+    this.#opening = true;
+    try {
+      this.#attach(await this.#context.newPage());
+    } finally {
+      this.#opening = false;
+    }
+    await old?.close({ runBeforeUnload: false }).catch(() => {});
   }
 
   // A dedicated tool may lift the update-set lock for its own call; the host
@@ -140,7 +167,8 @@ export class BrowserSession {
       this.#unlocked = false;
       this.#dialog = null;
       this.#blocked = [];
-      await this.#page.goto('about:blank').catch(() => {});
+      // Never leave a locked page (or a half-submitted form) behind.
+      await this.#resetPage();
     }
   }
 
@@ -249,7 +277,7 @@ export class BrowserSession {
     const bad = this.frames().find((f) => !/^(about:|chrome-error:)/.test(f.url) && !classifyRequest(f.url, { origin: this.#origin }).allowed);
     const lockedNav = blocked.find((b) => b.navigation);
     if (bad || lockedNav) {
-      await this.#page.goto('about:blank').catch(() => {});
+      await this.#resetPage();
       const where = bad ? bad.url : lockedNav.url;
       const code = bad ? classifyRequest(bad.url, { origin: this.#origin }).code ?? 'URL_LOCKED' : lockedNav.code ?? 'URL_LOCKED';
       const hint = code === 'HOST_LOCKED' && this.#auth === 'profile'

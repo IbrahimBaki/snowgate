@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "The gateway browser accepts 'leave page?' (beforeunload) prompts, because dismissing one cancels the navigation (net::ERR_ABORTED); alerts and confirms are dismissed unless a dedicated tool handles them. After each dedicated update-set step and on any lock violation the page is replaced by a fresh one in the same context, so no locked or half-submitted page is left behind.",
+      "evidence": [
+        "src/playwright/session.js",
+        "test/browser-recovery.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:36:19.897Z",
+      "factId": "CTX-0077",
+      "promotedAt": "2026-10-19T22:36:20.009Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "environment",
+      "source": "implementation-runtime",
+      "summary": "Credentials resolve as SN_USER/SN_PASSWORD in the environment, else the store chosen by credentials: (protected default: ~/.config/snowgate/credentials/<instance>.json 0600 written by TTY-only credentials set/setup; project: agent-visible .snowgate.env). REST follows rest_auth (auto/basic/session); the browser uses the SSO profile from snowgate login (session cookies kept SNOWGATE_SESSION_HOURS, default 12h) or, with ui_auth: password, the credentials with automatic re-login. Credentials and cookies never reach output, evidence or audit.",
+      "evidence": [
+        "src/credentials.js",
+        "src/rest/client.js",
+        "src/playwright/session.js",
+        "src/config.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0055"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:36:31.557Z",
+      "factId": "CTX-0055",
+      "promotedAt": "2026-10-19T22:36:32.095Z",
+      "target": "context/environments.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "Some instances refuse Basic auth on the Table API even for a valid password (dev446072: 401 'User is not authenticated' while login.do sign-in works); the same GET with the UI session cookies plus X-UserToken succeeds. navpage.do redirects to the Next Experience shell there, which still carries g_ck.",
+      "evidence": [
+        "[object Object]",
+        "src/playwright/session.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "runtime",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0056"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:36:31.670Z",
+      "factId": "CTX-0056",
+      "promotedAt": "2026-10-19T22:36:32.267Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item) via the form's Submit and Make Current / Make This My Current Set actions and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools, verified, and recorded in the work item; the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "skills/servicenow-changes/SKILL.md",
+        "src/adapters/run-hook.js",
+        "test/use-update-set.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0075"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:36:31.779Z",
+      "factId": "CTX-0075",
+      "promotedAt": "2026-10-19T22:36:32.432Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T22:36:32.432Z",
+  "reviewedAt": "2026-10-19T22:36:32.432Z"
+}

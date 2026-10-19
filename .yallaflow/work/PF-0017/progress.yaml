@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:32:57.653Z",
+      "completedAt": "2026-10-19T22:32:57.653Z",
+      "summary": "First real change trial on dev446072: ui_use_update_set created and activated 'PF-0003 - Remove (Relabeled) ...' (In Progress), then every ui_navigate failed with net::ERR_ABORTED and ui_snapshot was refused because the page sat on sys_update_set.do?sys_id=-1. session.js dismisses every dialog (incl. beforeunload), withUnlocked's cleanup only tries page.goto('about:blank'), and createAndMakeCurrent waits for the current load state rather than the submit's navigation.",
+      "evidence": [
+        "src/playwright/session.js",
+        "runtime:user trial 2026-10-20 ERR_ABORTED after ui_use_update_set"
+      ]
+    },
+    "systematic-debugging": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:32:57.882Z",
+      "completedAt": "2026-10-19T22:32:57.882Z",
+      "summary": "Root cause: the submit's navigation was not awaited, so the page stayed on a dirty locked form; dismissing the beforeunload prompt cancels every later navigation (ERR_ABORTED), and cleanup cannot leave the page. Fix: accept beforeunload prompts (explicit navigation intent) while still dismissing alerts/confirms; await the submit's URL change; after an unlocked step and on lock violations, replace the page with a fresh one in the same context instead of navigating the stuck one.",
+      "evidence": [
+        "src/playwright/session.js"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:36:07.996Z",
+      "completedAt": "2026-10-19T22:36:07.996Z",
+      "summary": "session.js: beforeunload prompts are accepted (other dialogs still dismissed unless a dedicated tool handles them); #resetPage opens a fresh page in the same context (cookies kept) after every unlocked step and on lock violations, excluded from the popup-closing rule; update-sets.js createAndMakeCurrent awaits the submit's URL change. test/browser-recovery.test.js reproduces the trial failure (fails with the old behaviour, passes now).",
+      "evidence": [
+        "src/playwright/session.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:36:19.680Z",
+      "completedAt": "2026-10-19T22:36:19.680Z",
+      "summary": "V-001 npm test passed (148, 3/3 full runs green). The recovery tests fail against the old behaviour (mutation check). Re-run on the real instance is the user's next trial.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T22:36:19.680Z"
+}
