@@ -1,0 +1,45 @@
+{
+  "id": "PF-0012",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Agent can read discovery output and artifact code; clearer update-set counts",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T19:43:26.651Z",
+  "updatedAt": "2026-10-19T19:49:19.906Z",
+  "title": "Agent can read discovery output and artifact code; clearer update-set counts",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-10-19T19:43:26.654Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T19:49:19.906Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

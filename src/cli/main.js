@@ -357,8 +357,10 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
       for (const w of summary.warnings) err(`warning: ${w}`);
       out(`Discovery of ${target} complete (read-only).`);
       out(`  tables read: ${summary.tables_read}, unreadable: ${summary.tables_unreadable}, hazards: ${summary.hazards}, limitations: ${summary.limitations}`);
-      out(`  project map: ${summary.artifacts} artifact(s) across ${summary.update_sets} update set(s)`);
-      out(`  output: ${path.relative(cwd, summary.dir) || summary.dir}`);
+      out(`  project map: ${summary.artifacts} artifact(s) across ${summary.update_sets} update set(s) (${summary.update_sets_local} local, ${summary.update_sets_retrieved} retrieved)`);
+      const rel = path.relative(cwd, summary.dir) || summary.dir;
+      out(`  output: ${rel}`);
+      out(`Read ${rel}/report.md (hazards, project map by update set) and ${rel}/project-map.json with your file-reading tool before deciding.`);
       return 0;
     }
 

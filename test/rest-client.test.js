@@ -77,3 +77,11 @@ test('REST layer contains no write verbs (structural check)', () => {
     assert.doesNotMatch(src, /method:\s*(?![\s']|'GET')|method:\s*'(?!GET')/, `${file} sets a non-GET method`);
   }
 });
+
+test('code fields are readable on artifact tables, and a refused field lists the allowed ones', async () => {
+  const { TABLES } = await import('../src/rest/tables.js');
+  for (const f of ['template', 'css', 'client_script', 'script']) assert.ok(TABLES.sp_widget.includes(f), f);
+  assert.ok(TABLES.sys_script.includes('script'));
+  assert.ok(TABLES.item_option_new.includes('mandatory'));
+  await assert.rejects(client().query('sp_widget', { fields: ['secret_sauce'] }), (e) => e.code === 'FIELD_NOT_ALLOWED' && /Allowed: .*client_script/.test(e.message));
+});

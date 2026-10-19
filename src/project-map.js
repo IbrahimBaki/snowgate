@@ -1,5 +1,5 @@
 import { TableAccessError } from './errors.js';
-import { ARTIFACT_TABLES, TABLES } from './rest/tables.js';
+import { ARTIFACT_TABLES, metaFields } from './rest/tables.js';
 
 // The project map (PF-0011): what the project consists of, derived from the
 // update sets' contents (sys_update_xml) in every scope, global included.
@@ -61,7 +61,8 @@ export async function enrichArtifacts(client, artifacts, { cite, limitations }) 
     try {
       for (let i = 0; i < list.length; i += BATCH) {
         const ids = list.slice(i, i + BATCH).map((a) => a.sys_id);
-        const res = await client.query(table, { fields: TABLES[table], query: `sys_idIN${ids.join(',')}` });
+        // Metadata only: code stays out of the map; agents read it per record.
+        const res = await client.query(table, { fields: metaFields(table), query: `sys_idIN${ids.join(',')}` });
         const ev = cite(`${label} records named in customer updates`, res.evidence);
         for (const r of res.records) found.set(r.sys_id, { record: r, ev });
       }

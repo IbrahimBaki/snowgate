@@ -17,9 +17,9 @@ greenfield
 - **Provenance:** repository
 - **From baseline:** PF-0002 (BF-001)
 - **Recorded at:** 2026-10-19T14:08:12.679Z
-- **Verified:** 2026-10-19T19:20:27.817Z (commit 534f164)
+- **Verified:** 2026-10-19T19:49:16.785Z (commit c68d827)
 - **Evidence:**
-  - README.md (repository @ 534f164)
+  - README.md (repository @ c68d827)
 
 <!-- yallaflow-fact:CTX-0048 -->
 ### CTX-0048 — Implemented: M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login, M3 (claude/codex/yallaflow adapters, init, doctor, hook), credential stores and snowgate setup (one human run: adapters, approved instances, credentials, sign-in). The pack.yaml skills/*.md procedures are not written yet.
@@ -31,10 +31,10 @@ greenfield
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T18:27:45.602Z
 - **Supersedes:** CTX-0033
-- **Verified:** 2026-10-19T19:20:28.633Z (commit 534f164)
+- **Verified:** 2026-10-19T19:49:18.172Z (commit c68d827)
 - **Evidence:**
-  - src/cli/main.js (repository @ 534f164)
-  - src/setup.js (repository @ 534f164)
-  - docs/PLAN.md (repository @ 534f164)
+  - src/cli/main.js (repository @ c68d827)
+  - src/setup.js (repository @ c68d827)
+  - docs/PLAN.md (repository @ c68d827)
 
 <!-- yallaflow-context:end -->

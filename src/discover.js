@@ -3,7 +3,7 @@ import { appendAudit } from './audit.js';
 import { SnowgateError, TableAccessError } from './errors.js';
 import { normalizeInstance } from './instance.js';
 import { buildMap, collectArtifacts, duplicateSetNames, enrichArtifacts, summarizeByType } from './project-map.js';
-import { INVENTORY, TABLES, inventoryQuery } from './rest/tables.js';
+import { INVENTORY, TABLES, inventoryQuery, metaFields } from './rest/tables.js';
 import { requireConfirmedTarget } from './work.js';
 import { snowgateDir } from './workspace.js';
 
@@ -67,7 +67,7 @@ export async function discover({ root, workId, instance: requested, scope, clien
   for (const entry of INVENTORY) {
     const query = inventoryQuery(entry, scope);
     try {
-      const res = await client.query(entry.table, { fields: TABLES[entry.table], query });
+      const res = await client.query(entry.table, { fields: metaFields(entry.table), query });
       inventory[entry.key] = { label: entry.label, table: entry.table, records: res.records, evidence: cite(entry.label, res.evidence) };
       if (res.evidence.truncated) {
         limitations.push({ area: entry.key, table: entry.table, reason: `Result hit the ${res.records.length}-record safety cap and may be incomplete.` });
@@ -120,6 +120,8 @@ export async function discover({ root, workId, instance: requested, scope, clien
     hazards: hazards.length,
     artifacts: projectMap.artifacts,
     update_sets: projectMap.update_sets.length,
+    update_sets_local: projectMap.update_sets.filter((s) => s.kind === 'local').length,
+    update_sets_retrieved: projectMap.update_sets.filter((s) => s.kind === 'retrieved').length,
     limitations: limitations.length,
     warnings: preflight.warnings,
   };
@@ -194,7 +196,9 @@ const LAYOUT_TYPES = new Set(['Row', 'Column', 'Container']);
 
 function renderMap(projectMap) {
   const lines = ['## Project map (from update sets)', ''];
-  lines.push(`${projectMap.artifacts} customized artifact(s) across ${projectMap.update_sets.length} update set(s), in every scope (global included). "new" / "baseline-modified" is inferred from who created the record. Full detail: \`project-map.json\`.`, '');
+  const local = projectMap.update_sets.filter((s) => s.kind === 'local').length;
+  const retrieved = projectMap.update_sets.filter((s) => s.kind === 'retrieved').length;
+  lines.push(`${projectMap.artifacts} customized artifact(s) across ${projectMap.update_sets.length} update set(s) (${local} local, ${retrieved} retrieved), in every scope (global included). To read an artifact's code, use sn_get_record with its table and sys_id from \`project-map.json\`. "new" / "baseline-modified" is inferred from who created the record. Full detail: \`project-map.json\`.`, '');
   lines.push('### By type', '', '| Type | Total | New | Baseline modified | Deleted | Not read (listed by update name) |', '|---|---|---|---|---|---|');
   for (const r of projectMap.by_type) lines.push(`| ${r.type} | ${r.total} | ${r.new} | ${r['baseline-modified']} | ${r.deleted} | ${r.other} |`);
   lines.push('');

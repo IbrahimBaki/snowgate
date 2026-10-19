@@ -50,6 +50,30 @@ test('policy: shell commands may read but not change protected paths', () => {
   }
 });
 
+test('policy: agents can read discovery output with ordinary shell tools, but not write it', () => {
+  const root = makeProject(WORK);
+  for (const command of [
+    'find .snowgate/discovery -name report.md',
+    'cd .snowgate/discovery && ls -la',
+    "sed -n '1,80p' .snowgate/discovery/x/report.md",
+    "awk '/Hazards/,/Project map/' .snowgate/discovery/x/report.md",
+    'tree .snowgate/discovery | head',
+    'jq .by_type .snowgate/discovery/x/project-map.json',
+  ]) {
+    assert.equal(deny(root, 'Bash', { command }), null, command);
+  }
+  for (const command of [
+    'find .snowgate -name "*.yaml" -delete',
+    'find .snowgate -exec rm {} \\;',
+    "sed -i 's/a/b/' .snowgate/work/PF-0001.yaml",
+    "awk '{print > \".snowgate/approvals/x\"}' f",
+    'echo x > .snowgate/work/PF-0001.yaml',
+    "awk 'BEGIN{system(\"rm -rf .snowgate\")}'",
+  ]) {
+    assert.ok(deny(root, 'Bash', { command }), command);
+  }
+});
+
 test('policy: agents cannot run human-only commands, even through a fake TTY', () => {
   const root = makeProject(WORK);
   for (const command of [

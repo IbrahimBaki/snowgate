@@ -95,6 +95,12 @@ test('discover reports global-scope project work by update set, with origin and 
     assert.match(report, /`Set course code` \(new, inactive, sys_script\)/);
     assert.match(report, /2 local update sets are named "EDUPULSE-002 - Landing Page"/);
     assert.match(report, /2 role\(s\); notable: admin/);
+    assert.match(report, /\(3 local, 1 retrieved\)/);
+    assert.equal(summary.update_sets_local, 3);
+    assert.equal(summary.update_sets_retrieved, 1);
+    // The map carries metadata only; code is read per record.
+    const widgetReads = mock.requests.filter((r) => r.path.endsWith('/sp_widget'));
+    assert.ok(widgetReads.length && widgetReads.every((r) => !r.params.sysparm_fields.split(',').some((f) => ['script', 'client_script', 'template', 'css'].includes(f))));
     assert.ok(!report.includes('itil, '), 'the full role list stays out of the report');
     // Records were read by sys_id with GET only.
     assert.ok(mock.requests.every((r) => r.method === 'GET'));

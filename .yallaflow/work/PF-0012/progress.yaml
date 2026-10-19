@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T19:45:00.702Z",
+      "completedAt": "2026-10-19T19:45:00.702Z",
+      "summary": "Trial agent on Edupulse-SW: the hook blocked its shell reads of .snowgate/discovery (only cat/ls/head/tail/grep/rg/jq/wc/stat/less/file count as read-only), so it guessed instead of reading report.md; the CLI line '585 artifacts across 15 update sets' conflicted with 11 local sets; artifact code fields are not on the allowlist. Field names checked on dev446072 sys_dictionary (incl. inherited question.* and sys_script_client.*).",
+      "evidence": [
+        "src/adapters/policy.js",
+        "runtime:dev446072 sys_dictionary field check 2026-10-19"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T19:45:25.681Z",
+      "completedAt": "2026-10-19T19:45:25.681Z",
+      "summary": "User approved three fixes (agent session): (1) agents can read discovery output (wider read-only shell commands, explicit pointer to report.md), writes to .snowgate stay blocked; (2) CLI shows update sets as local + retrieved; (3) code/definition fields readable read-only via sn_get_record/sn_query after verifying names on the instance.",
+      "evidence": [
+        "user:موافق، ابدأ في الإصلاحات التلاتة"
+      ]
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-10-19T19:45:26.142Z",
+      "completedAt": "2026-10-19T19:45:26.142Z",
+      "summary": "tables.js CODE_FIELDS merged into TABLES (project map keeps metadata only); client FIELD_NOT_ALLOWED lists allowed fields; tool descriptions; policy READ_ONLY_COMMANDS + WRITING_FLAGS; discover summary local/retrieved and read pointer; SessionStart note; tests.",
+      "evidence": [
+        "src/rest/tables.js"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T19:48:07.995Z",
+      "completedAt": "2026-10-19T19:48:07.995Z",
+      "summary": "CODE_FIELDS (verified on dev446072 sys_dictionary) merged into the allowlist; bulk discovery reads use metaFields (no code); FIELD_NOT_ALLOWED lists allowed fields; sn_get_record/sn_update_sets descriptions; policy READ_ONLY_COMMANDS widened with WRITING_FLAGS guard; discover summary shows local/retrieved and tells the agent to read report.md/project-map.json; SessionStart notes discovery output is readable. Real check: sn_get_record returned the EduPulse - Registration Checkout widget template/css/client_script/script.",
+      "evidence": [
+        "src/rest/tables.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T19:48:19.322Z",
+      "completedAt": "2026-10-19T19:48:19.322Z",
+      "summary": "V-001 npm test passed (131). Real instance: gateway sn_get_record read a project widget's code fields; a refused field listed the allowed ones.",
+      "evidence": [
+        "verification:V-001",
+        "runtime:dev446072 sn_get_record sp_widget code fields 2026-10-19"
+      ]
+    }
+  },
+  "rulings": [
+    {
+      "decision": "Code edits for PF-0012 (tables.js, project-map.js, client.js, tools.js, policy.js) were made before the requirement-clarification checkpoint was completed",
+      "reason": "Agent sequencing slip; the change scope had been approved by the user in the agent session ('موافق، ابدأ في الإصلاحات التلاتة') and is recorded here before verification",
+      "costIfWrong": "None to the product; the audit trail shows the edits preceded the stage",
+      "createdAt": "2026-10-19T19:45:25.571Z"
+    }
+  ],
+  "history": [],
+  "updatedAt": "2026-10-19T19:48:19.322Z"
+}

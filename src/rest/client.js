@@ -64,7 +64,7 @@ export class ReadOnlyClient {
     }
     const denied = fields.filter((f) => !allowed.includes(f));
     if (denied.length) {
-      throw new SnowgateError(`Field(s) ${denied.join(', ')} are not allowed on ${table}.`, 'FIELD_NOT_ALLOWED');
+      throw new SnowgateError(`Field(s) ${denied.join(', ')} are not allowed on ${table}. Allowed: ${allowed.join(', ')}.`, 'FIELD_NOT_ALLOWED');
     }
     return this.#collect(table, fields, query, Math.min(limit ?? this.#maxRecords, this.#maxRecords));
   }

@@ -77,6 +77,7 @@ export function sessionContext(root, env = process.env) {
     const { errors } = validatePackages(root);
     if (errors.length) lines.push(`snowgate validate currently reports ${errors.length} problem(s).`);
   }
+  lines.push('Discovery results in .snowgate/discovery/<instance>/<time>/ (report.md, project-map.json) are readable; .snowgate/ is never edited by agents.');
   if (loadConfig(root).credentials === 'project') {
     lines.push('Credentials are in agent-visible mode (.snowgate.env, dev instances); with ui_auth: password the gateway signs in again by itself when the session ends.');
   }

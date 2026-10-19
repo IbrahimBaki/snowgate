@@ -36,7 +36,13 @@ function resolveIn(cwd, p) {
 const WRITE_TOOLS = new Set(['Write', 'Edit', 'MultiEdit', 'NotebookEdit']);
 const READ_TOOLS = new Set(['Read', 'Grep', 'Glob', 'LS']);
 const SHELL_TOOLS = new Set(['Bash', 'shell', 'exec_command']);
-const READ_ONLY_COMMANDS = new Set(['cat', 'ls', 'head', 'tail', 'grep', 'rg', 'jq', 'wc', 'stat', 'less', 'file', 'snowgate', 'yallaflow']);
+const READ_ONLY_COMMANDS = new Set([
+  'cat', 'ls', 'head', 'tail', 'grep', 'egrep', 'rg', 'jq', 'wc', 'stat', 'less', 'more', 'file', 'tree', 'du',
+  'find', 'sed', 'awk', 'sort', 'uniq', 'cut', 'tr', 'diff', 'cmp', 'nl', 'column', 'realpath', 'readlink',
+  'basename', 'dirname', 'cd', 'pwd', 'echo', 'printf', 'test', '[', 'snowgate', 'yallaflow',
+]);
+// Flags that turn an otherwise read-only command into a writer or a launcher.
+const WRITING_FLAGS = /\s-(i|-in-place)\b|\s-(delete|exec|execdir|ok|okdir|fprint|fprintf|fls)\b|\bsystem\s*\(|>|\bw\s+\S/;
 const GIT_COMMIT = /(^|[;&|]\s*)git\s+(-[^\s]+\s+)*commit\b/;
 
 export const isGitCommit = (command) => GIT_COMMIT.test(command ?? '');
@@ -100,7 +106,7 @@ export function preToolUse(input, { root, env = process.env }) {
       for (const segment of command.split(/&&|\|\||;|\|/)) {
         const words = segment.trim().split(/\s+/);
         const hits = mentions(segment, writeProtected(root), root);
-        const readOnly = READ_ONLY_COMMANDS.has(words[0]) && !/>/.test(segment) && !/\s-i\b/.test(segment);
+        const readOnly = READ_ONLY_COMMANDS.has(words[0]) && !WRITING_FLAGS.test(segment);
         if (hits.length && !readOnly) {
           return `This command touches ${path.relative(root, hits[0])}, which only snowgate commands run by a human may change (PLAN §15 A7).`;
         }

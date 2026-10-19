@@ -44,6 +44,31 @@ export const TABLES = {
   sp_instance: ['sys_id', 'title', 'sp_widget.name', 'sp_column', SCOPE, ...CREATED],
 };
 
+// Code and definition fields (configuration, never data), verified on a real
+// instance's sys_dictionary (2026-10-19), incl. fields inherited from
+// question and sys_script_client. Readable through sn_query/sn_get_record so
+// an agent can inspect behaviour; the project map does not fetch them.
+export const CODE_FIELDS = {
+  sp_widget: ['template', 'css', 'client_script', 'script', 'link', 'option_schema'],
+  sp_page: ['css', 'public'],
+  sys_script: ['script', 'condition', 'filter_condition'],
+  sys_script_include: ['script', 'client_callable', 'access'],
+  sys_script_client: ['script', 'ui_type'],
+  catalog_script_client: ['script', 'ui_type'],
+  sys_ui_page: ['html', 'client_script', 'processing_script'],
+  sys_ui_action: ['script', 'condition', 'client', 'onclick'],
+  sys_ui_policy: ['conditions'],
+  catalog_ui_policy: ['catalog_conditions', 'applies_to'],
+  sc_cat_item: ['short_description', 'description', 'category'],
+  sys_ui_script: ['script'],
+  sysevent_email_action: ['condition', 'subject', 'message_html'],
+  item_option_new: ['mandatory', 'order', 'default_value'],
+};
+for (const [table, fields] of Object.entries(CODE_FIELDS)) TABLES[table] = [...new Set([...TABLES[table], ...fields])];
+
+// The allow-listed fields without code: what discovery fetches in bulk.
+export const metaFields = (table) => TABLES[table].filter((f) => !(CODE_FIELDS[table] ?? []).includes(f));
+
 // Artifact tables the project map reads by sys_id, with the field that names
 // a record. Any other table appearing in customer updates is listed by the
 // update's own target_name.

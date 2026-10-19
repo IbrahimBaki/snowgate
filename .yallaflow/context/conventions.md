@@ -13,10 +13,10 @@
 - **Provenance:** repository
 - **From baseline:** PF-0002 (BF-016)
 - **Recorded at:** 2026-10-19T14:08:12.679Z
-- **Verified:** 2026-10-19T19:20:28.150Z (commit 534f164)
+- **Verified:** 2026-10-19T19:49:17.097Z (commit c68d827)
 - **Evidence:**
-  - src/errors.js (repository @ 534f164)
-  - src/cli/main.js (repository @ 534f164)
+  - src/errors.js (repository @ c68d827)
+  - src/cli/main.js (repository @ c68d827)
 
 <!-- yallaflow-fact:CTX-0031 -->
 ### CTX-0031 — Tests use node:test and never contact a real instance: a local mock Table API, validator fixtures, and local fixture sites (instance + identity provider) driven by real headless Chromium for the URL lock and SSO profile; npm test runs test/*.test.js.
