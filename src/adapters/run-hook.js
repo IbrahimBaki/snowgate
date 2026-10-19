@@ -82,6 +82,7 @@ export function sessionContext(root, env = process.env) {
   lines.push(data === 'all'
     ? 'Data access: any table and field on the target can be read with sn_query/sn_get_record, except sensitive data (password fields, secret/token/credential-like names, session/token/credential tables). A project can limit this with data: listed or none in .snowgate/config.yaml.'
     : `Data access is limited by this project (data: ${data}): configuration tables${data === 'listed' ? ' plus data_tables' : ''} only; sensitive data is never readable.`);
+  lines.push('To change something on the instance: the task lives in YallaFlow (work on its active work item). (1) Call ui_use_update_set first, and change nothing until it reports current: true. (2) Make the change in the browser with ui_navigate / ui_type / ui_click. (3) Verify it with sn_get_record or ui_snapshot. (4) Record the update set and the changed records in the YallaFlow work item. (5) Leave the update set In Progress: do not complete, back out, export or commit unless the user asks.');
   lines.push('When snowgate does not let you see or do something you need, call the sn_report_gap tool; refused fields, tables and tools are recorded automatically.');
   const pending = pendingGaps(root).length;
   if (pending) lines.push(`${pending} feedback gap(s) have not been sent to the snowgate developers; suggest that the user runs snowgate feedback send.`);

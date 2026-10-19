@@ -1,12 +1,13 @@
-import { mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { requireApproval } from '../approvals.js';
 import { SnowgateError } from '../errors.js';
-import { commitUpdateSet, findRemoteUpdateSet, previewProblems, previewUpdateSet, updateSetName, uploadUpdateSet } from '../playwright/update-sets.js';
+import { commitUpdateSet, createAndMakeCurrent, findRemoteUpdateSet, makeCurrent, previewProblems, previewUpdateSet, updateSetName, uploadUpdateSet } from '../playwright/update-sets.js';
 import { recordGap } from '../feedback.js';
 import { portalPage } from '../portal-page.js';
 import { readPackage, stateAtLeast, validatePackages } from '../validate/packages.js';
 import { snowgateDir } from '../workspace.js';
+import { parse as parseYaml } from 'yaml';
 import { resolveTargetUrl } from './guards.js';
 
 // The gateway's tool surface (PLAN §7.2). This list IS the allowlist: nothing
@@ -40,6 +41,7 @@ export const TOOLS = [
   { name: 'ui_click', kind: 'ui', description: 'Click the single element matching role+name, label, or text.', inputSchema: obj(TARGET) },
   { name: 'ui_type', kind: 'ui', description: 'Fill the single matching input with text (never a password field).', inputSchema: obj({ ...TARGET, value: { type: 'string' }, submit: { type: 'boolean' } }, ['value']) },
   { name: 'ui_screenshot', kind: 'ui', description: 'Full-page screenshot saved as evidence (under the package when given).', inputSchema: obj({ label: { type: 'string', pattern: '^[A-Za-z0-9_-]{1,60}$' }, package: PACKAGE }, ['label']) },
+  { name: 'ui_use_update_set', kind: 'gate', description: 'Call this before changing anything on the instance: creates (or reuses) the update set for the current YallaFlow work item, named "<work-id> - <title>", and makes it your current update set, so your changes are captured there instead of Default.', inputSchema: obj({ title: { type: 'string', description: 'Optional short title; defaults to the YallaFlow work item title.' } }) },
   { name: 'ui_upload_update_set', kind: 'gate', description: 'Upload changes/<ID>/update-set.xml: package >= peer-reviewed, validator clean, current upload approval for this exact file.', inputSchema: obj({ package: PACKAGE }, ['package']) },
   { name: 'ui_preview_update_set', kind: 'gate', description: 'Preview the retrieved update set of an uploaded package and return its problems.', inputSchema: obj({ package: PACKAGE }, ['package']) },
   { name: 'ui_commit_update_set', kind: 'gate', description: 'Commit the retrieved update set: requires a current human commit approval for this exact package and file.', inputSchema: obj({ package: PACKAGE }, ['package']) },
@@ -47,16 +49,8 @@ export const TOOLS = [
 
 export const TOOL_NAMES = TOOLS.map((t) => t.name);
 
-// Readable by fixed-shape queries only (sn_update_sets), never through the
-// free-form tools: preferences belong to users (PLAN §4, configuration only).
-const FIXED_SHAPE_ONLY = new Set(['sys_user_preference']);
-
-function freeFormTable(table) {
-  if (FIXED_SHAPE_ONLY.has(table)) {
-    throw new SnowgateError(`${table} is readable only through its dedicated tool, not free-form queries.`, 'TABLE_NOT_ALLOWED');
-  }
-  return table;
-}
+// Free-form reads follow the project's read policy (PF-0015).
+const freeFormTable = (table) => table;
 
 function packageErrors(root, pkg) {
   return validatePackages(root).errors.filter((e) => e.startsWith(`${pkg.name}:`));
@@ -77,6 +71,21 @@ async function remoteFor(ctx, pkg) {
   const { record, evidence } = await findRemoteUpdateSet(ctx.client(), name);
   if (!record) throw new SnowgateError(`No retrieved update set named "${name}" on ${ctx.instance}; upload it first.`, 'REMOTE_UPDATE_SET_MISSING');
   return { remote: record, evidence };
+}
+
+// "<work-id> - <title>": the title comes from the YallaFlow work item.
+function updateSetNameFor(root, workId, title) {
+  let text = title;
+  if (!text) {
+    const meta = path.join(root, '.yallaflow', 'work', workId, 'meta.yaml');
+    try {
+      text = existsSync(meta) ? parseYaml(readFileSync(meta, 'utf8'))?.title : null;
+    } catch {
+      text = null;
+    }
+  }
+  const clean = String(text ?? 'snowgate task').replace(/[\^\r\n]+/g, ' ').trim().slice(0, 70);
+  return `${workId} - ${clean}`;
 }
 
 export const HANDLERS = {
@@ -181,6 +190,31 @@ export const HANDLERS = {
     await session.screenshot(file);
     await session.postCheck();
     return { file: path.relative(ctx.root, file), url: session.pageUrl() };
+  },
+
+  async ui_use_update_set(ctx, { title } = {}) {
+    const name = updateSetNameFor(ctx.root, ctx.workId, title);
+    const client = ctx.client();
+    const find = async () => (await client.query('sys_update_set', {
+      fields: ['sys_id', 'name', 'state'],
+      query: `nameSTARTSWITH${ctx.workId} ^state=in progress^ORDERBYDESCsys_created_on`,
+      limit: 1,
+    })).records[0] ?? null;
+    let set = await find();
+    const created = !set;
+    const session = ctx.session();
+    await session.withUnlocked((page) => (set ? makeCurrent(page, session.origin, set.sys_id) : createAndMakeCurrent(page, session.origin, name)));
+    set ??= await find();
+    if (!set) throw new SnowgateError(`The update set "${name}" was not created; check the instance UI.`, 'UPDATE_SET_NOT_CREATED');
+    // Verify with the instance's own record of the user's current set.
+    const me = await client.whoami();
+    let current = null;
+    for (let i = 0; i < 5 && current !== set.sys_id; i += 1) {
+      current = (await client.query('sys_user_preference', { fields: ['value'], query: `name=sys_update_set^user=${me.sys_id}`, limit: 1 })).records[0]?.value ?? null;
+      if (current !== set.sys_id) await new Promise((r) => setTimeout(r, 1000));
+    }
+    if (current !== set.sys_id) throw new SnowgateError(`"${set.name}" exists but is not your current update set yet; nothing should be changed until it is.`, 'UPDATE_SET_NOT_CURRENT');
+    return { update_set: set.name, sys_id: set.sys_id, created, current: true, record_url: client.recordUrl('sys_update_set', set.sys_id), next: 'Make the changes through the UI tools; they are captured in this update set. Do not complete it or commit unless the user asks.' };
   },
 
   async ui_upload_update_set(ctx, { package: change }) {

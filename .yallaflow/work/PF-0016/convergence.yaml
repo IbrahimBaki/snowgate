@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T22:26:16.310Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+        "verificationRunIds": [
+          "V-001",
+          "V-002"
+        ]
+      },
+      "summary": "Assessed after V-001/V-002 and a read-only selector check on dev446072.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "ui_use_update_set builds '<work-id> - <title>' from the YallaFlow work item, reuses an in-progress set of that work item or creates one with Submit and Make Current, makes an existing one current with Make This My Current Set, verifies via sys_user_preference and refuses success otherwise; it cannot pick Default or another work item's set. Request bodies are inspected only for xmlhttp.do, so form saves pass. Selectors exist on dev446072; the full create-and-save path awaits the first user trial (DL-001).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/gateway/tools.js",
+              "contentHash": "sha256:627fb99e9c14c9981fbbe9efe147cb7d987b328adaea223d985f3ef9fc6bb1ce",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/playwright/update-sets.js",
+              "contentHash": "sha256:305743e0b9cf0f2ef58da0c14d8bc24576c0754f6bb722394b07e31486980e88",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/guards.js",
+              "contentHash": "sha256:fb804db11434beee351f93afd446a64c967b7d31c22a57edbe3a2d19b76dbf56",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/use-update-set.test.js",
+              "contentHash": "sha256:17d83d2f510506d1798d60e7a819529e44f4d9a3039e3476160a8d34e24a0ac9",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0016",
+              "verificationRunId": "V-001"
+            },
+            {
+              "type": "runtime",
+              "description": "dev446072 update-set form selectors"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "The SessionStart context states the procedure (reaches installs after reinstalling, no init needed); the plugin skill servicenow-changes and the AGENTS.md line carry it for new inits.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/run-hook.js",
+              "contentHash": "sha256:7e610021b1e8497a0af423c617f4e6d2aefefb4ae031f91576a326b4d4e8dd5b",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "skills/servicenow-changes/SKILL.md",
+              "contentHash": "sha256:7857e23f4ca01d800a132fccce829e6e8465c9fdbe24c8b32f24aca6cf3bc6f8",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/install.js",
+              "contentHash": "sha256:cb21d2bc70a390be0ed8acf3e5bee8d23b736bb7cf01eb0714f7241685afa739",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "claude plugin validate /tmp/claude-1000/-home-ibrahim-Desktop-deployment-configuration-www-snowgate/4380aef2-13be-42e7-9f39-47663f57db4c/scratchpad/skillproj/.claude/skills/snowgate (passed)",
+              "workId": "PF-0016",
+              "verificationRunId": "V-002"
+            }
+          ]
+        }
+      ],
+      "unrequested": []
+    }
+  ],
+  "updatedAt": "2026-10-19T22:26:16.310Z"
+}

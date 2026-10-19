@@ -2128,26 +2128,26 @@
           "type": "repository",
           "path": "src/approvals.js",
           "contentHash": "sha256:7c1cd21cd9bbaa8855f7418483b301bdfd0d56739bbc1ebc976a6d8906d7f7a9",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
           "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/gateway/tools.js",
-          "contentHash": "sha256:65c7bee5041b221956a26989a42239f2ce44d0b2a261646098ee30e8d3301df4",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+          "contentHash": "sha256:627fb99e9c14c9981fbbe9efe147cb7d987b328adaea223d985f3ef9fc6bb1ce",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
           "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "test/gateway.test.js",
-          "contentHash": "sha256:1c7534498b3c5a1978f037dcfcfdf2344525b8311fd173a6077adf0a1cd03bdf",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+          "contentHash": "sha256:51640a3727b4becf9c5c437be677df47bc340ec926bbc798da889c116bbef36c",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
           "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T22:06:06.082Z",
-      "verifiedAtCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+      "verifiedAt": "2026-10-19T22:27:03.915Z",
+      "verifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
       "supersedes": [],
       "supersededBy": null,
       "history": [
@@ -2275,10 +2275,41 @@
           ],
           "previousVerifiedAt": "2026-10-19T21:40:22.656Z",
           "previousVerifiedAtCommit": "87b03c61b34cfd165faea73141b662448e61b79a"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T22:27:03.915Z",
+          "workId": "PF-0016",
+          "candidateId": "K-001",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/approvals.js",
+              "contentHash": "sha256:7c1cd21cd9bbaa8855f7418483b301bdfd0d56739bbc1ebc976a6d8906d7f7a9",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/tools.js",
+              "contentHash": "sha256:65c7bee5041b221956a26989a42239f2ce44d0b2a261646098ee30e8d3301df4",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:1c7534498b3c5a1978f037dcfcfdf2344525b8311fd173a6077adf0a1cd03bdf",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T22:06:06.082Z",
+          "previousVerifiedAtCommit": "0b3e5ecc4b0c68283e06929605643b312703683a"
         }
       ],
       "createdAt": "2026-10-19T14:34:14.430Z",
-      "updatedAt": "2026-10-19T22:06:06.082Z"
+      "updatedAt": "2026-10-19T22:27:03.915Z"
     },
     {
       "id": "CTX-0026",
@@ -3501,20 +3532,20 @@
         {
           "type": "repository",
           "path": "README.md",
-          "contentHash": "sha256:7fea1354ce13cb3a06353cd38e01411f1682e081c70e8cc739fe2a73f2ab9dd2",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+          "contentHash": "sha256:30efe9b607837b05bad24c3020cf451e5fc3479230e4dc0a66b7c9a81724cb68",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
           "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "src/adapters/policy.js",
           "contentHash": "sha256:e8ec5be04869034cafe5f0ad3171589535c741a5c6a36c4687103aa4383412c6",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
           "workingTree": "head"
         }
       ],
-      "verifiedAt": "2026-10-19T22:06:06.432Z",
-      "verifiedAtCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+      "verifiedAt": "2026-10-19T22:27:04.089Z",
+      "verifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
       "supersedes": [
         "CTX-0034"
       ],
@@ -3694,10 +3725,34 @@
           ],
           "previousVerifiedAt": "2026-10-19T21:40:22.839Z",
           "previousVerifiedAtCommit": "87b03c61b34cfd165faea73141b662448e61b79a"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T22:27:04.089Z",
+          "workId": "PF-0016",
+          "candidateId": "K-002",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:7fea1354ce13cb3a06353cd38e01411f1682e081c70e8cc739fe2a73f2ab9dd2",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/policy.js",
+              "contentHash": "sha256:e8ec5be04869034cafe5f0ad3171589535c741a5c6a36c4687103aa4383412c6",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "head"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T22:06:06.432Z",
+          "previousVerifiedAtCommit": "0b3e5ecc4b0c68283e06929605643b312703683a"
         }
       ],
       "createdAt": "2026-10-19T17:54:31.028Z",
-      "updatedAt": "2026-10-19T22:06:06.432Z"
+      "updatedAt": "2026-10-19T22:27:04.089Z"
     },
     {
       "id": "CTX-0043",
@@ -3884,20 +3939,20 @@
         {
           "type": "repository",
           "path": "src/adapters/install.js",
-          "contentHash": "sha256:b13a4beb1474e2033144b6fc8c7ba03ef59685369ba530dd2bdb386256511dd9",
-          "gitCommit": "c68d8276d436d079157fd5becc87af99972b389e",
-          "workingTree": "head"
+          "contentHash": "sha256:cb21d2bc70a390be0ed8acf3e5bee8d23b736bb7cf01eb0714f7241685afa739",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "test/adapters.test.js",
           "contentHash": "sha256:9df653c5a0637443d60e13cd2f68d8345d4f399eccbb4eb906344062afa74865",
-          "gitCommit": "c68d8276d436d079157fd5becc87af99972b389e",
-          "workingTree": "modified"
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "workingTree": "head"
         }
       ],
-      "verifiedAt": "2026-10-19T19:49:17.988Z",
-      "verifiedAtCommit": "c68d8276d436d079157fd5becc87af99972b389e",
+      "verifiedAt": "2026-10-19T22:27:04.261Z",
+      "verifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
       "supersedes": [
         "CTX-0035"
       ],
@@ -3957,10 +4012,34 @@
           ],
           "previousVerifiedAt": "2026-10-19T18:27:45.210Z",
           "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T22:27:04.261Z",
+          "workId": "PF-0016",
+          "candidateId": "K-003",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/install.js",
+              "contentHash": "sha256:b13a4beb1474e2033144b6fc8c7ba03ef59685369ba530dd2bdb386256511dd9",
+              "gitCommit": "c68d8276d436d079157fd5becc87af99972b389e",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "test/adapters.test.js",
+              "contentHash": "sha256:9df653c5a0637443d60e13cd2f68d8345d4f399eccbb4eb906344062afa74865",
+              "gitCommit": "c68d8276d436d079157fd5becc87af99972b389e",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T19:49:17.988Z",
+          "previousVerifiedAtCommit": "c68d8276d436d079157fd5becc87af99972b389e"
         }
       ],
       "createdAt": "2026-10-19T17:54:31.672Z",
-      "updatedAt": "2026-10-19T19:49:17.988Z"
+      "updatedAt": "2026-10-19T22:27:04.261Z"
     },
     {
       "id": "CTX-0047",
@@ -5723,7 +5802,7 @@
     {
       "id": "CTX-0066",
       "area": "architecture",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page and sn_report_gap: 7 read-only REST tools, 1 local feedback tool (no instance, no target needed), 5 generic ui_* tools and 3 gated update-set tools. It drives its own Chromium with a route-level host/update-set lock across frames, wrappers and redirects, blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.",
       "provenance": "repository",
@@ -5759,7 +5838,7 @@
       "supersedes": [
         "CTX-0064"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0074",
       "history": [
         {
           "action": "introduced",
@@ -5798,10 +5877,17 @@
           ],
           "previousVerifiedAt": "2026-10-19T21:40:24.380Z",
           "previousVerifiedAtCommit": "87b03c61b34cfd165faea73141b662448e61b79a"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T22:27:04.587Z",
+          "supersededBy": "CTX-0074",
+          "workId": "PF-0016",
+          "candidateId": "K-005"
         }
       ],
       "createdAt": "2026-10-19T21:40:24.380Z",
-      "updatedAt": "2026-10-19T22:06:07.500Z"
+      "updatedAt": "2026-10-19T22:27:04.587Z"
     },
     {
       "id": "CTX-0067",
@@ -5906,17 +5992,17 @@
         {
           "type": "repository",
           "path": "README.md",
-          "contentHash": "sha256:7fea1354ce13cb3a06353cd38e01411f1682e081c70e8cc739fe2a73f2ab9dd2",
-          "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+          "contentHash": "sha256:30efe9b607837b05bad24c3020cf451e5fc3479230e4dc0a66b7c9a81724cb68",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
           "workingTree": "modified"
         },
         {
-          "type": "user-confirmed",
-          "description": "محتاجين نبقا اكتر مرونة في القيود ... الهدف الاساسي اننا نطلب من الagent انه ينفذ تاسكات علي servicenow"
+          "type": "reference",
+          "ref": "[object Object]"
         }
       ],
-      "verifiedAt": "2026-10-19T22:06:07.680Z",
-      "verifiedAtCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+      "verifiedAt": "2026-10-19T22:27:04.422Z",
+      "verifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
       "supersedes": [
         "CTX-0001"
       ],
@@ -5928,10 +6014,31 @@
           "workId": "PF-0015",
           "candidateId": "K-012",
           "supersedes": "CTX-0001"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T22:27:04.422Z",
+          "workId": "PF-0016",
+          "candidateId": "K-004",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:7fea1354ce13cb3a06353cd38e01411f1682e081c70e8cc739fe2a73f2ab9dd2",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "user-confirmed",
+              "description": "محتاجين نبقا اكتر مرونة في القيود ... الهدف الاساسي اننا نطلب من الagent انه ينفذ تاسكات علي servicenow"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T22:06:07.680Z",
+          "previousVerifiedAtCommit": "0b3e5ecc4b0c68283e06929605643b312703683a"
         }
       ],
       "createdAt": "2026-10-19T22:06:07.680Z",
-      "updatedAt": "2026-10-19T22:06:07.680Z"
+      "updatedAt": "2026-10-19T22:27:04.422Z"
     },
     {
       "id": "CTX-0070",
@@ -6120,7 +6227,147 @@
       ],
       "createdAt": "2026-10-19T22:06:08.385Z",
       "updatedAt": "2026-10-19T22:06:08.385Z"
+    },
+    {
+      "id": "CTX-0074",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page, sn_report_gap and ui_use_update_set: 7 read-only REST tools, 1 local feedback tool, 5 generic ui_* tools and 4 gated update-set tools (use/upload/preview/commit). It drives its own Chromium with a route-level host and update-set lock across frames, wrappers and redirects (request bodies inspected only for xmlhttp.do processors), blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0016",
+        "candidateId": "K-005"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/gateway/tools.js",
+          "contentHash": "sha256:627fb99e9c14c9981fbbe9efe147cb7d987b328adaea223d985f3ef9fc6bb1ce",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/gateway/guards.js",
+          "contentHash": "sha256:fb804db11434beee351f93afd446a64c967b7d31c22a57edbe3a2d19b76dbf56",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/gateway.test.js",
+          "contentHash": "sha256:51640a3727b4becf9c5c437be677df47bc340ec926bbc798da889c116bbef36c",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-10-19T22:27:04.587Z",
+      "verifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+      "supersedes": [
+        "CTX-0066"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T22:27:04.587Z",
+          "workId": "PF-0016",
+          "candidateId": "K-005",
+          "supersedes": "CTX-0066"
+        }
+      ],
+      "createdAt": "2026-10-19T22:27:04.587Z",
+      "updatedAt": "2026-10-19T22:27:04.587Z"
+    },
+    {
+      "id": "CTX-0075",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item) via the form's Submit and Make Current / Make This My Current Set actions and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools, verified, and recorded in the work item; the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0016",
+        "candidateId": "K-006"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/gateway/tools.js",
+          "contentHash": "sha256:627fb99e9c14c9981fbbe9efe147cb7d987b328adaea223d985f3ef9fc6bb1ce",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "skills/servicenow-changes/SKILL.md",
+          "contentHash": "sha256:7857e23f4ca01d800a132fccce829e6e8465c9fdbe24c8b32f24aca6cf3bc6f8",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "repository",
+          "path": "src/adapters/run-hook.js",
+          "contentHash": "sha256:7e610021b1e8497a0af423c617f4e6d2aefefb4ae031f91576a326b4d4e8dd5b",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/use-update-set.test.js",
+          "contentHash": "sha256:17d83d2f510506d1798d60e7a819529e44f4d9a3039e3476160a8d34e24a0ac9",
+          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-10-19T22:27:04.760Z",
+      "verifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T22:27:04.760Z",
+          "workId": "PF-0016",
+          "candidateId": "K-006"
+        }
+      ],
+      "createdAt": "2026-10-19T22:27:04.760Z",
+      "updatedAt": "2026-10-19T22:27:04.760Z"
+    },
+    {
+      "id": "CTX-0076",
+      "area": "project",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Product direction (user): reach a working, simplest-correct version that executes changes through the browser quickly, keep user steps minimal, let YallaFlow own tasks, and improve over time from usage and feedback rather than building heavy controls up front.",
+      "provenance": "user-confirmed",
+      "origin": {
+        "workId": "PF-0016",
+        "candidateId": "K-007"
+      },
+      "evidence": [
+        {
+          "type": "user-confirmed",
+          "description": "خلينا نعتبر انه هيفتح المتصفح وينفذ المطلوب .. وبالوقت نحسن ده مع الاستخدام والfeedbacks"
+        }
+      ],
+      "verifiedAt": "2026-10-19T22:27:04.924Z",
+      "verifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T22:27:04.924Z",
+          "workId": "PF-0016",
+          "candidateId": "K-007"
+        }
+      ],
+      "createdAt": "2026-10-19T22:27:04.924Z",
+      "updatedAt": "2026-10-19T22:27:04.924Z"
     }
   ],
-  "updatedAt": "2026-10-19T22:06:08.385Z"
+  "updatedAt": "2026-10-19T22:27:04.924Z"
 }

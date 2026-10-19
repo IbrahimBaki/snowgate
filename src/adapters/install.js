@@ -89,6 +89,9 @@ export function installClaude(root, { home = PACK_ROOT } = {}) {
   process.exitCode = await runHook(process.argv[2]);`,
   }), result);
 
+  // The change procedure as a plugin skill (also stated at session start).
+  writeManaged(path.join(dir, 'skills', 'servicenow-changes', 'SKILL.md'), readFileSync(path.join(PACK_ROOT, 'skills', 'servicenow-changes', 'SKILL.md'), 'utf8').replace('---\n\n', `---\n\n<!-- ${MARKER} -->\n\n`), result);
+
   // The MCP server runs from the plugin directory; the project root is found
   // by walking up to .yallaflow/.
   writeManaged(path.join(dir, 'mcp.mjs'), shim({
@@ -130,6 +133,7 @@ statusMessage = "snowgate guard"
 ## snowgate (ServiceNow)
 
 - Reach ServiceNow instances only through the \`snowgate\` MCP tools; direct browser or Playwright tools on an instance are blocked.
+- To change the instance: call \`ui_use_update_set\` first (the task's own update set), change through the UI tools, verify, record it in the YallaFlow work item, and leave the update set In Progress unless the user asks.
 - Bind an instance approved for this project to your work item with \`snowgate target set <instance> --work <work-id>\`; it confirms automatically. Other instances need a human.
 - Instance approval, package approvals, stored credentials and SSO sign-in are human acts (\`snowgate setup\`, \`snowgate approve\`, \`snowgate credentials set\`, \`snowgate login\`). Never edit \`.snowgate/\`.
 - Check change packages with \`snowgate validate\` or \`yallaflow verify <id> --script .snowgate/bin/verify-change-packages\`.

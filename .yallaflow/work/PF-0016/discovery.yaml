@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "integration",
+      "summary": "Creating the task update set and saving an ordinary form were not exercised on the real instance; only the selectors were checked without clicking",
+      "reason": "Those are changes on the user's instance; the first user trial exercises them",
+      "recordedAt": "2026-10-19T22:26:16.205Z"
+    }
+  ],
+  "updatedAt": "2026-10-19T22:26:16.205Z"
+}

@@ -16,12 +16,12 @@ const WORK = 'PF-0001';
 const pack = loadPack();
 const env = { SN_USER: USER, SN_PASSWORD: PASSWORD };
 
-// Exactly PLAN §7.2, plus sn_portal_page (PF-0013, read-only) and
-// sn_report_gap (PF-0014, local only) — nothing more.
+// Exactly PLAN §7.2, plus sn_portal_page (PF-0013, read-only),
+// sn_report_gap (PF-0014, local only) and ui_use_update_set (PF-0016) — nothing more.
 const ALLOWLIST = [
   'sn_instance_info', 'sn_query', 'sn_get_record', 'sn_update_sets', 'sn_update_set_contents', 'sn_customizations', 'sn_portal_page', 'sn_report_gap',
   'ui_navigate', 'ui_snapshot', 'ui_click', 'ui_type', 'ui_screenshot',
-  'ui_upload_update_set', 'ui_preview_update_set', 'ui_commit_update_set',
+  'ui_use_update_set', 'ui_upload_update_set', 'ui_preview_update_set', 'ui_commit_update_set',
 ];
 
 async function confirmed(root) {
@@ -56,7 +56,7 @@ function gateway(root, mock, { session = fakeSession(), workId = WORK } = {}) {
 const text = (r) => r.content[0].text;
 const auditLines = (root) => readFileSync(path.join(root, '.snowgate', 'audit', `${WORK}.jsonl`), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
 
-test('the MCP tool list equals the PLAN §7.2 allowlist plus sn_portal_page and sn_report_gap', async () => {
+test('the MCP tool list equals the PLAN §7.2 allowlist plus sn_portal_page, sn_report_gap and ui_use_update_set', async () => {
   const root = makeProject(WORK);
   const mock = await startMockServiceNow();
   const gw = gateway(root, mock);
@@ -127,6 +127,7 @@ test('REST tools read the confirmed target with GET only and carry evidence', as
       sys_user: [{ sys_id: ME, user_name: USER }],
       sys_user_has_role: [{ 'role.name': 'admin' }],
       sys_properties: [{ name: 'glide.buildtag', value: 'glide-x' }],
+      sys_user_preference: [],
       ...schemaTables({ sys_user: { fields: { user_name: 'string', email: 'email', user_password: 'password' } } }),
     },
   });
@@ -146,8 +147,9 @@ test('REST tools read the confirmed target with GET only and carry evidence', as
     assert.equal(open.isError, undefined, text(open));
     const denied = await gw.call('sn_query', { table: 'sys_user', fields: ['user_password'] });
     assert.match(text(denied), /FIELD_SENSITIVE/);
+    // User preferences follow the open read model too (PF-0016).
     const prefs = await gw.call('sn_query', { table: 'sys_user_preference', fields: ['user', 'value'] });
-    assert.match(text(prefs), /TABLE_NOT_ALLOWED/);
+    assert.equal(prefs.isError, undefined, text(prefs));
     const noFields = await gw.call('sn_query', { table: 'sys_scope' });
     assert.match(text(noFields), /ARGS_INVALID/);
 

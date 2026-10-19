@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "An agent working on a YallaFlow task can make changes on the instance through the browser, captured in an update set for that task rather than Default, with no extra user step.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:21:57.456Z",
+      "updatedAt": "2026-10-19T22:21:57.456Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The agent is told the simple change procedure: YallaFlow owns the task, select the task's update set first, change through the UI, verify, record in YallaFlow, and leave completing/committing to the user.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:21:57.456Z",
+      "updatedAt": "2026-10-19T22:21:57.456Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "ui_use_update_set creates (or reuses) an in-progress update set named '<work-id> - <title>' (title from the YallaFlow work item unless given), makes it the current set through the instance's own UI actions, verifies it via sys_user_preference, and never selects Default or a set of another work item; ordinary form saves are not blocked by request-body inspection, which is kept for update-set processors.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:21:57.456Z",
+      "updatedAt": "2026-10-19T22:21:57.456Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "The session context (and the AGENTS.md block / plugin skill) state the change procedure; it reaches existing installs after reinstalling snowgate without re-running init.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:21:57.456Z",
+      "updatedAt": "2026-10-19T22:21:57.456Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-10-19T22:21:57.456Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-10-19T22:21:57.456Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-10-19T22:21:57.456Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-10-19T22:21:57.456Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-10-19T22:21:57.456Z"
+}

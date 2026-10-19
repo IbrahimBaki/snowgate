@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:21:57.244Z",
+      "completedAt": "2026-10-19T22:21:57.244Z",
+      "summary": "dev446072: sys_update_set form has UI actions 'Submit and Make Current' (sysverb_insert_and_make_current, form button) and 'Make This My Current Set' (current_set); fields name/state/application/description/parent. admin's current set is Default and the gateway blocks switching, so agent edits would land in Default. The URL lock also inspects every request body for update-set tokens, which can block ordinary form saves. sys_user_preference is still restricted to a fixed-shape read (pre-PF-0015 rule). YallaFlow owns tasks; work titles are in .yallaflow/work/<id>/meta.yaml.",
+      "evidence": [
+        "runtime:dev446072 sys_ui_action on sys_update_set 2026-10-20",
+        "src/gateway/guards.js"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:21:57.567Z",
+      "completedAt": "2026-10-19T22:21:57.567Z",
+      "summary": "User approved (agent session) the simplest correct change path: browser-driven changes, YallaFlow owns tasks, no extra user steps; change packages, XML export and cross-instance deploy are deferred to a later joint design.",
+      "evidence": [
+        "user:المهم اننا نوصل ونشغل حاليا اسهل نسخة ممكنة وصحيحة تنفذ تعديلات; موافق، ابدأ"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:26:03.588Z",
+      "completedAt": "2026-10-19T22:26:03.588Z",
+      "summary": "ui_use_update_set (gateway gate tool): name '<work-id> - <title>' from .yallaflow/work/<id>/meta.yaml unless given; reuse an in-progress set starting with the work id, else create via sys_update_set.do?sys_id=-1 + 'Submit and Make Current' (sysverb_insert_and_make_current); existing via 'Make This My Current Set'; verified by sys_user_preference(name=sys_update_set,user=me); never Default/another work item. URL lock inspects bodies only for xmlhttp.do. sys_user_preference follows the open read model. Agent guidance: SessionStart change procedure, plugin skill servicenow-changes (shipped in skills/), AGENTS.md line. Selectors verified on dev446072 without submitting.",
+      "evidence": [
+        "src/gateway/tools.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:26:15.997Z",
+      "completedAt": "2026-10-19T22:26:15.997Z",
+      "summary": "V-001 npm test passed (146); V-002 claude plugin validate passed with the new skill. On dev446072 the new-record form has the name field and the Submit and Make Current button, and an in-progress set shows Make This My Current Set (checked without clicking). Creating a set and saving a form on the instance are not exercised yet (first user trial).",
+      "evidence": [
+        "verification:V-001",
+        "verification:V-002",
+        "runtime:dev446072 update-set form selectors 2026-10-20"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:26:16.596Z",
+      "completedAt": "2026-10-19T22:26:16.596Z",
+      "summary": "AC-001, AC-002 satisfied; real create-and-save path left to the first user trial.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T22:26:16.596Z"
+}

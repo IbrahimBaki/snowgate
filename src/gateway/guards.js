@@ -55,7 +55,10 @@ export function classifyRequest(url, { origin, body = '' } = {}) {
     return { allowed: false, reason: 'unparseable URL' };
   }
   if (parsed.origin !== origin) return { allowed: false, reason: `off-target origin ${parsed.origin}`, code: 'HOST_LOCKED' };
-  const token = lockedToken(parsed.pathname + parsed.search, body);
+  // Request bodies are inspected only for AJAX processors (where update-set
+  // actions are posted); ordinary form saves carry field values, not actions.
+  const isAjax = /\/xmlhttp\.do$/i.test(parsed.pathname);
+  const token = lockedToken(parsed.pathname + parsed.search, isAjax ? body : '');
   if (token) return { allowed: false, reason: `locked update-set surface (${token})`, code: 'URL_LOCKED' };
   return { allowed: true };
 }

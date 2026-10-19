@@ -45,10 +45,10 @@
 - **Knowledge ID:** K-009
 - **Promoted at:** 2026-10-19T17:54:31.028Z
 - **Supersedes:** CTX-0034
-- **Verified:** 2026-10-19T22:06:06.432Z (commit 0b3e5ec)
+- **Verified:** 2026-10-19T22:27:04.089Z (commit 0dbadcc)
 - **Evidence:**
-  - README.md (repository @ 0b3e5ec)
-  - src/adapters/policy.js (repository @ 0b3e5ec)
+  - README.md (repository @ 0dbadcc)
+  - src/adapters/policy.js (repository @ 0dbadcc)
 
 <!-- yallaflow-fact:CTX-0046 -->
 ### CTX-0046 — snowgate init --agent claude|codex generates: a Claude project plugin in .claude/skills/snowgate (${CLAUDE_PLUGIN_ROOT} hook and MCP shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, failing closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; .git/hooks/pre-commit running validate --secrets; and a .gitignore entry for .snowgate.env. Files without the 'managed by snowgate init' marker are never overwritten.
@@ -60,10 +60,10 @@
 - **Knowledge ID:** K-013
 - **Promoted at:** 2026-10-19T17:54:31.672Z
 - **Supersedes:** CTX-0035
-- **Verified:** 2026-10-19T19:49:17.988Z (commit c68d827)
+- **Verified:** 2026-10-19T22:27:04.261Z (commit 0dbadcc)
 - **Evidence:**
-  - src/adapters/install.js (repository @ c68d827)
-  - test/adapters.test.js (repository @ c68d827)
+  - src/adapters/install.js (repository @ 0dbadcc)
+  - test/adapters.test.js (repository @ 0dbadcc)
 
 <!-- yallaflow-fact:CTX-0062 -->
 ### CTX-0062 — discover builds a project map from update-set contents (sys_update_xml) in every scope: <table>_<sys_id> update names identify artifacts; 22 artifact tables are read by sys_id (metadata only) and marked new / baseline-modified (inferred from system creators) / deleted; grouped by local and retrieved update set (counts shown as local + retrieved); report.md and project-map.json; agents read an artifact's code per record with sn_get_record. Changes outside update-set tracking are not visible.
@@ -81,22 +81,6 @@
   - src/discover.js (repository @ 87b03c6)
   - test/project-map.test.js (repository @ 87b03c6)
 
-<!-- yallaflow-fact:CTX-0066 -->
-### CTX-0066 — snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page and sn_report_gap: 7 read-only REST tools, 1 local feedback tool (no instance, no target needed), 5 generic ui_* tools and 3 gated update-set tools. It drives its own Chromium with a route-level host/update-set lock across frames, wrappers and redirects, blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.
-
-- **State:** current
-- **Confidence:** confirmed
-- **Provenance:** repository
-- **Source work:** PF-0014
-- **Knowledge ID:** K-016
-- **Promoted at:** 2026-10-19T21:40:24.380Z
-- **Supersedes:** CTX-0064
-- **Verified:** 2026-10-19T22:06:07.500Z (commit 0b3e5ec)
-- **Evidence:**
-  - src/gateway/tools.js (repository @ 0b3e5ec)
-  - src/gateway/server.js (repository @ 0b3e5ec)
-  - test/gateway.test.js (repository @ 0b3e5ec)
-
 <!-- yallaflow-fact:CTX-0072 -->
 ### CTX-0072 — Feedback: refusals worth reporting (FIELD_NOT_ALLOWED, TABLE_NOT_ALLOWED, TABLE_ACCESS, TOOL_UNKNOWN, and sensitive-data refusals FIELD/TABLE/QUERY_SENSITIVE to catch over-broad rules), discover limitations and sn_report_gap agent reports are stored redacted in .snowgate/feedback/gaps.json, one entry per fingerprint (one per field) with counts; snowgate feedback list/send (send TTY-only, preview, Markdown copy, gh create/comment or prefilled GitHub URL) to package.json snowgate.feedbackRepo or SNOWGATE_FEEDBACK_REPO.
 
@@ -112,5 +96,21 @@
   - src/feedback.js (repository @ 0b3e5ec)
   - test/feedback.test.js (repository @ 0b3e5ec)
   - test/read-policy.test.js (repository @ 0b3e5ec)
+
+<!-- yallaflow-fact:CTX-0074 -->
+### CTX-0074 — snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page, sn_report_gap and ui_use_update_set: 7 read-only REST tools, 1 local feedback tool, 5 generic ui_* tools and 4 gated update-set tools (use/upload/preview/commit). It drives its own Chromium with a route-level host and update-set lock across frames, wrappers and redirects (request bodies inspected only for xmlhttp.do processors), blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0016
+- **Knowledge ID:** K-005
+- **Promoted at:** 2026-10-19T22:27:04.587Z
+- **Supersedes:** CTX-0066
+- **Verified:** 2026-10-19T22:27:04.587Z (commit 0dbadcc)
+- **Evidence:**
+  - src/gateway/tools.js (repository @ 0dbadcc)
+  - src/gateway/guards.js (repository @ 0dbadcc)
+  - test/gateway.test.js (repository @ 0dbadcc)
 
 <!-- yallaflow-context:end -->

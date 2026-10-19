@@ -48,9 +48,22 @@ greenfield
 - **Knowledge ID:** K-012
 - **Promoted at:** 2026-10-19T22:06:07.680Z
 - **Supersedes:** CTX-0001
-- **Verified:** 2026-10-19T22:06:07.680Z (commit 0b3e5ec)
+- **Verified:** 2026-10-19T22:27:04.422Z (commit 0dbadcc)
 - **Evidence:**
-  - README.md (repository @ 0b3e5ec)
-  - محتاجين نبقا اكتر مرونة في القيود ... الهدف الاساسي اننا نطلب من الagent انه ينفذ تاسكات علي servicenow (user-confirmed)
+  - README.md (repository @ 0dbadcc)
+  - [object Object] (reference)
+
+<!-- yallaflow-fact:CTX-0076 -->
+### CTX-0076 — Product direction (user): reach a working, simplest-correct version that executes changes through the browser quickly, keep user steps minimal, let YallaFlow own tasks, and improve over time from usage and feedback rather than building heavy controls up front.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** user-confirmed
+- **Source work:** PF-0016
+- **Knowledge ID:** K-007
+- **Promoted at:** 2026-10-19T22:27:04.924Z
+- **Verified:** 2026-10-19T22:27:04.924Z (commit 0dbadcc)
+- **Evidence:**
+  - خلينا نعتبر انه هيفتح المتصفح وينفذ المطلوب .. وبالوقت نحسن ده مع الاستخدام والfeedbacks (user-confirmed)
 
 <!-- yallaflow-context:end -->

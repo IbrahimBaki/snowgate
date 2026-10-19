@@ -20,6 +20,8 @@ snowgate setup                    # once: agent, approved instances, credentials
 
 It installs the agent files and writes `.snowgate/config.yaml`. It creates or updates `.snowgate.env` in dev mode, and otherwise the protected credentials file. It offers SSO sign-in when needed, and ends with `doctor`.
 
+**Changing the instance:** the agent first calls `ui_use_update_set`, which creates or reuses the update set `<work-id> - <title>` for the YallaFlow work item and makes it current, so changes are not captured in Default. It then edits through the browser tools, verifies the result, and records what it changed in the work item. It leaves the update set In Progress; completing it, exporting and committing are yours to ask for. The procedure is in the session context and in the plugin skill `servicenow-changes`.
+
 Then open the agent in that folder and ask for a task, for example "Run snowgate discover on dev12345". YallaFlow creates the work item. The agent binds the approved instance to it with `snowgate target set`, which confirms automatically for approved instances, and runs the task. Instances that are not approved, package uploads, and commits still need a human.
 
 ## Commands

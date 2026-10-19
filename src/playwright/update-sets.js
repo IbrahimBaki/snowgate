@@ -66,3 +66,24 @@ export async function commitUpdateSet(page, origin, client, remote) {
   await page.getByRole('button', { name: 'Commit Update Set' }).first().click();
   return waitForState(client, remote.name, ['committed']);
 }
+
+// ui_use_update_set (PF-0016): create the task's update set with the form's
+// own "Submit and Make Current" action, or make an existing one current with
+// "Make This My Current Set". Runs only inside withUnlocked; the result is
+// verified through REST by the caller.
+export async function createAndMakeCurrent(page, origin, name) {
+  await page.goto(`${origin}/sys_update_set.do?sys_id=-1`, { waitUntil: 'load' });
+  await page.locator('[id="sys_update_set.name"]').fill(name);
+  await Promise.all([
+    page.waitForLoadState('load').catch(() => {}),
+    page.locator('[id="sysverb_insert_and_make_current"]').first().click(),
+  ]);
+}
+
+export async function makeCurrent(page, origin, sysId) {
+  await page.goto(`${origin}/sys_update_set.do?sys_id=${sysId}`, { waitUntil: 'load' });
+  await Promise.all([
+    page.waitForLoadState('load').catch(() => {}),
+    page.getByText('Make This My Current Set', { exact: true }).first().click(),
+  ]);
+}

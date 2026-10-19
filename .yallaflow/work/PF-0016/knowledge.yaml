@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Human approvals are recorded only by snowgate approve in a TTY with the change_id typed back, for plan, upload or commit; upload and commit approvals bind the SHA-256 of the exact update-set.xml and go stale when it changes. Upload needs >= peer-reviewed, a clean validate and a current upload approval; commit needs awaiting-human-approval, a previewed retrieved update set with no unresolved problems and a current commit approval.",
+      "evidence": [
+        "src/approvals.js",
+        "src/gateway/tools.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0025"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:27:03.007Z",
+      "factId": "CTX-0025",
+      "promotedAt": "2026-10-19T22:27:03.915Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.",
+      "evidence": [
+        "README.md",
+        "src/adapters/policy.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0042"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:27:03.120Z",
+      "factId": "CTX-0042",
+      "promotedAt": "2026-10-19T22:27:04.089Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate init --agent claude|codex generates: a Claude project plugin in .claude/skills/snowgate (${CLAUDE_PLUGIN_ROOT} hook and MCP shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, failing closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; .git/hooks/pre-commit running validate --secrets; and a .gitignore entry for .snowgate.env. Files without the 'managed by snowgate init' marker are never overwritten.",
+      "evidence": [
+        "src/adapters/install.js",
+        "test/adapters.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0046"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:27:03.252Z",
+      "factId": "CTX-0046",
+      "promotedAt": "2026-10-19T22:27:04.261Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects (skills, guards, an MCP gateway, validators and a CLI, no project-specific naming), aimed at letting an agent carry out ServiceNow tasks safely; read restrictions favour usefulness (open reads except sensitive data) while writes stay gated.",
+      "evidence": [
+        "README.md",
+        "[object Object]"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0069"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:27:03.365Z",
+      "factId": "CTX-0069",
+      "promotedAt": "2026-10-19T22:27:04.422Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-005",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page, sn_report_gap and ui_use_update_set: 7 read-only REST tools, 1 local feedback tool, 5 generic ui_* tools and 4 gated update-set tools (use/upload/preview/commit). It drives its own Chromium with a route-level host and update-set lock across frames, wrappers and redirects (request bodies inspected only for xmlhttp.do processors), blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/gateway/guards.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0066"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:27:03.474Z",
+      "factId": "CTX-0074",
+      "promotedAt": "2026-10-19T22:27:04.587Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-006",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item) via the form's Submit and Make Current / Make This My Current Set actions and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools, verified, and recorded in the work item; the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "skills/servicenow-changes/SKILL.md",
+        "src/adapters/run-hook.js",
+        "test/use-update-set.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:27:03.588Z",
+      "factId": "CTX-0075",
+      "promotedAt": "2026-10-19T22:27:04.760Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-007",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "Product direction (user): reach a working, simplest-correct version that executes changes through the browser quickly, keep user steps minimal, let YallaFlow own tasks, and improve over time from usage and feedback rather than building heavy controls up front.",
+      "evidence": [
+        "user:خلينا نعتبر انه هيفتح المتصفح وينفذ المطلوب .. وبالوقت نحسن ده مع الاستخدام والfeedbacks"
+      ],
+      "confidence": "confirmed",
+      "provenance": "user-confirmed",
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:27:03.696Z",
+      "factId": "CTX-0076",
+      "promotedAt": "2026-10-19T22:27:04.924Z",
+      "target": "PROJECT.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T22:27:04.924Z",
+  "reviewedAt": "2026-10-19T22:27:04.924Z"
+}

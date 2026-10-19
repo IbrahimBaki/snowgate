@@ -40,11 +40,11 @@
 - **Source work:** PF-0003
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T14:34:14.430Z
-- **Verified:** 2026-10-19T22:06:06.082Z (commit 0b3e5ec)
+- **Verified:** 2026-10-19T22:27:03.915Z (commit 0dbadcc)
 - **Evidence:**
-  - src/approvals.js (repository @ 0b3e5ec)
-  - src/gateway/tools.js (repository @ 0b3e5ec)
-  - test/gateway.test.js (repository @ 0b3e5ec)
+  - src/approvals.js (repository @ 0dbadcc)
+  - src/gateway/tools.js (repository @ 0dbadcc)
+  - test/gateway.test.js (repository @ 0dbadcc)
 
 <!-- yallaflow-fact:CTX-0032 -->
 ### CTX-0032 — The target ServiceNow instances use SSO for interactive sign-in (user-confirmed), so the gateway's browser relies on the snowgate SSO profile rather than the login.do password form.
@@ -151,5 +151,21 @@
 - **Verified:** 2026-10-19T22:06:08.385Z (commit 0b3e5ec)
 - **Evidence:**
   - ابنيه بشكل افتراضي انه يقدر يوصل للداتا ووضحله ان في اوبشن يقدر يغيره لكن انا مش عاوز اكبر الخيارات في بداية الاستخدام (user-confirmed)
+
+<!-- yallaflow-fact:CTX-0075 -->
+### CTX-0075 — Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item) via the form's Submit and Make Current / Make This My Current Set actions and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools, verified, and recorded in the work item; the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0016
+- **Knowledge ID:** K-006
+- **Promoted at:** 2026-10-19T22:27:04.760Z
+- **Verified:** 2026-10-19T22:27:04.760Z (commit 0dbadcc)
+- **Evidence:**
+  - src/gateway/tools.js (repository @ 0dbadcc)
+  - skills/servicenow-changes/SKILL.md (repository @ 0dbadcc)
+  - src/adapters/run-hook.js (repository @ 0dbadcc)
+  - test/use-update-set.test.js (repository @ 0dbadcc)
 
 <!-- yallaflow-context:end -->
