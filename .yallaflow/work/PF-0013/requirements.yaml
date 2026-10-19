@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "An agent can see a whole Service Portal page — its layout and each widget instance's options and content — in one gateway call.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T21:01:56.429Z",
+      "updatedAt": "2026-10-19T21:01:56.429Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "sn_portal_page {page: id or sys_id} returns the page with containers → rows → columns → widget instances in order (nested rows included, bounded depth), each instance with widget name/id, title, active, css and parsed widget_parameters, plus evidence; read-only GET on allow-listed tables and fields verified on the instance; unknown pages return a clear error.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T21:01:56.429Z",
+      "updatedAt": "2026-10-19T21:01:56.429Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-10-19T21:01:56.429Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-10-19T21:01:56.429Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-10-19T21:01:56.429Z"
+}

@@ -1,0 +1,137 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects: skills, guards, an MCP gateway, validators and a CLI; it carries no project-specific naming.",
+      "evidence": [
+        "README.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0001"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T21:04:40.401Z",
+      "factId": "CTX-0001",
+      "promotedAt": "2026-10-19T21:04:41.225Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Human approvals are recorded only by snowgate approve in a TTY with the change_id typed back, for plan, upload or commit; upload and commit approvals bind the SHA-256 of the exact update-set.xml and go stale when it changes. Upload needs >= peer-reviewed, a clean validate and a current upload approval; commit needs awaiting-human-approval, a previewed retrieved update set with no unresolved problems and a current commit approval.",
+      "evidence": [
+        "src/approvals.js",
+        "src/gateway/tools.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0025"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T21:04:40.522Z",
+      "factId": "CTX-0025",
+      "promotedAt": "2026-10-19T21:04:41.378Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.",
+      "evidence": [
+        "README.md",
+        "src/adapters/policy.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0042"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T21:04:40.651Z",
+      "factId": "CTX-0042",
+      "promotedAt": "2026-10-19T21:04:41.539Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "On a real instance (dev446072, glide australia patch 7, 2026-10-19) all 19 discovery inventory tables were read with 0 unreadable, and the project-map artifact tables (incl. sp_instance with the sp_widget.name dot-walk) answered by sys_id; other instances or releases may differ, so unreadable tables stay limitations.",
+      "evidence": [
+        "src/rest/tables.js",
+        "[object Object]"
+      ],
+      "confidence": "confirmed",
+      "provenance": "runtime",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0059"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T21:04:40.769Z",
+      "factId": "CTX-0059",
+      "promotedAt": "2026-10-19T21:04:41.704Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-005",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "ServiceNow integration is a read-only Table API client: every request goes through one private GET path, only allow-listed configuration tables and fields (incl. code/definition fields such as sp_widget template/client_script/script, sys_script script, sys_ui_page html, verified against a real instance's sys_dictionary), mandatory fields, page size 500, safety cap 10000; a refused field lists the allowed ones. Bulk discovery reads fetch metadata only (metaFields). Auth follows rest_auth: auto/basic/session.",
+      "evidence": [
+        "src/rest/client.js",
+        "src/rest/tables.js",
+        "test/rest-client.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0061"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T21:04:40.883Z",
+      "factId": "CTX-0061",
+      "promotedAt": "2026-10-19T21:04:41.881Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-006",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page: 7 read-only REST tools (instance info, query, get record, update sets, update set contents, customizations, portal page tree), 5 generic ui_* tools and 3 gated update-set tools. It drives its own Chromium; a context route checks every request in all frames (other hosts and update-set tokens incl. Next Experience / nav_to.do wrappers are aborted; redirects are re-checked; service workers blocked); post-action checks wait for network idle; calls are serialised and audited with credentials redacted.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/gateway/guards.js",
+        "src/playwright/session.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0028"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T21:04:41.001Z",
+      "factId": "CTX-0064",
+      "promotedAt": "2026-10-19T21:04:42.041Z",
+      "target": "context/architecture.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T21:04:42.041Z",
+  "reviewedAt": "2026-10-19T21:04:42.041Z"
+}

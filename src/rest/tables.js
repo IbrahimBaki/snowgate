@@ -41,7 +41,11 @@ export const TABLES = {
   catalog_ui_policy: ['sys_id', 'short_description', 'catalog_item', 'active', SCOPE, ...CREATED],
   catalog_script_client: ['sys_id', 'name', 'cat_item', 'type', 'active', SCOPE, ...CREATED],
   sys_ux_page_registry: ['sys_id', 'title', 'path', SCOPE, ...CREATED],
-  sp_instance: ['sys_id', 'title', 'sp_widget.name', 'sp_column', SCOPE, ...CREATED],
+  sp_instance: ['sys_id', 'title', 'id', 'sp_widget', 'sp_widget.name', 'sp_widget.id', 'sp_column', 'order', 'active', 'class_name', SCOPE, ...CREATED],
+  // Service Portal page layout (fields verified on a real instance, 2026-10-20).
+  sp_container: ['sys_id', 'name', 'title', 'sp_page', 'order', 'width', 'class_name', 'background_color', SCOPE],
+  sp_row: ['sys_id', 'sp_container', 'sp_column', 'order', 'class_name', SCOPE],
+  sp_column: ['sys_id', 'sp_row', 'order', 'size', 'size_xs', 'size_sm', 'size_lg', 'class_name', SCOPE],
 };
 
 // Code and definition fields (configuration, never data), verified on a real
@@ -63,6 +67,8 @@ export const CODE_FIELDS = {
   sys_ui_script: ['script'],
   sysevent_email_action: ['condition', 'subject', 'message_html'],
   item_option_new: ['mandatory', 'order', 'default_value'],
+  // Widget instance options: the page content of HTML/content widgets.
+  sp_instance: ['widget_parameters', 'css'],
 };
 for (const [table, fields] of Object.entries(CODE_FIELDS)) TABLES[table] = [...new Set([...TABLES[table], ...fields])];
 

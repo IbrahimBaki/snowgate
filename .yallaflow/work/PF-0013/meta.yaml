@@ -1,0 +1,45 @@
+{
+  "id": "PF-0013",
+  "type": "feature",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "sn_portal_page: a Service Portal page as one layout tree with widget options",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T21:01:10.610Z",
+  "updatedAt": "2026-10-19T21:04:42.364Z",
+  "title": "sn_portal_page: a Service Portal page as one layout tree with widget options",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow feature --scope bounded`.",
+  "routedAt": "2026-10-19T21:01:10.614Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "implement",
+    "verify",
+    "converge"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation",
+      "verification",
+      "delivery-convergence"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T21:04:42.364Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

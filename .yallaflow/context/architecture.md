@@ -35,23 +35,6 @@
   - src/cli/main.js (repository @ c68d827)
   - src/gateway/server.js (repository @ c68d827)
 
-<!-- yallaflow-fact:CTX-0028 -->
-### CTX-0028 — snowgate mcp is a stdio MCP server whose tool list is exactly PLAN §7.2 (6 read-only REST tools, 5 generic ui_* tools, 3 gated update-set tools). It drives its own Chromium (no @playwright/mcp proxy: its --allowed-origins is not a security boundary). A context route checks every request in all frames: other hosts and requests whose decoded URL or body carries an update-set token (incl. Next Experience / nav_to.do wrappers) are aborted; requests are fetched with redirects disabled and a redirect is followed only if its Location passes the same checks; service workers are blocked; calls are serialised and audited with credentials redacted.
-
-- **State:** current
-- **Confidence:** confirmed
-- **Provenance:** repository
-- **Source work:** PF-0005
-- **Knowledge ID:** K-002
-- **Promoted at:** 2026-10-19T14:50:51.722Z
-- **Supersedes:** CTX-0024
-- **Verified:** 2026-10-19T19:49:17.598Z (commit c68d827)
-- **Evidence:**
-  - src/gateway/tools.js (repository @ c68d827)
-  - src/gateway/guards.js (repository @ c68d827)
-  - src/playwright/session.js (repository @ c68d827)
-  - test/browser-lock.test.js (repository @ c68d827)
-
 <!-- yallaflow-fact:CTX-0042 -->
 ### CTX-0042 — Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.
 
@@ -62,10 +45,10 @@
 - **Knowledge ID:** K-009
 - **Promoted at:** 2026-10-19T17:54:31.028Z
 - **Supersedes:** CTX-0034
-- **Verified:** 2026-10-19T19:49:17.795Z (commit c68d827)
+- **Verified:** 2026-10-19T21:04:41.539Z (commit b57508f)
 - **Evidence:**
-  - README.md (repository @ c68d827)
-  - src/adapters/policy.js (repository @ c68d827)
+  - README.md (repository @ b57508f)
+  - src/adapters/policy.js (repository @ b57508f)
 
 <!-- yallaflow-fact:CTX-0046 -->
 ### CTX-0046 — snowgate init --agent claude|codex generates: a Claude project plugin in .claude/skills/snowgate (${CLAUDE_PLUGIN_ROOT} hook and MCP shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, failing closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; .git/hooks/pre-commit running validate --secrets; and a .gitignore entry for .snowgate.env. Files without the 'managed by snowgate init' marker are never overwritten.
@@ -97,5 +80,22 @@
   - src/project-map.js (repository @ c68d827)
   - src/discover.js (repository @ c68d827)
   - test/project-map.test.js (repository @ c68d827)
+
+<!-- yallaflow-fact:CTX-0064 -->
+### CTX-0064 — snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page: 7 read-only REST tools (instance info, query, get record, update sets, update set contents, customizations, portal page tree), 5 generic ui_* tools and 3 gated update-set tools. It drives its own Chromium; a context route checks every request in all frames (other hosts and update-set tokens incl. Next Experience / nav_to.do wrappers are aborted; redirects are re-checked; service workers blocked); post-action checks wait for network idle; calls are serialised and audited with credentials redacted.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0013
+- **Knowledge ID:** K-006
+- **Promoted at:** 2026-10-19T21:04:42.041Z
+- **Supersedes:** CTX-0028
+- **Verified:** 2026-10-19T21:04:42.041Z (commit b57508f)
+- **Evidence:**
+  - src/gateway/tools.js (repository @ b57508f)
+  - src/gateway/guards.js (repository @ b57508f)
+  - src/playwright/session.js (repository @ b57508f)
+  - test/gateway.test.js (repository @ b57508f)
 
 <!-- yallaflow-context:end -->

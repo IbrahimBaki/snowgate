@@ -40,11 +40,11 @@
 - **Source work:** PF-0003
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T14:34:14.430Z
-- **Verified:** 2026-10-19T19:49:17.430Z (commit c68d827)
+- **Verified:** 2026-10-19T21:04:41.378Z (commit b57508f)
 - **Evidence:**
-  - src/approvals.js (repository @ c68d827)
-  - src/gateway/tools.js (repository @ c68d827)
-  - test/gateway.test.js (repository @ c68d827)
+  - src/approvals.js (repository @ b57508f)
+  - src/gateway/tools.js (repository @ b57508f)
+  - test/gateway.test.js (repository @ b57508f)
 
 <!-- yallaflow-fact:CTX-0032 -->
 ### CTX-0032 — The target ServiceNow instances use SSO for interactive sign-in (user-confirmed), so the gateway's browser relies on the snowgate SSO profile rather than the login.do password form.

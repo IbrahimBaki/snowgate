@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:01:56.187Z",
+      "completedAt": "2026-10-19T21:01:56.187Z",
+      "summary": "dev446072 sys_dictionary: sp_container(sp_page, name, title, order, width, class_name, background_color), sp_row(sp_container, sp_column for nested rows, order, class_name), sp_column(sp_row, order, size, size_xs/sm/lg, class_name), sp_instance(sp_column, sp_widget, title, id, order, active, css, widget_parameters, class_name, url, roles). Rows can nest inside columns. Page content of HTML widgets lives in sp_instance.widget_parameters, which the allowlist lacks (the trial agent hit FIELD_NOT_ALLOWED).",
+      "evidence": [
+        "runtime:dev446072 sys_dictionary sp_* fields 2026-10-20",
+        "src/rest/tables.js"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:01:56.535Z",
+      "completedAt": "2026-10-19T21:01:56.535Z",
+      "summary": "User approved (agent session) adding sn_portal_page so the agent can see page content and layout; field names verified on the instance first.",
+      "evidence": [
+        "user:موافق، ابدأ في إصلاح sn_portal_page"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:04:09.411Z",
+      "completedAt": "2026-10-19T21:04:09.411Z",
+      "summary": "src/portal-page.js portalPage(): sp_page by id or sys_id → sp_container → sp_row → sp_column → sp_instance (nested rows up to depth 4), ordered, instances with widget name/id, title, active, css and parsed widget_parameters, evidence per query; allowlist adds sp_container/sp_row/sp_column and sp_instance code fields widget_parameters/css (verified on dev446072); gateway tool sn_portal_page; tests incl. nested rows and invalid/unknown pages. Real: edupulse_landing returned 3 containers / 4 HTML sections with content in 6 queries.",
+      "evidence": [
+        "src/portal-page.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:04:20.927Z",
+      "completedAt": "2026-10-19T21:04:20.927Z",
+      "summary": "V-001 npm test passed (133). Real instance: sn_portal_page edupulse_landing returned the ordered layout and HTML content of 4 sections.",
+      "evidence": [
+        "verification:V-001",
+        "runtime:dev446072 sn_portal_page edupulse_landing 2026-10-20"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:04:21.395Z",
+      "completedAt": "2026-10-19T21:04:21.395Z",
+      "summary": "AC-001 satisfied.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [
+    {
+      "decision": "The gateway tool list extends PLAN §7.2 with one read-only tool, sn_portal_page",
+      "reason": "User-approved (agent session) so the agent can see Service Portal page content and layout in one call; it only composes GET queries on allow-listed tables",
+      "costIfWrong": "None to safety: no new write or UI surface",
+      "createdAt": "2026-10-19T21:04:09.283Z"
+    }
+  ],
+  "history": [],
+  "updatedAt": "2026-10-19T21:04:21.395Z"
+}

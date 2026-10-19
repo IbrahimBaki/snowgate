@@ -3,6 +3,7 @@ import path from 'node:path';
 import { requireApproval } from '../approvals.js';
 import { SnowgateError } from '../errors.js';
 import { commitUpdateSet, findRemoteUpdateSet, previewProblems, previewUpdateSet, updateSetName, uploadUpdateSet } from '../playwright/update-sets.js';
+import { portalPage } from '../portal-page.js';
 import { readPackage, stateAtLeast, validatePackages } from '../validate/packages.js';
 import { snowgateDir } from '../workspace.js';
 import { resolveTargetUrl } from './guards.js';
@@ -31,6 +32,7 @@ export const TOOLS = [
   { name: 'sn_update_sets', kind: 'rest', description: 'Local update sets (sys_update_set) by state, plus the current update set per user. Retrieved/imported sets are in sys_remote_update_set (sn_query).', inputSchema: obj({ state: { type: 'string', description: 'e.g. in progress, complete, ignore.' } }) },
   { name: 'sn_update_set_contents', kind: 'rest', description: 'The customer updates (sys_update_xml) of one update set.', inputSchema: obj({ update_set: SYS_ID }, ['update_set']) },
   { name: 'sn_customizations', kind: 'rest', description: 'Customer updates grouped by type, optionally for one scope.', inputSchema: obj({ scope: { type: 'string' } }) },
+  { name: 'sn_portal_page', kind: 'rest', description: 'A whole Service Portal page in one call: containers → rows → columns → widget instances (nested rows included), each with its widget, options (widget_parameters, e.g. HTML content) and css.', inputSchema: obj({ page: { type: 'string', description: 'sp_page id (e.g. edupulse_landing) or sys_id.' } }, ['page']) },
   { name: 'ui_navigate', kind: 'ui', description: 'Open a path or URL on the confirmed target instance.', inputSchema: obj({ url: { type: 'string' } }, ['url']) },
   { name: 'ui_snapshot', kind: 'ui', description: 'Accessibility snapshot of every frame, with frame indexes and URLs.', inputSchema: obj({}) },
   { name: 'ui_click', kind: 'ui', description: 'Click the single element matching role+name, label, or text.', inputSchema: obj(TARGET) },
@@ -121,6 +123,10 @@ export const HANDLERS = {
     const by_type = {};
     for (const r of result.records) (by_type[r.type || '(none)'] ??= []).push(r);
     return { by_type, count: result.records.length, evidence: result.evidence };
+  },
+
+  async sn_portal_page(ctx, { page }) {
+    return portalPage(ctx.client(), page);
   },
 
   async ui_navigate(ctx, { url }) {

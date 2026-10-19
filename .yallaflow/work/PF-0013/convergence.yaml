@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T21:04:21.176Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "b57508f2a386469ab4bcb8d49173d77120e1a772",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 (npm test 133/133) and a real call on dev446072.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "sn_portal_page returns the page with ordered containers → rows → columns → instances (nested rows, depth 4), each instance with widget, title, active, css and parsed widget_parameters, plus evidence; GET-only on allow-listed, instance-verified fields; invalid ids and unknown pages return PAGE_INVALID / PAGE_NOT_FOUND. On dev446072 edupulse_landing came back with its 4 HTML sections.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/portal-page.js",
+              "contentHash": "sha256:5afce6a069c3fbc1e5a32005bc679343c448437213499fd3cb863b2f29603183",
+              "gitCommit": "b57508f2a386469ab4bcb8d49173d77120e1a772",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/tools.js",
+              "contentHash": "sha256:f20499c0c3f4934847a39f02a499ddc3040064941dc534df00d82c13b5e53907",
+              "gitCommit": "b57508f2a386469ab4bcb8d49173d77120e1a772",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/portal-page.test.js",
+              "contentHash": "sha256:1fdb117fba40362af15284be5417952e46fc167f3241698e2bf6f62818b3308a",
+              "gitCommit": "b57508f2a386469ab4bcb8d49173d77120e1a772",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0013",
+              "verificationRunId": "V-001"
+            },
+            {
+              "type": "runtime",
+              "description": "dev446072 sn_portal_page edupulse_landing"
+            }
+          ]
+        }
+      ],
+      "unrequested": []
+    }
+  ],
+  "updatedAt": "2026-10-19T21:04:21.176Z"
+}

@@ -44,9 +44,9 @@
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T19:20:29.004Z
 - **Supersedes:** CTX-0054
-- **Verified:** 2026-10-19T19:49:19.049Z (commit c68d827)
+- **Verified:** 2026-10-19T21:04:41.704Z (commit b57508f)
 - **Evidence:**
-  - src/rest/tables.js (repository @ c68d827)
+  - src/rest/tables.js (repository @ b57508f)
   - [object Object] (reference)
 
 <!-- yallaflow-fact:CTX-0061 -->
@@ -59,10 +59,10 @@
 - **Knowledge ID:** K-015
 - **Promoted at:** 2026-10-19T19:49:19.229Z
 - **Supersedes:** CTX-0052
-- **Verified:** 2026-10-19T19:49:19.229Z (commit c68d827)
+- **Verified:** 2026-10-19T21:04:41.881Z (commit b57508f)
 - **Evidence:**
-  - src/rest/client.js (repository @ c68d827)
-  - src/rest/tables.js (repository @ c68d827)
-  - test/rest-client.test.js (repository @ c68d827)
+  - src/rest/client.js (repository @ b57508f)
+  - src/rest/tables.js (repository @ b57508f)
+  - test/rest-client.test.js (repository @ b57508f)
 
 <!-- yallaflow-context:end -->
