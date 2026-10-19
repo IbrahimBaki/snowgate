@@ -3,6 +3,7 @@ import path from 'node:path';
 import { requireApproval } from '../approvals.js';
 import { SnowgateError } from '../errors.js';
 import { commitUpdateSet, findRemoteUpdateSet, previewProblems, previewUpdateSet, updateSetName, uploadUpdateSet } from '../playwright/update-sets.js';
+import { recordGap } from '../feedback.js';
 import { portalPage } from '../portal-page.js';
 import { readPackage, stateAtLeast, validatePackages } from '../validate/packages.js';
 import { snowgateDir } from '../workspace.js';
@@ -33,6 +34,7 @@ export const TOOLS = [
   { name: 'sn_update_set_contents', kind: 'rest', description: 'The customer updates (sys_update_xml) of one update set.', inputSchema: obj({ update_set: SYS_ID }, ['update_set']) },
   { name: 'sn_customizations', kind: 'rest', description: 'Customer updates grouped by type, optionally for one scope.', inputSchema: obj({ scope: { type: 'string' } }) },
   { name: 'sn_portal_page', kind: 'rest', description: 'A whole Service Portal page in one call: containers → rows → columns → widget instances (nested rows included), each with its widget, options (widget_parameters, e.g. HTML content) and css.', inputSchema: obj({ page: { type: 'string', description: 'sp_page id (e.g. edupulse_landing) or sys_id.' } }, ['page']) },
+  { name: 'sn_report_gap', kind: 'local', description: 'Report something snowgate does not let you see or do that you need (a field, table, tool or behaviour). It is kept without instance data and sent to the snowgate developers only when the user runs snowgate feedback send.', inputSchema: obj({ summary: { type: 'string', description: 'What is missing, in one sentence.' }, need: { type: 'string', description: 'Why you needed it for the task.' }, suggestion: { type: 'string', description: 'Optional: what would solve it.' }, area: { type: 'string', description: 'Optional: table, field or tool concerned.' } }, ['summary', 'need']) },
   { name: 'ui_navigate', kind: 'ui', description: 'Open a path or URL on the confirmed target instance.', inputSchema: obj({ url: { type: 'string' } }, ['url']) },
   { name: 'ui_snapshot', kind: 'ui', description: 'Accessibility snapshot of every frame, with frame indexes and URLs.', inputSchema: obj({}) },
   { name: 'ui_click', kind: 'ui', description: 'Click the single element matching role+name, label, or text.', inputSchema: obj(TARGET) },
@@ -127,6 +129,11 @@ export const HANDLERS = {
 
   async sn_portal_page(ctx, { page }) {
     return portalPage(ctx.client(), page);
+  },
+
+  async sn_report_gap(ctx, { summary, need, suggestion, area }) {
+    const gap = recordGap(ctx.root, { kind: 'agent-report', code: 'AGENT_REPORT', subject: area || summary, detail: `${summary} — needed for: ${need}`, suggestion }, ctx.now());
+    return { recorded: gap.fingerprint, seen: gap.count, note: 'Kept locally without instance data; the user sends it with snowgate feedback send.' };
   },
 
   async ui_navigate(ctx, { url }) {

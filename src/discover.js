@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { appendAudit } from './audit.js';
 import { SnowgateError, TableAccessError } from './errors.js';
+import { recordGap } from './feedback.js';
 import { normalizeInstance } from './instance.js';
 import { buildMap, collectArtifacts, duplicateSetNames, enrichArtifacts, summarizeByType } from './project-map.js';
 import { INVENTORY, TABLES, inventoryQuery, metaFields } from './rest/tables.js';
@@ -100,6 +101,11 @@ export async function discover({ root, workId, instance: requested, scope, clien
   const hazards = findHazards(inventory, now);
   for (const d of duplicateSetNames(inventory.update_sets?.records ?? [])) {
     hazards.push({ kind: 'duplicate-update-set-name', update_set: d.name, count: d.count, evidence: [inventory.update_sets.evidence] });
+  }
+
+  // Unreadable tables are capability gaps too.
+  for (const l of limitations) {
+    if (l.table) recordGap(root, { kind: 'discovery-limitation', code: 'TABLE_ACCESS', subject: l.table, detail: `discover: ${l.reason}` }, now);
   }
 
   // 5. Output.

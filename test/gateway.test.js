@@ -16,9 +16,10 @@ const WORK = 'PF-0001';
 const pack = loadPack();
 const env = { SN_USER: USER, SN_PASSWORD: PASSWORD };
 
-// Exactly PLAN §7.2, plus sn_portal_page (PF-0013, read-only) — nothing more.
+// Exactly PLAN §7.2, plus sn_portal_page (PF-0013, read-only) and
+// sn_report_gap (PF-0014, local only) — nothing more.
 const ALLOWLIST = [
-  'sn_instance_info', 'sn_query', 'sn_get_record', 'sn_update_sets', 'sn_update_set_contents', 'sn_customizations', 'sn_portal_page',
+  'sn_instance_info', 'sn_query', 'sn_get_record', 'sn_update_sets', 'sn_update_set_contents', 'sn_customizations', 'sn_portal_page', 'sn_report_gap',
   'ui_navigate', 'ui_snapshot', 'ui_click', 'ui_type', 'ui_screenshot',
   'ui_upload_update_set', 'ui_preview_update_set', 'ui_commit_update_set',
 ];
@@ -55,7 +56,7 @@ function gateway(root, mock, { session = fakeSession(), workId = WORK } = {}) {
 const text = (r) => r.content[0].text;
 const auditLines = (root) => readFileSync(path.join(root, '.snowgate', 'audit', `${WORK}.jsonl`), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
 
-test('the MCP tool list equals the PLAN §7.2 allowlist plus sn_portal_page', async () => {
+test('the MCP tool list equals the PLAN §7.2 allowlist plus sn_portal_page and sn_report_gap', async () => {
   const root = makeProject(WORK);
   const mock = await startMockServiceNow();
   const gw = gateway(root, mock);

@@ -12,6 +12,7 @@ import { ensureGitignore, installClaude, installCodex, installGitHook, installYa
 import { doctor } from '../doctor.js';
 import { interactiveLogin } from '../login.js';
 import { setup } from '../setup.js';
+import { buildIssue, feedbackRepo, issueUrl, markSent, pendingGaps, saveMarkdown } from '../feedback.js';
 import { loadConfig } from '../config.js';
 import { profileDir } from '../browser-profile.js';
 import { BrowserSession } from '../playwright/session.js';
@@ -43,6 +44,7 @@ Usage:
   snowgate mcp [--work <PF-id>]                     stdio MCP gateway (guards, audit)
   snowgate init --agent claude|codex                generate agent files, the yallaflow verify script and the git hook
   snowgate doctor [--work <PF-id>]                  check configuration, adapters and gateway exclusivity
+  snowgate feedback list|send                       review / send collected gaps to the snowgate developers (send: human only)
   snowgate hook <event>                             agent hook entry point (used by the generated adapter files)
   snowgate --version | --help
 
@@ -137,6 +139,62 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
       });
       for (const a of result.approved) appendAudit(root, '_project', { tool: 'setup.approve-instance', instance: a.instance, approved_by: a.approved_by });
       return result.ok ? 0 : 1;
+    }
+
+    if (command === 'feedback') {
+      const pending = pendingGaps(root);
+      if (sub === 'list' || !sub) {
+        if (!pending.length) {
+          out('No feedback waiting to be sent.');
+          return 0;
+        }
+        out(`${pending.length} gap(s) waiting to be sent to ${feedbackRepo(env)}:`);
+        for (const g of pending) out(`  - [${g.kind}] ${g.code}: ${g.subject} (seen ${g.count - g.sent_count}x)`);
+        out('Send them with: snowgate feedback send');
+        return 0;
+      }
+      if (sub !== 'send') {
+        err('Usage: snowgate feedback list|send');
+        return 2;
+      }
+      // Sending reaches a public site: a human confirms what leaves the machine.
+      if (!stdin.isTTY) {
+        err('feedback send must be run by a human in an interactive terminal; refusing non-interactive input.');
+        return 1;
+      }
+      if (!pending.length) {
+        out('No feedback waiting to be sent.');
+        return 0;
+      }
+      const repo = feedbackRepo(env);
+      const issue = buildIssue(pending);
+      const file = saveMarkdown(root, issue);
+      out(`--- ${issue.title} ---\n${issue.body}\n---`);
+      out(`(also saved to ${path.relative(cwd, file)})`);
+      const ask = async (q) => {
+        const rl = createInterface({ input: stdin, output: stdout });
+        try {
+          return (await rl.question(q)).trim().toLowerCase();
+        } finally {
+          rl.close();
+        }
+      };
+      if (!(await ask(`Send this to github.com/${repo}? [y/N] `)).startsWith('y')) {
+        out('Not sent. The Markdown copy above can be shared any other way.');
+        return 0;
+      }
+      const fingerprints = pending.map((g) => g.fingerprint);
+      if (await ghReady()) {
+        const done = await sendWithGh(repo, issue, pending, file);
+        out(done);
+        markSent(root, fingerprints);
+        return 0;
+      }
+      const url = issueUrl(repo, issue);
+      openInBrowser(url);
+      out(`Opening the new-issue page on GitHub (sign in if asked, then press "Submit new issue"):\n${url}`);
+      if (!(await ask('Did you submit it? [Y/n] ')).startsWith('n')) markSent(root, fingerprints);
+      return 0;
     }
 
     if (command === 'init') {
@@ -373,6 +431,42 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
       return 1;
     }
     throw e;
+  }
+}
+
+const run = (cmd, args, input) => new Promise((resolve) => {
+  const child = execFile(cmd, args, { timeout: 30000 }, (e, so, se) => resolve({ ok: !e, stdout: String(so ?? ''), stderr: String(se ?? '') }));
+  if (input) child.stdin.end(input);
+});
+
+async function ghReady() {
+  return (await run('gh', ['auth', 'status'])).ok;
+}
+
+// With gh: add to an open issue that already carries the same fingerprint,
+// otherwise open a new one.
+async function sendWithGh(repo, issue, gaps, file) {
+  for (const g of gaps) {
+    const found = await run('gh', ['issue', 'list', '--repo', repo, '--state', 'open', '--search', `"${g.fingerprint}" in:body`, '--json', 'number', '--jq', '.[0].number']);
+    const number = found.ok ? found.stdout.trim() : '';
+    if (number && gaps.length === 1) {
+      const c = await run('gh', ['issue', 'comment', number, '--repo', repo, '--body-file', file]);
+      if (c.ok) return `Added to the existing issue #${number} on ${repo}.`;
+    }
+  }
+  const created = await run('gh', ['issue', 'create', '--repo', repo, '--title', issue.title, '--body-file', file, '--label', 'feedback']);
+  if (created.ok) return `Created ${created.stdout.trim()}`;
+  // The label may not exist in the repository; try once more without it.
+  const retry = await run('gh', ['issue', 'create', '--repo', repo, '--title', issue.title, '--body-file', file]);
+  return retry.ok ? `Created ${retry.stdout.trim()}` : `gh could not create the issue (${retry.stderr.trim()}); share ${file} instead.`;
+}
+
+function openInBrowser(url) {
+  const opener = process.platform === 'darwin' ? ['open', [url]] : process.platform === 'win32' ? ['cmd', ['/c', 'start', '', url]] : ['xdg-open', [url]];
+  try {
+    execFile(opener[0], opener[1], () => {});
+  } catch {
+    // printing the URL is enough
   }
 }
 

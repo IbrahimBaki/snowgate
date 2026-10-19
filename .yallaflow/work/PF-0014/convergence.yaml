@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T21:39:37.776Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "87b03c61b34cfd165faea73141b662448e61b79a",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 (npm test 139/139) and a manual feedback send preview.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Refusals FIELD_NOT_ALLOWED, TABLE_NOT_ALLOWED, TABLE_ACCESS and TOOL_UNKNOWN and discover limitations are recorded once per fingerprint with counts; sn_report_gap records agent gaps without a target; hosts, sys_ids, e-mails, URLs and paths are redacted; SessionStart and doctor mention unsent gaps.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/feedback.js",
+              "contentHash": "sha256:21591251ba3df76ffb26dfd9b5db278366ea9d876a668a56165229f103122b8a",
+              "gitCommit": "87b03c61b34cfd165faea73141b662448e61b79a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "contentHash": "sha256:665983413a88f17ecefdf40304928fd5f25fc35cbc1a66ef918eb439bd5b4ba9",
+              "gitCommit": "87b03c61b34cfd165faea73141b662448e61b79a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/discover.js",
+              "contentHash": "sha256:ce53f76a52aef8066051edead6a5f8927b8e33e683d164e7a3bdd9d20593810d",
+              "gitCommit": "87b03c61b34cfd165faea73141b662448e61b79a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/feedback.test.js",
+              "contentHash": "sha256:60f4d8e0b8a7ea3ffbe5a1ae26dec046a06ead81b109d6b1b05d31e9342f7fec",
+              "gitCommit": "87b03c61b34cfd165faea73141b662448e61b79a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0014",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "feedback list shows pending gaps; feedback send needs a TTY (human-only in hooks), previews the redacted issue, saves a Markdown copy, and after confirmation uses gh (create or comment on the same fingerprint) or opens the prefilled new-issue URL; repo configurable; sent gaps are not resent until seen again. The live GitHub submission itself was not exercised (the feedback repository does not exist yet).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:ce6403a5b706d935fdd04fc33bbe15a6b1836189a19099901ee4dfa15d1b2197",
+              "gitCommit": "87b03c61b34cfd165faea73141b662448e61b79a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/feedback.js",
+              "symbol": "issueUrl",
+              "contentHash": "sha256:21591251ba3df76ffb26dfd9b5db278366ea9d876a668a56165229f103122b8a",
+              "gitCommit": "87b03c61b34cfd165faea73141b662448e61b79a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "test/feedback.test.js",
+              "contentHash": "sha256:60f4d8e0b8a7ea3ffbe5a1ae26dec046a06ead81b109d6b1b05d31e9342f7fec",
+              "gitCommit": "87b03c61b34cfd165faea73141b662448e61b79a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0014",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": []
+    }
+  ],
+  "updatedAt": "2026-10-19T21:39:37.776Z"
+}

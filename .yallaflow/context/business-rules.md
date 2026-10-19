@@ -26,10 +26,10 @@
 - **Provenance:** repository
 - **From baseline:** PF-0002 (BF-013)
 - **Recorded at:** 2026-10-19T14:08:12.679Z
-- **Verified:** 2026-10-19T19:49:16.943Z (commit c68d827)
+- **Verified:** 2026-10-19T21:40:21.997Z (commit 87b03c6)
 - **Evidence:**
-  - src/discover.js (repository @ c68d827)
-  - test/discover.test.js (repository @ c68d827)
+  - src/discover.js (repository @ 87b03c6)
+  - test/discover.test.js (repository @ 87b03c6)
 
 <!-- yallaflow-fact:CTX-0025 -->
 ### CTX-0025 — Human approvals are recorded only by snowgate approve in a TTY with the change_id typed back, for plan, upload or commit; upload and commit approvals bind the SHA-256 of the exact update-set.xml and go stale when it changes. Upload needs >= peer-reviewed, a clean validate and a current upload approval; commit needs awaiting-human-approval, a previewed retrieved update set with no unresolved problems and a current commit approval.
@@ -40,11 +40,11 @@
 - **Source work:** PF-0003
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T14:34:14.430Z
-- **Verified:** 2026-10-19T21:04:41.378Z (commit b57508f)
+- **Verified:** 2026-10-19T21:40:22.656Z (commit 87b03c6)
 - **Evidence:**
-  - src/approvals.js (repository @ b57508f)
-  - src/gateway/tools.js (repository @ b57508f)
-  - test/gateway.test.js (repository @ b57508f)
+  - src/approvals.js (repository @ 87b03c6)
+  - src/gateway/tools.js (repository @ 87b03c6)
+  - test/gateway.test.js (repository @ 87b03c6)
 
 <!-- yallaflow-fact:CTX-0032 -->
 ### CTX-0032 — The target ServiceNow instances use SSO for interactive sign-in (user-confirmed), so the gateway's browser relies on the snowgate SSO profile rather than the login.do password form.
@@ -92,22 +92,6 @@
   - test/setup.test.js (repository @ 534f164)
   - [object Object] (reference)
 
-<!-- yallaflow-fact:CTX-0050 -->
-### CTX-0050 — Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.
-
-- **State:** current
-- **Confidence:** confirmed
-- **Provenance:** repository
-- **Source work:** PF-0009
-- **Knowledge ID:** K-010
-- **Promoted at:** 2026-10-19T18:27:45.975Z
-- **Supersedes:** CTX-0043
-- **Verified:** 2026-10-19T19:49:18.326Z (commit c68d827)
-- **Evidence:**
-  - src/adapters/policy.js (repository @ c68d827)
-  - test/setup.test.js (repository @ c68d827)
-  - test/credentials.test.js (repository @ c68d827)
-
 <!-- yallaflow-fact:CTX-0058 -->
 ### CTX-0058 — Discovery hazards flagged: In Progress update sets idle >= 30 days or current for a user, customer updates captured in the Default update set, customer updates in the global scope, and several local update sets sharing one name.
 
@@ -118,11 +102,11 @@
 - **Knowledge ID:** K-007
 - **Promoted at:** 2026-10-19T19:20:28.813Z
 - **Supersedes:** CTX-0014
-- **Verified:** 2026-10-19T19:49:18.867Z (commit c68d827)
+- **Verified:** 2026-10-19T21:40:23.509Z (commit 87b03c6)
 - **Evidence:**
-  - src/discover.js (repository @ c68d827)
-  - test/discover.test.js (repository @ c68d827)
-  - test/project-map.test.js (repository @ c68d827)
+  - src/discover.js (repository @ 87b03c6)
+  - test/discover.test.js (repository @ 87b03c6)
+  - test/project-map.test.js (repository @ 87b03c6)
 
 <!-- yallaflow-fact:CTX-0063 -->
 ### CTX-0063 — snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/ (shell commands that mention them are allowed only when read-only: cat/find/sed -n/awk/jq/tree/... without -i, -delete, -exec, system() or redirection); any access to the SSO profiles or the protected credential store; git commit when validate or the secret scan fails.
@@ -134,9 +118,25 @@
 - **Knowledge ID:** K-017
 - **Promoted at:** 2026-10-19T19:49:19.582Z
 - **Supersedes:** CTX-0051
-- **Verified:** 2026-10-19T19:49:19.582Z (commit c68d827)
+- **Verified:** 2026-10-19T21:40:24.022Z (commit 87b03c6)
 - **Evidence:**
-  - src/adapters/policy.js (repository @ c68d827)
-  - test/adapters.test.js (repository @ c68d827)
+  - src/adapters/policy.js (repository @ 87b03c6)
+  - test/adapters.test.js (repository @ 87b03c6)
+
+<!-- yallaflow-fact:CTX-0065 -->
+### CTX-0065 — Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove, feedback send): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0014
+- **Knowledge ID:** K-015
+- **Promoted at:** 2026-10-19T21:40:24.208Z
+- **Supersedes:** CTX-0050
+- **Verified:** 2026-10-19T21:40:24.208Z (commit 87b03c6)
+- **Evidence:**
+  - src/adapters/policy.js (repository @ 87b03c6)
+  - test/feedback.test.js (repository @ 87b03c6)
+  - test/adapters.test.js (repository @ 87b03c6)
 
 <!-- yallaflow-context:end -->

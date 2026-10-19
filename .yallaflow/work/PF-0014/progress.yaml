@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:31:24.216Z",
+      "completedAt": "2026-10-19T21:31:24.216Z",
+      "summary": "Every gap found in the trial surfaced as a gateway refusal (FIELD_NOT_ALLOWED, TABLE_NOT_ALLOWED, unknown tool) or a discovery limitation, or as an agent remark (no fulfilment logic found). The gateway centralises tool errors in createGateway.call; agents cannot write .snowgate (hook). No outbound channel exists. Users will be public (user decision), so issues must go to a repo they can reach; gh is not installed on the developer machine.",
+      "evidence": [
+        "src/gateway/server.js"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:31:24.545Z",
+      "completedAt": "2026-10-19T21:31:24.545Z",
+      "summary": "User decisions (agent session): users are the public, not a team; feedback collection is a priority; delivery may need a user command or approval. Agents never edit snowgate itself during guarded work (security), improvements come back as issues. Local 'snowgate allow' is deferred.",
+      "evidence": [
+        "user:لا اعتبرهم مش فريقي ومحتاج افتحه للعامة وبرضو مهم جدا ابدأ اجمع الfeedback"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:39:25.864Z",
+      "completedAt": "2026-10-19T21:39:25.864Z",
+      "summary": "src/feedback.js (redaction, fingerprinted gap store with counts, pending/markSent, issue builder, prefilled URL capped at 7500 chars, Markdown copy, configurable repo: package.json snowgate.feedbackRepo / SNOWGATE_FEEDBACK_REPO); client errors carry details; gateway records FIELD_NOT_ALLOWED/TABLE_NOT_ALLOWED/TABLE_ACCESS/TOOL_UNKNOWN; discover records unreadable tables; tool sn_report_gap (local, no target); CLI feedback list|send (TTY, preview, confirm, gh create/comment or prefilled URL); hooks treat feedback send as human-only; SessionStart reminder; doctor line; README.",
+      "evidence": [
+        "src/feedback.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:39:37.440Z",
+      "completedAt": "2026-10-19T21:39:37.440Z",
+      "summary": "V-001 npm test passed (139). Manual pty run of feedback send: redacted preview and Markdown copy; declining sends nothing.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T21:39:38.063Z",
+      "completedAt": "2026-10-19T21:39:38.063Z",
+      "summary": "AC-001, AC-002 satisfied; live submission pending the user's public repository.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [
+    {
+      "decision": "Feedback channel: option 1 now (a public GitHub feedback repository; snowgate opens a prefilled new-issue page or uses gh; Markdown copy as fallback; no repository access granted to users); option 4 (own opt-in endpoint for automatic sending) later. The earlier clarification on this item was recorded before the user had decided; this ruling is the actual decision",
+      "reason": "User (agent session): 'نبدأ بالخيار 1 دلوقتي والخيار 4 بعدين', after 'مش عاوز ادي اكسيس ssh وغيره لحد'",
+      "costIfWrong": "Users without a GitHub account can only send the Markdown copy until option 4 exists",
+      "createdAt": "2026-10-19T21:36:01.615Z"
+    }
+  ],
+  "history": [],
+  "updatedAt": "2026-10-19T21:39:38.063Z"
+}

@@ -15,9 +15,9 @@
 - **Knowledge ID:** K-002
 - **Promoted at:** 2026-10-19T14:34:13.530Z
 - **Supersedes:** CTX-0003
-- **Verified:** 2026-10-19T14:34:13.530Z
+- **Verified:** 2026-10-19T21:40:22.314Z (commit 87b03c6)
 - **Evidence:**
-  - package.json (repository)
-  - bin/snowgate.js (repository)
+  - package.json (repository @ 87b03c6)
+  - bin/snowgate.js (repository @ 87b03c6)
 
 <!-- yallaflow-context:end -->

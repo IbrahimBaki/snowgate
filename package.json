@@ -26,5 +26,8 @@
     "yaml": "^2.5.0"
   },
   "license": "UNLICENSED",
-  "private": true
+  "private": true,
+  "snowgate": {
+    "feedbackRepo": "IbrahimBaki/snowgate-feedback"
+  }
 }

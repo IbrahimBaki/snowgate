@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 import { MARKER } from './adapters/install.js';
 import { profileDir } from './browser-profile.js';
 import { loadConfig } from './config.js';
+import { feedbackRepo, pendingGaps } from './feedback.js';
 import { PROJECT_ENV_FILE, missingCredentialsHint, projectEnvFile, resolveCredentials } from './credentials.js';
 import { resolveWorkId } from './gateway/server.js';
 import { loadPack } from './pack.js';
@@ -143,6 +144,9 @@ export async function doctor(root, { env = process.env, workId, home = homedir()
     const pre = path.join(root, '.git', 'hooks', 'pre-commit');
     add(managed(pre) ? 'ok' : 'warn', managed(pre) ? 'git pre-commit hook runs snowgate validate --secrets.' : 'git pre-commit hook is not snowgate\'s: run snowgate init, or call snowgate validate --secrets from your hook.');
   }
+
+  const pendingFeedback = pendingGaps(root).length;
+  add('info', pendingFeedback ? `${pendingFeedback} feedback gap(s) waiting: snowgate feedback send (to ${feedbackRepo(env)}).` : 'No feedback waiting to be sent.');
 
   if (config) {
     const { errors } = validatePackages(root);

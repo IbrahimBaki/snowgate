@@ -1,0 +1,45 @@
+{
+  "id": "PF-0014",
+  "type": "feature",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Collect feedback: automatic gap capture, agent gap reports, and snowgate feedback send to a public GitHub repo",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T21:31:23.965Z",
+  "updatedAt": "2026-10-19T21:40:25.182Z",
+  "title": "Collect feedback: automatic gap capture, agent gap reports, and snowgate feedback send to a public GitHub repo",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow feature --scope bounded`.",
+  "routedAt": "2026-10-19T21:31:23.970Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "implement",
+    "verify",
+    "converge"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation",
+      "verification",
+      "delivery-convergence"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T21:40:25.182Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

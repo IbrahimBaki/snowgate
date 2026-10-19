@@ -17,9 +17,9 @@ greenfield
 - **Provenance:** repository
 - **From baseline:** PF-0002 (BF-001)
 - **Recorded at:** 2026-10-19T14:08:12.679Z
-- **Verified:** 2026-10-19T21:04:41.225Z (commit b57508f)
+- **Verified:** 2026-10-19T21:40:21.810Z (commit 87b03c6)
 - **Evidence:**
-  - README.md (repository @ b57508f)
+  - README.md (repository @ 87b03c6)
 
 <!-- yallaflow-fact:CTX-0048 -->
 ### CTX-0048 — Implemented: M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login, M3 (claude/codex/yallaflow adapters, init, doctor, hook), credential stores and snowgate setup (one human run: adapters, approved instances, credentials, sign-in). The pack.yaml skills/*.md procedures are not written yet.
@@ -31,10 +31,23 @@ greenfield
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T18:27:45.602Z
 - **Supersedes:** CTX-0033
-- **Verified:** 2026-10-19T19:49:18.172Z (commit c68d827)
+- **Verified:** 2026-10-19T21:40:23.001Z (commit 87b03c6)
 - **Evidence:**
-  - src/cli/main.js (repository @ c68d827)
-  - src/setup.js (repository @ c68d827)
-  - docs/PLAN.md (repository @ c68d827)
+  - src/cli/main.js (repository @ 87b03c6)
+  - src/setup.js (repository @ 87b03c6)
+  - docs/PLAN.md (repository @ 87b03c6)
+
+<!-- yallaflow-fact:CTX-0067 -->
+### CTX-0067 — snowgate is to be opened to the public (not a team), and collecting user feedback is a priority; users get no access to the snowgate code repository. Feedback goes first to a public GitHub feedback repository (option 1), later to an own opt-in endpoint (option 4).
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** user-confirmed
+- **Source work:** PF-0014
+- **Knowledge ID:** K-017
+- **Promoted at:** 2026-10-19T21:40:24.564Z
+- **Verified:** 2026-10-19T21:40:24.564Z (commit 87b03c6)
+- **Evidence:**
+  - نبدأ بالخيار 1 دلوقتي والخيار 4 بعدين; مش عاوز ادي اكسيس ssh وغيره لحد (user-confirmed)
 
 <!-- yallaflow-context:end -->

@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { parse } from 'yaml';
 import { loadConfig } from '../config.js';
+import { pendingGaps } from '../feedback.js';
 import { resolveWorkId } from '../gateway/server.js';
 import { scanFiles, stagedFiles } from '../validate/secrets.js';
 import { validatePackages } from '../validate/packages.js';
@@ -77,6 +78,9 @@ export function sessionContext(root, env = process.env) {
     const { errors } = validatePackages(root);
     if (errors.length) lines.push(`snowgate validate currently reports ${errors.length} problem(s).`);
   }
+  lines.push('When snowgate does not let you see or do something you need, call the sn_report_gap tool; refused fields, tables and tools are recorded automatically.');
+  const pending = pendingGaps(root).length;
+  if (pending) lines.push(`${pending} feedback gap(s) have not been sent to the snowgate developers; suggest that the user runs snowgate feedback send.`);
   lines.push('Discovery results in .snowgate/discovery/<instance>/<time>/ (report.md, project-map.json) are readable; .snowgate/ is never edited by agents.');
   if (loadConfig(root).credentials === 'project') {
     lines.push('Credentials are in agent-visible mode (.snowgate.env, dev instances); with ui_auth: password the gateway signs in again by itself when the session ends.');

@@ -8,6 +8,7 @@ import { profileDir } from '../browser-profile.js';
 import { loadConfig } from '../config.js';
 import { missingCredentialsHint, resolveCredentials } from '../credentials.js';
 import { SnowgateError } from '../errors.js';
+import { gapFromError, recordGap } from '../feedback.js';
 import { BrowserSession } from '../playwright/session.js';
 import { ReadOnlyClient } from '../rest/client.js';
 import { requireConfirmedTarget } from '../work.js';
@@ -120,6 +121,12 @@ export function createGateway({
       if (!tool) throw new SnowgateError(`Unknown tool ${name}.`, 'TOOL_UNKNOWN');
       const problems = checkArgs(tool, args);
       if (problems.length) throw new SnowgateError(`Invalid arguments for ${name}: ${problems.join('; ')}.`, 'ARGS_INVALID');
+      // Reporting a gap touches no instance, so it needs no work item or target.
+      if (tool.kind === 'local') {
+        const result = await HANDLERS[name]({ root, now }, args);
+        audit({ ok: true });
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
       if (!workId) {
         throw new SnowgateError('No work item: start snowgate mcp with --work <PF-id> (or SNOWGATE_WORK), or make one active in YallaFlow.', 'TARGET_UNCONFIRMED');
       }
@@ -180,6 +187,14 @@ export function createGateway({
         return { isError: true, content: [{ type: 'text', text: `snowgate: internal error: ${redact(e.message, secrets)}` }] };
       }
       audit({ ok: false, code: e.code, error: redact(e.message, secrets) });
+      // Capability gaps (refused fields/tables, unreadable tables, unknown
+      // tools) are kept, redacted, for `snowgate feedback send`.
+      try {
+        const gap = gapFromError(e, { tool: name });
+        if (gap) recordGap(root, gap, now());
+      } catch {
+        // feedback must never mask the tool result
+      }
       return { isError: true, content: [{ type: 'text', text: `snowgate [${e.code}]: ${redact(e.message, secrets)}` }] };
     }
   }

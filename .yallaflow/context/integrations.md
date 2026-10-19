@@ -15,10 +15,10 @@
 - **Knowledge ID:** K-011
 - **Promoted at:** 2026-10-19T19:06:24.937Z
 - **Supersedes:** CTX-0008
-- **Verified:** 2026-10-19T19:49:18.500Z (commit c68d827)
+- **Verified:** 2026-10-19T21:40:23.180Z (commit 87b03c6)
 - **Evidence:**
-  - src/rest/client.js (repository @ c68d827)
-  - test/rest-session.test.js (repository @ c68d827)
+  - src/rest/client.js (repository @ 87b03c6)
+  - test/rest-session.test.js (repository @ 87b03c6)
 
 <!-- yallaflow-fact:CTX-0056 -->
 ### CTX-0056 — Some instances refuse Basic auth on the Table API even for a valid password (dev446072: 401 'User is not authenticated' while login.do sign-in works); the same GET with the UI session cookies plus X-UserToken succeeds. navpage.do redirects to the Next Experience shell there, which still carries g_ck.
@@ -59,10 +59,10 @@
 - **Knowledge ID:** K-015
 - **Promoted at:** 2026-10-19T19:49:19.229Z
 - **Supersedes:** CTX-0052
-- **Verified:** 2026-10-19T21:04:41.881Z (commit b57508f)
+- **Verified:** 2026-10-19T21:40:23.673Z (commit 87b03c6)
 - **Evidence:**
-  - src/rest/client.js (repository @ b57508f)
-  - src/rest/tables.js (repository @ b57508f)
-  - test/rest-client.test.js (repository @ b57508f)
+  - src/rest/client.js (repository @ 87b03c6)
+  - src/rest/tables.js (repository @ 87b03c6)
+  - test/rest-client.test.js (repository @ 87b03c6)
 
 <!-- yallaflow-context:end -->

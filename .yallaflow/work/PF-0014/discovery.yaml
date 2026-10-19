@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "integration",
+      "summary": "No real issue was created: the public feedback repository IbrahimBaki/snowgate-feedback does not exist yet and gh is not installed on the developer machine",
+      "reason": "Creating a public repository is the user's action",
+      "recordedAt": "2026-10-19T21:39:37.669Z"
+    }
+  ],
+  "updatedAt": "2026-10-19T21:39:37.669Z"
+}

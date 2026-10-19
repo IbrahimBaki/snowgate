@@ -58,13 +58,19 @@ export class ReadOnlyClient {
   // Allow-listed table, explicit allow-listed fields, encoded query.
   async query(table, { fields, query = '', limit } = {}) {
     const allowed = TABLES[table];
-    if (!allowed) throw new SnowgateError(`Table "${table}" is not on the read-only configuration allowlist.`, 'TABLE_NOT_ALLOWED');
+    if (!allowed) {
+      const e = new SnowgateError(`Table "${table}" is not on the read-only configuration allowlist.`, 'TABLE_NOT_ALLOWED');
+      e.details = { table };
+      throw e;
+    }
     if (!Array.isArray(fields) || fields.length === 0) {
       throw new SnowgateError(`fields is mandatory for ${table}; snowgate never selects all columns.`, 'FIELDS_REQUIRED');
     }
     const denied = fields.filter((f) => !allowed.includes(f));
     if (denied.length) {
-      throw new SnowgateError(`Field(s) ${denied.join(', ')} are not allowed on ${table}. Allowed: ${allowed.join(', ')}.`, 'FIELD_NOT_ALLOWED');
+      const e = new SnowgateError(`Field(s) ${denied.join(', ')} are not allowed on ${table}. Allowed: ${allowed.join(', ')}.`, 'FIELD_NOT_ALLOWED');
+      e.details = { table, fields: denied };
+      throw e;
     }
     return this.#collect(table, fields, query, Math.min(limit ?? this.#maxRecords, this.#maxRecords));
   }

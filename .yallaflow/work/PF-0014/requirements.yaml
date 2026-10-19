@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "Gaps met while using snowgate are recorded automatically, and the agent can report a gap it notices, without instance data.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T21:31:24.430Z",
+      "updatedAt": "2026-10-19T21:31:24.430Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "A user sends the collected feedback to the snowgate developer with one command and a confirmation; it reaches a public GitHub repository, with a fallback when GitHub is not reachable.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T21:31:24.430Z",
+      "updatedAt": "2026-10-19T21:31:24.430Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "Gateway refusals of kinds FIELD_NOT_ALLOWED, TABLE_NOT_ALLOWED, TABLE_ACCESS and TOOL_UNKNOWN and discover limitations are recorded once per fingerprint with a count in .snowgate/feedback/gaps.jsonl; the sn_report_gap tool records an agent gap; instance hosts, sys_ids, e-mail addresses and URLs are redacted; SessionStart and doctor mention unsent gaps.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T21:31:24.430Z",
+      "updatedAt": "2026-10-19T21:31:24.430Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "snowgate feedback list shows pending gaps; snowgate feedback send (TTY, human-only for agents) previews the redacted issue and, after confirmation, creates it with gh when available (adding to an existing issue with the same fingerprint) or opens a prefilled GitHub new-issue URL, and always writes a Markdown copy; the target repo is configurable (package default, SNOWGATE_FEEDBACK_REPO); sent gaps are not sent again.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T21:31:24.430Z",
+      "updatedAt": "2026-10-19T21:31:24.430Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-10-19T21:31:24.430Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-10-19T21:31:24.430Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-10-19T21:31:24.430Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-10-19T21:31:24.430Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-10-19T21:31:24.430Z"
+}

@@ -49,7 +49,7 @@ export const isGitCommit = (command) => GIT_COMMIT.test(command ?? '');
 
 // Human-only commands check for a TTY, which an agent shell can fake (script,
 // unbuffer, expect, a pty module). Agents therefore may not invoke them at all.
-const HUMAN_ONLY = /snowgate(?:\.js)?["']?\s+(?:approve|login|setup|target\s+confirm|credentials\s+(?:set|remove))\b/;
+const HUMAN_ONLY = /snowgate(?:\.js)?["']?\s+(?:approve|login|setup|target\s+confirm|credentials\s+(?:set|remove)|feedback\s+send)\b/;
 export const invokesHumanOnly = (text) => HUMAN_ONLY.test(text ?? '');
 
 // Mentions of a protected path in free text (a shell command or a patch),

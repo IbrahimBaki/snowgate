@@ -30,10 +30,10 @@
 - **Knowledge ID:** K-004
 - **Promoted at:** 2026-10-19T14:34:13.845Z
 - **Supersedes:** CTX-0005
-- **Verified:** 2026-10-19T19:49:17.272Z (commit c68d827)
+- **Verified:** 2026-10-19T21:40:22.482Z (commit 87b03c6)
 - **Evidence:**
-  - src/cli/main.js (repository @ c68d827)
-  - src/gateway/server.js (repository @ c68d827)
+  - src/cli/main.js (repository @ 87b03c6)
+  - src/gateway/server.js (repository @ 87b03c6)
 
 <!-- yallaflow-fact:CTX-0042 -->
 ### CTX-0042 — Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.
@@ -45,10 +45,10 @@
 - **Knowledge ID:** K-009
 - **Promoted at:** 2026-10-19T17:54:31.028Z
 - **Supersedes:** CTX-0034
-- **Verified:** 2026-10-19T21:04:41.539Z (commit b57508f)
+- **Verified:** 2026-10-19T21:40:22.839Z (commit 87b03c6)
 - **Evidence:**
-  - README.md (repository @ b57508f)
-  - src/adapters/policy.js (repository @ b57508f)
+  - README.md (repository @ 87b03c6)
+  - src/adapters/policy.js (repository @ 87b03c6)
 
 <!-- yallaflow-fact:CTX-0046 -->
 ### CTX-0046 — snowgate init --agent claude|codex generates: a Claude project plugin in .claude/skills/snowgate (${CLAUDE_PLUGIN_ROOT} hook and MCP shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, failing closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; .git/hooks/pre-commit running validate --secrets; and a .gitignore entry for .snowgate.env. Files without the 'managed by snowgate init' marker are never overwritten.
@@ -75,27 +75,41 @@
 - **Knowledge ID:** K-016
 - **Promoted at:** 2026-10-19T19:49:19.392Z
 - **Supersedes:** CTX-0060
-- **Verified:** 2026-10-19T19:49:19.392Z (commit c68d827)
+- **Verified:** 2026-10-19T21:40:23.848Z (commit 87b03c6)
 - **Evidence:**
-  - src/project-map.js (repository @ c68d827)
-  - src/discover.js (repository @ c68d827)
-  - test/project-map.test.js (repository @ c68d827)
+  - src/project-map.js (repository @ 87b03c6)
+  - src/discover.js (repository @ 87b03c6)
+  - test/project-map.test.js (repository @ 87b03c6)
 
-<!-- yallaflow-fact:CTX-0064 -->
-### CTX-0064 — snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page: 7 read-only REST tools (instance info, query, get record, update sets, update set contents, customizations, portal page tree), 5 generic ui_* tools and 3 gated update-set tools. It drives its own Chromium; a context route checks every request in all frames (other hosts and update-set tokens incl. Next Experience / nav_to.do wrappers are aborted; redirects are re-checked; service workers blocked); post-action checks wait for network idle; calls are serialised and audited with credentials redacted.
+<!-- yallaflow-fact:CTX-0066 -->
+### CTX-0066 — snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page and sn_report_gap: 7 read-only REST tools, 1 local feedback tool (no instance, no target needed), 5 generic ui_* tools and 3 gated update-set tools. It drives its own Chromium with a route-level host/update-set lock across frames, wrappers and redirects, blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.
 
 - **State:** current
 - **Confidence:** confirmed
 - **Provenance:** repository
-- **Source work:** PF-0013
-- **Knowledge ID:** K-006
-- **Promoted at:** 2026-10-19T21:04:42.041Z
-- **Supersedes:** CTX-0028
-- **Verified:** 2026-10-19T21:04:42.041Z (commit b57508f)
+- **Source work:** PF-0014
+- **Knowledge ID:** K-016
+- **Promoted at:** 2026-10-19T21:40:24.380Z
+- **Supersedes:** CTX-0064
+- **Verified:** 2026-10-19T21:40:24.380Z (commit 87b03c6)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ b57508f)
-  - src/gateway/guards.js (repository @ b57508f)
-  - src/playwright/session.js (repository @ b57508f)
-  - test/gateway.test.js (repository @ b57508f)
+  - src/gateway/tools.js (repository @ 87b03c6)
+  - src/gateway/server.js (repository @ 87b03c6)
+  - test/gateway.test.js (repository @ 87b03c6)
+
+<!-- yallaflow-fact:CTX-0068 -->
+### CTX-0068 — Feedback: capability gaps (refused fields/tables, unreadable tables, unknown tools, and sn_report_gap agent reports) are stored redacted (no instance hosts, sys_ids, e-mails, URLs, paths) in .snowgate/feedback/gaps.json, one entry per fingerprint <CODE>:<subject> with counts. snowgate feedback list/send: send is TTY-only, previews the issue, saves a Markdown copy and after confirmation uses gh (create, or comment on an open issue with the same fingerprint) or opens GitHub's prefilled new-issue page; target repo from package.json snowgate.feedbackRepo (IbrahimBaki/snowgate-feedback) or SNOWGATE_FEEDBACK_REPO.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0014
+- **Knowledge ID:** K-018
+- **Promoted at:** 2026-10-19T21:40:24.745Z
+- **Verified:** 2026-10-19T21:40:24.745Z (commit 87b03c6)
+- **Evidence:**
+  - src/feedback.js (repository @ 87b03c6)
+  - src/cli/main.js (repository @ 87b03c6)
+  - test/feedback.test.js (repository @ 87b03c6)
 
 <!-- yallaflow-context:end -->

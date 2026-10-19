@@ -71,6 +71,25 @@ Safety properties enforced in code:
 - Agent hooks (Claude Code and Codex) block raw Playwright MCP tools and any other browser tool aimed at a `service-now.com` host. They block agent writes to `.snowgate/**`, the generated adapter files, `.claude/settings*.json` and `.codex/`. They block any access to the SSO profiles. They block agents from running the human-only commands (`approve`, `login`, `target confirm`), because their TTY check can be faked with a pseudo-terminal. They block `git commit` when `validate` or the secret scan fails. A hook exiting 2 blocks even calls that an allow rule permits. If snowgate cannot be loaded, the hook fails closed.
 - Upload needs a package at `peer-reviewed` or later that passes `validate` and a current `upload` approval. Commit needs `awaiting-human-approval`, a previewed update set with no unresolved problems, and a current `commit` approval. Upload and commit approvals bind the SHA-256 of the exact `update-set.xml`; editing the file afterwards invalidates them.
 
+## Feedback
+
+snowgate records what it could not let an agent see or do, so it can improve:
+- **Automatically:** fields or tables refused by the allowlist, tables discover could not read, and tools that do not exist.
+- **From the agent:** gaps it reports itself with the `sn_report_gap` tool.
+
+The gaps are kept in `.snowgate/feedback/gaps.json`, one entry per fingerprint with a count. Instance names, sys_ids, e-mail addresses, URLs and paths are removed. Nothing leaves the machine until you run:
+
+```bash
+snowgate feedback list     # what is waiting
+snowgate feedback send     # preview, confirm, send
+```
+
+`send` shows the exact text first and saves a Markdown copy. After you confirm, it does one of two things:
+- **With `gh` signed in:** it creates an issue, or comments on an open one with the same fingerprint.
+- **Otherwise:** it opens GitHub's prefilled new-issue page, and you press *Submit*.
+
+Issues go to the public repository `IbrahimBaki/snowgate-feedback`, which needs no access to the snowgate code. Override it with `SNOWGATE_FEEDBACK_REPO=owner/name`. Agents may list feedback but not send it.
+
 Known limitations:
 
 - `snowgate login` drives a visible browser without the gateway's locks (SSO must reach the identity provider), so it is a human-only command. The saved SSO session is a credential: protect the profile folder, and delete it to sign out.
