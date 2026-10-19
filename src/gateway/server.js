@@ -146,8 +146,16 @@ export function createGateway({
         client: () => {
           if (client) return client;
           const c = credentials();
-          if (!c.user || !c.password) throw new SnowgateError(missingCredentialsHint(root, instance, workId, pack), 'NO_CREDENTIALS');
-          return (client = clientFactory({ instance, user: c.user, password: c.password, pattern: pack.instancePattern }));
+          const mode = loadConfig(root).rest_auth;
+          if (mode === 'basic' && (!c.user || !c.password)) throw new SnowgateError(missingCredentialsHint(root, instance, workId, pack), 'NO_CREDENTIALS');
+          return (client = clientFactory({
+            instance,
+            user: c.user,
+            password: c.password,
+            mode,
+            sessionFetch: (url, init) => ctx.session().restFetch(url, init),
+            pattern: pack.instancePattern,
+          }));
         },
         session: () => {
           if (session) return session;

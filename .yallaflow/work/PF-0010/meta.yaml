@@ -1,0 +1,46 @@
+{
+  "id": "PF-0010",
+  "type": "feature",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "REST through the browser session when Basic auth is refused, and credential check in setup",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T18:53:41.148Z",
+  "updatedAt": "2026-10-19T19:06:25.909Z",
+  "title": "REST through the browser session when Basic auth is refused, and credential check in setup",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow feature --scope bounded`.",
+  "routedAt": "2026-10-19T18:53:41.151Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "implement",
+    "verify",
+    "converge"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation",
+      "verification",
+      "delivery-convergence"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T19:06:25.909Z",
+      "verificationRunIds": [
+        "V-001",
+        "V-002"
+      ]
+    }
+  ]
+}

@@ -61,6 +61,9 @@ test('agents cannot run setup or edit the approved list', () => {
   assert.match(deny('Edit', { file_path: path.join(root, '.snowgate', 'config.yaml'), old_string: 'a', new_string: 'b' }), /protected/);
 });
 
+// Tests never contact an instance: the access check is faked.
+const okBasic = async () => ({ status: 'basic', message: 'REST works (Basic auth).' });
+
 function scripted(answers) {
   const asked = [];
   const next = async (q) => {
@@ -77,7 +80,7 @@ test('setup in dev mode: four questions, then an agent can bind and use the inst
   writeFileSync(path.join(root, '.snowgate.env'), 'OTHER=keep\n');
   const s = scripted(['', 'dev446072', 'y', 'admin', 'pdi-pass']);
   const lines = [];
-  const result = await setup({ root, pack, env: e, who: 'ibrahim', ask: s.ask, askHidden: s.askHidden, out: (l) => lines.push(l), chromiumInstalled: () => true });
+  const result = await setup({ root, pack, env: e, who: 'ibrahim', ask: s.ask, askHidden: s.askHidden, out: (l) => lines.push(l), chromiumInstalled: () => true, check: okBasic });
   assert.equal(s.asked.length, 5); // agent, instances, dev?, user, password
   assert.equal(result.agent, 'claude');
   const config = loadConfig(root);
@@ -96,7 +99,7 @@ test('setup in dev mode: four questions, then an agent can bind and use the inst
 
   // A second run keeps the approval and the saved password when answers are empty.
   const again = scripted(['', '', '', '', '']);
-  await setup({ root, pack, env: e, who: 'someone-else', ask: again.ask, askHidden: again.askHidden, out: () => {}, chromiumInstalled: () => true });
+  await setup({ root, pack, env: e, who: 'someone-else', ask: again.ask, askHidden: again.askHidden, out: () => {}, chromiumInstalled: () => true, check: okBasic });
   assert.equal(loadConfig(root).approved_instances[0].approved_by, 'ibrahim');
   assert.equal(resolveCredentials(root, 'dev446072.service-now.com', { pack, env: e }).password, 'pdi-pass');
 });
@@ -106,7 +109,7 @@ test('setup with SSO: protected store, REST credentials optional, sign-in offere
   const e = env();
   const logins = [];
   const s = scripted(['codex', 'dev1, dev2.service-now.com', 'n', 'y', 'svc', 'svc-pass', '', 'y', 'n']);
-  const result = await setup({ root, pack, env: e, who: 'ibrahim', ask: s.ask, askHidden: s.askHidden, out: () => {}, chromiumInstalled: () => true, login: async (i) => logins.push(i) });
+  const result = await setup({ root, pack, env: e, who: 'ibrahim', ask: s.ask, askHidden: s.askHidden, out: () => {}, chromiumInstalled: () => true, login: async (i) => logins.push(i), check: async (o) => (o.user ? { status: 'missing', message: 'sso' } : { status: 'session', message: 'REST works through the signed-in browser session.' }) });
   assert.equal(result.agent, 'codex');
   assert.equal(loadConfig(root).credentials, 'protected');
   assert.equal(loadConfig(root).ui_auth, 'profile');
@@ -124,4 +127,21 @@ test('setup refuses non-interactive input', async () => {
   let err = '';
   assert.equal(await main(['setup'], { cwd: root, stdin, stdout: { write: () => {} }, stderr: { write: (s) => (err += s) } }), 1);
   assert.match(err, /interactive terminal/);
+});
+
+test('setup asks again when the instance rejects the password, and says when REST will use the session', async () => {
+  const root = makeProject(WORK);
+  const e = env();
+  const tries = [];
+  const check = async ({ password }) => {
+    tries.push(password);
+    return password === 'right' ? { status: 'session', message: 'Signed in, but dev1.service-now.com refuses Basic auth for REST; snowgate will use the browser session for REST (checked: works).' } : { status: 'rejected', message: 'dev1.service-now.com rejected the user name or password.' };
+  };
+  const s = scripted(['', 'dev1', 'y', 'admin', 'wrong', 'right']);
+  const lines = [];
+  await setup({ root, pack, env: e, who: 'ibrahim', ask: s.ask, askHidden: s.askHidden, out: (l) => lines.push(l), chromiumInstalled: () => true, check });
+  assert.deepEqual(tries, ['wrong', 'right']);
+  assert.ok(lines.some((l) => /rejected the user name or password\. Try again\./.test(l)));
+  assert.ok(lines.some((l) => /refuses Basic auth for REST; snowgate will use the browser session/.test(l)));
+  assert.equal(resolveCredentials(root, 'dev1.service-now.com', { pack, env: e }).password, 'right');
 });

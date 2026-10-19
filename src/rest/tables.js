@@ -7,29 +7,70 @@
 
 const SCOPE = 'sys_scope';
 
+const CREATED = ['sys_created_by', 'sys_created_on'];
+
 export const TABLES = {
   sys_scope: ['sys_id', 'scope', 'name', 'version', 'active'],
   sys_update_set: ['sys_id', 'name', 'state', 'application', 'sys_created_by', 'sys_created_on', 'sys_updated_on'],
-  sys_update_xml: ['sys_id', 'type', 'name', 'target_name', 'update_set', 'application', 'sys_updated_on'],
+  sys_update_xml: ['sys_id', 'type', 'name', 'target_name', 'action', 'update_set', 'remote_update_set', 'application', 'sys_updated_on'],
   // Retrieved update sets and their preview problems (gateway preview/commit gates).
   sys_remote_update_set: ['sys_id', 'name', 'state', 'sys_created_on'],
   sys_update_preview_problem: ['sys_id', 'type', 'status', 'description', 'remote_update_set'],
   sys_user_preference: ['user', 'value'],
-  sys_db_object: ['sys_id', 'name', 'label', 'super_class', SCOPE],
+  sys_db_object: ['sys_id', 'name', 'label', 'super_class', SCOPE, ...CREATED],
   sys_dictionary: ['sys_id', 'name', 'element', 'internal_type', 'column_label', SCOPE],
-  sys_script: ['sys_id', 'name', 'collection', 'when', 'active', SCOPE, 'sys_updated_on'],
-  sys_script_include: ['sys_id', 'name', 'api_name', 'active', SCOPE],
-  sys_script_client: ['sys_id', 'name', 'table', 'type', 'active', SCOPE],
-  sys_ui_policy: ['sys_id', 'short_description', 'table', 'active', SCOPE],
-  sys_security_acl: ['sys_id', 'name', 'operation', 'type', 'active', SCOPE],
-  sp_portal: ['sys_id', 'title', 'url_suffix', SCOPE],
-  sp_page: ['sys_id', 'id', 'title', SCOPE],
-  sp_widget: ['sys_id', 'name', 'id', SCOPE],
-  sc_cat_item: ['sys_id', 'name', 'active', 'sys_class_name', SCOPE],
-  item_option_new: ['sys_id', 'name', 'question_text', 'type', 'cat_item', SCOPE],
-  sys_hub_flow: ['sys_id', 'name', 'active', SCOPE],
-  sysauto_script: ['sys_id', 'name', 'active', 'run_type', SCOPE],
-  sys_rest_message: ['sys_id', 'name', 'rest_endpoint', SCOPE],
+  sys_script: ['sys_id', 'name', 'collection', 'when', 'active', SCOPE, 'sys_updated_on', ...CREATED],
+  sys_script_include: ['sys_id', 'name', 'api_name', 'active', SCOPE, ...CREATED],
+  sys_script_client: ['sys_id', 'name', 'table', 'type', 'active', SCOPE, ...CREATED],
+  sys_ui_policy: ['sys_id', 'short_description', 'table', 'active', SCOPE, ...CREATED],
+  sys_security_acl: ['sys_id', 'name', 'operation', 'type', 'active', SCOPE, ...CREATED],
+  sp_portal: ['sys_id', 'title', 'url_suffix', SCOPE, ...CREATED],
+  sp_page: ['sys_id', 'id', 'title', SCOPE, ...CREATED],
+  sp_widget: ['sys_id', 'name', 'id', SCOPE, ...CREATED],
+  sc_cat_item: ['sys_id', 'name', 'active', 'sys_class_name', SCOPE, ...CREATED],
+  item_option_new: ['sys_id', 'name', 'question_text', 'type', 'cat_item', SCOPE, ...CREATED],
+  sys_hub_flow: ['sys_id', 'name', 'active', SCOPE, ...CREATED],
+  sysauto_script: ['sys_id', 'name', 'active', 'run_type', SCOPE, ...CREATED],
+  sys_rest_message: ['sys_id', 'name', 'rest_endpoint', SCOPE, ...CREATED],
+  // Further configuration artifacts, read by sys_id from customer updates.
+  sys_ui_page: ['sys_id', 'name', 'category', SCOPE, ...CREATED],
+  sys_ui_action: ['sys_id', 'name', 'table', 'action_name', 'active', SCOPE, ...CREATED],
+  sys_ui_script: ['sys_id', 'name', 'active', SCOPE, ...CREATED],
+  sysevent_email_action: ['sys_id', 'name', 'collection', 'active', SCOPE, ...CREATED],
+  sys_ws_definition: ['sys_id', 'name', 'active', SCOPE, ...CREATED],
+  catalog_ui_policy: ['sys_id', 'short_description', 'catalog_item', 'active', SCOPE, ...CREATED],
+  catalog_script_client: ['sys_id', 'name', 'cat_item', 'type', 'active', SCOPE, ...CREATED],
+  sys_ux_page_registry: ['sys_id', 'title', 'path', SCOPE, ...CREATED],
+  sp_instance: ['sys_id', 'title', 'sp_widget.name', 'sp_column', SCOPE, ...CREATED],
+};
+
+// Artifact tables the project map reads by sys_id, with the field that names
+// a record. Any other table appearing in customer updates is listed by the
+// update's own target_name.
+export const ARTIFACT_TABLES = {
+  sys_script: { label: 'Business rule', nameField: 'name' },
+  sys_script_include: { label: 'Script include', nameField: 'name' },
+  sys_script_client: { label: 'Client script', nameField: 'name' },
+  sys_ui_policy: { label: 'UI policy', nameField: 'short_description' },
+  sys_security_acl: { label: 'ACL', nameField: 'name' },
+  sp_portal: { label: 'Portal', nameField: 'title' },
+  sp_page: { label: 'Portal page', nameField: 'id' },
+  sp_widget: { label: 'Widget', nameField: 'name' },
+  sc_cat_item: { label: 'Catalog item', nameField: 'name' },
+  item_option_new: { label: 'Catalog variable', nameField: 'name' },
+  catalog_ui_policy: { label: 'Catalog UI policy', nameField: 'short_description' },
+  catalog_script_client: { label: 'Catalog client script', nameField: 'name' },
+  sys_hub_flow: { label: 'Flow', nameField: 'name' },
+  sysauto_script: { label: 'Scheduled job', nameField: 'name' },
+  sys_rest_message: { label: 'Outbound REST message', nameField: 'name' },
+  sys_ui_page: { label: 'UI page', nameField: 'name' },
+  sys_ui_action: { label: 'UI action', nameField: 'name' },
+  sys_ui_script: { label: 'UI script', nameField: 'name' },
+  sysevent_email_action: { label: 'Notification', nameField: 'name' },
+  sys_ws_definition: { label: 'Scripted REST API', nameField: 'name' },
+  sys_ux_page_registry: { label: 'UX application', nameField: 'title' },
+  // A widget instance is named by its title, else by its widget.
+  sp_instance: { label: 'Widget instance', nameField: ['title', 'sp_widget.name'] },
 };
 
 // Customer-scoped apps use the x_<vendor>_ prefix. Global-scope customisations

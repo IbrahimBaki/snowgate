@@ -12,6 +12,9 @@ import { ensureGitignore, installClaude, installCodex, installGitHook, installYa
 import { doctor } from '../doctor.js';
 import { interactiveLogin } from '../login.js';
 import { setup } from '../setup.js';
+import { loadConfig } from '../config.js';
+import { profileDir } from '../browser-profile.js';
+import { BrowserSession } from '../playwright/session.js';
 import { SnowgateError } from '../errors.js';
 import { PACK_ROOT, loadPack } from '../pack.js';
 import { ReadOnlyClient } from '../rest/client.js';
@@ -329,15 +332,32 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
     if (command === 'discover') {
       const target = requireConfirmedTarget(root, workId);
       const creds = resolveCredentials(root, target, { pack, env });
-      if (!creds.user || !creds.password) {
+      const config = loadConfig(root);
+      if (config.rest_auth === 'basic' && (!creds.user || !creds.password)) {
         err(`snowgate: ${missingCredentialsHint(root, target, workId, pack)}`);
         return 1;
       }
-      const client = new ReadOnlyClient({ instance: target, user: creds.user, password: creds.password, pattern: pack.instancePattern });
-      const summary = await discover({ root, workId, instance: sub, scope: values.scope, client, pattern: pack.instancePattern });
+      let session = null;
+      const sessionFetch = (url, init) => (session ??= new BrowserSession({
+        origin: `https://${target}`,
+        auth: config.ui_auth,
+        profileDir: profileDir(target, env),
+        user: creds.user,
+        password: creds.password,
+        missingHint: missingCredentialsHint(root, target, workId, pack),
+      })).restFetch(url, init);
+      const client = new ReadOnlyClient({ instance: target, user: creds.user, password: creds.password, mode: config.rest_auth, sessionFetch, pattern: pack.instancePattern });
+      let summary;
+      try {
+        summary = await discover({ root, workId, instance: sub, scope: values.scope, client, pattern: pack.instancePattern });
+      } finally {
+        await session?.close();
+      }
+      if (client.authMode === 'session') out('REST used the browser session (this instance refuses Basic auth).');
       for (const w of summary.warnings) err(`warning: ${w}`);
       out(`Discovery of ${target} complete (read-only).`);
       out(`  tables read: ${summary.tables_read}, unreadable: ${summary.tables_unreadable}, hazards: ${summary.hazards}, limitations: ${summary.limitations}`);
+      out(`  project map: ${summary.artifacts} artifact(s) across ${summary.update_sets} update set(s)`);
       out(`  output: ${path.relative(cwd, summary.dir) || summary.dir}`);
       return 0;
     }

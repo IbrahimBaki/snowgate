@@ -13,7 +13,9 @@ import { snowgateDir } from './workspace.js';
 // cannot read it; default) or `project` (.snowgate.env, agent-visible, for dev).
 // approved_instances: hosts a human approved once for this project (snowgate
 // setup); an agent's `target set` on one of them confirms automatically.
-const DEFAULTS = { changes_dir: 'changes', legacy_packages: [], ui_auth: 'profile', credentials: 'protected', approved_instances: [] };
+// rest_auth: how REST authenticates — auto (Basic, then the browser session on
+// 401; default), basic, or session.
+const DEFAULTS = { changes_dir: 'changes', legacy_packages: [], ui_auth: 'profile', credentials: 'protected', approved_instances: [], rest_auth: 'auto' };
 
 export function loadConfig(root) {
   const file = snowgateDir(root, 'config.yaml');
@@ -31,6 +33,9 @@ export function loadConfig(root) {
   }
   if (config.ui_auth !== 'profile' && config.ui_auth !== 'password') {
     throw new SnowgateError('.snowgate/config.yaml ui_auth must be "profile" or "password".', 'CONFIG_INVALID');
+  }
+  if (!['auto', 'basic', 'session'].includes(config.rest_auth)) {
+    throw new SnowgateError('.snowgate/config.yaml rest_auth must be "auto", "basic" or "session".', 'CONFIG_INVALID');
   }
   if (config.credentials !== 'protected' && config.credentials !== 'project') {
     throw new SnowgateError('.snowgate/config.yaml credentials must be "protected" or "project".', 'CONFIG_INVALID');

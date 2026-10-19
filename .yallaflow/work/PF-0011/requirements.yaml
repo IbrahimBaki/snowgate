@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "discover covers every project customization, including global-scope work, so the agent sees what the project contains before deciding.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T19:15:38.251Z",
+      "updatedAt": "2026-10-19T19:15:38.251Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The discovery is organized by update set so each task and what it changed is visible.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T19:15:38.251Z",
+      "updatedAt": "2026-10-19T19:15:38.251Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "Artifacts are derived from customer updates (sys_update_xml name <table>_<sys_id>) in any scope; for known artifact tables the record is read by sys_id (name, active, scope, created by/on) and marked new or modified-baseline (inferred from the creator), deleted ones are flagged; other types are listed by name from the update itself.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T19:15:38.251Z",
+      "updatedAt": "2026-10-19T19:15:38.251Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "report.md has a project map grouped by update set (local and retrieved, with state) listing each set's artifacts by type, a per-type summary, duplicate update-set names as a hazard, and a compact roles line; the full map is in project-map.json with evidence.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T19:15:38.251Z",
+      "updatedAt": "2026-10-19T19:15:38.251Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-10-19T19:15:38.251Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-10-19T19:15:38.251Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-10-19T19:15:38.251Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-10-19T19:15:38.251Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-10-19T19:15:38.251Z"
+}

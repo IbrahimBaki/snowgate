@@ -117,11 +117,21 @@ test('the gateway uses the protected store for REST and keeps the password out o
   await confirmed(root);
   const env = isolated();
   const mock = await startMockServiceNow({ tables: { sys_scope: [] }, expectedAuth: basicAuth() });
-  const gw = createGateway({ root, workId: WORK, pack, env, clientFactory: (opts) => new ReadOnlyClient({ ...opts, fetchImpl: mock.fetchImpl }) });
+  let gw = createGateway({ root, workId: WORK, pack, env, clientFactory: (opts) => new ReadOnlyClient({ ...opts, fetchImpl: mock.fetchImpl }) });
   try {
-    const missing = await gw.call('sn_query', { table: 'sys_scope', fields: ['sys_id'] });
+    // auto (default) without credentials falls back to the browser session,
+    // which has no signed-in profile here.
+    const noSession = await gw.call('sn_query', { table: 'sys_scope', fields: ['sys_id'] });
+    assert.match(noSession.content[0].text, /NO_SESSION/);
+    setMode(root, 'rest_auth: basic\n');
+    const gwBasic = createGateway({ root, workId: WORK, pack, env, clientFactory: (opts) => new ReadOnlyClient({ ...opts, fetchImpl: mock.fetchImpl }) });
+    const missing = await gwBasic.call('sn_query', { table: 'sys_scope', fields: ['sys_id'] });
     assert.match(missing.content[0].text, /NO_CREDENTIALS.*snowgate credentials set/);
+    await gwBasic.close();
     writeCredentials(root, INSTANCE, { user: USER, password: PASSWORD, pack, env });
+    setMode(root, 'rest_auth: auto\n');
+    await gw.close();
+    gw = createGateway({ root, workId: WORK, pack, env, clientFactory: (opts) => new ReadOnlyClient({ ...opts, fetchImpl: mock.fetchImpl }) });
     const ok = await gw.call('sn_query', { table: 'sys_scope', fields: ['sys_id'] });
     assert.equal(ok.isError, undefined, ok.content[0].text);
     await gw.call('ui_type', { label: 'x', value: `leak ${PASSWORD}` });

@@ -1,0 +1,45 @@
+{
+  "id": "PF-0011",
+  "type": "feature",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Discover the whole project from update-set contents (global included)",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T19:15:37.812Z",
+  "updatedAt": "2026-10-19T19:20:29.468Z",
+  "title": "Discover the whole project from update-set contents (global included)",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow feature --scope bounded`.",
+  "routedAt": "2026-10-19T19:15:37.816Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "implement",
+    "verify",
+    "converge"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation",
+      "verification",
+      "delivery-convergence"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T19:20:29.468Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

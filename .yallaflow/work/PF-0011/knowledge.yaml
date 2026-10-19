@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects: skills, guards, an MCP gateway, validators and a CLI; it carries no project-specific naming.",
+      "evidence": [
+        "README.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0001"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T19:20:26.635Z",
+      "factId": "CTX-0001",
+      "promotedAt": "2026-10-19T19:20:27.817Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "discover refuses to run without a confirmed target for the work item and makes no request in that case; anything unreadable is recorded in limitations.md instead of being guessed; every fact cites an evidence entry with query and URL.",
+      "evidence": [
+        "src/discover.js",
+        "test/discover.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0013"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T19:20:26.784Z",
+      "factId": "CTX-0013",
+      "promotedAt": "2026-10-19T19:20:27.983Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Errors are SnowgateError subclasses with a stable code (e.g. TARGET_UNCONFIRMED, TABLE_NOT_ALLOWED); the CLI maps them to exit 1 and usage errors to exit 2.",
+      "evidence": [
+        "src/errors.js",
+        "src/cli/main.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0016"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T19:20:26.894Z",
+      "factId": "CTX-0016",
+      "promotedAt": "2026-10-19T19:20:28.150Z",
+      "target": "context/conventions.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate only runs inside a YallaFlow project (it walks up to find .yallaflow/). Every instance-touching command requires a YallaFlow work item: --work for CLI commands; snowgate mcp takes --work, SNOWGATE_WORK, or YallaFlow's active work item, and refuses instance tools without one.",
+      "evidence": [
+        "src/cli/main.js",
+        "src/gateway/server.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0021"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T19:20:27.010Z",
+      "factId": "CTX-0021",
+      "promotedAt": "2026-10-19T19:20:28.315Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-005",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.",
+      "evidence": [
+        "README.md",
+        "src/adapters/policy.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0042"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T19:20:27.117Z",
+      "factId": "CTX-0042",
+      "promotedAt": "2026-10-19T19:20:28.476Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-006",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "Implemented: M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login, M3 (claude/codex/yallaflow adapters, init, doctor, hook), credential stores and snowgate setup (one human run: adapters, approved instances, credentials, sign-in). The pack.yaml skills/*.md procedures are not written yet.",
+      "evidence": [
+        "src/cli/main.js",
+        "src/setup.js",
+        "docs/PLAN.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0048"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T19:20:27.235Z",
+      "factId": "CTX-0048",
+      "promotedAt": "2026-10-19T19:20:28.633Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-007",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Discovery hazards flagged: In Progress update sets idle >= 30 days or current for a user, customer updates captured in the Default update set, customer updates in the global scope, and several local update sets sharing one name.",
+      "evidence": [
+        "src/discover.js",
+        "test/discover.test.js",
+        "test/project-map.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0014"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T19:20:27.353Z",
+      "factId": "CTX-0058",
+      "promotedAt": "2026-10-19T19:20:28.813Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-008",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "On a real instance (dev446072, glide australia patch 7, 2026-10-19) all 19 discovery inventory tables were read with 0 unreadable, and the project-map artifact tables (incl. sp_instance with the sp_widget.name dot-walk) answered by sys_id; other instances or releases may differ, so unreadable tables stay limitations.",
+      "evidence": [
+        "src/rest/tables.js",
+        "runtime:dev446072 discover 2026-10-19 19 read, 0 unreadable, 585 artifacts mapped"
+      ],
+      "confidence": "confirmed",
+      "provenance": "runtime",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0054"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T19:20:27.464Z",
+      "factId": "CTX-0059",
+      "promotedAt": "2026-10-19T19:20:29.004Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-009",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "discover builds a project map from update-set contents (sys_update_xml) in every scope: record-level update names <table>_<sys_id> identify artifacts; 22 artifact tables (ARTIFACT_TABLES) are read by sys_id for name/active/scope/creator and marked new or baseline-modified (inferred from system creators) or deleted; artifacts are grouped by local and retrieved update set; output report.md (project map section) and project-map.json. Changes made outside update-set tracking are not visible.",
+      "evidence": [
+        "src/project-map.js",
+        "src/discover.js",
+        "src/rest/tables.js",
+        "test/project-map.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "status": "promoted",
+      "createdAt": "2026-10-19T19:20:27.575Z",
+      "factId": "CTX-0060",
+      "promotedAt": "2026-10-19T19:20:29.158Z",
+      "target": "context/architecture.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T19:20:29.158Z",
+  "reviewedAt": "2026-10-19T19:20:29.158Z"
+}

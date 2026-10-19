@@ -446,7 +446,10 @@ Review done before implementation. Step 1 of §14 is complete: the repo exists a
   - PF-0007: session cookies were lost after login; snowgate now keeps them.
   - PF-0008: two credential stores, protected or agent-visible `.snowgate.env`, with automatic re-login.
   - PF-0009: `snowgate setup` with project-approved instances. It amends §4 per the user: an approved instance confirms automatically per work item.
+  - PF-0011: discover's project map comes from update-set contents in every scope. On dev446072 it shows 585 artifacts across 15 update sets, including the EduPulse landing page that the old x_-only inventory missed.
+  - PF-0010: dev446072 refuses Basic auth on REST (401) but accepts the UI session with `X-UserToken`. `rest_auth: auto` falls back to the session, and `setup` checks credentials immediately.
   - Confirmed on the real instance:
+    - the first discover read all 19 allow-listed tables (0 unreadable), so the table and field names are confirmed;
     - the gateway opens pages with the saved session;
     - `URL_LOCKED` holds directly and through the Next Experience wrapper;
     - `HOST_LOCKED` holds.

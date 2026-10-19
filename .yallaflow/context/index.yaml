@@ -16,13 +16,13 @@
         {
           "type": "repository",
           "path": "README.md",
-          "contentHash": "sha256:3ed6945fc535931b3d099fb12db1e6137e55c5fee7736c26cfbb4c012f9e4670",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "contentHash": "sha256:2ee89a4c1b50d62fe973cc8ef3467dd25268f928d94b38a5d7f24859670049e0",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T18:27:44.401Z",
-      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "verifiedAt": "2026-10-19T19:20:27.817Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [],
       "supersededBy": null,
       "history": [
@@ -150,10 +150,44 @@
           ],
           "previousVerifiedAt": "2026-10-19T17:54:29.646Z",
           "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:06:23.228Z",
+          "workId": "PF-0010",
+          "candidateId": "K-001",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:3ed6945fc535931b3d099fb12db1e6137e55c5fee7736c26cfbb4c012f9e4670",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T18:27:44.401Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:20:27.817Z",
+          "workId": "PF-0011",
+          "candidateId": "K-001",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:06ed59fed14bbf33ca0a3413487dc012a3bbbce078b64263d31afd90db943af6",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T19:06:23.228Z",
+          "previousVerifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2"
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T18:27:44.401Z"
+      "updatedAt": "2026-10-19T19:20:27.817Z"
     },
     {
       "id": "CTX-0002",
@@ -381,7 +415,7 @@
     {
       "id": "CTX-0007",
       "area": "integration",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "ServiceNow integration is a read-only Table API client: every request goes through one private method hard-coded to GET, only allow-listed configuration tables, mandatory allow-listed fields, page size 500, safety cap 10000 records with a truncation flag.",
       "provenance": "repository",
@@ -409,7 +443,7 @@
       "verifiedAt": "2026-10-19T14:34:14.906Z",
       "verifiedAtCommit": null,
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0052",
       "history": [
         {
           "action": "introduced",
@@ -441,15 +475,22 @@
           ],
           "previousVerifiedAt": "2026-10-19T14:08:12.679Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T19:06:24.749Z",
+          "supersededBy": "CTX-0052",
+          "workId": "PF-0010",
+          "candidateId": "K-010"
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T14:34:14.906Z"
+      "updatedAt": "2026-10-19T19:06:24.749Z"
     },
     {
       "id": "CTX-0008",
       "area": "integration",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Preflight reads (sys_user, sys_user_has_role, sys_properties) are fixed-shape queries outside the general allowlist; sys_user is only read for sys_id,user_name of the authenticated user.",
       "provenance": "repository",
@@ -472,22 +513,29 @@
       "verifiedAt": "2026-10-19T14:08:12.679Z",
       "verifiedAtCommit": null,
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0053",
       "history": [
         {
           "action": "introduced",
           "at": "2026-10-19T14:08:12.679Z",
           "workId": "PF-0002",
           "baselineFactId": "BF-008"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T19:06:24.937Z",
+          "supersededBy": "CTX-0053",
+          "workId": "PF-0010",
+          "candidateId": "K-011"
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T14:08:12.679Z"
+      "updatedAt": "2026-10-19T19:06:24.937Z"
     },
     {
       "id": "CTX-0009",
       "area": "integration",
-      "state": "current",
+      "state": "superseded",
       "confidence": "unresolved",
       "summary": "The ServiceNow table and field names used by discovery have not been confirmed against any real instance; they are hypotheses until a confirmed target answers for them.",
       "provenance": "repository",
@@ -505,7 +553,7 @@
       "verifiedAt": "2026-10-19T14:34:15.049Z",
       "verifiedAtCommit": null,
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0054",
       "history": [
         {
           "action": "introduced",
@@ -527,10 +575,17 @@
           ],
           "previousVerifiedAt": "2026-10-19T14:08:12.679Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T19:06:25.113Z",
+          "supersededBy": "CTX-0054",
+          "workId": "PF-0010",
+          "candidateId": "K-012"
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T14:34:15.049Z"
+      "updatedAt": "2026-10-19T19:06:25.113Z"
     },
     {
       "id": "CTX-0010",
@@ -829,16 +884,20 @@
         {
           "type": "repository",
           "path": "src/discover.js",
-          "contentHash": "sha256:c0e38858a9cec706e5b284844dce9e16c0937b317710289a3c3bc79bb743f020"
+          "contentHash": "sha256:77c07e993c56203c22bc5ee49851eccca12c2764e134e82c3a365dec5c445bd8",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "test/discover.test.js",
-          "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777"
+          "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "head"
         }
       ],
-      "verifiedAt": "2026-10-19T14:08:12.679Z",
-      "verifiedAtCommit": null,
+      "verifiedAt": "2026-10-19T19:20:27.983Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [],
       "supersededBy": null,
       "history": [
@@ -847,15 +906,35 @@
           "at": "2026-10-19T14:08:12.679Z",
           "workId": "PF-0002",
           "baselineFactId": "BF-013"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:20:27.983Z",
+          "workId": "PF-0011",
+          "candidateId": "K-002",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/discover.js",
+              "contentHash": "sha256:c0e38858a9cec706e5b284844dce9e16c0937b317710289a3c3bc79bb743f020"
+            },
+            {
+              "type": "repository",
+              "path": "test/discover.test.js",
+              "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:08:12.679Z",
+          "previousVerifiedAtCommit": null
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T14:08:12.679Z"
+      "updatedAt": "2026-10-19T19:20:27.983Z"
     },
     {
       "id": "CTX-0014",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Discovery hazards flagged: In Progress update sets idle >= 30 days or current for a user, customer updates captured in the Default update set, and customer updates in the global scope.",
       "provenance": "repository",
@@ -878,17 +957,24 @@
       "verifiedAt": "2026-10-19T14:08:12.679Z",
       "verifiedAtCommit": null,
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0058",
       "history": [
         {
           "action": "introduced",
           "at": "2026-10-19T14:08:12.679Z",
           "workId": "PF-0002",
           "baselineFactId": "BF-014"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T19:20:28.813Z",
+          "supersededBy": "CTX-0058",
+          "workId": "PF-0011",
+          "candidateId": "K-007"
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T14:08:12.679Z"
+      "updatedAt": "2026-10-19T19:20:28.813Z"
     },
     {
       "id": "CTX-0015",
@@ -951,19 +1037,19 @@
           "type": "repository",
           "path": "src/errors.js",
           "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/cli/main.js",
-          "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "contentHash": "sha256:dc6cee4376ce8ef0e7307d05475c97a30b423e95763e328e8c9bc86953f44b63",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T18:27:44.550Z",
-      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "verifiedAt": "2026-10-19T19:20:28.150Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [],
       "supersededBy": null,
       "history": [
@@ -1100,10 +1186,58 @@
           ],
           "previousVerifiedAt": "2026-10-19T17:54:29.997Z",
           "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:06:23.393Z",
+          "workId": "PF-0010",
+          "candidateId": "K-002",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/errors.js",
+              "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T18:27:44.550Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:20:28.150Z",
+          "workId": "PF-0011",
+          "candidateId": "K-003",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/errors.js",
+              "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:f7c889de9ac19ca046d72d5947e49099c067a2d6aea9ea61fca389b191a9b7a3",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T19:06:23.393Z",
+          "previousVerifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2"
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T18:27:44.550Z"
+      "updatedAt": "2026-10-19T19:20:28.150Z"
     },
     {
       "id": "CTX-0017",
@@ -1342,20 +1476,20 @@
         {
           "type": "repository",
           "path": "src/cli/main.js",
-          "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "contentHash": "sha256:dc6cee4376ce8ef0e7307d05475c97a30b423e95763e328e8c9bc86953f44b63",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "src/gateway/server.js",
-          "contentHash": "sha256:ad500788cc4113519fbb9fb25f0f6a3f18b020188e2464083a0fd6dcbc0b42a9",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "contentHash": "sha256:e04f5ea30c8f93921f7e5190ea4617d4693509b16239b29b6c4080afcfa7889c",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T18:27:44.711Z",
-      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "verifiedAt": "2026-10-19T19:20:28.315Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [
         "CTX-0005"
       ],
@@ -1484,10 +1618,58 @@
           ],
           "previousVerifiedAt": "2026-10-19T17:54:30.175Z",
           "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:06:23.554Z",
+          "workId": "PF-0010",
+          "candidateId": "K-003",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "contentHash": "sha256:ad500788cc4113519fbb9fb25f0f6a3f18b020188e2464083a0fd6dcbc0b42a9",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T18:27:44.711Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:20:28.315Z",
+          "workId": "PF-0011",
+          "candidateId": "K-004",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:f7c889de9ac19ca046d72d5947e49099c067a2d6aea9ea61fca389b191a9b7a3",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "contentHash": "sha256:e04f5ea30c8f93921f7e5190ea4617d4693509b16239b29b6c4080afcfa7889c",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T19:06:23.554Z",
+          "previousVerifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2"
         }
       ],
       "createdAt": "2026-10-19T14:34:13.845Z",
-      "updatedAt": "2026-10-19T18:27:44.711Z"
+      "updatedAt": "2026-10-19T19:20:28.315Z"
     },
     {
       "id": "CTX-0022",
@@ -1829,33 +2011,33 @@
           "type": "repository",
           "path": "src/gateway/tools.js",
           "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/gateway/guards.js",
           "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/playwright/session.js",
-          "contentHash": "sha256:945646c59e9c176f01bf7b9620bdb7d3b5809e6cea07dd3ab52bbaad37e238cb",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "test/browser-lock.test.js",
-          "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
-          "workingTree": "head"
+          "contentHash": "sha256:b9877e8c4a3a1c201edf3d2589a70ada5d7755a15f8fbc3c1bfd0c323e9d2174",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T17:54:30.329Z",
-      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "verifiedAt": "2026-10-19T19:06:23.703Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [
         "CTX-0024"
       ],
@@ -1898,10 +2080,48 @@
           ],
           "previousVerifiedAt": "2026-10-19T14:50:51.722Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:06:23.703Z",
+          "workId": "PF-0010",
+          "candidateId": "K-004",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/gateway/tools.js",
+              "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/guards.js",
+              "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:945646c59e9c176f01bf7b9620bdb7d3b5809e6cea07dd3ab52bbaad37e238cb",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/browser-lock.test.js",
+              "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "head"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:54:30.329Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
         }
       ],
       "createdAt": "2026-10-19T14:50:51.722Z",
-      "updatedAt": "2026-10-19T17:54:30.329Z"
+      "updatedAt": "2026-10-19T19:06:23.703Z"
     },
     {
       "id": "CTX-0029",
@@ -2030,26 +2250,26 @@
           "type": "repository",
           "path": "test/helpers.js",
           "contentHash": "sha256:60b5bf16f73c09fe4162dda9f23b339343c985576e79059cd3510fe0777897ed",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "test/browser-lock.test.js",
-          "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
-          "workingTree": "head"
+          "contentHash": "sha256:b9877e8c4a3a1c201edf3d2589a70ada5d7755a15f8fbc3c1bfd0c323e9d2174",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "test/sso-profile.test.js",
           "contentHash": "sha256:db43e3ffd6f88bcf55edc7c762d1e7266ffc20f007c3ba402c343b29ef4efa32",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
-          "workingTree": "modified"
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "head"
         }
       ],
-      "verifiedAt": "2026-10-19T17:01:22.250Z",
-      "verifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+      "verifiedAt": "2026-10-19T19:06:23.863Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [
         "CTX-0023"
       ],
@@ -2086,10 +2306,41 @@
           ],
           "previousVerifiedAt": "2026-10-19T14:50:52.171Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:06:23.863Z",
+          "workId": "PF-0010",
+          "candidateId": "K-005",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "test/helpers.js",
+              "contentHash": "sha256:60b5bf16f73c09fe4162dda9f23b339343c985576e79059cd3510fe0777897ed",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "test/browser-lock.test.js",
+              "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "test/sso-profile.test.js",
+              "contentHash": "sha256:db43e3ffd6f88bcf55edc7c762d1e7266ffc20f007c3ba402c343b29ef4efa32",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:01:22.250Z",
+          "previousVerifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d"
         }
       ],
       "createdAt": "2026-10-19T14:50:52.171Z",
-      "updatedAt": "2026-10-19T17:01:22.250Z"
+      "updatedAt": "2026-10-19T19:06:23.863Z"
     },
     {
       "id": "CTX-0032",
@@ -2594,7 +2845,7 @@
     {
       "id": "CTX-0040",
       "area": "environment",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Credentials resolve as: SN_USER/SN_PASSWORD in the environment, else the store chosen by credentials: in .snowgate/config.yaml — protected (default; ~/.config/snowgate/credentials/<instance>.json, 0600, outside the project, written by TTY-only snowgate credentials set with a hidden prompt) or project (.snowgate.env, agent-visible, for dev). REST uses Basic auth; the browser uses the per-instance SSO profile from snowgate login (session cookies re-saved with SNOWGATE_SESSION_HOURS, default 12h) or, with ui_auth: password, the same credentials with automatic re-login. Credentials and cookies never reach output, evidence or audit.",
       "provenance": "repository",
@@ -2637,7 +2888,7 @@
       "supersedes": [
         "CTX-0039"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0055",
       "history": [
         {
           "action": "introduced",
@@ -2683,10 +2934,17 @@
           ],
           "previousVerifiedAt": "2026-10-19T17:54:30.673Z",
           "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T19:06:25.266Z",
+          "supersededBy": "CTX-0055",
+          "workId": "PF-0010",
+          "candidateId": "K-013"
         }
       ],
       "createdAt": "2026-10-19T17:54:30.673Z",
-      "updatedAt": "2026-10-19T18:27:44.872Z"
+      "updatedAt": "2026-10-19T19:06:25.266Z"
     },
     {
       "id": "CTX-0041",
@@ -2769,20 +3027,20 @@
         {
           "type": "repository",
           "path": "README.md",
-          "contentHash": "sha256:3ed6945fc535931b3d099fb12db1e6137e55c5fee7736c26cfbb4c012f9e4670",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "contentHash": "sha256:2ee89a4c1b50d62fe973cc8ef3467dd25268f928d94b38a5d7f24859670049e0",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "src/adapters/policy.js",
           "contentHash": "sha256:49d7002ebf7f11ff2ae1344aecdf298dec2636b4319554c72b8c0d6ebfda7b28",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
-          "workingTree": "modified"
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "head"
         }
       ],
-      "verifiedAt": "2026-10-19T18:27:45.051Z",
-      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "verifiedAt": "2026-10-19T19:20:28.476Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [
         "CTX-0034"
       ],
@@ -2818,10 +3076,58 @@
           ],
           "previousVerifiedAt": "2026-10-19T17:54:31.028Z",
           "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:06:24.073Z",
+          "workId": "PF-0010",
+          "candidateId": "K-006",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:3ed6945fc535931b3d099fb12db1e6137e55c5fee7736c26cfbb4c012f9e4670",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/policy.js",
+              "contentHash": "sha256:49d7002ebf7f11ff2ae1344aecdf298dec2636b4319554c72b8c0d6ebfda7b28",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T18:27:45.051Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:20:28.476Z",
+          "workId": "PF-0011",
+          "candidateId": "K-005",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:06ed59fed14bbf33ca0a3413487dc012a3bbbce078b64263d31afd90db943af6",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/policy.js",
+              "contentHash": "sha256:49d7002ebf7f11ff2ae1344aecdf298dec2636b4319554c72b8c0d6ebfda7b28",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "head"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T19:06:24.073Z",
+          "previousVerifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2"
         }
       ],
       "createdAt": "2026-10-19T17:54:31.028Z",
-      "updatedAt": "2026-10-19T18:27:45.051Z"
+      "updatedAt": "2026-10-19T19:20:28.476Z"
     },
     {
       "id": "CTX-0043",
@@ -3078,30 +3384,30 @@
           "type": "repository",
           "path": "src/work.js",
           "contentHash": "sha256:112645b04682da4413257e3f3a807ab7a927c16759490c5c66d739f87a2f3578",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
-          "workingTree": "modified"
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/config.js",
-          "contentHash": "sha256:1bb9e722acdc9e70aa58d121ad0f050b531036fa58190051e61b6baeb9369bd4",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "contentHash": "sha256:f865f428115e3c7ebd72940154d37938efc52909dbd1597eee0a03bd76612088",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "test/setup.test.js",
-          "contentHash": "sha256:9255b2d19bc922a25f7a8405bad911951ef9e1cc8b02750619329a0222299037",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
-          "workingTree": "untracked"
+          "contentHash": "sha256:a557f50a5d36b4a37c4b60961460abc85f11e0857e1f9c9e956125988ef89af6",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
         },
         {
-          "type": "user-confirmed",
-          "description": "ليه انا بنفسي هروح اربط ال instance id بالتاسك ... موافق على الاتنين، ابدأ"
+          "type": "reference",
+          "ref": "[object Object]"
         }
       ],
-      "verifiedAt": "2026-10-19T18:27:45.406Z",
-      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "verifiedAt": "2026-10-19T19:06:24.245Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [
         "CTX-0011"
       ],
@@ -3113,10 +3419,45 @@
           "workId": "PF-0009",
           "candidateId": "K-007",
           "supersedes": "CTX-0011"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:06:24.245Z",
+          "workId": "PF-0010",
+          "candidateId": "K-007",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/work.js",
+              "contentHash": "sha256:112645b04682da4413257e3f3a807ab7a927c16759490c5c66d739f87a2f3578",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/config.js",
+              "contentHash": "sha256:1bb9e722acdc9e70aa58d121ad0f050b531036fa58190051e61b6baeb9369bd4",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/setup.test.js",
+              "contentHash": "sha256:9255b2d19bc922a25f7a8405bad911951ef9e1cc8b02750619329a0222299037",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "user-confirmed",
+              "description": "ليه انا بنفسي هروح اربط ال instance id بالتاسك ... موافق على الاتنين، ابدأ"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T18:27:45.406Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
         }
       ],
       "createdAt": "2026-10-19T18:27:45.406Z",
-      "updatedAt": "2026-10-19T18:27:45.406Z"
+      "updatedAt": "2026-10-19T19:06:24.245Z"
     },
     {
       "id": "CTX-0048",
@@ -3133,27 +3474,27 @@
         {
           "type": "repository",
           "path": "src/cli/main.js",
-          "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "contentHash": "sha256:dc6cee4376ce8ef0e7307d05475c97a30b423e95763e328e8c9bc86953f44b63",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
           "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "src/setup.js",
-          "contentHash": "sha256:d6706e238a936e70fa4603c32f601d5223facca8ebbf250125af8214853ff166",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
-          "workingTree": "untracked"
+          "contentHash": "sha256:3370696a06f100b26c05fa553f8bbf19885c436e627493591119a2216e3f8437",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "docs/PLAN.md",
-          "contentHash": "sha256:1ff6411622acea3a5dfec0e6f82e32edd49a6480072b3c5ac8b6c2ec2409ce56",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
-          "workingTree": "head"
+          "contentHash": "sha256:fa4219ffc4ffb24900ceb9b7b3984cf5cb3ae8958dafa3c1f9e1084ab77e6ab9",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T18:27:45.602Z",
-      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "verifiedAt": "2026-10-19T19:20:28.633Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [
         "CTX-0033"
       ],
@@ -3165,15 +3506,77 @@
           "workId": "PF-0009",
           "candidateId": "K-008",
           "supersedes": "CTX-0033"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:06:24.397Z",
+          "workId": "PF-0010",
+          "candidateId": "K-008",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/setup.js",
+              "contentHash": "sha256:d6706e238a936e70fa4603c32f601d5223facca8ebbf250125af8214853ff166",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "docs/PLAN.md",
+              "contentHash": "sha256:1ff6411622acea3a5dfec0e6f82e32edd49a6480072b3c5ac8b6c2ec2409ce56",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "head"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T18:27:45.602Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:20:28.633Z",
+          "workId": "PF-0011",
+          "candidateId": "K-006",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:f7c889de9ac19ca046d72d5947e49099c067a2d6aea9ea61fca389b191a9b7a3",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/setup.js",
+              "contentHash": "sha256:3370696a06f100b26c05fa553f8bbf19885c436e627493591119a2216e3f8437",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "docs/PLAN.md",
+              "contentHash": "sha256:22d1957eb582e6d92354d618739f0d9df959944c3655a9cad8e0338260093641",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T19:06:24.397Z",
+          "previousVerifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2"
         }
       ],
       "createdAt": "2026-10-19T18:27:45.602Z",
-      "updatedAt": "2026-10-19T18:27:45.602Z"
+      "updatedAt": "2026-10-19T19:20:28.633Z"
     },
     {
       "id": "CTX-0049",
       "area": "database",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "No database. State is files under .snowgate/: work/<id>.yaml (target incl. confirmation.via human|approved_instances), approvals/<id>.jsonl, audit/<id>.jsonl (and _project.jsonl for setup approvals), evidence/<id>/, discovery/, bin/verify-change-packages, and config.yaml (changes_dir, validate.legacy_packages, ui_auth, credentials, approved_instances). Change packages live in changes/<ID>/. Outside the project: SSO profiles under $XDG_STATE_HOME/snowgate/profiles and protected credentials under $XDG_CONFIG_HOME/snowgate/credentials; agent-visible credentials in .snowgate.env (gitignored).",
       "provenance": "repository",
@@ -3216,7 +3619,7 @@
       "supersedes": [
         "CTX-0041"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0057",
       "history": [
         {
           "action": "introduced",
@@ -3224,10 +3627,17 @@
           "workId": "PF-0009",
           "candidateId": "K-009",
           "supersedes": "CTX-0041"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T19:06:25.616Z",
+          "supersededBy": "CTX-0057",
+          "workId": "PF-0010",
+          "candidateId": "K-015"
         }
       ],
       "createdAt": "2026-10-19T18:27:45.789Z",
-      "updatedAt": "2026-10-19T18:27:45.789Z"
+      "updatedAt": "2026-10-19T19:06:25.616Z"
     },
     {
       "id": "CTX-0050",
@@ -3245,26 +3655,26 @@
           "type": "repository",
           "path": "src/adapters/policy.js",
           "contentHash": "sha256:49d7002ebf7f11ff2ae1344aecdf298dec2636b4319554c72b8c0d6ebfda7b28",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
-          "workingTree": "modified"
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "test/setup.test.js",
-          "contentHash": "sha256:9255b2d19bc922a25f7a8405bad911951ef9e1cc8b02750619329a0222299037",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
-          "workingTree": "untracked"
+          "contentHash": "sha256:a557f50a5d36b4a37c4b60961460abc85f11e0857e1f9c9e956125988ef89af6",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "test/credentials.test.js",
-          "contentHash": "sha256:5f214aef0ccb5f72a85227f214cd471ff2548d7229167f086049196e97a45ab5",
-          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
-          "workingTree": "untracked"
+          "contentHash": "sha256:a457b073d0486e991663497b51873c24725ce09d19c2627732c7bee3bb3b28d8",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T18:27:45.975Z",
-      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "verifiedAt": "2026-10-19T19:06:24.583Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
       "supersedes": [
         "CTX-0043"
       ],
@@ -3276,10 +3686,41 @@
           "workId": "PF-0009",
           "candidateId": "K-010",
           "supersedes": "CTX-0043"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T19:06:24.583Z",
+          "workId": "PF-0010",
+          "candidateId": "K-009",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/policy.js",
+              "contentHash": "sha256:49d7002ebf7f11ff2ae1344aecdf298dec2636b4319554c72b8c0d6ebfda7b28",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/setup.test.js",
+              "contentHash": "sha256:9255b2d19bc922a25f7a8405bad911951ef9e1cc8b02750619329a0222299037",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "test/credentials.test.js",
+              "contentHash": "sha256:5f214aef0ccb5f72a85227f214cd471ff2548d7229167f086049196e97a45ab5",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T18:27:45.975Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
         }
       ],
       "createdAt": "2026-10-19T18:27:45.975Z",
-      "updatedAt": "2026-10-19T18:27:45.975Z"
+      "updatedAt": "2026-10-19T19:06:24.583Z"
     },
     {
       "id": "CTX-0051",
@@ -3332,7 +3773,453 @@
       ],
       "createdAt": "2026-10-19T18:27:46.140Z",
       "updatedAt": "2026-10-19T18:27:46.140Z"
+    },
+    {
+      "id": "CTX-0052",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "ServiceNow integration is a read-only Table API client: every request goes through one private GET path, only allow-listed configuration tables, mandatory allow-listed fields, page size 500, safety cap 10000 with a truncation flag. Authentication follows rest_auth: auto (default; Basic first, on 401 the browser session for good), basic, or session (signed-in browser session cookies plus the UI's X-UserToken from g_ck, GET-only, confirmed target origin only).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0010",
+        "candidateId": "K-010"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/rest/client.js",
+          "contentHash": "sha256:e6216c891ad3eed37b0c23bccb8519b4885c94b13a7661b54794f115578142b1",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/rest-session.test.js",
+          "contentHash": "sha256:86a400b0a5a27663737d9821ba184d96c0d24ee730852d82bf745dd082dbd5dd",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-10-19T19:06:24.749Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "supersedes": [
+        "CTX-0007"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T19:06:24.749Z",
+          "workId": "PF-0010",
+          "candidateId": "K-010",
+          "supersedes": "CTX-0007"
+        }
+      ],
+      "createdAt": "2026-10-19T19:06:24.749Z",
+      "updatedAt": "2026-10-19T19:06:24.749Z"
+    },
+    {
+      "id": "CTX-0053",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Preflight reads (sys_user, sys_user_has_role, sys_properties) are fixed-shape queries outside the general allowlist; sys_user is read only for sys_id,user_name of the authenticated user — by user_name with Basic auth, or by sys_id=javascript:gs.getUserID() on the session path where the user may be an SSO identity.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0010",
+        "candidateId": "K-011"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/rest/client.js",
+          "contentHash": "sha256:e6216c891ad3eed37b0c23bccb8519b4885c94b13a7661b54794f115578142b1",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/rest-session.test.js",
+          "contentHash": "sha256:86a400b0a5a27663737d9821ba184d96c0d24ee730852d82bf745dd082dbd5dd",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-10-19T19:06:24.937Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "supersedes": [
+        "CTX-0008"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T19:06:24.937Z",
+          "workId": "PF-0010",
+          "candidateId": "K-011",
+          "supersedes": "CTX-0008"
+        }
+      ],
+      "createdAt": "2026-10-19T19:06:24.937Z",
+      "updatedAt": "2026-10-19T19:06:24.937Z"
+    },
+    {
+      "id": "CTX-0054",
+      "area": "integration",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "All 19 allow-listed discovery tables and their fields were read successfully on a real instance (dev446072, glide australia patch 7, 2026-10-19) with 0 unreadable; other instances or releases may still differ, so discover keeps recording missing tables as limitations.",
+      "provenance": "runtime",
+      "origin": {
+        "workId": "PF-0010",
+        "candidateId": "K-012"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/rest/tables.js",
+          "contentHash": "sha256:e030eb4f3f0372c6a491b1fff22eeccf0115c8ec3b2a019414f3eacb9bfaacea",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "head"
+        },
+        {
+          "type": "runtime",
+          "description": "snowgate discover on dev446072 2026-10-19: tables read 19, unreadable 0"
+        }
+      ],
+      "verifiedAt": "2026-10-19T19:06:25.113Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "supersedes": [
+        "CTX-0009"
+      ],
+      "supersededBy": "CTX-0059",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T19:06:25.113Z",
+          "workId": "PF-0010",
+          "candidateId": "K-012",
+          "supersedes": "CTX-0009"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T19:20:29.004Z",
+          "supersededBy": "CTX-0059",
+          "workId": "PF-0011",
+          "candidateId": "K-008"
+        }
+      ],
+      "createdAt": "2026-10-19T19:06:25.113Z",
+      "updatedAt": "2026-10-19T19:20:29.004Z"
+    },
+    {
+      "id": "CTX-0055",
+      "area": "environment",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Credentials resolve as SN_USER/SN_PASSWORD in the environment, else the store chosen by credentials: (protected default: ~/.config/snowgate/credentials/<instance>.json 0600 written by TTY-only credentials set/setup; project: agent-visible .snowgate.env). REST follows rest_auth (auto/basic/session); the browser uses the SSO profile from snowgate login (session cookies kept SNOWGATE_SESSION_HOURS, default 12h) or, with ui_auth: password, the credentials with automatic re-login. Credentials and cookies never reach output, evidence or audit.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0010",
+        "candidateId": "K-013"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/credentials.js",
+          "contentHash": "sha256:2013d589a9bb402020963c85e20de0a503ed93d6e7cc56596bdf988dec837c8c",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "src/rest/client.js",
+          "contentHash": "sha256:e6216c891ad3eed37b0c23bccb8519b4885c94b13a7661b54794f115578142b1",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/config.js",
+          "contentHash": "sha256:f865f428115e3c7ebd72940154d37938efc52909dbd1597eee0a03bd76612088",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-10-19T19:06:25.266Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "supersedes": [
+        "CTX-0040"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T19:06:25.266Z",
+          "workId": "PF-0010",
+          "candidateId": "K-013",
+          "supersedes": "CTX-0040"
+        }
+      ],
+      "createdAt": "2026-10-19T19:06:25.266Z",
+      "updatedAt": "2026-10-19T19:06:25.266Z"
+    },
+    {
+      "id": "CTX-0056",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Some instances refuse Basic auth on the Table API even for a valid password (dev446072: 401 'User is not authenticated' while login.do sign-in works); the same GET with the UI session cookies plus X-UserToken succeeds. navpage.do redirects to the Next Experience shell there, which still carries g_ck.",
+      "provenance": "runtime",
+      "origin": {
+        "workId": "PF-0010",
+        "candidateId": "K-014"
+      },
+      "evidence": [
+        {
+          "type": "runtime",
+          "description": "dev446072 2026-10-19 Basic 401, session+X-UserToken 200"
+        },
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-10-19T19:06:25.449Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T19:06:25.449Z",
+          "workId": "PF-0010",
+          "candidateId": "K-014"
+        }
+      ],
+      "createdAt": "2026-10-19T19:06:25.449Z",
+      "updatedAt": "2026-10-19T19:06:25.449Z"
+    },
+    {
+      "id": "CTX-0057",
+      "area": "database",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml (target incl. confirmation.via), approvals/<id>.jsonl, audit/<id>.jsonl and _project.jsonl, evidence/<id>/, discovery/, bin/verify-change-packages, and config.yaml (changes_dir, validate.legacy_packages, ui_auth, credentials, rest_auth, approved_instances). Change packages live in changes/<ID>/. Outside the project: SSO profiles under $XDG_STATE_HOME/snowgate/profiles and protected credentials under $XDG_CONFIG_HOME/snowgate/credentials; agent-visible credentials in .snowgate.env (gitignored).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0010",
+        "candidateId": "K-015"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/config.js",
+          "contentHash": "sha256:f865f428115e3c7ebd72940154d37938efc52909dbd1597eee0a03bd76612088",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/setup.js",
+          "contentHash": "sha256:3370696a06f100b26c05fa553f8bbf19885c436e627493591119a2216e3f8437",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/credentials.js",
+          "contentHash": "sha256:2013d589a9bb402020963c85e20de0a503ed93d6e7cc56596bdf988dec837c8c",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-10-19T19:06:25.616Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "supersedes": [
+        "CTX-0049"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T19:06:25.616Z",
+          "workId": "PF-0010",
+          "candidateId": "K-015",
+          "supersedes": "CTX-0049"
+        }
+      ],
+      "createdAt": "2026-10-19T19:06:25.616Z",
+      "updatedAt": "2026-10-19T19:06:25.616Z"
+    },
+    {
+      "id": "CTX-0058",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Discovery hazards flagged: In Progress update sets idle >= 30 days or current for a user, customer updates captured in the Default update set, customer updates in the global scope, and several local update sets sharing one name.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0011",
+        "candidateId": "K-007"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/discover.js",
+          "contentHash": "sha256:77c07e993c56203c22bc5ee49851eccca12c2764e134e82c3a365dec5c445bd8",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/discover.test.js",
+          "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "test/project-map.test.js",
+          "contentHash": "sha256:8cc615b0b0dcd45b2841e19bae0932716496eea66a23c588e31b18d1c2888628",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-10-19T19:20:28.813Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "supersedes": [
+        "CTX-0014"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T19:20:28.813Z",
+          "workId": "PF-0011",
+          "candidateId": "K-007",
+          "supersedes": "CTX-0014"
+        }
+      ],
+      "createdAt": "2026-10-19T19:20:28.813Z",
+      "updatedAt": "2026-10-19T19:20:28.813Z"
+    },
+    {
+      "id": "CTX-0059",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "On a real instance (dev446072, glide australia patch 7, 2026-10-19) all 19 discovery inventory tables were read with 0 unreadable, and the project-map artifact tables (incl. sp_instance with the sp_widget.name dot-walk) answered by sys_id; other instances or releases may differ, so unreadable tables stay limitations.",
+      "provenance": "runtime",
+      "origin": {
+        "workId": "PF-0011",
+        "candidateId": "K-008"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/rest/tables.js",
+          "contentHash": "sha256:5d511c797481d19eeaaa49919438351b0030e0e01878f888eb4b26ab122f0d3f",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "dev446072 discover 2026-10-19 19 read, 0 unreadable, 585 artifacts mapped"
+        }
+      ],
+      "verifiedAt": "2026-10-19T19:20:29.004Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "supersedes": [
+        "CTX-0054"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T19:20:29.004Z",
+          "workId": "PF-0011",
+          "candidateId": "K-008",
+          "supersedes": "CTX-0054"
+        }
+      ],
+      "createdAt": "2026-10-19T19:20:29.004Z",
+      "updatedAt": "2026-10-19T19:20:29.004Z"
+    },
+    {
+      "id": "CTX-0060",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "discover builds a project map from update-set contents (sys_update_xml) in every scope: record-level update names <table>_<sys_id> identify artifacts; 22 artifact tables (ARTIFACT_TABLES) are read by sys_id for name/active/scope/creator and marked new or baseline-modified (inferred from system creators) or deleted; artifacts are grouped by local and retrieved update set; output report.md (project map section) and project-map.json. Changes made outside update-set tracking are not visible.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0011",
+        "candidateId": "K-009"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/project-map.js",
+          "contentHash": "sha256:ba6b45e287049032d694bace37cd26b673efb708c69702517926f9d9fcb6fa9e",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "repository",
+          "path": "src/discover.js",
+          "contentHash": "sha256:77c07e993c56203c22bc5ee49851eccca12c2764e134e82c3a365dec5c445bd8",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/rest/tables.js",
+          "contentHash": "sha256:5d511c797481d19eeaaa49919438351b0030e0e01878f888eb4b26ab122f0d3f",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/project-map.test.js",
+          "contentHash": "sha256:8cc615b0b0dcd45b2841e19bae0932716496eea66a23c588e31b18d1c2888628",
+          "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-10-19T19:20:29.158Z",
+      "verifiedAtCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T19:20:29.158Z",
+          "workId": "PF-0011",
+          "candidateId": "K-009"
+        }
+      ],
+      "createdAt": "2026-10-19T19:20:29.158Z",
+      "updatedAt": "2026-10-19T19:20:29.158Z"
     }
   ],
-  "updatedAt": "2026-10-19T18:27:46.140Z"
+  "updatedAt": "2026-10-19T19:20:29.158Z"
 }

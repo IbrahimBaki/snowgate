@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { appendAudit } from './audit.js';
 import { SnowgateError, TableAccessError } from './errors.js';
 import { normalizeInstance } from './instance.js';
+import { buildMap, collectArtifacts, duplicateSetNames, enrichArtifacts, summarizeByType } from './project-map.js';
 import { INVENTORY, TABLES, inventoryQuery } from './rest/tables.js';
 import { requireConfirmedTarget } from './work.js';
 import { snowgateDir } from './workspace.js';
@@ -77,17 +78,39 @@ export async function discover({ root, workId, instance: requested, scope, clien
     }
   }
 
-  // 3. Hazards.
-  const hazards = findHazards(inventory, now);
+  // 3. Project map: every customization, in any scope, from the update sets'
+  // contents (PF-0011).
+  let remoteSets = [];
+  try {
+    const res = await client.query('sys_remote_update_set', { fields: TABLES.sys_remote_update_set });
+    remoteSets = res.records;
+    cite('Retrieved update sets', res.evidence);
+  } catch (err) {
+    limitTable(limitations, err, 'sys_remote_update_set', 'Retrieved update sets could not be read; their updates appear without a set name.');
+  }
+  const updates = inventory.customer_updates?.records ?? [];
+  const artifacts = await enrichArtifacts(client, collectArtifacts(updates), { cite, limitations });
+  const projectMap = {
+    update_sets: buildMap(artifacts, inventory.update_sets?.records ?? [], remoteSets),
+    by_type: summarizeByType(artifacts),
+    artifacts: artifacts.length,
+  };
 
-  // 4. Output.
+  // 4. Hazards.
+  const hazards = findHazards(inventory, now);
+  for (const d of duplicateSetNames(inventory.update_sets?.records ?? [])) {
+    hazards.push({ kind: 'duplicate-update-set-name', update_set: d.name, count: d.count, evidence: [inventory.update_sets.evidence] });
+  }
+
+  // 5. Output.
   const stamp = now.toISOString().replace(/[:.]/g, '-');
   const dir = snowgateDir(root, 'discovery', target, stamp);
   mkdirSync(dir, { recursive: true });
   const meta = { instance: target, work_id: workId, scope: scope ?? null, generated_at: now.toISOString(), read_only: true };
   writeJson(`${dir}/inventory.json`, { ...meta, preflight, inventory, hazards });
   writeJson(`${dir}/evidence.json`, { ...meta, evidence });
-  writeFileSync(`${dir}/report.md`, renderReport(meta, preflight, inventory, hazards, limitations));
+  writeJson(`${dir}/project-map.json`, { ...meta, ...projectMap });
+  writeFileSync(`${dir}/report.md`, renderReport(meta, preflight, inventory, hazards, limitations, projectMap));
   writeFileSync(`${dir}/limitations.md`, renderLimitations(meta, limitations));
 
   const summary = {
@@ -95,6 +118,8 @@ export async function discover({ root, workId, instance: requested, scope, clien
     tables_read: Object.values(inventory).filter((i) => i.records).length,
     tables_unreadable: Object.values(inventory).filter((i) => !i.records).length,
     hazards: hazards.length,
+    artifacts: projectMap.artifacts,
+    update_sets: projectMap.update_sets.length,
     limitations: limitations.length,
     warnings: preflight.warnings,
   };
@@ -161,12 +186,48 @@ function groupCount(records, field) {
   return Object.entries(counts).sort((a, b) => b[1] - a[1]);
 }
 
-function renderReport(meta, preflight, inventory, hazards, limitations) {
+// Roles that matter for what an agent may do; the rest are summarized.
+const NOTABLE_ROLES = ['admin', 'security_admin', 'snc_read_only', 'web_service_admin', 'rest_api_explorer', 'snc_platform_rest_api_access', 'update_set_picker', 'sp_admin', 'catalog_admin', 'oauth_admin'];
+const MAX_PER_TYPE = 15;
+// Portal layout records carry no meaningful names; they are counted, not listed.
+const LAYOUT_TYPES = new Set(['Row', 'Column', 'Container']);
+
+function renderMap(projectMap) {
+  const lines = ['## Project map (from update sets)', ''];
+  lines.push(`${projectMap.artifacts} customized artifact(s) across ${projectMap.update_sets.length} update set(s), in every scope (global included). "new" / "baseline-modified" is inferred from who created the record. Full detail: \`project-map.json\`.`, '');
+  lines.push('### By type', '', '| Type | Total | New | Baseline modified | Deleted | Not read (listed by update name) |', '|---|---|---|---|---|---|');
+  for (const r of projectMap.by_type) lines.push(`| ${r.type} | ${r.total} | ${r.new} | ${r['baseline-modified']} | ${r.deleted} | ${r.other} |`);
+  lines.push('');
+  for (const set of projectMap.update_sets) {
+    const kind = set.kind === 'retrieved' ? ', retrieved' : '';
+    lines.push(`### ${set.name}${set.state ? ` — ${set.state}` : ''}${kind} (${set.artifacts.length} artifact(s))`, '');
+    if (!set.artifacts.length) {
+      lines.push('No customer updates.', '');
+      continue;
+    }
+    const byType = new Map();
+    for (const a of set.artifacts) (byType.get(a.type) ?? byType.set(a.type, []).get(a.type)).push(a);
+    const layout = [...byType].filter(([type]) => LAYOUT_TYPES.has(type));
+    if (layout.length) lines.push(`- **Portal layout**: ${layout.map(([type, list]) => `${list.length} ${type.toLowerCase()}(s)`).join(', ')}`);
+    for (const [type, list] of [...byType].filter(([t]) => !LAYOUT_TYPES.has(t)).sort((a, b) => b[1].length - a[1].length)) {
+      const shown = list.slice(0, MAX_PER_TYPE).map((a) => {
+        const flags = [a.origin !== 'unknown' ? a.origin : null, a.active === 'false' ? 'inactive' : null, a.table].filter(Boolean).join(', ');
+        return `\`${a.name}\`${flags ? ` (${flags})` : ''}`;
+      });
+      const more = list.length > MAX_PER_TYPE ? ` … and ${list.length - MAX_PER_TYPE} more` : '';
+      lines.push(`- **${type}** (${list.length}): ${shown.join(', ')}${more}`);
+    }
+    lines.push('');
+  }
+  return lines;
+}
+
+function renderReport(meta, preflight, inventory, hazards, limitations, projectMap) {
   const lines = [
     `# ServiceNow discovery — ${meta.instance}`,
     '',
     `- Work item: ${meta.work_id}`,
-    `- Scope filter: ${meta.scope ?? '(none — customer-scoped x_ apps plus customer updates)'}`,
+    `- Scope filter: ${meta.scope ?? '(none — the project map covers every scope; the per-table inventory lists scoped x_ apps)'}`,
     `- Generated: ${meta.generated_at}`,
     '- Mode: read-only (GET only, allow-listed configuration tables and fields)',
     '',
@@ -175,7 +236,7 @@ function renderReport(meta, preflight, inventory, hazards, limitations) {
     '## Preflight',
     '',
     `- User: ${preflight.user} [${preflight.user_evidence}]`,
-    `- Roles: ${preflight.roles.length ? preflight.roles.join(', ') : '(not read)'}${preflight.roles_evidence ? ` [${preflight.roles_evidence}]` : ''}`,
+    `- Roles: ${preflight.roles.length ? `${preflight.roles.length} role(s); notable: ${preflight.roles.filter((r) => NOTABLE_ROLES.includes(r)).join(', ') || 'none'} (full list in inventory.json)` : '(not read)'}${preflight.roles_evidence ? ` [${preflight.roles_evidence}]` : ''}`,
     `- Version properties: ${Object.keys(preflight.version).length ? Object.entries(preflight.version).map(([k, v]) => `${k}=${v}`).join('; ') : '(not read)'}${preflight.version_evidence ? ` [${preflight.version_evidence}]` : ''}`,
     ...preflight.warnings.map((w) => `- ⚠️ ${w}`),
     '',
@@ -187,9 +248,11 @@ function renderReport(meta, preflight, inventory, hazards, limitations) {
     const cite = ` [${h.evidence.join(', ')}]`;
     if (h.kind === 'changes-in-default-update-set') lines.push(`- **${h.count} customer update(s) captured in the Default update set.**${cite}`);
     else if (h.kind === 'unscoped-global-customizations') lines.push(`- **${h.count} customer update(s) in the global scope.**${cite}`);
+    else if (h.kind === 'duplicate-update-set-name') lines.push(`- **${h.count} local update sets are named "${h.update_set}".** Check which one is the source before reusing or exporting it.${cite}`);
     else lines.push(`- **In Progress update set "${h.update_set}"** (${h.sys_id}): ${h.age_days ?? '?'} day(s) since last update; current for ${h.current_for_users} user(s). Do not add to, complete, or switch it without explicit user authorization.${cite}`);
   }
-  lines.push('', '## Inventory', '', '| Area | Table | Records | Evidence |', '|---|---|---|---|');
+  if (projectMap) lines.push('', ...renderMap(projectMap));
+  lines.push('', '## Scoped application inventory', '', 'Per-table counts for customer-scoped (x_) applications; global-scope work is in the project map above.', '', '| Area | Table | Records | Evidence |', '|---|---|---|---|');
   for (const item of Object.values(inventory)) {
     lines.push(`| ${item.label} | \`${item.table}\` | ${item.records ? item.records.length : 'not readable'} | ${item.evidence ?? '—'} |`);
   }
@@ -216,7 +279,8 @@ function renderLimitations(meta, limitations) {
     '',
     '## Standing limitations',
     '',
-    '- Global-scope customisations are inventoried through customer updates (`sys_update_xml`), not per artifact table; artifact tables list customer-scoped (`x_`) records only unless `--scope` is given.',
+    '- The project map sees what update sets captured. Changes made without update-set tracking (for example data records, or records changed by scripts that skip tracking) are not visible there.',
+    '- "new" / "baseline-modified" is inferred from the record creator (system accounts mean a platform record), not read from upgrade history.',
     '- Transactional data and PII tables are never read by design.',
     '',
   );

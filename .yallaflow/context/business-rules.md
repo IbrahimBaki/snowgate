@@ -26,23 +26,10 @@
 - **Provenance:** repository
 - **From baseline:** PF-0002 (BF-013)
 - **Recorded at:** 2026-10-19T14:08:12.679Z
-- **Verified:** 2026-10-19T14:08:12.679Z
+- **Verified:** 2026-10-19T19:20:27.983Z (commit 534f164)
 - **Evidence:**
-  - src/discover.js (repository)
-  - test/discover.test.js (repository)
-
-<!-- yallaflow-fact:CTX-0014 -->
-### CTX-0014 — Discovery hazards flagged: In Progress update sets idle >= 30 days or current for a user, customer updates captured in the Default update set, and customer updates in the global scope.
-
-- **State:** current
-- **Confidence:** confirmed
-- **Provenance:** repository
-- **From baseline:** PF-0002 (BF-014)
-- **Recorded at:** 2026-10-19T14:08:12.679Z
-- **Verified:** 2026-10-19T14:08:12.679Z
-- **Evidence:**
-  - src/discover.js (repository)
-  - test/discover.test.js (repository)
+  - src/discover.js (repository @ 534f164)
+  - test/discover.test.js (repository @ 534f164)
 
 <!-- yallaflow-fact:CTX-0025 -->
 ### CTX-0025 — Human approvals are recorded only by snowgate approve in a TTY with the change_id typed back, for plan, upload or commit; upload and commit approvals bind the SHA-256 of the exact update-set.xml and go stale when it changes. Upload needs >= peer-reviewed, a clean validate and a current upload approval; commit needs awaiting-human-approval, a previewed retrieved update set with no unresolved problems and a current commit approval.
@@ -98,12 +85,12 @@
 - **Knowledge ID:** K-007
 - **Promoted at:** 2026-10-19T18:27:45.406Z
 - **Supersedes:** CTX-0011
-- **Verified:** 2026-10-19T18:27:45.406Z (commit c73fdf5)
+- **Verified:** 2026-10-19T19:06:24.245Z (commit 534f164)
 - **Evidence:**
-  - src/work.js (repository @ c73fdf5)
-  - src/config.js (repository @ c73fdf5)
-  - test/setup.test.js (repository @ c73fdf5)
-  - ليه انا بنفسي هروح اربط ال instance id بالتاسك ... موافق على الاتنين، ابدأ (user-confirmed)
+  - src/work.js (repository @ 534f164)
+  - src/config.js (repository @ 534f164)
+  - test/setup.test.js (repository @ 534f164)
+  - [object Object] (reference)
 
 <!-- yallaflow-fact:CTX-0050 -->
 ### CTX-0050 — Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.
@@ -115,11 +102,11 @@
 - **Knowledge ID:** K-010
 - **Promoted at:** 2026-10-19T18:27:45.975Z
 - **Supersedes:** CTX-0043
-- **Verified:** 2026-10-19T18:27:45.975Z (commit c73fdf5)
+- **Verified:** 2026-10-19T19:06:24.583Z (commit 534f164)
 - **Evidence:**
-  - src/adapters/policy.js (repository @ c73fdf5)
-  - test/setup.test.js (repository @ c73fdf5)
-  - test/credentials.test.js (repository @ c73fdf5)
+  - src/adapters/policy.js (repository @ 534f164)
+  - test/setup.test.js (repository @ 534f164)
+  - test/credentials.test.js (repository @ 534f164)
 
 <!-- yallaflow-fact:CTX-0051 -->
 ### CTX-0051 — snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profiles or the protected credential store; git commit when validate or the staged-file secret scan fails. SessionStart tells the agent the work item, target, approved instances (and that it may bind them itself with target set), package states and credentials mode; PostToolUse on changes/** reports validate problems.
@@ -136,5 +123,21 @@
   - src/adapters/policy.js (repository @ c73fdf5)
   - src/adapters/run-hook.js (repository @ c73fdf5)
   - test/adapters.test.js (repository @ c73fdf5)
+
+<!-- yallaflow-fact:CTX-0058 -->
+### CTX-0058 — Discovery hazards flagged: In Progress update sets idle >= 30 days or current for a user, customer updates captured in the Default update set, customer updates in the global scope, and several local update sets sharing one name.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0011
+- **Knowledge ID:** K-007
+- **Promoted at:** 2026-10-19T19:20:28.813Z
+- **Supersedes:** CTX-0014
+- **Verified:** 2026-10-19T19:20:28.813Z (commit 534f164)
+- **Evidence:**
+  - src/discover.js (repository @ 534f164)
+  - test/discover.test.js (repository @ 534f164)
+  - test/project-map.test.js (repository @ 534f164)
 
 <!-- yallaflow-context:end -->

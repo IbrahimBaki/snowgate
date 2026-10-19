@@ -118,7 +118,8 @@ test('the browser lock holds for top-level, iframe, wrapper, click and off-targe
     });
 
     await t.test('clicking a link to a locked page is refused', async () => {
-      await env.gw.call('ui_navigate', { url: '/home.do' });
+      const nav = await env.gw.call('ui_navigate', { url: '/home.do' });
+      assert.equal(nav.isError, undefined, text(nav));
       const r = await env.gw.call('ui_click', { role: 'link', name: 'Retrieved update sets' });
       assert.match(text(r), /URL_LOCKED/);
       await env.gw.call('ui_navigate', { url: '/home.do' });
@@ -145,7 +146,8 @@ test('the browser lock holds for top-level, iframe, wrapper, click and off-targe
     });
 
     await t.test('typing works, but never into a password field', async () => {
-      await env.gw.call('ui_navigate', { url: '/home.do' });
+      const nav = await env.gw.call('ui_navigate', { url: '/home.do' });
+      assert.equal(nav.isError, undefined, text(nav));
       const ok = await env.gw.call('ui_type', { label: 'Search', value: 'abc' });
       assert.equal(ok.isError, undefined, text(ok));
       const pw = await env.gw.call('ui_type', { label: 'Secret', value: 'abc' });

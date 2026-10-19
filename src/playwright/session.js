@@ -33,6 +33,7 @@ export class BrowserSession {
   #dialog = null;
   #blocked = [];
   #missingHint;
+  #userToken = null;
 
   constructor({
     origin,
@@ -183,12 +184,67 @@ export class BrowserSession {
     this.#loggedIn = true;
   }
 
+  // REST through the signed-in browser session (PF-0010), for instances that
+  // refuse Basic auth: the session cookies plus the token the UI itself sends
+  // (g_ck) as X-UserToken. GET only, and only to the confirmed target origin.
+  async restFetch(input, init = {}) {
+    const url = String(input);
+    if ((init.method ?? 'GET') !== 'GET') throw new SnowgateError('The session REST path is read-only (GET).', 'METHOD_NOT_ALLOWED');
+    if (new URL(url).origin !== this.#origin) throw new SnowgateError(`Refused: ${url} is not on the confirmed target.`, 'HOST_LOCKED');
+    await this.login();
+    const get = async () => {
+      this.#userToken ??= await this.#fetchUserToken();
+      const headers = { ...(init.headers ?? {}), 'X-UserToken': this.#userToken };
+      delete headers.Authorization;
+      return this.#context.request.get(url, { headers, maxRedirects: 0, failOnStatusCode: false });
+    };
+    let res = await get();
+    if (res.status() === 401) {
+      // The token or the session ended: renew once (password sign-in renews
+      // the session; an SSO profile reports SESSION_EXPIRED).
+      this.#userToken = null;
+      this.#loggedIn = false;
+      await this.login();
+      res = await get();
+    }
+    return { status: res.status(), ok: res.ok(), json: () => res.json() };
+  }
+
+  // Same-origin redirects only (navpage.do redirects to the Next Experience
+  // shell on newer instances).
+  async #getSameOrigin(url, hops = 5) {
+    let current = url;
+    for (let i = 0; i <= hops; i += 1) {
+      const res = await this.#context.request.get(current, { maxRedirects: 0, failOnStatusCode: false });
+      const location = res.status() >= 300 && res.status() < 400 ? res.headers().location : null;
+      if (!location) return res;
+      const next = new URL(location, current);
+      if (next.origin !== this.#origin) return res;
+      current = next.toString();
+    }
+    return null;
+  }
+
+  async #fetchUserToken() {
+    for (const page of ['/navpage.do', '/']) {
+      const res = await this.#getSameOrigin(`${this.#origin}${page}`);
+      const html = res?.ok() ? await res.text() : '';
+      const token = /g_ck\s*=\s*['"]([^'"]+)['"]/.exec(html)?.[1] ?? /"g_ck"\s*:\s*"([^"]+)"/.exec(html)?.[1];
+      if (token) return token;
+    }
+    throw new SnowgateError('Signed in, but the instance did not provide a session token for REST (g_ck).', 'SESSION_TOKEN_MISSING');
+  }
+
   frames() {
     return this.#page ? this.#page.frames().map((f, index) => ({ index, name: f.name(), url: f.url() })) : [];
   }
 
   // After every action: no frame may sit on an off-target or locked URL.
+  // Frames keep loading after the main page's load event, so wait for the
+  // network to settle first; otherwise a frame request blocked a moment later
+  // would be missed (and wrongly blamed on the next action).
   async postCheck() {
+    await this.#page.waitForLoadState('networkidle', { timeout: 3000 }).catch(() => {});
     const blocked = this.takeBlocked();
     const bad = this.frames().find((f) => !/^(about:|chrome-error:)/.test(f.url) && !classifyRequest(f.url, { origin: this.#origin }).allowed);
     const lockedNav = blocked.find((b) => b.navigation);
@@ -244,6 +300,8 @@ export class BrowserSession {
 
   async navigate(url) {
     await this.login();
+    // Requests blocked late by an earlier action must not fail this one.
+    this.takeBlocked();
     await this.#goto(url);
     // Navigation is safe to repeat after an automatic re-login.
     if (await this.#renewIfEnded()) await this.#goto(url);
@@ -286,6 +344,7 @@ export class BrowserSession {
 
   async click(target) {
     const loc = await this.locate(target);
+    this.takeBlocked();
     await loc.click({ timeout: 10000 });
     await this.#page.waitForLoadState('load').catch(() => {});
     await this.#afterInteraction();
@@ -293,6 +352,7 @@ export class BrowserSession {
 
   async type(target, value, { submit = false } = {}) {
     const loc = await this.locate(target);
+    this.takeBlocked();
     if ((await loc.getAttribute('type')) === 'password') {
       throw new SnowgateError('Typing into password fields is not allowed through the gateway.', 'PASSWORD_FIELD');
     }

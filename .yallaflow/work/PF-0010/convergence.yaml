@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T19:05:54.555Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+        "verificationRunIds": [
+          "V-002"
+        ]
+      },
+      "summary": "Assessed after V-002 (npm test 126/126) and real-instance runs on dev446072.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "rest_auth auto tries Basic and on 401 switches to the session (X-UserToken from g_ck), session mode never sends a password; restFetch is GET-only and target-origin-only; discover and the gateway use it. On dev446072 Basic returned 401 and discover read 19/19 tables through the session.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/rest/client.js",
+              "contentHash": "sha256:e6216c891ad3eed37b0c23bccb8519b4885c94b13a7661b54794f115578142b1",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:f7c889de9ac19ca046d72d5947e49099c067a2d6aea9ea61fca389b191a9b7a3",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "contentHash": "sha256:e04f5ea30c8f93921f7e5190ea4617d4693509b16239b29b6c4080afcfa7889c",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/rest-session.test.js",
+              "contentHash": "sha256:86a400b0a5a27663737d9821ba184d96c0d24ee730852d82bf745dd082dbd5dd",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0010",
+              "verificationRunId": "V-002"
+            },
+            {
+              "type": "runtime",
+              "description": "dev446072 discover 19 tables read, 0 unreadable, via session"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "setup checks credentials immediately: Basic works, Basic refused but session works (stated), or rejected (asked again, up to 3). On dev446072 the check reported the session fallback.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/check.js",
+              "contentHash": "sha256:acfd91a28bf945f586dd88672bf76c96f92ecac5ede20c79f5f49dc3c4927ad8",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/setup.js",
+              "contentHash": "sha256:3370696a06f100b26c05fa553f8bbf19885c436e627493591119a2216e3f8437",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/setup.test.js",
+              "contentHash": "sha256:a557f50a5d36b4a37c4b60961460abc85f11e0857e1f9c9e956125988ef89af6",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0010",
+              "verificationRunId": "V-002"
+            },
+            {
+              "type": "runtime",
+              "description": "dev446072 checkAccess returned session"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "postCheck waits for network idle and actions drop stale blocked entries (flake fix).",
+          "reason": "Fixes intermittent lock-check misses found while verifying this work.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:0df9801c7863739b22a81a97bdc808c89c65f9c5cb86872c66af3856dabbbaeb",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-19T19:05:54.555Z"
+}

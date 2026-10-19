@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T18:53:41.387Z",
+      "completedAt": "2026-10-19T18:53:41.387Z",
+      "summary": "Trial on dev446072: stored credentials sign in via login.do, but Table API Basic auth returns 401 'User is not authenticated'; the same Table API GET with the browser session cookies plus X-UserToken (g_ck from navpage.do) returns 200. ReadOnlyClient (src/rest/client.js) only supports Basic auth; BrowserSession owns the browser context; setup saves credentials without checking them.",
+      "evidence": [
+        "runtime:dev446072-basic-401-session-200"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T18:53:41.731Z",
+      "completedAt": "2026-10-19T18:53:41.731Z",
+      "summary": "User approved both (agent session): rest_auth auto with session fallback, and an immediate credential check in setup.",
+      "evidence": [
+        "user:موافق، ابدأ في الاتنين"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T19:02:07.597Z",
+      "completedAt": "2026-10-19T19:02:07.597Z",
+      "summary": "ReadOnlyClient modes basic|session|auto (auto switches to the session on 401 and stays; whoami uses gs.getUserID() in session mode; session errors keep their code); BrowserSession.restFetch (GET only, target origin only, X-UserToken from g_ck fetched via same-origin redirects, one renewal on 401); config rest_auth (default auto); gateway and discover use it; src/check.js checkAccess; setup checks credentials immediately (rejected -> ask again, 3 tries; reports session fallback; checks SSO REST after login). Real instance: checkAccess -> session; discover read 19/19 tables via the session.",
+      "evidence": [
+        "src/rest/client.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T19:05:54.318Z",
+      "completedAt": "2026-10-19T19:05:54.318Z",
+      "summary": "V-002 npm test passed (126) after the flake fix (8/8 full-suite runs green). V-001 failed on the intermittent browser-lock test, now fixed. Real instance dev446072: checkAccess -> session; discover read 19 tables, 0 unreadable, via the session.",
+      "evidence": [
+        "verification:V-002",
+        "runtime:dev446072-discover-19-of-19-via-session"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T19:05:54.910Z",
+      "completedAt": "2026-10-19T19:05:54.910Z",
+      "summary": "AC-001, AC-002 satisfied (incl. real-instance evidence).",
+      "evidence": [
+        "verification:V-002"
+      ]
+    }
+  },
+  "rulings": [
+    {
+      "decision": "During implementation one test run reached the real instance dev446072: the dev-mode setup test called the new real access check with a dummy password before the test injected a fake, producing one failed Basic REST request and one failed login.do sign-in for user admin",
+      "reason": "Recorded for transparency; all setup tests now inject a fake check and every instance access in tests goes to local fixtures or mocks",
+      "costIfWrong": "Repeated failed sign-ins could lock the PDI admin account; only one occurred",
+      "createdAt": "2026-10-19T19:02:07.491Z"
+    },
+    {
+      "decision": "Fix the intermittent browser-lock test failures (seen in PF-0003 and in this work's first verification run): postCheck now waits for network idle (max 3s) before inspecting frames and blocked requests, and each action discards blocked entries left over from earlier actions",
+      "reason": "Under parallel test load the gsft_main iframe request was blocked after postCheck had already run; 0/8 full-suite failures after the fix versus 7/8 with only the reset",
+      "costIfWrong": "UI actions on pages with long-polling may wait up to 3s each",
+      "createdAt": "2026-10-19T19:05:42.841Z"
+    }
+  ],
+  "history": [],
+  "updatedAt": "2026-10-19T19:05:54.910Z"
+}

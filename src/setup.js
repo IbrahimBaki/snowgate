@@ -3,6 +3,7 @@ import { chromium } from 'playwright';
 import { ensureGitignore, installClaude, installCodex, installGitHook, installYallaflow } from './adapters/install.js';
 import { loadConfig, updateConfig } from './config.js';
 import { resolveCredentials, writeCredentials } from './credentials.js';
+import { checkAccess } from './check.js';
 import { doctor } from './doctor.js';
 import { normalizeInstance } from './instance.js';
 
@@ -23,6 +24,7 @@ export async function setup({
   installChromium,
   login,
   home,
+  check = (opts) => checkAccess({ ...opts, pattern: pack.instancePattern, env }),
 }) {
   const yes = async (question, byDefault) => {
     const a = (await ask(`${question} ${byDefault ? '[Y/n]' : '[y/N]'} `)).trim().toLowerCase();
@@ -72,16 +74,30 @@ export async function setup({
     const optional = sso ? ' (REST only; empty to skip)' : '';
     const user = (await ask(`ServiceNow user for ${label}${optional}${existing.user ? ` [${existing.user}]` : ''}: `)).trim() || existing.user;
     if (!user) continue;
-    const password = (await askHidden(`Password for ${user}${existing.password ? ' (empty keeps the saved one)' : ''}: `)) || existing.password;
-    if (!password) continue;
-    writeCredentials(root, instance, { user, password, pack, env });
-    out(dev ? `Saved ${user} to .snowgate.env (agent-visible, never committed).` : `Saved ${user} for ${instance} (outside the project; agents cannot read it).`);
+    // Check right away; a rejected password is asked for again (3 tries).
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      const password = (await askHidden(`Password for ${user}${existing.password && attempt === 1 ? ' (empty keeps the saved one)' : ''}: `)) || (attempt === 1 ? existing.password : '');
+      if (!password) break;
+      // SSO users check REST after signing in below; here only Basic matters.
+      const result = await check({ instance, user, password, uiAuth: sso ? 'profile' : 'password' });
+      if (result.status === 'rejected') {
+        out(`${result.message}${attempt < 3 ? ' Try again.' : ' Not saved.'}`);
+        continue;
+      }
+      writeCredentials(root, instance, { user, password, pack, env });
+      out(dev ? `Saved ${user} to .snowgate.env (agent-visible, never committed).` : `Saved ${user} for ${instance} (outside the project; agents cannot read it).`);
+      if (!(sso && result.status === 'missing')) out(result.message);
+      break;
+    }
   }
 
   // 5. SSO sign-in for the browser.
   if (sso) {
     for (const { instance } of approved) {
-      if (await yes(`Sign in to ${instance} with SSO now?`, true)) await login(instance);
+      if (!(await yes(`Sign in to ${instance} with SSO now?`, true))) continue;
+      await login(instance);
+      const result = await check({ instance, uiAuth: 'profile' });
+      out(result.message);
     }
   }
 

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "REST reads work when the instance refuses Basic auth, by using the browser session (password sign-in or SSO profile), without a separate integration account.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T18:53:41.623Z",
+      "updatedAt": "2026-10-19T18:53:41.623Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "snowgate setup checks the credentials right after they are entered and reports a wrong password or a refused Basic auth immediately.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T18:53:41.623Z",
+      "updatedAt": "2026-10-19T18:53:41.623Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "rest_auth: auto (default) tries Basic auth and on 401 switches to the browser session with X-UserToken; rest_auth: session never sends Basic auth; requests stay GET-only, allow-listed and on the confirmed target origin; discover and the gateway REST tools both use it.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T18:53:41.623Z",
+      "updatedAt": "2026-10-19T18:53:41.623Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "setup reports one of: works with Basic auth; Basic auth refused but the session works; password rejected (asks again).",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T18:53:41.623Z",
+      "updatedAt": "2026-10-19T18:53:41.623Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-10-19T18:53:41.623Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-10-19T18:53:41.623Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-10-19T18:53:41.623Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-10-19T18:53:41.623Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-10-19T18:53:41.623Z"
+}

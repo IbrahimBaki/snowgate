@@ -5,26 +5,46 @@ import { TABLES } from './tables.js';
 // Read-only ServiceNow Table API client. Every request goes through #get, which
 // hard-codes the GET method; there is no generic request method and no write
 // verb anywhere in this module (a test asserts this structurally).
+//
+// Authentication (PF-0010), `mode`:
+//   basic   — Authorization: Basic with the configured credentials;
+//   session — the gateway's signed-in browser session (cookies + the UI's
+//             X-UserToken), via `sessionFetch`; no password is sent;
+//   auto    — Basic first; on HTTP 401 switch to the session for good. Some
+//             instances refuse Basic auth on REST even for a valid password.
 export class ReadOnlyClient {
   #instance;
   #auth;
   #fetch;
+  #sessionFetch;
+  #mode;
   #pageSize;
   #maxRecords;
 
-  constructor({ instance, user, password, fetchImpl = globalThis.fetch, pageSize = 500, maxRecords = 10000, pattern }) {
+  constructor({ instance, user, password, fetchImpl = globalThis.fetch, sessionFetch = null, mode = 'basic', pageSize = 500, maxRecords = 10000, pattern }) {
     this.#instance = normalizeInstance(instance, pattern);
-    if (!user || !password) {
-      throw new SnowgateError('ServiceNow credentials are missing (set SN_USER and SN_PASSWORD in the environment).', 'NO_CREDENTIALS');
+    if (!['basic', 'session', 'auto'].includes(mode)) throw new SnowgateError(`Unknown rest_auth "${mode}" (auto, basic or session).`, 'CONFIG_INVALID');
+    const hasCredentials = Boolean(user && password);
+    if (mode !== 'basic' && !sessionFetch) throw new SnowgateError(`rest_auth ${mode} needs a browser session.`, 'NO_SESSION');
+    if (mode === 'basic' && !hasCredentials) {
+      throw new SnowgateError('ServiceNow credentials are missing.', 'NO_CREDENTIALS');
     }
-    if (/[\^=\s]/.test(user)) {
+    if (user && /[\^=\s]/.test(user)) {
       throw new SnowgateError('SN_USER contains characters that cannot be used safely in an encoded query.', 'CREDENTIALS_INVALID');
     }
-    this.#auth = `Basic ${Buffer.from(`${user}:${password}`).toString('base64')}`;
-    this.user = user;
+    this.#auth = hasCredentials ? `Basic ${Buffer.from(`${user}:${password}`).toString('base64')}` : null;
+    this.user = user ?? null;
     this.#fetch = fetchImpl;
+    this.#sessionFetch = sessionFetch;
+    // auto without credentials has nothing to try first.
+    this.#mode = mode === 'auto' && !hasCredentials ? 'session' : mode;
     this.#pageSize = pageSize;
     this.#maxRecords = maxRecords;
+  }
+
+  // How the client is authenticating now: basic or session.
+  get authMode() {
+    return this.#mode === 'auto' ? 'basic' : this.#mode;
   }
 
   get instance() {
@@ -58,10 +78,13 @@ export class ReadOnlyClient {
   // Fixed-shape preflight reads. They touch sys_user / sys_user_has_role /
   // sys_properties, which are NOT on the general allowlist: only these exact
   // queries and columns are possible.
+  // In session mode the signed-in user may be an SSO identity snowgate never
+  // saw, so the record is found with the instance's own current-user ID.
   async whoami() {
-    const result = await this.#collect('sys_user', ['sys_id', 'user_name'], `user_name=${this.user}`, 1);
+    const query = this.authMode === 'session' || !this.user ? 'sys_id=javascript:gs.getUserID()' : `user_name=${this.user}`;
+    const result = await this.#collect('sys_user', ['sys_id', 'user_name'], query, 1);
     const me = result.records[0];
-    if (!me) throw new AuthError(`Authenticated, but no sys_user record is readable for "${this.user}".`);
+    if (!me) throw new AuthError(`Authenticated, but no sys_user record is readable for "${this.user ?? 'the signed-in user'}".`);
     return { sys_id: me.sys_id, user_name: me.user_name, evidence: result.evidence };
   }
 
@@ -108,11 +131,22 @@ export class ReadOnlyClient {
     };
   }
 
+  #send(url) {
+    if (this.#mode === 'session') return this.#sessionFetch(url, { method: 'GET', headers: { Accept: 'application/json' } });
+    return this.#fetch(url, { method: 'GET', headers: { Accept: 'application/json', Authorization: this.#auth } });
+  }
+
   async #get(table, url) {
     let res;
     try {
-      res = await this.#fetch(url, { method: 'GET', headers: { Accept: 'application/json', Authorization: this.#auth } });
+      res = await this.#send(url);
+      if (res.status === 401 && this.#mode === 'auto') {
+        this.#mode = 'session';
+        res = await this.#send(url);
+      }
     } catch (err) {
+      // Session problems (expired, missing) keep their own code.
+      if (err instanceof SnowgateError) throw err;
       throw new SnowgateError(`Could not reach ${this.#instance}: ${err.message}`, 'NETWORK');
     }
     if (res.status === 401) throw new AuthError(`Authentication to ${this.#instance} failed (HTTP 401).`);

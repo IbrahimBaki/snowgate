@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T19:20:11.308Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 (npm test 129/129) and a real discover on dev446072.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "Artifacts come from sys_update_xml names in every scope; 22 known artifact tables are read by sys_id (name, active, scope, creator) and marked new/baseline-modified (inferred) or deleted; other types are listed by target_name. On dev446072 the global-scope landing page, registration form and catalog work appear.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/project-map.js",
+              "contentHash": "sha256:ba6b45e287049032d694bace37cd26b673efb708c69702517926f9d9fcb6fa9e",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/rest/tables.js",
+              "symbol": "ARTIFACT_TABLES",
+              "contentHash": "sha256:5d511c797481d19eeaaa49919438351b0030e0e01878f888eb4b26ab122f0d3f",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/project-map.test.js",
+              "contentHash": "sha256:8cc615b0b0dcd45b2841e19bae0932716496eea66a23c588e31b18d1c2888628",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0011",
+              "verificationRunId": "V-001"
+            },
+            {
+              "type": "runtime",
+              "description": "dev446072 project map 585 artifacts"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "report.md has the project map grouped by local and retrieved update sets with state, a by-type table, duplicate update-set names as hazards and a compact roles line; project-map.json holds the full map with evidence ids.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/discover.js",
+              "symbol": "renderMap",
+              "contentHash": "sha256:77c07e993c56203c22bc5ee49851eccca12c2764e134e82c3a365dec5c445bd8",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/project-map.test.js",
+              "contentHash": "sha256:8cc615b0b0dcd45b2841e19bae0932716496eea66a23c588e31b18d1c2888628",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0011",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "Portal layout records (rows, columns, containers) are counted instead of listed.",
+          "reason": "Their names carry no meaning ('1'); counting keeps the report readable.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/discover.js",
+              "contentHash": "sha256:77c07e993c56203c22bc5ee49851eccca12c2764e134e82c3a365dec5c445bd8",
+              "gitCommit": "534f1646807a5691328fb05b4f2b1f80e619e9c2",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-19T19:20:11.308Z"
+}
