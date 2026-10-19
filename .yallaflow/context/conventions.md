@@ -13,10 +13,10 @@
 - **Provenance:** repository
 - **From baseline:** PF-0002 (BF-016)
 - **Recorded at:** 2026-10-19T14:08:12.679Z
-- **Verified:** 2026-10-19T21:40:22.159Z (commit 87b03c6)
+- **Verified:** 2026-10-19T22:06:05.730Z (commit 0b3e5ec)
 - **Evidence:**
-  - src/errors.js (repository @ 87b03c6)
-  - src/cli/main.js (repository @ 87b03c6)
+  - src/errors.js (repository @ 0b3e5ec)
+  - src/cli/main.js (repository @ 0b3e5ec)
 
 <!-- yallaflow-fact:CTX-0031 -->
 ### CTX-0031 — Tests use node:test and never contact a real instance: a local mock Table API, validator fixtures, and local fixture sites (instance + identity provider) driven by real headless Chromium for the URL lock and SSO profile; npm test runs test/*.test.js.
@@ -28,10 +28,10 @@
 - **Knowledge ID:** K-005
 - **Promoted at:** 2026-10-19T14:50:52.171Z
 - **Supersedes:** CTX-0023
-- **Verified:** 2026-10-19T19:06:23.863Z (commit 534f164)
+- **Verified:** 2026-10-19T22:06:06.260Z (commit 0b3e5ec)
 - **Evidence:**
-  - test/helpers.js (repository @ 534f164)
-  - test/browser-lock.test.js (repository @ 534f164)
-  - test/sso-profile.test.js (repository @ 534f164)
+  - test/helpers.js (repository @ 0b3e5ec)
+  - test/browser-lock.test.js (repository @ 0b3e5ec)
+  - test/sso-profile.test.js (repository @ 0b3e5ec)
 
 <!-- yallaflow-context:end -->

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:01:02.362Z",
+      "completedAt": "2026-10-19T22:01:02.362Z",
+      "summary": "dev446072: sys_db_object super_class.name gives the inheritance chain (sp_widget/sc_cat_item/question/sys_properties → sys_metadata; sc_req_item/incident → task; sys_user, syslog standalone). Sensitive field types are password and password2 (sys_user.user_password: password), but oauth_credential.token is a plain string, so names must be checked too. Trial: the per-request fingerprint 'sp_widget.sys_updated_by,sys_updated_on,sys_mod_count' fragments feedback.",
+      "evidence": [
+        "runtime:dev446072 sys_db_object/sys_dictionary checks 2026-10-20",
+        "src/rest/client.js"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:01:02.781Z",
+      "completedAt": "2026-10-19T22:01:02.781Z",
+      "summary": "User decisions (agent session): data readable by default except sensitive data; the restricting option exists and is explained to the agent but not offered at the start; fix per-field feedback fingerprints.",
+      "evidence": [
+        "user:ابنيه بشكل افتراضي انه يقدر يوصل للداتا ووضحله ان في اوبشن يقدر يغيره"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:05:20.357Z",
+      "completedAt": "2026-10-19T22:05:20.357Z",
+      "summary": "src/rest/read-policy.js (ReadPolicy: instance sys_db_object chain and sys_dictionary types incl. inherited fields, data all/listed/none + data_tables, sensitive types/names/tables, dot-walk resolution with per-hop checks, checkQuery refusing javascript: and sensitive filters); client uses the static allowlist as a fast path and the policy otherwise; checkQuery applies to every agent query; config data/data_tables (default all); gateway and discover pass the policy; sn_query description; SessionStart and doctor explain the data option; feedback: one gap per field, sensitive refusals reported; README. Real: sp_widget audit fields, sc_req_item read; user_password, oauth_credential and javascript: refused.",
+      "evidence": [
+        "src/rest/read-policy.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:05:31.945Z",
+      "completedAt": "2026-10-19T22:05:31.945Z",
+      "summary": "V-001 npm test passed (143). Real instance dev446072 via the gateway: widget audit fields and sc_req_item readable; sys_user.user_password FIELD_SENSITIVE, oauth_credential TABLE_SENSITIVE, javascript: QUERY_NOT_ALLOWED.",
+      "evidence": [
+        "verification:V-001",
+        "runtime:dev446072 open read model checks 2026-10-20"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T22:05:32.611Z",
+      "completedAt": "2026-10-19T22:05:32.611Z",
+      "summary": "AC-001..003 satisfied.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T22:05:32.611Z"
+}

@@ -78,6 +78,10 @@ export function sessionContext(root, env = process.env) {
     const { errors } = validatePackages(root);
     if (errors.length) lines.push(`snowgate validate currently reports ${errors.length} problem(s).`);
   }
+  const data = loadConfig(root).data;
+  lines.push(data === 'all'
+    ? 'Data access: any table and field on the target can be read with sn_query/sn_get_record, except sensitive data (password fields, secret/token/credential-like names, session/token/credential tables). A project can limit this with data: listed or none in .snowgate/config.yaml.'
+    : `Data access is limited by this project (data: ${data}): configuration tables${data === 'listed' ? ' plus data_tables' : ''} only; sensitive data is never readable.`);
   lines.push('When snowgate does not let you see or do something you need, call the sn_report_gap tool; refused fields, tables and tools are recorded automatically.');
   const pending = pendingGaps(root).length;
   if (pending) lines.push(`${pending} feedback gap(s) have not been sent to the snowgate developers; suggest that the user runs snowgate feedback send.`);

@@ -40,11 +40,11 @@
 - **Source work:** PF-0003
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T14:34:14.430Z
-- **Verified:** 2026-10-19T21:40:22.656Z (commit 87b03c6)
+- **Verified:** 2026-10-19T22:06:06.082Z (commit 0b3e5ec)
 - **Evidence:**
-  - src/approvals.js (repository @ 87b03c6)
-  - src/gateway/tools.js (repository @ 87b03c6)
-  - test/gateway.test.js (repository @ 87b03c6)
+  - src/approvals.js (repository @ 0b3e5ec)
+  - src/gateway/tools.js (repository @ 0b3e5ec)
+  - test/gateway.test.js (repository @ 0b3e5ec)
 
 <!-- yallaflow-fact:CTX-0032 -->
 ### CTX-0032 — The target ServiceNow instances use SSO for interactive sign-in (user-confirmed), so the gateway's browser relies on the snowgate SSO profile rather than the login.do password form.
@@ -85,11 +85,11 @@
 - **Knowledge ID:** K-007
 - **Promoted at:** 2026-10-19T18:27:45.406Z
 - **Supersedes:** CTX-0011
-- **Verified:** 2026-10-19T19:06:24.245Z (commit 534f164)
+- **Verified:** 2026-10-19T22:06:06.592Z (commit 0b3e5ec)
 - **Evidence:**
-  - src/work.js (repository @ 534f164)
-  - src/config.js (repository @ 534f164)
-  - test/setup.test.js (repository @ 534f164)
+  - src/work.js (repository @ 0b3e5ec)
+  - src/config.js (repository @ 0b3e5ec)
+  - test/setup.test.js (repository @ 0b3e5ec)
   - [object Object] (reference)
 
 <!-- yallaflow-fact:CTX-0058 -->
@@ -133,10 +133,23 @@
 - **Knowledge ID:** K-015
 - **Promoted at:** 2026-10-19T21:40:24.208Z
 - **Supersedes:** CTX-0050
-- **Verified:** 2026-10-19T21:40:24.208Z (commit 87b03c6)
+- **Verified:** 2026-10-19T22:06:07.331Z (commit 0b3e5ec)
 - **Evidence:**
-  - src/adapters/policy.js (repository @ 87b03c6)
-  - test/feedback.test.js (repository @ 87b03c6)
-  - test/adapters.test.js (repository @ 87b03c6)
+  - src/adapters/policy.js (repository @ 0b3e5ec)
+  - test/feedback.test.js (repository @ 0b3e5ec)
+  - test/adapters.test.js (repository @ 0b3e5ec)
+
+<!-- yallaflow-fact:CTX-0073 -->
+### CTX-0073 — Default read policy is open: agents may read data tables too (data: all), except sensitive data; the restricting option (data: listed|none) is documented and announced to the agent but not offered during setup, to keep the first use simple.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** user-confirmed
+- **Source work:** PF-0015
+- **Knowledge ID:** K-016
+- **Promoted at:** 2026-10-19T22:06:08.385Z
+- **Verified:** 2026-10-19T22:06:08.385Z (commit 0b3e5ec)
+- **Evidence:**
+  - ابنيه بشكل افتراضي انه يقدر يوصل للداتا ووضحله ان في اوبشن يقدر يغيره لكن انا مش عاوز اكبر الخيارات في بداية الاستخدام (user-confirmed)
 
 <!-- yallaflow-context:end -->

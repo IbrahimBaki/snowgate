@@ -10,7 +10,7 @@ import { createGateway } from '../src/gateway/server.js';
 import { loadPack } from '../src/pack.js';
 import { ReadOnlyClient } from '../src/rest/client.js';
 import { confirmTarget, setCandidate } from '../src/work.js';
-import { INSTANCE, ME, PASSWORD, USER, makeProject, startMockServiceNow } from './helpers.js';
+import { INSTANCE, ME, PASSWORD, USER, makeProject, schemaTables, startMockServiceNow } from './helpers.js';
 
 // PF-0014: feedback collection, with nothing from the instance.
 const WORK = 'PF-0001';
@@ -57,18 +57,20 @@ async function confirmed(root) {
 
 test('gateway refusals become gaps; sn_report_gap needs no target and keeps no instance data', async () => {
   const root = makeProject(WORK);
-  const mock = await startMockServiceNow({ tables: { sys_scope: [] } });
+  const mock = await startMockServiceNow({ tables: { sys_scope: [], ...schemaTables({ sp_widget: { parent: 'sys_metadata', fields: { name: 'string', token_counter: 'integer' } }, sys_metadata: {} }) } });
   const gw = createGateway({ root, workId: WORK, pack, env: { SN_USER: USER, SN_PASSWORD: PASSWORD }, clientFactory: (o) => new ReadOnlyClient({ ...o, fetchImpl: mock.fetchImpl }) });
   try {
     // No target yet: reporting still works.
     const r = await gw.call('sn_report_gap', { summary: `Cannot see the flow behind a catalog item on ${INSTANCE}`, need: 'to explain what happens after submit', area: 'sc_cat_item.flow_designer_flow' });
     assert.equal(r.isError, undefined, r.content[0].text);
     await confirmed(root);
+    // A typo is not a gap; a sensitive-looking refusal is (it may be a false positive).
     await gw.call('sn_get_record', { table: 'sp_widget', sys_id: 'a'.repeat(32), fields: ['secret_sauce'] });
-    await gw.call('sn_query', { table: 'u_course', fields: ['sys_id'] });
+    await gw.call('sn_query', { table: 'sp_widget', fields: ['name', 'token_counter'] });
+    await gw.call('sn_query', { table: 'sys_user_session', fields: ['sys_id'] });
     await gw.call('browser_evaluate', {});
     const codes = readGaps(root).map((g) => g.fingerprint).sort();
-    assert.deepEqual(codes, ['AGENT_REPORT:sc_cat_item.flow_designer_flow', 'FIELD_NOT_ALLOWED:sp_widget.secret_sauce', 'TABLE_NOT_ALLOWED:u_course', 'TOOL_UNKNOWN:tool browser_evaluate']);
+    assert.deepEqual(codes, ['AGENT_REPORT:sc_cat_item.flow_designer_flow', 'FIELD_SENSITIVE:sp_widget.secret_sauce', 'FIELD_SENSITIVE:sp_widget.token_counter', 'TABLE_SENSITIVE:sys_user_session', 'TOOL_UNKNOWN:tool browser_evaluate']);
     assert.ok(!JSON.stringify(readGaps(root)).includes(INSTANCE));
   } finally {
     await gw.close();

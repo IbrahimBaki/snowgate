@@ -15,10 +15,10 @@
 - **Knowledge ID:** K-011
 - **Promoted at:** 2026-10-19T19:06:24.937Z
 - **Supersedes:** CTX-0008
-- **Verified:** 2026-10-19T21:40:23.180Z (commit 87b03c6)
+- **Verified:** 2026-10-19T22:06:06.929Z (commit 0b3e5ec)
 - **Evidence:**
-  - src/rest/client.js (repository @ 87b03c6)
-  - test/rest-session.test.js (repository @ 87b03c6)
+  - src/rest/client.js (repository @ 0b3e5ec)
+  - test/rest-session.test.js (repository @ 0b3e5ec)
 
 <!-- yallaflow-fact:CTX-0056 -->
 ### CTX-0056 — Some instances refuse Basic auth on the Table API even for a valid password (dev446072: 401 'User is not authenticated' while login.do sign-in works); the same GET with the UI session cookies plus X-UserToken succeeds. navpage.do redirects to the Next Experience shell there, which still carries g_ck.
@@ -49,20 +49,20 @@
   - src/rest/tables.js (repository @ b57508f)
   - [object Object] (reference)
 
-<!-- yallaflow-fact:CTX-0061 -->
-### CTX-0061 — ServiceNow integration is a read-only Table API client: every request goes through one private GET path, only allow-listed configuration tables and fields (incl. code/definition fields such as sp_widget template/client_script/script, sys_script script, sys_ui_page html, verified against a real instance's sys_dictionary), mandatory fields, page size 500, safety cap 10000; a refused field lists the allowed ones. Bulk discovery reads fetch metadata only (metaFields). Auth follows rest_auth: auto/basic/session.
+<!-- yallaflow-fact:CTX-0070 -->
+### CTX-0070 — ServiceNow REST is read-only (one private GET path; every request lists its fields; page size 500, cap 10000). Reads follow data: in .snowgate/config.yaml — all (default: any table/field), listed (sys_metadata descendants + data_tables) or none (configuration only) — checked against the instance's sys_db_object inheritance and sys_dictionary types (inherited fields included, dot-walks checked per hop). Always refused: password/password2 fields, secret/token/credential/key/session-like names, session/token/credential tables, sys_attachment_doc, and encoded queries with javascript: or sensitive filters. The static allowlist is a fast path. Auth follows rest_auth.
 
 - **State:** current
 - **Confidence:** confirmed
 - **Provenance:** repository
-- **Source work:** PF-0012
-- **Knowledge ID:** K-015
-- **Promoted at:** 2026-10-19T19:49:19.229Z
-- **Supersedes:** CTX-0052
-- **Verified:** 2026-10-19T21:40:23.673Z (commit 87b03c6)
+- **Source work:** PF-0015
+- **Knowledge ID:** K-013
+- **Promoted at:** 2026-10-19T22:06:07.853Z
+- **Supersedes:** CTX-0061
+- **Verified:** 2026-10-19T22:06:07.853Z (commit 0b3e5ec)
 - **Evidence:**
-  - src/rest/client.js (repository @ 87b03c6)
-  - src/rest/tables.js (repository @ 87b03c6)
-  - test/rest-client.test.js (repository @ 87b03c6)
+  - src/rest/read-policy.js (repository @ 0b3e5ec)
+  - src/rest/client.js (repository @ 0b3e5ec)
+  - test/read-policy.test.js (repository @ 0b3e5ec)
 
 <!-- yallaflow-context:end -->

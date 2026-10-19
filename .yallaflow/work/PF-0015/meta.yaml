@@ -1,0 +1,45 @@
+{
+  "id": "PF-0015",
+  "type": "feature",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Open read model: any table and field except sensitive ones, per-project data option, one feedback gap per field",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T21:59:55.006Z",
+  "updatedAt": "2026-10-19T22:06:08.688Z",
+  "title": "Open read model: any table and field except sensitive ones, per-project data option, one feedback gap per field",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow feature --scope bounded`.",
+  "routedAt": "2026-10-19T21:59:55.009Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "implement",
+    "verify",
+    "converge"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation",
+      "verification",
+      "delivery-convergence"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T22:06:08.688Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

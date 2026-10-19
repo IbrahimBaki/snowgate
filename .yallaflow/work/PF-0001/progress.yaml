@@ -116,8 +116,14 @@
       "reason": "User (agent session): 'ليه انا بنفسي هروح اربط ال instance id بالتاسك .. عاوز اقلل رحلة المستخدم' and 'موافق على الاتنين، ابدأ'",
       "costIfWrong": "An approved instance can be used by any task without a per-task human step; keep production instances off the list",
       "createdAt": "2026-10-19T18:23:45.209Z"
+    },
+    {
+      "decision": "Amend PLAN §4 'configuration only, no transactional data or PII': REST reads are open by default to any table and field except sensitive ones (password/password2 field types, secret/token/credential/key-like names, session/token/credential tables, attachment content); a per-project option data: all|listed|none (with data_tables for listed) restricts it, documented but not asked in setup",
+      "reason": "User (agent session): 'ابنيه بشكل افتراضي انه يقدر يوصل للداتا ... وخلي الوصول متاح حاليا الا للداتا الحساسة عشان ناخد تجربة استخدام وتطوير اقوى'",
+      "costIfWrong": "Agents may read personal data on instances where that is not wanted unless the user sets data: listed or none; UI-side enforcement of listed/none comes later",
+      "createdAt": "2026-10-19T21:59:54.893Z"
     }
   ],
   "history": [],
-  "updatedAt": "2026-10-19T18:23:45.209Z"
+  "updatedAt": "2026-10-19T21:59:54.893Z"
 }

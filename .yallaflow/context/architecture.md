@@ -30,10 +30,10 @@
 - **Knowledge ID:** K-004
 - **Promoted at:** 2026-10-19T14:34:13.845Z
 - **Supersedes:** CTX-0005
-- **Verified:** 2026-10-19T21:40:22.482Z (commit 87b03c6)
+- **Verified:** 2026-10-19T22:06:05.910Z (commit 0b3e5ec)
 - **Evidence:**
-  - src/cli/main.js (repository @ 87b03c6)
-  - src/gateway/server.js (repository @ 87b03c6)
+  - src/cli/main.js (repository @ 0b3e5ec)
+  - src/gateway/server.js (repository @ 0b3e5ec)
 
 <!-- yallaflow-fact:CTX-0042 -->
 ### CTX-0042 — Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.
@@ -45,10 +45,10 @@
 - **Knowledge ID:** K-009
 - **Promoted at:** 2026-10-19T17:54:31.028Z
 - **Supersedes:** CTX-0034
-- **Verified:** 2026-10-19T21:40:22.839Z (commit 87b03c6)
+- **Verified:** 2026-10-19T22:06:06.432Z (commit 0b3e5ec)
 - **Evidence:**
-  - README.md (repository @ 87b03c6)
-  - src/adapters/policy.js (repository @ 87b03c6)
+  - README.md (repository @ 0b3e5ec)
+  - src/adapters/policy.js (repository @ 0b3e5ec)
 
 <!-- yallaflow-fact:CTX-0046 -->
 ### CTX-0046 — snowgate init --agent claude|codex generates: a Claude project plugin in .claude/skills/snowgate (${CLAUDE_PLUGIN_ROOT} hook and MCP shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, failing closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; .git/hooks/pre-commit running validate --secrets; and a .gitignore entry for .snowgate.env. Files without the 'managed by snowgate init' marker are never overwritten.
@@ -91,25 +91,26 @@
 - **Knowledge ID:** K-016
 - **Promoted at:** 2026-10-19T21:40:24.380Z
 - **Supersedes:** CTX-0064
-- **Verified:** 2026-10-19T21:40:24.380Z (commit 87b03c6)
+- **Verified:** 2026-10-19T22:06:07.500Z (commit 0b3e5ec)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ 87b03c6)
-  - src/gateway/server.js (repository @ 87b03c6)
-  - test/gateway.test.js (repository @ 87b03c6)
+  - src/gateway/tools.js (repository @ 0b3e5ec)
+  - src/gateway/server.js (repository @ 0b3e5ec)
+  - test/gateway.test.js (repository @ 0b3e5ec)
 
-<!-- yallaflow-fact:CTX-0068 -->
-### CTX-0068 — Feedback: capability gaps (refused fields/tables, unreadable tables, unknown tools, and sn_report_gap agent reports) are stored redacted (no instance hosts, sys_ids, e-mails, URLs, paths) in .snowgate/feedback/gaps.json, one entry per fingerprint <CODE>:<subject> with counts. snowgate feedback list/send: send is TTY-only, previews the issue, saves a Markdown copy and after confirmation uses gh (create, or comment on an open issue with the same fingerprint) or opens GitHub's prefilled new-issue page; target repo from package.json snowgate.feedbackRepo (IbrahimBaki/snowgate-feedback) or SNOWGATE_FEEDBACK_REPO.
+<!-- yallaflow-fact:CTX-0072 -->
+### CTX-0072 — Feedback: refusals worth reporting (FIELD_NOT_ALLOWED, TABLE_NOT_ALLOWED, TABLE_ACCESS, TOOL_UNKNOWN, and sensitive-data refusals FIELD/TABLE/QUERY_SENSITIVE to catch over-broad rules), discover limitations and sn_report_gap agent reports are stored redacted in .snowgate/feedback/gaps.json, one entry per fingerprint (one per field) with counts; snowgate feedback list/send (send TTY-only, preview, Markdown copy, gh create/comment or prefilled GitHub URL) to package.json snowgate.feedbackRepo or SNOWGATE_FEEDBACK_REPO.
 
 - **State:** current
 - **Confidence:** confirmed
 - **Provenance:** repository
-- **Source work:** PF-0014
-- **Knowledge ID:** K-018
-- **Promoted at:** 2026-10-19T21:40:24.745Z
-- **Verified:** 2026-10-19T21:40:24.745Z (commit 87b03c6)
+- **Source work:** PF-0015
+- **Knowledge ID:** K-015
+- **Promoted at:** 2026-10-19T22:06:08.203Z
+- **Supersedes:** CTX-0068
+- **Verified:** 2026-10-19T22:06:08.203Z (commit 0b3e5ec)
 - **Evidence:**
-  - src/feedback.js (repository @ 87b03c6)
-  - src/cli/main.js (repository @ 87b03c6)
-  - test/feedback.test.js (repository @ 87b03c6)
+  - src/feedback.js (repository @ 0b3e5ec)
+  - test/feedback.test.js (repository @ 0b3e5ec)
+  - test/read-policy.test.js (repository @ 0b3e5ec)
 
 <!-- yallaflow-context:end -->

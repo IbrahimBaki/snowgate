@@ -10,7 +10,7 @@ import { TOOL_NAMES } from '../src/gateway/tools.js';
 import { loadPack } from '../src/pack.js';
 import { ReadOnlyClient } from '../src/rest/client.js';
 import { confirmTarget, setCandidate } from '../src/work.js';
-import { INSTANCE, ME, PASSWORD, USER, makeProject, startMockServiceNow } from './helpers.js';
+import { INSTANCE, ME, PASSWORD, USER, makeProject, schemaTables, startMockServiceNow } from './helpers.js';
 
 const WORK = 'PF-0001';
 const pack = loadPack();
@@ -127,6 +127,7 @@ test('REST tools read the confirmed target with GET only and carry evidence', as
       sys_user: [{ sys_id: ME, user_name: USER }],
       sys_user_has_role: [{ 'role.name': 'admin' }],
       sys_properties: [{ name: 'glide.buildtag', value: 'glide-x' }],
+      ...schemaTables({ sys_user: { fields: { user_name: 'string', email: 'email', user_password: 'password' } } }),
     },
   });
   const gw = gateway(root, mock);
@@ -140,9 +141,11 @@ test('REST tools read the confirmed target with GET only and carry evidence', as
     assert.equal(info.user, USER);
     assert.equal(info.warnings.length, 1);
 
-    const denied = await gw.call('sn_query', { table: 'sys_user', fields: ['email'] });
-    assert.equal(denied.isError, true);
-    assert.match(text(denied), /TABLE_NOT_ALLOWED/);
+    // Open read model: data tables are readable, sensitive fields are not.
+    const open = await gw.call('sn_query', { table: 'sys_user', fields: ['user_name', 'email'] });
+    assert.equal(open.isError, undefined, text(open));
+    const denied = await gw.call('sn_query', { table: 'sys_user', fields: ['user_password'] });
+    assert.match(text(denied), /FIELD_SENSITIVE/);
     const prefs = await gw.call('sn_query', { table: 'sys_user_preference', fields: ['user', 'value'] });
     assert.match(text(prefs), /TABLE_NOT_ALLOWED/);
     const noFields = await gw.call('sn_query', { table: 'sys_scope' });

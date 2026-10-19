@@ -15,7 +15,9 @@ import { snowgateDir } from './workspace.js';
 // setup); an agent's `target set` on one of them confirms automatically.
 // rest_auth: how REST authenticates — auto (Basic, then the browser session on
 // 401; default), basic, or session.
-const DEFAULTS = { changes_dir: 'changes', legacy_packages: [], ui_auth: 'profile', credentials: 'protected', approved_instances: [], rest_auth: 'auto' };
+// data: what REST may read — all (default; every table except sensitive
+// data), listed (configuration + data_tables) or none (configuration only).
+const DEFAULTS = { changes_dir: 'changes', legacy_packages: [], ui_auth: 'profile', credentials: 'protected', approved_instances: [], rest_auth: 'auto', data: 'all', data_tables: [] };
 
 export function loadConfig(root) {
   const file = snowgateDir(root, 'config.yaml');
@@ -33,6 +35,9 @@ export function loadConfig(root) {
   }
   if (config.ui_auth !== 'profile' && config.ui_auth !== 'password') {
     throw new SnowgateError('.snowgate/config.yaml ui_auth must be "profile" or "password".', 'CONFIG_INVALID');
+  }
+  if (!['all', 'listed', 'none'].includes(config.data) || !Array.isArray(config.data_tables)) {
+    throw new SnowgateError('.snowgate/config.yaml data must be "all", "listed" or "none", and data_tables a list.', 'CONFIG_INVALID');
   }
   if (!['auto', 'basic', 'session'].includes(config.rest_auth)) {
     throw new SnowgateError('.snowgate/config.yaml rest_auth must be "auto", "basic" or "session".', 'CONFIG_INVALID');

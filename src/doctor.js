@@ -76,6 +76,9 @@ export async function doctor(root, { env = process.env, workId, home = homedir()
   try {
     config = loadConfig(root);
     add('ok', `.snowgate/config.yaml: changes_dir=${config.changes_dir}, ui_auth=${config.ui_auth}, credentials=${config.credentials}.`);
+    add('info', config.data === 'all'
+      ? 'Data access: all tables except sensitive data (default; restrict with data: listed or none).'
+      : `Data access: ${config.data}${config.data === 'listed' ? ` (+ ${config.data_tables.join(', ') || 'no data tables'})` : ''}.`);
     add(config.approved_instances.length ? 'ok' : 'warn', config.approved_instances.length
       ? `Approved instances: ${config.approved_instances.map((a) => `${a.instance} (by ${a.approved_by})`).join(', ')}.`
       : 'No approved instances: run snowgate setup.');

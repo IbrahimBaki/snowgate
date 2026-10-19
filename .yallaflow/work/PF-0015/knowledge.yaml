@@ -1,0 +1,351 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Errors are SnowgateError subclasses with a stable code (e.g. TARGET_UNCONFIRMED, TABLE_NOT_ALLOWED); the CLI maps them to exit 1 and usage errors to exit 2.",
+      "evidence": [
+        "src/errors.js",
+        "src/cli/main.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0016"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:03.735Z",
+      "factId": "CTX-0016",
+      "promotedAt": "2026-10-19T22:06:05.730Z",
+      "target": "context/conventions.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate only runs inside a YallaFlow project (it walks up to find .yallaflow/). Every instance-touching command requires a YallaFlow work item: --work for CLI commands; snowgate mcp takes --work, SNOWGATE_WORK, or YallaFlow's active work item, and refuses instance tools without one.",
+      "evidence": [
+        "src/cli/main.js",
+        "src/gateway/server.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0021"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:03.852Z",
+      "factId": "CTX-0021",
+      "promotedAt": "2026-10-19T22:06:05.910Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Human approvals are recorded only by snowgate approve in a TTY with the change_id typed back, for plan, upload or commit; upload and commit approvals bind the SHA-256 of the exact update-set.xml and go stale when it changes. Upload needs >= peer-reviewed, a clean validate and a current upload approval; commit needs awaiting-human-approval, a previewed retrieved update set with no unresolved problems and a current commit approval.",
+      "evidence": [
+        "src/approvals.js",
+        "src/gateway/tools.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0025"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:03.968Z",
+      "factId": "CTX-0025",
+      "promotedAt": "2026-10-19T22:06:06.082Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Tests use node:test and never contact a real instance: a local mock Table API, validator fixtures, and local fixture sites (instance + identity provider) driven by real headless Chromium for the URL lock and SSO profile; npm test runs test/*.test.js.",
+      "evidence": [
+        "test/helpers.js",
+        "test/browser-lock.test.js",
+        "test/sso-profile.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0031"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:04.078Z",
+      "factId": "CTX-0031",
+      "promotedAt": "2026-10-19T22:06:06.260Z",
+      "target": "context/conventions.md"
+    },
+    {
+      "id": "K-005",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.",
+      "evidence": [
+        "README.md",
+        "src/adapters/policy.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0042"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:04.193Z",
+      "factId": "CTX-0042",
+      "promotedAt": "2026-10-19T22:06:06.432Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-006",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "A target is per work item. A human approves instances once per project in .snowgate/config.yaml approved_instances (snowgate setup, with approved_by/approved_at); an agent's target set on an approved instance confirms automatically under that approver, and removing the instance from the list revokes those targets. Other instances stay candidates until a human runs target confirm (TTY, host typed back). Changing the candidate revokes a confirmed target. (Amends PLAN §4 per the user.)",
+      "evidence": [
+        "src/work.js",
+        "src/config.js",
+        "test/setup.test.js",
+        "[object Object]"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0047"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:04.314Z",
+      "factId": "CTX-0047",
+      "promotedAt": "2026-10-19T22:06:06.592Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-007",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "Implemented: M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login, M3 (claude/codex/yallaflow adapters, init, doctor, hook), credential stores and snowgate setup (one human run: adapters, approved instances, credentials, sign-in). The pack.yaml skills/*.md procedures are not written yet.",
+      "evidence": [
+        "src/cli/main.js",
+        "src/setup.js",
+        "docs/PLAN.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0048"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:04.465Z",
+      "factId": "CTX-0048",
+      "promotedAt": "2026-10-19T22:06:06.768Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-008",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "Preflight reads (sys_user, sys_user_has_role, sys_properties) are fixed-shape queries outside the general allowlist; sys_user is read only for sys_id,user_name of the authenticated user — by user_name with Basic auth, or by sys_id=javascript:gs.getUserID() on the session path where the user may be an SSO identity.",
+      "evidence": [
+        "src/rest/client.js",
+        "test/rest-session.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0053"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:04.584Z",
+      "factId": "CTX-0053",
+      "promotedAt": "2026-10-19T22:06:06.929Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-009",
+      "kind": "environment",
+      "source": "implementation-runtime",
+      "summary": "Credentials resolve as SN_USER/SN_PASSWORD in the environment, else the store chosen by credentials: (protected default: ~/.config/snowgate/credentials/<instance>.json 0600 written by TTY-only credentials set/setup; project: agent-visible .snowgate.env). REST follows rest_auth (auto/basic/session); the browser uses the SSO profile from snowgate login (session cookies kept SNOWGATE_SESSION_HOURS, default 12h) or, with ui_auth: password, the credentials with automatic re-login. Credentials and cookies never reach output, evidence or audit.",
+      "evidence": [
+        "src/credentials.js",
+        "src/rest/client.js",
+        "src/playwright/session.js",
+        "src/config.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0055"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:04.699Z",
+      "factId": "CTX-0055",
+      "promotedAt": "2026-10-19T22:06:07.159Z",
+      "target": "context/environments.md"
+    },
+    {
+      "id": "K-010",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove, feedback send): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.",
+      "evidence": [
+        "src/adapters/policy.js",
+        "test/feedback.test.js",
+        "test/adapters.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0065"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:04.827Z",
+      "factId": "CTX-0065",
+      "promotedAt": "2026-10-19T22:06:07.331Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-011",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page and sn_report_gap: 7 read-only REST tools, 1 local feedback tool (no instance, no target needed), 5 generic ui_* tools and 3 gated update-set tools. It drives its own Chromium with a route-level host/update-set lock across frames, wrappers and redirects, blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/gateway/server.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0066"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:04.941Z",
+      "factId": "CTX-0066",
+      "promotedAt": "2026-10-19T22:06:07.500Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-012",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects (skills, guards, an MCP gateway, validators and a CLI, no project-specific naming), aimed at letting an agent carry out ServiceNow tasks safely; read restrictions favour usefulness (open reads except sensitive data) while writes stay gated.",
+      "evidence": [
+        "README.md",
+        "user:محتاجين نبقا اكتر مرونة في القيود ... الهدف الاساسي اننا نطلب من الagent انه ينفذ تاسكات علي servicenow"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0001"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:05.053Z",
+      "factId": "CTX-0069",
+      "promotedAt": "2026-10-19T22:06:07.680Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-013",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "ServiceNow REST is read-only (one private GET path; every request lists its fields; page size 500, cap 10000). Reads follow data: in .snowgate/config.yaml — all (default: any table/field), listed (sys_metadata descendants + data_tables) or none (configuration only) — checked against the instance's sys_db_object inheritance and sys_dictionary types (inherited fields included, dot-walks checked per hop). Always refused: password/password2 fields, secret/token/credential/key/session-like names, session/token/credential tables, sys_attachment_doc, and encoded queries with javascript: or sensitive filters. The static allowlist is a fast path. Auth follows rest_auth.",
+      "evidence": [
+        "src/rest/read-policy.js",
+        "src/rest/client.js",
+        "test/read-policy.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0061"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:05.163Z",
+      "factId": "CTX-0070",
+      "promotedAt": "2026-10-19T22:06:07.853Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-014",
+      "kind": "database",
+      "source": "implementation-runtime",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml, approvals/<id>.jsonl, audit/<id>.jsonl and _project.jsonl, evidence/<id>/, discovery/, feedback/ (gaps.json and Markdown copies), bin/verify-change-packages, and config.yaml (changes_dir, validate.legacy_packages, ui_auth, credentials, rest_auth, data, data_tables, approved_instances). Change packages live in changes/<ID>/. Outside the project: SSO profiles and protected credentials under XDG state/config dirs; agent-visible credentials in .snowgate.env (gitignored).",
+      "evidence": [
+        "src/config.js",
+        "src/feedback.js",
+        "src/credentials.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0057"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:05.276Z",
+      "factId": "CTX-0071",
+      "promotedAt": "2026-10-19T22:06:08.034Z",
+      "target": "context/database.md"
+    },
+    {
+      "id": "K-015",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Feedback: refusals worth reporting (FIELD_NOT_ALLOWED, TABLE_NOT_ALLOWED, TABLE_ACCESS, TOOL_UNKNOWN, and sensitive-data refusals FIELD/TABLE/QUERY_SENSITIVE to catch over-broad rules), discover limitations and sn_report_gap agent reports are stored redacted in .snowgate/feedback/gaps.json, one entry per fingerprint (one per field) with counts; snowgate feedback list/send (send TTY-only, preview, Markdown copy, gh create/comment or prefilled GitHub URL) to package.json snowgate.feedbackRepo or SNOWGATE_FEEDBACK_REPO.",
+      "evidence": [
+        "src/feedback.js",
+        "test/feedback.test.js",
+        "test/read-policy.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0068"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:05.389Z",
+      "factId": "CTX-0072",
+      "promotedAt": "2026-10-19T22:06:08.203Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-016",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Default read policy is open: agents may read data tables too (data: all), except sensitive data; the restricting option (data: listed|none) is documented and announced to the agent but not offered during setup, to keep the first use simple.",
+      "evidence": [
+        "user:ابنيه بشكل افتراضي انه يقدر يوصل للداتا ووضحله ان في اوبشن يقدر يغيره لكن انا مش عاوز اكبر الخيارات في بداية الاستخدام"
+      ],
+      "confidence": "confirmed",
+      "provenance": "user-confirmed",
+      "status": "promoted",
+      "createdAt": "2026-10-19T22:06:05.509Z",
+      "factId": "CTX-0073",
+      "promotedAt": "2026-10-19T22:06:08.385Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T22:06:08.385Z",
+  "reviewedAt": "2026-10-19T22:06:08.385Z"
+}

@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T22:05:32.181Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 (npm test 143/143) and real gateway calls on dev446072.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "With data: all any existing table/field is readable (checked against the instance dictionary incl. inherited audit fields); password/password2 types, sensitive names, sensitive tables and sensitive or javascript: queries are refused; dot-walks are checked per hop; GET-only on the target. Real: widget audit fields and sc_req_item read, user_password/oauth_credential/javascript: refused.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/rest/read-policy.js",
+              "contentHash": "sha256:ee475245e08a5501434e480d5a0c41a8f0d8c807c9b0e768e834aede5a4e648f",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/rest/client.js",
+              "contentHash": "sha256:3a1648839b1110409e6ab381b038574b887038ebda9d3626d7e95ff993ae46d5",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/read-policy.test.js",
+              "contentHash": "sha256:a332866e6dcb2c3d3728e591acdab1de29f93824c27bc326b66c8e34d7caa511",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0015",
+              "verificationRunId": "V-001"
+            },
+            {
+              "type": "runtime",
+              "description": "dev446072 open read model checks"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "data: listed allows sys_metadata descendants plus data_tables (also enforced on dot-walk targets), data: none configuration only; set in agent-protected .snowgate/config.yaml; shown in doctor and the session context; documented in the README; setup does not ask. UI-side enforcement of listed/none is not built (documented).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/config.js",
+              "contentHash": "sha256:3c5e5a807e26e6f1e8e27d353ba5375b9ec2743f5e45212735e05aa316a17067",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/doctor.js",
+              "contentHash": "sha256:21a570e7481b6ab45ce9848eb0787d2e6b30f58f5f1852f172055b50188b5992",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/run-hook.js",
+              "contentHash": "sha256:ef8e6ad9e6005a4d9cf749762b43617e6dee935584b0a873a9a0912d60dacd1e",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:7fea1354ce13cb3a06353cd38e01411f1682e081c70e8cc739fe2a73f2ab9dd2",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/read-policy.test.js",
+              "contentHash": "sha256:a332866e6dcb2c3d3728e591acdab1de29f93824c27bc326b66c8e34d7caa511",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0015",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "satisfied",
+          "reason": "gapsFromError returns one FIELD_NOT_ALLOWED/FIELD_SENSITIVE gap per field.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/feedback.js",
+              "symbol": "gapsFromError",
+              "contentHash": "sha256:ffd37295ff8c489ed7d605dc988a7cfffc37a258e5940b8e81a914b01b1bbeee",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/read-policy.test.js",
+              "contentHash": "sha256:a332866e6dcb2c3d3728e591acdab1de29f93824c27bc326b66c8e34d7caa511",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0015",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "javascript: is refused in every agent encoded query (it runs server-side code).",
+          "reason": "Closes a pre-existing way around read-only found while designing this change.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/rest/read-policy.js",
+              "symbol": "checkQuery",
+              "contentHash": "sha256:ee475245e08a5501434e480d5a0c41a8f0d8c807c9b0e768e834aede5a4e648f",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "untracked"
+            }
+          ]
+        },
+        {
+          "id": "UR-002",
+          "disposition": "accepted",
+          "summary": "Sensitive-data refusals are recorded as feedback.",
+          "reason": "Lets over-broad sensitive rules be corrected.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/feedback.js",
+              "contentHash": "sha256:ffd37295ff8c489ed7d605dc988a7cfffc37a258e5940b8e81a914b01b1bbeee",
+              "gitCommit": "0b3e5ecc4b0c68283e06929605643b312703683a",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-19T22:05:32.181Z"
+}

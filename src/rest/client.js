@@ -1,5 +1,6 @@
 import { AuthError, SnowgateError, TableAccessError } from '../errors.js';
 import { normalizeInstance } from '../instance.js';
+import { ReadPolicy, checkQuery } from './read-policy.js';
 import { TABLES } from './tables.js';
 
 // Read-only ServiceNow Table API client. Every request goes through #get, which
@@ -20,8 +21,9 @@ export class ReadOnlyClient {
   #mode;
   #pageSize;
   #maxRecords;
+  #policy = null;
 
-  constructor({ instance, user, password, fetchImpl = globalThis.fetch, sessionFetch = null, mode = 'basic', pageSize = 500, maxRecords = 10000, pattern }) {
+  constructor({ instance, user, password, fetchImpl = globalThis.fetch, sessionFetch = null, mode = 'basic', pageSize = 500, maxRecords = 10000, pattern, readPolicy = null }) {
     this.#instance = normalizeInstance(instance, pattern);
     if (!['basic', 'session', 'auto'].includes(mode)) throw new SnowgateError(`Unknown rest_auth "${mode}" (auto, basic or session).`, 'CONFIG_INVALID');
     const hasCredentials = Boolean(user && password);
@@ -40,6 +42,13 @@ export class ReadOnlyClient {
     this.#mode = mode === 'auto' && !hasCredentials ? 'session' : mode;
     this.#pageSize = pageSize;
     this.#maxRecords = maxRecords;
+    // Without a read policy only the static allowlist is readable (tests,
+    // internal callers); the gateway and discover pass the project's policy.
+    if (readPolicy) this.#policy = new ReadPolicy(readPolicy, (t, f, q, l) => this.#collect(t, f, q, l));
+  }
+
+  get dataMode() {
+    return this.#policy?.mode ?? 'allowlist';
   }
 
   // How the client is authenticating now: basic or session.
@@ -57,14 +66,22 @@ export class ReadOnlyClient {
 
   // Allow-listed table, explicit allow-listed fields, encoded query.
   async query(table, { fields, query = '', limit } = {}) {
+    if (!Array.isArray(fields) || fields.length === 0) {
+      throw new SnowgateError(`fields is mandatory for ${table}; snowgate never selects all columns.`, 'FIELDS_REQUIRED');
+    }
+    checkQuery(query);
     const allowed = TABLES[table];
+    const known = allowed && fields.every((f) => allowed.includes(f));
+    // Known tables and fields are the fast path; everything else is checked
+    // against the instance's dictionary by the open read policy.
+    if (!known && this.#policy) {
+      await this.#policy.check(table, fields, query);
+      return this.#collect(table, fields, query, Math.min(limit ?? this.#maxRecords, this.#maxRecords));
+    }
     if (!allowed) {
       const e = new SnowgateError(`Table "${table}" is not on the read-only configuration allowlist.`, 'TABLE_NOT_ALLOWED');
       e.details = { table };
       throw e;
-    }
-    if (!Array.isArray(fields) || fields.length === 0) {
-      throw new SnowgateError(`fields is mandatory for ${table}; snowgate never selects all columns.`, 'FIELDS_REQUIRED');
     }
     const denied = fields.filter((f) => !allowed.includes(f));
     if (denied.length) {

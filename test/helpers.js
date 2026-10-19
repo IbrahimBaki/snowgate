@@ -40,6 +40,27 @@ export async function startMockServiceNow({ tables = {}, forbidden = [], missing
   return { requests, fetchImpl, close: () => new Promise((r) => server.close(r)) };
 }
 
+// sys_db_object / sys_dictionary for the mock instance, from
+// { table: { parent, fields: { name: type, ref: 'reference:<table>' } } }.
+export function schemaTables(defs) {
+  const objects = Object.entries(defs).map(([name, d]) => ({ name, 'super_class.name': d.parent ?? '' }));
+  const dictionary = Object.entries(defs).flatMap(([name, d]) => Object.entries(d.fields ?? {}).map(([element, type]) => {
+    const [internal_type, reference] = String(type).split(':');
+    return { name, element, internal_type, reference: reference ?? '' };
+  }));
+  const pick = (rows, field, params) => {
+    const q = params.get('sysparm_query') ?? '';
+    const eq = new RegExp(`(?:^|\\^)${field}=([\\w.-]+)`).exec(q);
+    const inList = new RegExp(`(?:^|\\^)${field}IN([\\w,.-]+)`).exec(q);
+    const values = eq ? [eq[1]] : inList ? inList[1].split(',') : null;
+    return values ? rows.filter((r) => values.includes(r[field])) : rows;
+  };
+  return {
+    sys_db_object: (params) => pick(objects, 'name', params),
+    sys_dictionary: (params) => pick(dictionary, 'name', params),
+  };
+}
+
 export function basicAuth(user = USER, password = PASSWORD) {
   return `Basic ${Buffer.from(`${user}:${password}`).toString('base64')}`;
 }

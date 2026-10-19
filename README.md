@@ -49,7 +49,20 @@ It never overwrites a file it did not generate.
 Safety properties enforced in code:
 
 - The target is per work item. An instance approved for the project in `.snowgate/config.yaml` (`approved_instances`, written by `snowgate setup` with the approver's name) confirms automatically when an agent runs `target set`. Removing it from the list revokes those targets. Any other instance needs `target confirm`, which refuses non-interactive input and requires the host to be typed back.
-- The REST client has no write path. It sends GET only, to allow-listed configuration tables, with mandatory allow-listed fields.
+- The REST client has no write path; it sends GET only, and every request lists its fields.
+- **What can be read**, set by `data:` in `.snowgate/config.yaml`:
+  - `all` (default): any table and field on the target.
+  - `listed`: configuration tables, meaning everything that inherits from `sys_metadata`, plus the tables named in `data_tables`.
+  - `none`: configuration tables only.
+
+  `setup` does not ask about this; change it in the file when a project needs it. The instance's own `sys_db_object` and `sys_dictionary` decide what exists and how tables inherit.
+- **Always refused, whatever the setting:**
+  - fields of type `password` or `password2`;
+  - field names like password, secret, token, credential, private or API key, and session;
+  - session, token and credential tables, and attachment contents;
+  - encoded queries that filter on such fields or contain `javascript:`.
+
+  These refusals are recorded as feedback, so a rule that blocks something harmless can be fixed. Today `listed` and `none` are enforced on REST reads, not yet in the UI tools.
 - Anything unreadable goes to `limitations.md`. Every fact cites its query and URL in `evidence.json`.
 - `discover` builds a **project map** from the update sets' contents (`sys_update_xml`), in every scope including global. It is grouped by update set, local and retrieved, so each task's changes are visible. Known artifact records (pages, widgets and their instances, catalog items and variables, UI policies, business rules, ACLs, UI pages and actions, notifications, flows, and more) are read by `sys_id` and marked `new` or `baseline-modified`, inferred from the record's creator, or `deleted`. Other updates are listed by their own names. The full map is in `project-map.json`. Changes made outside update-set tracking are not visible there. The map carries metadata only. An agent reads an artifact's code with `sn_get_record`, for example `sp_widget` `template`/`client_script`/`script`, `sys_script` `script`, or `sys_ui_page` `html`. The code fields were checked against a real instance's dictionary. Agents may read `.snowgate/discovery/` with ordinary read-only shell tools (`find`, `sed -n`, `awk`, `jq`, `tree`...); writing under `.snowgate/` stays blocked.
 - Credentials (REST Basic auth, and the browser with `ui_auth: password`) come from `SN_USER` / `SN_PASSWORD` in the environment when set. Otherwise they come from the store chosen by `credentials:` in `.snowgate/config.yaml`:

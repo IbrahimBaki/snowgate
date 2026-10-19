@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "By default the agent can read any table and field on the target except sensitive data, so tasks are not blocked by a fixed allowlist.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:01:02.667Z",
+      "updatedAt": "2026-10-19T22:01:02.667Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "A project can restrict data access with a configuration option that is documented and announced to the agent but not asked during setup.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:01:02.667Z",
+      "updatedAt": "2026-10-19T22:01:02.667Z"
+    },
+    {
+      "id": "REQ-003",
+      "statement": "Each refused field is its own feedback gap.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:01:02.667Z",
+      "updatedAt": "2026-10-19T22:01:02.667Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "With data: all (default) sn_query/sn_get_record accept any existing table and field (checked against the instance's sys_dictionary, inherited fields included); fields of type password/password2, sensitive names (password, secret, token, credential, private/api key, session) and sensitive tables (session, token, credential, attachment content) are refused even in queries; reads stay GET-only on the confirmed target.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:01:02.667Z",
+      "updatedAt": "2026-10-19T22:01:02.667Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "data: listed allows configuration tables (sys_metadata descendants) plus data_tables; data: none allows configuration tables only; the mode is in .snowgate/config.yaml (agent-write-protected), shown in doctor and the session context, documented in the README, and not asked by setup.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:01:02.667Z",
+      "updatedAt": "2026-10-19T22:01:02.667Z"
+    },
+    {
+      "id": "AC-003",
+      "requirement": "REQ-003",
+      "statement": "A request refusing several fields records one FIELD_NOT_ALLOWED gap per field.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T22:01:02.667Z",
+      "updatedAt": "2026-10-19T22:01:02.667Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-10-19T22:01:02.667Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-10-19T22:01:02.667Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-003",
+      "at": "2026-10-19T22:01:02.667Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-10-19T22:01:02.667Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-10-19T22:01:02.667Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-003",
+      "at": "2026-10-19T22:01:02.667Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-10-19T22:01:02.667Z"
+}

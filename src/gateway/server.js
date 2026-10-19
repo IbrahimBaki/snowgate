@@ -8,7 +8,7 @@ import { profileDir } from '../browser-profile.js';
 import { loadConfig } from '../config.js';
 import { missingCredentialsHint, resolveCredentials } from '../credentials.js';
 import { SnowgateError } from '../errors.js';
-import { gapFromError, recordGap } from '../feedback.js';
+import { gapsFromError, recordGap } from '../feedback.js';
 import { BrowserSession } from '../playwright/session.js';
 import { ReadOnlyClient } from '../rest/client.js';
 import { requireConfirmedTarget } from '../work.js';
@@ -155,11 +155,13 @@ export function createGateway({
           const c = credentials();
           const mode = loadConfig(root).rest_auth;
           if (mode === 'basic' && (!c.user || !c.password)) throw new SnowgateError(missingCredentialsHint(root, instance, workId, pack), 'NO_CREDENTIALS');
+          const cfg = loadConfig(root);
           return (client = clientFactory({
             instance,
             user: c.user,
             password: c.password,
             mode,
+            readPolicy: { data: cfg.data, data_tables: cfg.data_tables },
             sessionFetch: (url, init) => ctx.session().restFetch(url, init),
             pattern: pack.instancePattern,
           }));
@@ -190,8 +192,7 @@ export function createGateway({
       // Capability gaps (refused fields/tables, unreadable tables, unknown
       // tools) are kept, redacted, for `snowgate feedback send`.
       try {
-        const gap = gapFromError(e, { tool: name });
-        if (gap) recordGap(root, gap, now());
+        for (const gap of gapsFromError(e, { tool: name })) recordGap(root, gap, now());
       } catch {
         // feedback must never mask the tool result
       }

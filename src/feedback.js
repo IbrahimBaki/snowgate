@@ -131,14 +131,18 @@ export function saveMarkdown(root, { title, body }, now = new Date()) {
   return file;
 }
 
-// Which refusals are capability gaps worth reporting, and what they were about.
-const GAP_CODES = new Set(['FIELD_NOT_ALLOWED', 'TABLE_NOT_ALLOWED', 'TABLE_ACCESS', 'TOOL_UNKNOWN']);
+// Which refusals are worth reporting: capability gaps, and sensitive-data
+// refusals (so a rule that blocks something harmless can be corrected).
+const GAP_CODES = new Set(['FIELD_NOT_ALLOWED', 'TABLE_NOT_ALLOWED', 'TABLE_ACCESS', 'TOOL_UNKNOWN', 'FIELD_SENSITIVE', 'TABLE_SENSITIVE', 'QUERY_SENSITIVE']);
 
-export function gapFromError(error, { tool }) {
-  if (!GAP_CODES.has(error?.code)) return null;
+// One gap per refused field, so the same field asked in different requests
+// adds to one count.
+export function gapsFromError(error, { tool }) {
+  if (!GAP_CODES.has(error?.code)) return [];
   const d = error.details ?? {};
-  const subject = error.code === 'FIELD_NOT_ALLOWED' ? `${d.table}.${(d.fields ?? []).join(',')}`
-    : error.code === 'TOOL_UNKNOWN' ? `tool ${tool}`
-      : d.table ?? error.table ?? tool;
-  return { kind: 'refusal', code: error.code, subject, detail: `${tool}: ${error.message}` };
+  const detail = `${tool}: ${error.message}`;
+  if (error.code === 'FIELD_NOT_ALLOWED' || error.code === 'FIELD_SENSITIVE') return (d.fields ?? []).map((f) => ({ kind: 'refusal', code: error.code, subject: `${d.table}.${f}`, detail }));
+  if (error.code === 'QUERY_SENSITIVE') return [{ kind: 'refusal', code: error.code, subject: 'query filter', detail }];
+  const subject = error.code === 'TOOL_UNKNOWN' ? `tool ${tool}` : d.table ?? error.table ?? tool;
+  return [{ kind: 'refusal', code: error.code, subject, detail }];
 }

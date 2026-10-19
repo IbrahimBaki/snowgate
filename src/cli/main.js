@@ -404,7 +404,7 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
         password: creds.password,
         missingHint: missingCredentialsHint(root, target, workId, pack),
       })).restFetch(url, init);
-      const client = new ReadOnlyClient({ instance: target, user: creds.user, password: creds.password, mode: config.rest_auth, sessionFetch, pattern: pack.instancePattern });
+      const client = new ReadOnlyClient({ instance: target, user: creds.user, password: creds.password, mode: config.rest_auth, sessionFetch, pattern: pack.instancePattern, readPolicy: { data: config.data, data_tables: config.data_tables } });
       let summary;
       try {
         summary = await discover({ root, workId, instance: sub, scope: values.scope, client, pattern: pack.instancePattern });
