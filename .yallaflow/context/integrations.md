@@ -29,10 +29,10 @@
 - **Source work:** PF-0010
 - **Knowledge ID:** K-014
 - **Promoted at:** 2026-10-19T19:06:25.449Z
-- **Verified:** 2026-10-19T22:36:32.267Z (commit 1df6e09)
+- **Verified:** 2026-10-19T23:03:05.499Z (commit 8a4c741)
 - **Evidence:**
   - [object Object] (reference)
-  - src/playwright/session.js (repository @ 1df6e09)
+  - src/playwright/session.js (repository @ 8a4c741)
 
 <!-- yallaflow-fact:CTX-0059 -->
 ### CTX-0059 — On a real instance (dev446072, glide australia patch 7, 2026-10-19) all 19 discovery inventory tables were read with 0 unreadable, and the project-map artifact tables (incl. sp_instance with the sp_widget.name dot-walk) answered by sys_id; other instances or releases may differ, so unreadable tables stay limitations.
@@ -64,5 +64,20 @@
   - src/rest/read-policy.js (repository @ 0b3e5ec)
   - src/rest/client.js (repository @ 0b3e5ec)
   - test/read-policy.test.js (repository @ 0b3e5ec)
+
+<!-- yallaflow-fact:CTX-0078 -->
+### CTX-0078 — ServiceNow shows 'Make This My Current Set' only for an in-progress update set that is not already the user's current set, and classic forms render each form button (e.g. Update) twice, at the top and bottom; ui_use_update_set therefore checks sys_user_preference before any UI step, and ui_click/ui_type take nth to pick one of several matches.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** runtime
+- **Source work:** PF-0018
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-10-19T23:02:51.133Z
+- **Verified:** 2026-10-19T23:02:51.133Z (commit 8a4c741)
+- **Evidence:**
+  - src/gateway/tools.js (repository @ 8a4c741)
+  - src/playwright/session.js (repository @ 8a4c741)
+  - dev446072 trial PF-0003 2026-10-20 (runtime)
 
 <!-- yallaflow-context:end -->

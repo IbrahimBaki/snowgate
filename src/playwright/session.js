@@ -357,7 +357,7 @@ export class BrowserSession {
   }
 
   // Exactly one element must match: role (+ accessible name), label, or text.
-  async locate({ frame = 0, role, name, label, text, exact = false }) {
+  async locate({ frame = 0, role, name, label, text, exact = false, nth }) {
     await this.login();
     const f = this.frame(frame);
     let loc;
@@ -366,7 +366,12 @@ export class BrowserSession {
     else if (text) loc = f.getByText(text, { exact });
     else throw new SnowgateError('Give role (+ name), label, or text to locate an element.', 'LOCATOR_REQUIRED');
     const count = await loc.count();
-    if (count !== 1) throw new SnowgateError(`The locator matched ${count} elements; it must match exactly one.`, 'LOCATOR_AMBIGUOUS');
+    if (nth !== undefined) {
+      if (nth >= count) throw new SnowgateError(`nth ${nth} is out of range: the locator matched ${count} element(s).`, 'LOCATOR_AMBIGUOUS');
+      return loc.nth(nth);
+    }
+    if (count === 0) throw new SnowgateError('The locator matched no element; check the frame and names with ui_snapshot.', 'LOCATOR_AMBIGUOUS');
+    if (count > 1) throw new SnowgateError(`The locator matched ${count} elements; pass nth (0-${count - 1}) to pick one, e.g. nth: 0 for the first form button.`, 'LOCATOR_AMBIGUOUS');
     return loc;
   }
 

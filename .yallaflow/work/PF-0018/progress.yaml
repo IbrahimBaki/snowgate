@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:00:43.482Z",
+      "completedAt": "2026-10-19T23:00:43.482Z",
+      "summary": "Second real trial (PF-0003 on dev446072): the change was made and captured in the task update set, but ui_use_update_set failed twice because 'Make This My Current Set' is not shown when the set is already current (the tool tried to click it), and ui_click refused because ServiceNow forms have two Update buttons (top and bottom) while locate requires exactly one match.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "runtime:user trial 2026-10-20 PF-0003 change"
+      ]
+    },
+    "systematic-debugging": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:00:43.707Z",
+      "completedAt": "2026-10-19T23:00:43.707Z",
+      "summary": "Root causes: ui_use_update_set always runs the UI step even when sys_user_preference already names the set; locate() has no way to pick one of several identical matches. Fix: check the preference first and return current:true without UI when it already matches; add an optional nth (0-based) to ui_click/ui_type and say in the ambiguity error how many matched and that nth picks one.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/playwright/session.js"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:02:39.119Z",
+      "completedAt": "2026-10-19T23:02:39.119Z",
+      "summary": "ui_use_update_set reads sys_user_preference first and returns current:true (already_current) without any UI step when the task's set is already current; ui_click/ui_type accept nth (0-based) and the ambiguity error states the match count and how to use nth; zero matches get their own message. Tests: already-current path (no UI calls) and duplicate Update buttons in a real browser. Real: PF-0003 on dev446072 returned already_current with the UI step forbidden.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/playwright/session.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:02:50.797Z",
+      "completedAt": "2026-10-19T23:02:50.797Z",
+      "summary": "V-001 npm test passed (150). Real instance: ui_use_update_set for PF-0003 in the user's demo project returned already_current: true with the UI step forbidden.",
+      "evidence": [
+        "verification:V-001",
+        "runtime:dev446072 ui_use_update_set PF-0003 already_current 2026-10-20"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T23:02:50.797Z"
+}

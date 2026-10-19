@@ -15,11 +15,11 @@
 - **Knowledge ID:** K-013
 - **Promoted at:** 2026-10-19T19:06:25.266Z
 - **Supersedes:** CTX-0040
-- **Verified:** 2026-10-19T22:36:32.095Z (commit 1df6e09)
+- **Verified:** 2026-10-19T23:03:05.311Z (commit 8a4c741)
 - **Evidence:**
-  - src/credentials.js (repository @ 1df6e09)
-  - src/rest/client.js (repository @ 1df6e09)
-  - src/playwright/session.js (repository @ 1df6e09)
-  - src/config.js (repository @ 1df6e09)
+  - src/credentials.js (repository @ 8a4c741)
+  - src/rest/client.js (repository @ 8a4c741)
+  - src/playwright/session.js (repository @ 8a4c741)
+  - src/config.js (repository @ 8a4c741)
 
 <!-- yallaflow-context:end -->

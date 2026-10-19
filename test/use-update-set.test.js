@@ -84,6 +84,25 @@ test('ui_use_update_set creates "<work-id> - <title>" with Submit and Make Curre
   }
 });
 
+test('ui_use_update_set does nothing in the UI when the set is already current', async () => {
+  const root = await project();
+  const inst = instance();
+  inst.state.sets.push({ sys_id: SET, name: 'PF-0003 - Fix register page title', state: 'in progress' });
+  inst.state.prefs = [{ user: ME, value: SET }];
+  const mock = await startMockServiceNow({ tables: inst.tables });
+  const calls = [];
+  const gw = createGateway({ root, workId: WORK, pack, env: { SN_USER: USER, SN_PASSWORD: PASSWORD }, clientFactory: (o) => new ReadOnlyClient({ ...o, fetchImpl: mock.fetchImpl }), sessionFactory: () => session(inst.state, calls) });
+  try {
+    const out = JSON.parse((await gw.call('ui_use_update_set', {})).content[0].text);
+    assert.equal(out.current, true);
+    assert.equal(out.already_current, true);
+    assert.deepEqual(calls, [], 'no UI step');
+  } finally {
+    await gw.close();
+    await mock.close();
+  }
+});
+
 test('ui_use_update_set refuses to report success when the set did not become current', async () => {
   const root = await project();
   const inst = instance();

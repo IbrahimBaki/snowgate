@@ -107,10 +107,10 @@
 - **Knowledge ID:** K-005
 - **Promoted at:** 2026-10-19T22:27:04.587Z
 - **Supersedes:** CTX-0066
-- **Verified:** 2026-10-19T22:27:04.587Z (commit 0dbadcc)
+- **Verified:** 2026-10-19T23:03:05.668Z (commit 8a4c741)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ 0dbadcc)
-  - src/gateway/guards.js (repository @ 0dbadcc)
-  - test/gateway.test.js (repository @ 0dbadcc)
+  - src/gateway/tools.js (repository @ 8a4c741)
+  - src/gateway/guards.js (repository @ 8a4c741)
+  - test/gateway.test.js (repository @ 8a4c741)
 
 <!-- yallaflow-context:end -->

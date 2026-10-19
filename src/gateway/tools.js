@@ -24,6 +24,7 @@ const TARGET = {
   label: { type: 'string', description: 'Form label text.' },
   text: { type: 'string', description: 'Visible text.' },
   exact: { type: 'boolean' },
+  nth: { type: 'integer', minimum: 0, description: 'When several elements match (e.g. the Update button at the top and bottom of a form), which one to use, 0-based.' },
 };
 const obj = (properties, required = []) => ({ type: 'object', properties, required, additionalProperties: false });
 
@@ -202,15 +203,21 @@ export const HANDLERS = {
     })).records[0] ?? null;
     let set = await find();
     const created = !set;
+    const me = await client.whoami();
+    const currentSet = async () => (await client.query('sys_user_preference', { fields: ['value'], query: `name=sys_update_set^user=${me.sys_id}`, limit: 1 })).records[0]?.value ?? null;
+    // Already current: nothing to do in the UI (the "make current" link is
+    // not even shown then).
+    if (set && (await currentSet()) === set.sys_id) {
+      return { update_set: set.name, sys_id: set.sys_id, created: false, current: true, already_current: true, record_url: client.recordUrl('sys_update_set', set.sys_id), next: 'Make the changes through the UI tools; they are captured in this update set. Do not complete it or commit unless the user asks.' };
+    }
     const session = ctx.session();
     await session.withUnlocked((page) => (set ? makeCurrent(page, session.origin, set.sys_id) : createAndMakeCurrent(page, session.origin, name)));
     set ??= await find();
     if (!set) throw new SnowgateError(`The update set "${name}" was not created; check the instance UI.`, 'UPDATE_SET_NOT_CREATED');
     // Verify with the instance's own record of the user's current set.
-    const me = await client.whoami();
     let current = null;
     for (let i = 0; i < 5 && current !== set.sys_id; i += 1) {
-      current = (await client.query('sys_user_preference', { fields: ['value'], query: `name=sys_update_set^user=${me.sys_id}`, limit: 1 })).records[0]?.value ?? null;
+      current = await currentSet();
       if (current !== set.sys_id) await new Promise((r) => setTimeout(r, 1000));
     }
     if (current !== set.sys_id) throw new SnowgateError(`"${set.name}" exists but is not your current update set yet; nothing should be changed until it is.`, 'UPDATE_SET_NOT_CURRENT');

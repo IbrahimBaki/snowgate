@@ -1,0 +1,158 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "ServiceNow shows 'Make This My Current Set' only for an in-progress update set that is not already the user's current set, and classic forms render each form button (e.g. Update) twice, at the top and bottom; ui_use_update_set therefore checks sys_user_preference before any UI step, and ui_click/ui_type take nth to pick one of several matches.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/playwright/session.js",
+        "runtime:dev446072 trial PF-0003 2026-10-20"
+      ],
+      "confidence": "confirmed",
+      "provenance": "runtime",
+      "status": "promoted",
+      "createdAt": "2026-10-19T23:02:51.009Z",
+      "factId": "CTX-0078",
+      "promotedAt": "2026-10-19T23:02:51.133Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Human approvals are recorded only by snowgate approve in a TTY with the change_id typed back, for plan, upload or commit; upload and commit approvals bind the SHA-256 of the exact update-set.xml and go stale when it changes. Upload needs >= peer-reviewed, a clean validate and a current upload approval; commit needs awaiting-human-approval, a previewed retrieved update set with no unresolved problems and a current commit approval.",
+      "evidence": [
+        "src/approvals.js",
+        "src/gateway/tools.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0025"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T23:03:04.226Z",
+      "factId": "CTX-0025",
+      "promotedAt": "2026-10-19T23:03:05.119Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "environment",
+      "source": "implementation-runtime",
+      "summary": "Credentials resolve as SN_USER/SN_PASSWORD in the environment, else the store chosen by credentials: (protected default: ~/.config/snowgate/credentials/<instance>.json 0600 written by TTY-only credentials set/setup; project: agent-visible .snowgate.env). REST follows rest_auth (auto/basic/session); the browser uses the SSO profile from snowgate login (session cookies kept SNOWGATE_SESSION_HOURS, default 12h) or, with ui_auth: password, the credentials with automatic re-login. Credentials and cookies never reach output, evidence or audit.",
+      "evidence": [
+        "src/credentials.js",
+        "src/rest/client.js",
+        "src/playwright/session.js",
+        "src/config.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0055"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T23:03:04.341Z",
+      "factId": "CTX-0055",
+      "promotedAt": "2026-10-19T23:03:05.311Z",
+      "target": "context/environments.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "Some instances refuse Basic auth on the Table API even for a valid password (dev446072: 401 'User is not authenticated' while login.do sign-in works); the same GET with the UI session cookies plus X-UserToken succeeds. navpage.do redirects to the Next Experience shell there, which still carries g_ck.",
+      "evidence": [
+        "[object Object]",
+        "src/playwright/session.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "runtime",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0056"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T23:03:04.465Z",
+      "factId": "CTX-0056",
+      "promotedAt": "2026-10-19T23:03:05.499Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-005",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page, sn_report_gap and ui_use_update_set: 7 read-only REST tools, 1 local feedback tool, 5 generic ui_* tools and 4 gated update-set tools (use/upload/preview/commit). It drives its own Chromium with a route-level host and update-set lock across frames, wrappers and redirects (request bodies inspected only for xmlhttp.do processors), blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/gateway/guards.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0074"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T23:03:04.573Z",
+      "factId": "CTX-0074",
+      "promotedAt": "2026-10-19T23:03:05.668Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-006",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item) via the form's Submit and Make Current / Make This My Current Set actions and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools, verified, and recorded in the work item; the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "skills/servicenow-changes/SKILL.md",
+        "src/adapters/run-hook.js",
+        "test/use-update-set.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0075"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T23:03:04.686Z",
+      "factId": "CTX-0075",
+      "promotedAt": "2026-10-19T23:03:05.846Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-007",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "The gateway browser accepts 'leave page?' (beforeunload) prompts, because dismissing one cancels the navigation (net::ERR_ABORTED); alerts and confirms are dismissed unless a dedicated tool handles them. After each dedicated update-set step and on any lock violation the page is replaced by a fresh one in the same context, so no locked or half-submitted page is left behind.",
+      "evidence": [
+        "src/playwright/session.js",
+        "test/browser-recovery.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0077"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T23:03:04.791Z",
+      "factId": "CTX-0077",
+      "promotedAt": "2026-10-19T23:03:06.037Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T23:03:06.037Z",
+  "reviewedAt": "2026-10-19T23:03:06.037Z"
+}

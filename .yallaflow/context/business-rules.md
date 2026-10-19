@@ -40,11 +40,11 @@
 - **Source work:** PF-0003
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T14:34:14.430Z
-- **Verified:** 2026-10-19T22:27:03.915Z (commit 0dbadcc)
+- **Verified:** 2026-10-19T23:03:05.119Z (commit 8a4c741)
 - **Evidence:**
-  - src/approvals.js (repository @ 0dbadcc)
-  - src/gateway/tools.js (repository @ 0dbadcc)
-  - test/gateway.test.js (repository @ 0dbadcc)
+  - src/approvals.js (repository @ 8a4c741)
+  - src/gateway/tools.js (repository @ 8a4c741)
+  - test/gateway.test.js (repository @ 8a4c741)
 
 <!-- yallaflow-fact:CTX-0032 -->
 ### CTX-0032 — The target ServiceNow instances use SSO for interactive sign-in (user-confirmed), so the gateway's browser relies on the snowgate SSO profile rather than the login.do password form.
@@ -161,12 +161,12 @@
 - **Source work:** PF-0016
 - **Knowledge ID:** K-006
 - **Promoted at:** 2026-10-19T22:27:04.760Z
-- **Verified:** 2026-10-19T22:36:32.432Z (commit 1df6e09)
+- **Verified:** 2026-10-19T23:03:05.846Z (commit 8a4c741)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ 1df6e09)
-  - skills/servicenow-changes/SKILL.md (repository @ 1df6e09)
-  - src/adapters/run-hook.js (repository @ 1df6e09)
-  - test/use-update-set.test.js (repository @ 1df6e09)
+  - src/gateway/tools.js (repository @ 8a4c741)
+  - skills/servicenow-changes/SKILL.md (repository @ 8a4c741)
+  - src/adapters/run-hook.js (repository @ 8a4c741)
+  - test/use-update-set.test.js (repository @ 8a4c741)
 
 <!-- yallaflow-fact:CTX-0077 -->
 ### CTX-0077 — The gateway browser accepts 'leave page?' (beforeunload) prompts, because dismissing one cancels the navigation (net::ERR_ABORTED); alerts and confirms are dismissed unless a dedicated tool handles them. After each dedicated update-set step and on any lock violation the page is replaced by a fresh one in the same context, so no locked or half-submitted page is left behind.
@@ -177,9 +177,9 @@
 - **Source work:** PF-0017
 - **Knowledge ID:** K-001
 - **Promoted at:** 2026-10-19T22:36:20.009Z
-- **Verified:** 2026-10-19T22:36:20.009Z (commit 1df6e09)
+- **Verified:** 2026-10-19T23:03:06.037Z (commit 8a4c741)
 - **Evidence:**
-  - src/playwright/session.js (repository @ 1df6e09)
-  - test/browser-recovery.test.js (repository @ 1df6e09)
+  - src/playwright/session.js (repository @ 8a4c741)
+  - test/browser-recovery.test.js (repository @ 8a4c741)
 
 <!-- yallaflow-context:end -->

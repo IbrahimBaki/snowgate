@@ -25,6 +25,7 @@ function site() {
     // Like ServiceNow: the form is dirty after typing, and the button submits a moment later.
     if (url.pathname === '/sys_update_set.do') return html(`<form id="f" method="post" action="/sys_update_set.do"><input id="sys_update_set.name" name="name"><button type="button" id="sysverb_insert_and_make_current" onclick="dirty=false;setTimeout(()=>document.getElementById('f').submit(),400)">Submit and Make Current</button></form>${DIRTY}`);
     if (url.pathname === '/edit.do') return html(`<label>Title <input name="title"></label>${DIRTY}`);
+    if (url.pathname === '/form.do') return html('<button onclick="document.title=\'top\'">Update</button><p>fields</p><button onclick="document.title=\'bottom\'">Update</button>');
     return html(`<h1>${url.pathname}</h1>`);
   });
   return new Promise((r) => server.listen(0, '127.0.0.1', () => r({ posts, origin: `http://127.0.0.1:${server.address().port}`, close: () => new Promise((c) => server.close(c)) })));
@@ -65,6 +66,22 @@ test('a lock violation leaves the browser on a fresh page that can navigate', { 
     await session.navigate(`${s.origin}/home.do`);
     await session.postCheck();
     assert.match(session.pageUrl(), /\/home\.do$/);
+  } finally {
+    await session.close();
+    await s.close();
+  }
+});
+
+test('duplicate form buttons: the error says how many matched, and nth picks one', { timeout: 60000 }, async () => {
+  const s = await site();
+  const session = new BrowserSession({ origin: s.origin, auth: 'password', user: USER, password: PASSWORD });
+  try {
+    await session.navigate(`${s.origin}/form.do`);
+    await assert.rejects(session.click({ role: 'button', name: 'Update' }), (e) => e.code === 'LOCATOR_AMBIGUOUS' && /matched 2 elements; pass nth \(0-1\)/.test(e.message));
+    await session.click({ role: 'button', name: 'Update', nth: 1 });
+    const snap = await session.snapshot();
+    assert.ok(snap.length >= 1);
+    await assert.rejects(session.click({ role: 'button', name: 'Update', nth: 5 }), { code: 'LOCATOR_AMBIGUOUS' });
   } finally {
     await session.close();
     await s.close();
