@@ -40,11 +40,11 @@
 - **Source work:** PF-0003
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T14:34:14.430Z
-- **Verified:** 2026-10-19T23:03:05.119Z (commit 8a4c741)
+- **Verified:** 2026-10-19T23:31:40.902Z (commit 23b171d)
 - **Evidence:**
-  - src/approvals.js (repository @ 8a4c741)
-  - src/gateway/tools.js (repository @ 8a4c741)
-  - test/gateway.test.js (repository @ 8a4c741)
+  - src/approvals.js (repository @ 23b171d)
+  - src/gateway/tools.js (repository @ 23b171d)
+  - test/gateway.test.js (repository @ 23b171d)
 
 <!-- yallaflow-fact:CTX-0032 -->
 ### CTX-0032 — The target ServiceNow instances use SSO for interactive sign-in (user-confirmed), so the gateway's browser relies on the snowgate SSO profile rather than the login.do password form.
@@ -161,12 +161,12 @@
 - **Source work:** PF-0016
 - **Knowledge ID:** K-006
 - **Promoted at:** 2026-10-19T22:27:04.760Z
-- **Verified:** 2026-10-19T23:03:05.846Z (commit 8a4c741)
+- **Verified:** 2026-10-19T23:31:41.264Z (commit 23b171d)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ 8a4c741)
-  - skills/servicenow-changes/SKILL.md (repository @ 8a4c741)
-  - src/adapters/run-hook.js (repository @ 8a4c741)
-  - test/use-update-set.test.js (repository @ 8a4c741)
+  - src/gateway/tools.js (repository @ 23b171d)
+  - skills/servicenow-changes/SKILL.md (repository @ 23b171d)
+  - src/adapters/run-hook.js (repository @ 23b171d)
+  - test/use-update-set.test.js (repository @ 23b171d)
 
 <!-- yallaflow-fact:CTX-0077 -->
 ### CTX-0077 — The gateway browser accepts 'leave page?' (beforeunload) prompts, because dismissing one cancels the navigation (net::ERR_ABORTED); alerts and confirms are dismissed unless a dedicated tool handles them. After each dedicated update-set step and on any lock violation the page is replaced by a fresh one in the same context, so no locked or half-submitted page is left behind.

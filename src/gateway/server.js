@@ -52,6 +52,31 @@ export function redact(value, secrets = []) {
   return walk(value);
 }
 
+// Common slips are accepted rather than refused: a comma-separated string
+// for a list parameter, and per-tool aliases (only when the real name is absent).
+export function normalizeArgs(tool, args) {
+  if (!args || typeof args !== 'object' || Array.isArray(args)) return args;
+  const out = { ...args };
+  for (const [alias, real] of Object.entries(tool.aliases ?? {})) {
+    if (out[alias] !== undefined && out[real] === undefined) {
+      out[real] = out[alias];
+      delete out[alias];
+    }
+  }
+  for (const [key, prop] of Object.entries(tool.inputSchema.properties)) {
+    if (prop.type === 'array' && typeof out[key] === 'string') out[key] = out[key].split(',').map((s) => s.trim()).filter(Boolean);
+    if (prop.type === 'integer' && typeof out[key] === 'string' && /^\d+$/.test(out[key])) out[key] = Number(out[key]);
+  }
+  return out;
+}
+
+// "table (string, required), fields (array of string, required), query (string)"
+export function signature(tool) {
+  const required = new Set(tool.inputSchema.required ?? []);
+  const params = Object.entries(tool.inputSchema.properties).map(([k, p]) => `${k} (${p.type === 'array' ? `array of ${p.items.type}` : p.type}${required.has(k) ? ', required' : ''})`);
+  return params.length ? params.join(', ') : 'no parameters';
+}
+
 function checkArgs(tool, args) {
   const schema = tool.inputSchema;
   const problems = [];
@@ -119,8 +144,9 @@ export function createGateway({
     }
     try {
       if (!tool) throw new SnowgateError(`Unknown tool ${name}.`, 'TOOL_UNKNOWN');
+      args = normalizeArgs(tool, args);
       const problems = checkArgs(tool, args);
-      if (problems.length) throw new SnowgateError(`Invalid arguments for ${name}: ${problems.join('; ')}.`, 'ARGS_INVALID');
+      if (problems.length) throw new SnowgateError(`Invalid arguments for ${name}: ${problems.join('; ')}. Expected: ${signature(tool)}.`, 'ARGS_INVALID');
       // Reporting a gap touches no instance, so it needs no work item or target.
       if (tool.kind === 'local') {
         const result = await HANDLERS[name]({ root, now }, args);

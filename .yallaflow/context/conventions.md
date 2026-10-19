@@ -34,4 +34,19 @@
   - test/browser-lock.test.js (repository @ 0b3e5ec)
   - test/sso-profile.test.js (repository @ 0b3e5ec)
 
+<!-- yallaflow-fact:CTX-0079 -->
+### CTX-0079 — Gateway tool arguments are normalised before validation: a comma-separated string for a list parameter becomes a list, numeric strings for integers become numbers, and per-tool aliases (TOOLS[].aliases, applied only when the real name is absent) accept common slips; argument errors end with 'Expected: <parameters with types and required>' so an agent can correct itself in one step.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0019
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-10-19T23:31:27.547Z
+- **Verified:** 2026-10-19T23:31:27.547Z (commit 23b171d)
+- **Evidence:**
+  - src/gateway/server.js (repository @ 23b171d)
+  - src/gateway/tools.js (repository @ 23b171d)
+  - test/args.test.js (repository @ 23b171d)
+
 <!-- yallaflow-context:end -->

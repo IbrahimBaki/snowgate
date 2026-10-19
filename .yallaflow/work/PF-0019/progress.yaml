@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:29:20.448Z",
+      "completedAt": "2026-10-19T23:29:20.448Z",
+      "summary": "Trial PF-0004 audit (demo project): 30 gateway calls, 7 refused; 5 were ARGS_INVALID from guessed parameters (fields as a string, name instead of title for ui_use_update_set, text-like slips for value/label/update_set). checkArgs in src/gateway/server.js only names the first problems, not the expected parameters.",
+      "evidence": [
+        "src/gateway/server.js",
+        "runtime:demo_snowGateV.0.0.1 .snowgate/audit/PF-0004.jsonl 2026-10-20"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:29:20.664Z",
+      "completedAt": "2026-10-19T23:29:20.664Z",
+      "summary": "User approved (agent session): argument errors state the expected parameters; a comma-separated fields string becomes a list; common parameter-name slips are accepted as aliases.",
+      "evidence": [
+        "user:موافق، اعمل الإصلاح"
+      ]
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:29:20.893Z",
+      "completedAt": "2026-10-19T23:29:20.893Z",
+      "summary": "server.js: normalizeArgs (string→array for array params, per-tool aliases only when the canonical name is absent) before checkArgs; checkArgs error appends the expected signature; tools.js: aliases on ui_use_update_set (name→title), ui_type (text→value), ui_screenshot (name→label), sn_update_set_contents (sys_id→update_set), sn_portal_page (id→page); tests.",
+      "evidence": [
+        "src/gateway/server.js"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:31:15.414Z",
+      "completedAt": "2026-10-19T23:31:15.414Z",
+      "summary": "server.js normalizeArgs (comma-separated strings for list params, numeric strings for integers, per-tool aliases applied only when the real name is absent) and signature(); ARGS_INVALID now ends with 'Expected: <params with types and required>'. tools.js aliases: ui_use_update_set name→title, ui_screenshot name/filename→label, ui_type text_value/input/content→value (not text, which locates by visible text), sn_update_set_contents sys_id/update_set_id→update_set, sn_portal_page id/sys_id/page_id→page. test/args.test.js.",
+      "evidence": [
+        "src/gateway/server.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:31:27.228Z",
+      "completedAt": "2026-10-19T23:31:27.228Z",
+      "summary": "V-001 npm test passed (153). The five ARGS_INVALID refusals in the PF-0004 trial audit map to: fields string (now accepted), ui_use_update_set name (alias), ui_screenshot label (alias name), sn_update_set_contents update_set (alias sys_id), ui_type value (error now lists it).",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T23:31:27.228Z"
+}

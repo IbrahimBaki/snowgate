@@ -30,10 +30,10 @@
 - **Knowledge ID:** K-004
 - **Promoted at:** 2026-10-19T14:34:13.845Z
 - **Supersedes:** CTX-0005
-- **Verified:** 2026-10-19T22:06:05.910Z (commit 0b3e5ec)
+- **Verified:** 2026-10-19T23:31:40.728Z (commit 23b171d)
 - **Evidence:**
-  - src/cli/main.js (repository @ 0b3e5ec)
-  - src/gateway/server.js (repository @ 0b3e5ec)
+  - src/cli/main.js (repository @ 23b171d)
+  - src/gateway/server.js (repository @ 23b171d)
 
 <!-- yallaflow-fact:CTX-0042 -->
 ### CTX-0042 — Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.
@@ -107,10 +107,10 @@
 - **Knowledge ID:** K-005
 - **Promoted at:** 2026-10-19T22:27:04.587Z
 - **Supersedes:** CTX-0066
-- **Verified:** 2026-10-19T23:03:05.668Z (commit 8a4c741)
+- **Verified:** 2026-10-19T23:31:41.104Z (commit 23b171d)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ 8a4c741)
-  - src/gateway/guards.js (repository @ 8a4c741)
-  - test/gateway.test.js (repository @ 8a4c741)
+  - src/gateway/tools.js (repository @ 23b171d)
+  - src/gateway/guards.js (repository @ 23b171d)
+  - test/gateway.test.js (repository @ 23b171d)
 
 <!-- yallaflow-context:end -->

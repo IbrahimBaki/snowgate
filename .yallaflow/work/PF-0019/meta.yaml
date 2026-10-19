@@ -1,0 +1,45 @@
+{
+  "id": "PF-0019",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Fewer wasted tool calls: argument errors list the expected parameters; common slips are accepted",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T23:29:20.218Z",
+  "updatedAt": "2026-10-19T23:31:41.761Z",
+  "title": "Fewer wasted tool calls: argument errors list the expected parameters; common slips are accepted",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-10-19T23:29:20.222Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T23:31:41.761Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}
