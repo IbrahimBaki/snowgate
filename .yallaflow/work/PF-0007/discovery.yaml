@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "integration",
+      "summary": "Fix not yet confirmed on dev446072: needs the updated snowgate installed and snowgate login rerun",
+      "reason": "The user's installed copy comes from the pushed git commit",
+      "recordedAt": "2026-10-19T17:00:54.849Z"
+    }
+  ],
+  "updatedAt": "2026-10-19T17:00:54.849Z"
+}

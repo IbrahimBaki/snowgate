@@ -1,0 +1,43 @@
+{
+  "id": "PF-0007",
+  "type": "bug",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "SSO session lost between snowgate login and the gateway (session cookies dropped)",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T17:00:12.629Z",
+  "updatedAt": "2026-10-19T17:01:22.894Z",
+  "title": "SSO session lost between snowgate login and the gateway (session cookies dropped)",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow bug --scope bounded`.",
+  "routedAt": "2026-10-19T17:00:12.632Z",
+  "workflow": "bug",
+  "requiredCapabilities": [
+    "discover",
+    "systematic-debugging",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "systematic-debugging",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T17:01:22.894Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

@@ -30,10 +30,10 @@
 - **Knowledge ID:** K-004
 - **Promoted at:** 2026-10-19T14:34:13.845Z
 - **Supersedes:** CTX-0005
-- **Verified:** 2026-10-19T15:02:43.941Z
+- **Verified:** 2026-10-19T17:01:22.081Z (commit 58b4f45)
 - **Evidence:**
-  - src/cli/main.js (repository)
-  - src/gateway/server.js#resolveWorkId (repository)
+  - src/cli/main.js (repository @ 58b4f45)
+  - src/gateway/server.js#resolveWorkId (repository @ 58b4f45)
 
 <!-- yallaflow-fact:CTX-0028 -->
 ### CTX-0028 — snowgate mcp is a stdio MCP server whose tool list is exactly PLAN §7.2 (6 read-only REST tools, 5 generic ui_* tools, 3 gated update-set tools). It drives its own Chromium (no @playwright/mcp proxy: its --allowed-origins is not a security boundary). A context route checks every request in all frames: other hosts and requests whose decoded URL or body carries an update-set token (incl. Next Experience / nav_to.do wrappers) are aborted; requests are fetched with redirects disabled and a redirect is followed only if its Location passes the same checks; service workers are blocked; calls are serialised and audited with credentials redacted.
@@ -62,10 +62,10 @@
 - **Knowledge ID:** K-002
 - **Promoted at:** 2026-10-19T15:02:43.089Z
 - **Supersedes:** CTX-0030
-- **Verified:** 2026-10-19T15:05:43.923Z
+- **Verified:** 2026-10-19T17:01:22.583Z (commit 58b4f45)
 - **Evidence:**
-  - README.md (repository)
-  - src/adapters/policy.js (repository)
+  - README.md (repository @ 58b4f45)
+  - src/adapters/policy.js (repository @ 58b4f45)
 
 <!-- yallaflow-fact:CTX-0035 -->
 ### CTX-0035 — snowgate init --agent claude|codex generates adapters: a Claude project plugin in .claude/skills/snowgate (plugin.json, hooks/hooks.json and .mcp.json calling ${CLAUDE_PLUGIN_ROOT}/hook.mjs and mcp.mjs shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, and fail closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; and .git/hooks/pre-commit running validate --secrets. Files without the 'managed by snowgate init' marker are never overwritten.

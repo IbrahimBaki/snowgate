@@ -17,9 +17,9 @@ greenfield
 - **Provenance:** repository
 - **From baseline:** PF-0002 (BF-001)
 - **Recorded at:** 2026-10-19T14:08:12.679Z
-- **Verified:** 2026-10-19T15:05:43.785Z
+- **Verified:** 2026-10-19T17:01:21.610Z (commit 58b4f45)
 - **Evidence:**
-  - README.md (repository)
+  - README.md (repository @ 58b4f45)
 
 <!-- yallaflow-fact:CTX-0033 -->
 ### CTX-0033 — Milestones M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login (PF-0005) and M3 (claude/codex/yallaflow adapters, init, doctor, hook) are implemented. The pack.yaml skills/*.md procedures are not written yet.
@@ -31,9 +31,9 @@ greenfield
 - **Knowledge ID:** K-001
 - **Promoted at:** 2026-10-19T15:02:42.930Z
 - **Supersedes:** CTX-0018
-- **Verified:** 2026-10-19T15:02:42.930Z
+- **Verified:** 2026-10-19T17:01:22.433Z (commit 58b4f45)
 - **Evidence:**
-  - src/cli/main.js (repository)
-  - docs/PLAN.md (repository)
+  - src/cli/main.js (repository @ 58b4f45)
+  - docs/PLAN.md (repository @ 58b4f45)
 
 <!-- yallaflow-context:end -->

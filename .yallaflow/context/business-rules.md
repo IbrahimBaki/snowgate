@@ -13,10 +13,10 @@
 - **Provenance:** repository
 - **From baseline:** PF-0002 (BF-011)
 - **Recorded at:** 2026-10-19T14:08:12.679Z
-- **Verified:** 2026-10-19T15:02:43.653Z
+- **Verified:** 2026-10-19T17:01:21.762Z (commit 58b4f45)
 - **Evidence:**
-  - src/work.js (repository)
-  - src/cli/main.js (repository)
+  - src/work.js (repository @ 58b4f45)
+  - src/cli/main.js (repository @ 58b4f45)
 
 <!-- yallaflow-fact:CTX-0012 -->
 ### CTX-0012 — Instance hosts must match ^[a-z0-9-]+\.service-now\.com$ after normalisation; paths, ports, userinfo and other domains are rejected.

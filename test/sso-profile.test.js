@@ -44,7 +44,8 @@ async function setup({ idpSignsIn = true } = {}) {
   });
   Object.assign(site, await listen((req, res) => {
     if (req.url === '/sso_callback.do') {
-      res.writeHead(302, { 'set-cookie': 'sess=ok; Path=/; Max-Age=3600', location: '/home.do' });
+      // Like ServiceNow's JSESSIONID: a session cookie with no expiry.
+      res.writeHead(302, { 'set-cookie': 'sess=ok; Path=/; HttpOnly', location: '/home.do' });
       return res.end();
     }
     if (!(req.headers.cookie ?? '').includes('sess=ok')) {

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T17:00:12.878Z",
+      "completedAt": "2026-10-19T17:00:12.878Z",
+      "summary": "Trial on dev446072: snowgate login succeeded, then the gateway's first ui_navigate returned SESSION_EXPIRED. src/login.js closes the persistent context after sign-in; src/playwright/session.js reopens the same profile.",
+      "evidence": [
+        "src/login.js"
+      ]
+    },
+    "systematic-debugging": {
+      "status": "completed",
+      "startedAt": "2026-10-19T17:00:13.100Z",
+      "completedAt": "2026-10-19T17:00:13.100Z",
+      "summary": "Root cause reproduced locally: a persistent Chromium context drops cookies without Expires/Max-Age when it closes (JSESSIONID survived only within the same context; a Max-Age cookie survived the reopen). ServiceNow session cookies are session cookies, so the login session never reaches the gateway. Fix: before closing, snowgate login re-saves the instance host's session cookies with an explicit expiry (default 12h, SNOWGATE_SESSION_HOURS) so the profile keeps them; the instance's own server-side session timeout still applies and SESSION_EXPIRED remains the signal to log in again.",
+      "evidence": [
+        "src/login.js"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T17:00:49.492Z",
+      "completedAt": "2026-10-19T17:00:49.492Z",
+      "summary": "src/login.js keepSessionCookies: before closing, re-saves the instance origin's session cookies (expires -1) with an explicit expiry (SNOWGATE_SESSION_HOURS, default 12h, max 168); IdP cookies untouched. CLI reports how many were kept. test/sso-profile.test.js fixture now uses a session cookie like JSESSIONID; mutation check: without the fix the reuse test fails.",
+      "evidence": [
+        "src/login.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T17:00:54.739Z",
+      "completedAt": "2026-10-19T17:00:54.739Z",
+      "summary": "V-001 npm test passed; the SSO reuse test fails without the fix (mutation check). Real-instance confirmation pending: the user must rerun snowgate login with the fixed version.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T17:00:54.739Z"
+}

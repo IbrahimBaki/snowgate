@@ -200,9 +200,10 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
       const target = requireConfirmedTarget(root, workId);
       const rl = createInterface({ input: stdin, output: stdout });
       try {
-        const { dir } = await interactiveLogin({ instance: target, env, waitForHuman: (q) => rl.question(q) });
+        const { dir, kept } = await interactiveLogin({ instance: target, env, waitForHuman: (q) => rl.question(q) });
         appendAudit(root, workId, { tool: 'login', target, signed_in_by: identity(cwd) });
         out(`Signed in to ${target}. The snowgate browser profile is at ${dir} (owner-only; it holds the SSO session).`);
+        out(`Kept ${kept} session cookie(s) for up to ${env.SNOWGATE_SESSION_HOURS ?? 12}h; the instance's own session timeout still applies.`);
       } finally {
         rl.close();
       }

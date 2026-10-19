@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "environment",
+      "source": "implementation-runtime",
+      "summary": "REST credentials come only from environment variables named in pack.yaml (SN_USER / SN_PASSWORD, Basic auth, an integration account with local credentials). The gateway's browser authenticates with a dedicated per-instance snowgate profile signed in by a human (snowgate login), stored owner-only under $XDG_STATE_HOME/snowgate/profiles/<instance> outside the repo; because ServiceNow session cookies have no expiry, snowgate login re-saves the instance's session cookies with an explicit lifetime (SNOWGATE_SESSION_HOURS, default 12h) so the gateway can reuse them; ui_auth: password opts into the login.do form. Credentials and cookies are never written to output, evidence or audit.",
+      "evidence": [
+        "pack.yaml",
+        "src/login.js",
+        "src/browser-profile.js",
+        "src/playwright/session.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0027"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:01:20.550Z",
+      "factId": "CTX-0039",
+      "promotedAt": "2026-10-19T17:01:21.459Z",
+      "target": "context/environments.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects: skills, guards, an MCP gateway, validators and a CLI; it carries no project-specific naming.",
+      "evidence": [
+        "README.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0001"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:01:20.665Z",
+      "factId": "CTX-0001",
+      "promotedAt": "2026-10-19T17:01:21.610Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "An instance is per work item: target set records only candidate_instance; target confirm requires an interactive TTY and the host typed back exactly, then records confirmed_by/confirmed_at; changing the candidate revokes a confirmed target.",
+      "evidence": [
+        "src/work.js",
+        "src/cli/main.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0011"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:01:20.777Z",
+      "factId": "CTX-0011",
+      "promotedAt": "2026-10-19T17:01:21.762Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Errors are SnowgateError subclasses with a stable code (e.g. TARGET_UNCONFIRMED, TABLE_NOT_ALLOWED); the CLI maps them to exit 1 and usage errors to exit 2.",
+      "evidence": [
+        "src/errors.js",
+        "src/cli/main.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0016"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:01:20.887Z",
+      "factId": "CTX-0016",
+      "promotedAt": "2026-10-19T17:01:21.915Z",
+      "target": "context/conventions.md"
+    },
+    {
+      "id": "K-005",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate only runs inside a YallaFlow project (it walks up to find .yallaflow/). Every instance-touching command requires a YallaFlow work item: --work for CLI commands; snowgate mcp takes --work, SNOWGATE_WORK, or YallaFlow's active work item, and refuses instance tools without one.",
+      "evidence": [
+        "src/cli/main.js",
+        "src/gateway/server.js#resolveWorkId"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0021"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:01:21.001Z",
+      "factId": "CTX-0021",
+      "promotedAt": "2026-10-19T17:01:22.081Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-006",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Tests use node:test and never contact a real instance: a local mock Table API, validator fixtures, and local fixture sites (instance + identity provider) driven by real headless Chromium for the URL lock and SSO profile; npm test runs test/*.test.js.",
+      "evidence": [
+        "test/helpers.js",
+        "test/browser-lock.test.js",
+        "test/sso-profile.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0031"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:01:21.118Z",
+      "factId": "CTX-0031",
+      "promotedAt": "2026-10-19T17:01:22.250Z",
+      "target": "context/conventions.md"
+    },
+    {
+      "id": "K-007",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "Milestones M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login (PF-0005) and M3 (claude/codex/yallaflow adapters, init, doctor, hook) are implemented. The pack.yaml skills/*.md procedures are not written yet.",
+      "evidence": [
+        "src/cli/main.js",
+        "docs/PLAN.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0033"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:01:21.235Z",
+      "factId": "CTX-0033",
+      "promotedAt": "2026-10-19T17:01:22.433Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-008",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records and SSO profile are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; the gateway stays the primary guard.",
+      "evidence": [
+        "README.md",
+        "src/adapters/policy.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0034"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:01:21.342Z",
+      "factId": "CTX-0034",
+      "promotedAt": "2026-10-19T17:01:22.583Z",
+      "target": "context/architecture.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T17:01:22.583Z",
+  "reviewedAt": "2026-10-19T17:01:22.583Z"
+}
