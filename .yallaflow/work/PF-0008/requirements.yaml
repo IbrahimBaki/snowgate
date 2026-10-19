@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "Users choose in configuration between a protected credential store the agent cannot read and an agent-visible project store for dev work; both are available.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T17:49:03.397Z",
+      "updatedAt": "2026-10-19T17:49:03.397Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "With the agent-visible store and password login, the gateway logs in again by itself when the instance session ends.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T17:49:03.397Z",
+      "updatedAt": "2026-10-19T17:49:03.397Z"
+    },
+    {
+      "id": "REQ-003",
+      "statement": "Credentials no longer need to be exported in the shell for every session; environment variables still work and take precedence.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T17:49:03.397Z",
+      "updatedAt": "2026-10-19T17:49:03.397Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "credentials: protected (default) reads a 0600 per-instance file outside the project written by a TTY-only snowgate credentials set, and the agent hook denies access to it; credentials: project reads .snowgate.env in the project root, which init adds to .gitignore and the agent may read. Only a human can switch the mode (.snowgate/config.yaml is agent-write-protected).",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T17:49:03.397Z",
+      "updatedAt": "2026-10-19T17:49:03.397Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "With ui_auth: password, a navigation that lands on login.do triggers one automatic re-login and the action continues; the password never appears in results or audit.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T17:49:03.397Z",
+      "updatedAt": "2026-10-19T17:49:03.397Z"
+    },
+    {
+      "id": "AC-003",
+      "requirement": "REQ-003",
+      "statement": "discover and the gateway resolve credentials as env > configured store; doctor reports which source is used without showing the password; staged .snowgate.env is blocked by validate --secrets.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T17:49:03.397Z",
+      "updatedAt": "2026-10-19T17:49:03.397Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-10-19T17:49:03.397Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-10-19T17:49:03.397Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-003",
+      "at": "2026-10-19T17:49:03.397Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-10-19T17:49:03.397Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-10-19T17:49:03.397Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-003",
+      "at": "2026-10-19T17:49:03.397Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-10-19T17:49:03.397Z"
+}

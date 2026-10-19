@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T18:23:57.850Z",
+      "completedAt": "2026-10-19T18:23:57.850Z",
+      "summary": "Target confirmation lives in src/work.js (setCandidate/confirmTarget/requireConfirmedTarget); config in src/config.js (agent-write-protected); adapters/credentials/login/doctor already exist and can be composed by a setup command. YallaFlow creates work items for agent tasks, so setup must not ask for one.",
+      "evidence": [
+        "src/work.js"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T18:23:58.177Z",
+      "completedAt": "2026-10-19T18:23:58.177Z",
+      "summary": "User approved both (agent session): project-approved instances instead of per-task confirmation, and a four-question snowgate setup. Upload/commit approvals stay human.",
+      "evidence": [
+        "user:موافق على الاتنين، ابدأ"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T18:27:10.732Z",
+      "completedAt": "2026-10-19T18:27:10.732Z",
+      "summary": "approved_instances in .snowgate/config.yaml (updateConfig keeps comments); setCandidate auto-confirms approved instances (confirmation.via approved_instances, revoked when removed); snowgate setup (src/setup.js, TTY, human-only in hooks): agent adapters, Chromium offer, approved instances, dev/protected credentials and ui_auth, hidden password into .snowgate.env or the protected file, SSO login offer, doctor, next-step line; SessionStart/AGENTS.md tell agents to bind approved instances themselves; doctor lists approved instances; README quick start. Verified under a pty in a scratch project.",
+      "evidence": [
+        "src/setup.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T18:27:16.048Z",
+      "completedAt": "2026-10-19T18:27:16.048Z",
+      "summary": "V-001 npm test passed (121); setup run end to end under script(1) with four answers.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T18:27:26.213Z",
+      "completedAt": "2026-10-19T18:27:26.213Z",
+      "summary": "AC-001, AC-002 satisfied.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T18:27:26.213Z"
+}

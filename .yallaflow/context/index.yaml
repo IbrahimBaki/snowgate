@@ -16,13 +16,13 @@
         {
           "type": "repository",
           "path": "README.md",
-          "contentHash": "sha256:d980154ab9abef90856eb730ea505879b27bc70a746c7ae2ca47c9eba79185e3",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+          "contentHash": "sha256:3ed6945fc535931b3d099fb12db1e6137e55c5fee7736c26cfbb4c012f9e4670",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
           "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T17:01:21.610Z",
-      "verifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+      "verifiedAt": "2026-10-19T18:27:44.401Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
       "supersedes": [],
       "supersededBy": null,
       "history": [
@@ -116,10 +116,44 @@
           ],
           "previousVerifiedAt": "2026-10-19T15:05:43.785Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T17:54:29.646Z",
+          "workId": "PF-0008",
+          "candidateId": "K-001",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:d980154ab9abef90856eb730ea505879b27bc70a746c7ae2ca47c9eba79185e3",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:01:21.610Z",
+          "previousVerifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T18:27:44.401Z",
+          "workId": "PF-0009",
+          "candidateId": "K-001",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:d3707e7f17fe9dff9476ed27a2e11fefaa38b3d98baff6a5f13772cc8297bd9d",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:54:29.646Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T17:01:21.610Z"
+      "updatedAt": "2026-10-19T18:27:44.401Z"
     },
     {
       "id": "CTX-0002",
@@ -577,7 +611,7 @@
     {
       "id": "CTX-0011",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "An instance is per work item: `target set` records only candidate_instance; `target confirm` requires an interactive TTY and the host typed back exactly, then records confirmed_by/confirmed_at; changing the candidate revokes a confirmed target.",
       "provenance": "repository",
@@ -590,21 +624,21 @@
           "type": "repository",
           "path": "src/work.js",
           "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
           "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/cli/main.js",
-          "contentHash": "sha256:508f0b421b8fbcc006c2d960c2fb23260f3bc441d9f62cdcafeb96eb87abe1f1",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+          "contentHash": "sha256:250a564c1f6c2fbae95ed7101113c427dbd60539c08c6e5a7b5bfe56ddeb1520",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
           "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T17:01:21.762Z",
-      "verifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+      "verifiedAt": "2026-10-19T17:54:29.828Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0047",
       "history": [
         {
           "action": "introduced",
@@ -706,10 +740,41 @@
           ],
           "previousVerifiedAt": "2026-10-19T15:02:43.653Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T17:54:29.828Z",
+          "workId": "PF-0008",
+          "candidateId": "K-002",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/work.js",
+              "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:508f0b421b8fbcc006c2d960c2fb23260f3bc441d9f62cdcafeb96eb87abe1f1",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:01:21.762Z",
+          "previousVerifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T18:27:45.406Z",
+          "supersededBy": "CTX-0047",
+          "workId": "PF-0009",
+          "candidateId": "K-007"
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T17:01:21.762Z"
+      "updatedAt": "2026-10-19T18:27:45.406Z"
     },
     {
       "id": "CTX-0012",
@@ -886,19 +951,19 @@
           "type": "repository",
           "path": "src/errors.js",
           "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
           "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/cli/main.js",
-          "contentHash": "sha256:508f0b421b8fbcc006c2d960c2fb23260f3bc441d9f62cdcafeb96eb87abe1f1",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+          "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
           "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T17:01:21.915Z",
-      "verifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+      "verifiedAt": "2026-10-19T18:27:44.550Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
       "supersedes": [],
       "supersededBy": null,
       "history": [
@@ -987,10 +1052,58 @@
           ],
           "previousVerifiedAt": "2026-10-19T15:02:43.796Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T17:54:29.997Z",
+          "workId": "PF-0008",
+          "candidateId": "K-003",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/errors.js",
+              "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:508f0b421b8fbcc006c2d960c2fb23260f3bc441d9f62cdcafeb96eb87abe1f1",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:01:21.915Z",
+          "previousVerifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T18:27:44.550Z",
+          "workId": "PF-0009",
+          "candidateId": "K-002",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/errors.js",
+              "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:250a564c1f6c2fbae95ed7101113c427dbd60539c08c6e5a7b5bfe56ddeb1520",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:54:29.997Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
         }
       ],
       "createdAt": "2026-10-19T14:08:12.679Z",
-      "updatedAt": "2026-10-19T17:01:21.915Z"
+      "updatedAt": "2026-10-19T18:27:44.550Z"
     },
     {
       "id": "CTX-0017",
@@ -1229,21 +1342,20 @@
         {
           "type": "repository",
           "path": "src/cli/main.js",
-          "contentHash": "sha256:508f0b421b8fbcc006c2d960c2fb23260f3bc441d9f62cdcafeb96eb87abe1f1",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+          "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
           "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "src/gateway/server.js",
-          "symbol": "resolveWorkId",
-          "contentHash": "sha256:ff7228bb56b45ab81f0cfb4d9a287aead1874fc9a2e8e3d697c38559c244f480",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
-          "workingTree": "head"
+          "contentHash": "sha256:ad500788cc4113519fbb9fb25f0f6a3f18b020188e2464083a0fd6dcbc0b42a9",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
         }
       ],
-      "verifiedAt": "2026-10-19T17:01:22.081Z",
-      "verifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+      "verifiedAt": "2026-10-19T18:27:44.711Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
       "supersedes": [
         "CTX-0005"
       ],
@@ -1323,10 +1435,59 @@
           ],
           "previousVerifiedAt": "2026-10-19T15:02:43.941Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T17:54:30.175Z",
+          "workId": "PF-0008",
+          "candidateId": "K-004",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:508f0b421b8fbcc006c2d960c2fb23260f3bc441d9f62cdcafeb96eb87abe1f1",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "symbol": "resolveWorkId",
+              "contentHash": "sha256:ff7228bb56b45ab81f0cfb4d9a287aead1874fc9a2e8e3d697c38559c244f480",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "head"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:01:22.081Z",
+          "previousVerifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T18:27:44.711Z",
+          "workId": "PF-0009",
+          "candidateId": "K-003",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:250a564c1f6c2fbae95ed7101113c427dbd60539c08c6e5a7b5bfe56ddeb1520",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "contentHash": "sha256:ad500788cc4113519fbb9fb25f0f6a3f18b020188e2464083a0fd6dcbc0b42a9",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:54:30.175Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
         }
       ],
       "createdAt": "2026-10-19T14:34:13.845Z",
-      "updatedAt": "2026-10-19T17:01:22.081Z"
+      "updatedAt": "2026-10-19T18:27:44.711Z"
     },
     {
       "id": "CTX-0022",
@@ -1542,7 +1703,7 @@
     {
       "id": "CTX-0026",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "snowgate validate is a generic Node port of the origin change-package validator: manifest v2, lifecycle states, Evidence Register, Verified Mapping, well-formed XML; task_id must be an existing YallaFlow work item; update-set.xml requires a plan approval; imported+ requires a current upload approval and committed/verified a current commit approval; legacy packages only from .snowgate/config.yaml; --secrets scans staged files.",
       "provenance": "repository",
@@ -1570,17 +1731,24 @@
       "verifiedAt": "2026-10-19T14:34:14.625Z",
       "verifiedAtCommit": null,
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0045",
       "history": [
         {
           "action": "introduced",
           "at": "2026-10-19T14:34:14.625Z",
           "workId": "PF-0003",
           "candidateId": "K-009"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T17:54:31.523Z",
+          "supersededBy": "CTX-0045",
+          "workId": "PF-0008",
+          "candidateId": "K-012"
         }
       ],
       "createdAt": "2026-10-19T14:34:14.625Z",
-      "updatedAt": "2026-10-19T14:34:14.625Z"
+      "updatedAt": "2026-10-19T17:54:31.523Z"
     },
     {
       "id": "CTX-0027",
@@ -1660,27 +1828,34 @@
         {
           "type": "repository",
           "path": "src/gateway/tools.js",
-          "symbol": "TOOLS",
-          "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383"
+          "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/gateway/guards.js",
-          "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8"
+          "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
         },
         {
           "type": "repository",
           "path": "src/playwright/session.js",
-          "contentHash": "sha256:beeebfc4c8b8a3cb7fff241ef17769cf115322c21a0df3e350de8279707978a7"
+          "contentHash": "sha256:945646c59e9c176f01bf7b9620bdb7d3b5809e6cea07dd3ab52bbaad37e238cb",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "test/browser-lock.test.js",
-          "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812"
+          "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
         }
       ],
-      "verifiedAt": "2026-10-19T14:50:51.722Z",
-      "verifiedAtCommit": null,
+      "verifiedAt": "2026-10-19T17:54:30.329Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
       "supersedes": [
         "CTX-0024"
       ],
@@ -1692,15 +1867,46 @@
           "workId": "PF-0005",
           "candidateId": "K-002",
           "supersedes": "CTX-0024"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T17:54:30.329Z",
+          "workId": "PF-0008",
+          "candidateId": "K-005",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/gateway/tools.js",
+              "symbol": "TOOLS",
+              "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/guards.js",
+              "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8"
+            },
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:beeebfc4c8b8a3cb7fff241ef17769cf115322c21a0df3e350de8279707978a7"
+            },
+            {
+              "type": "repository",
+              "path": "test/browser-lock.test.js",
+              "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:50:51.722Z",
+          "previousVerifiedAtCommit": null
         }
       ],
       "createdAt": "2026-10-19T14:50:51.722Z",
-      "updatedAt": "2026-10-19T14:50:51.722Z"
+      "updatedAt": "2026-10-19T17:54:30.329Z"
     },
     {
       "id": "CTX-0029",
       "area": "database",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "No database. State is files under .snowgate/: work/<id>.yaml (target + change packages), approvals/<id>.jsonl, audit/<id>.jsonl, evidence/<id>/, discovery/<instance>/<timestamp>/, and optional config.yaml (changes_dir, validate.legacy_packages, ui_auth). Change packages live in changes/<ID>/ by default. The SSO browser profile lives outside the project ($XDG_STATE_HOME/snowgate/profiles/<instance>).",
       "provenance": "repository",
@@ -1735,7 +1941,7 @@
       "supersedes": [
         "CTX-0020"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0041",
       "history": [
         {
           "action": "introduced",
@@ -1743,10 +1949,17 @@
           "workId": "PF-0005",
           "candidateId": "K-003",
           "supersedes": "CTX-0020"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T17:54:30.825Z",
+          "supersededBy": "CTX-0041",
+          "workId": "PF-0008",
+          "candidateId": "K-008"
         }
       ],
       "createdAt": "2026-10-19T14:50:51.879Z",
-      "updatedAt": "2026-10-19T14:50:51.879Z"
+      "updatedAt": "2026-10-19T17:54:30.825Z"
     },
     {
       "id": "CTX-0030",
@@ -1913,7 +2126,7 @@
     {
       "id": "CTX-0033",
       "area": "project",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Milestones M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login (PF-0005) and M3 (claude/codex/yallaflow adapters, init, doctor, hook) are implemented. The pack.yaml skills/*.md procedures are not written yet.",
       "provenance": "repository",
@@ -1925,24 +2138,24 @@
         {
           "type": "repository",
           "path": "src/cli/main.js",
-          "contentHash": "sha256:508f0b421b8fbcc006c2d960c2fb23260f3bc441d9f62cdcafeb96eb87abe1f1",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+          "contentHash": "sha256:250a564c1f6c2fbae95ed7101113c427dbd60539c08c6e5a7b5bfe56ddeb1520",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
           "workingTree": "modified"
         },
         {
           "type": "repository",
           "path": "docs/PLAN.md",
           "contentHash": "sha256:1ff6411622acea3a5dfec0e6f82e32edd49a6480072b3c5ac8b6c2ec2409ce56",
-          "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
           "workingTree": "head"
         }
       ],
-      "verifiedAt": "2026-10-19T17:01:22.433Z",
-      "verifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+      "verifiedAt": "2026-10-19T17:54:30.491Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
       "supersedes": [
         "CTX-0018"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0048",
       "history": [
         {
           "action": "introduced",
@@ -1970,15 +2183,46 @@
           ],
           "previousVerifiedAt": "2026-10-19T15:02:42.930Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T17:54:30.491Z",
+          "workId": "PF-0008",
+          "candidateId": "K-006",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:508f0b421b8fbcc006c2d960c2fb23260f3bc441d9f62cdcafeb96eb87abe1f1",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "docs/PLAN.md",
+              "contentHash": "sha256:1ff6411622acea3a5dfec0e6f82e32edd49a6480072b3c5ac8b6c2ec2409ce56",
+              "gitCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d",
+              "workingTree": "head"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:01:22.433Z",
+          "previousVerifiedAtCommit": "58b4f450ea486f5aeb1dc97aa74b17ca377dba8d"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T18:27:45.602Z",
+          "supersededBy": "CTX-0048",
+          "workId": "PF-0009",
+          "candidateId": "K-008"
         }
       ],
       "createdAt": "2026-10-19T15:02:42.930Z",
-      "updatedAt": "2026-10-19T17:01:22.433Z"
+      "updatedAt": "2026-10-19T18:27:45.602Z"
     },
     {
       "id": "CTX-0034",
       "area": "architecture",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records and SSO profile are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; the gateway stays the primary guard.",
       "provenance": "repository",
@@ -2007,7 +2251,7 @@
       "supersedes": [
         "CTX-0030"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0042",
       "history": [
         {
           "action": "introduced",
@@ -2055,15 +2299,22 @@
           ],
           "previousVerifiedAt": "2026-10-19T15:05:43.923Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T17:54:31.028Z",
+          "supersededBy": "CTX-0042",
+          "workId": "PF-0008",
+          "candidateId": "K-009"
         }
       ],
       "createdAt": "2026-10-19T15:02:43.089Z",
-      "updatedAt": "2026-10-19T17:01:22.583Z"
+      "updatedAt": "2026-10-19T17:54:31.028Z"
     },
     {
       "id": "CTX-0035",
       "area": "architecture",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "snowgate init --agent claude|codex generates adapters: a Claude project plugin in .claude/skills/snowgate (plugin.json, hooks/hooks.json and .mcp.json calling ${CLAUDE_PLUGIN_ROOT}/hook.mjs and mcp.mjs shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, and fail closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; and .git/hooks/pre-commit running validate --secrets. Files without the 'managed by snowgate init' marker are never overwritten.",
       "provenance": "repository",
@@ -2086,7 +2337,7 @@
       "verifiedAt": "2026-10-19T15:05:44.076Z",
       "verifiedAtCommit": null,
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0046",
       "history": [
         {
           "action": "introduced",
@@ -2113,10 +2364,17 @@
           ],
           "previousVerifiedAt": "2026-10-19T15:02:43.225Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T17:54:31.672Z",
+          "supersededBy": "CTX-0046",
+          "workId": "PF-0008",
+          "candidateId": "K-013"
         }
       ],
       "createdAt": "2026-10-19T15:02:43.225Z",
-      "updatedAt": "2026-10-19T15:05:44.076Z"
+      "updatedAt": "2026-10-19T17:54:31.672Z"
     },
     {
       "id": "CTX-0036",
@@ -2171,7 +2429,7 @@
     {
       "id": "CTX-0037",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Agents may not invoke the human-only commands (snowgate approve, login, target confirm): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them; the user runs them in their own terminal.",
       "provenance": "repository",
@@ -2195,22 +2453,29 @@
       "verifiedAt": "2026-10-19T15:05:12.648Z",
       "verifiedAtCommit": null,
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0043",
       "history": [
         {
           "action": "introduced",
           "at": "2026-10-19T15:05:12.648Z",
           "workId": "PF-0006",
           "candidateId": "K-001"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T17:54:31.203Z",
+          "supersededBy": "CTX-0043",
+          "workId": "PF-0008",
+          "candidateId": "K-010"
         }
       ],
       "createdAt": "2026-10-19T15:05:12.648Z",
-      "updatedAt": "2026-10-19T15:05:12.648Z"
+      "updatedAt": "2026-10-19T17:54:31.203Z"
     },
     {
       "id": "CTX-0038",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands that invoke the human-only snowgate approve/login/target confirm; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profile folder; git commit when validate or the staged-file secret scan fails. SessionStart adds the active work item, target and package states; PostToolUse on changes/** reports validate problems.",
       "provenance": "repository",
@@ -2240,7 +2505,7 @@
       "supersedes": [
         "CTX-0036"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0044",
       "history": [
         {
           "action": "introduced",
@@ -2248,15 +2513,22 @@
           "workId": "PF-0001",
           "candidateId": "K-004",
           "supersedes": "CTX-0036"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T17:54:31.360Z",
+          "supersededBy": "CTX-0044",
+          "workId": "PF-0008",
+          "candidateId": "K-011"
         }
       ],
       "createdAt": "2026-10-19T15:05:44.240Z",
-      "updatedAt": "2026-10-19T15:05:44.240Z"
+      "updatedAt": "2026-10-19T17:54:31.360Z"
     },
     {
       "id": "CTX-0039",
       "area": "environment",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "REST credentials come only from environment variables named in pack.yaml (SN_USER / SN_PASSWORD, Basic auth, an integration account with local credentials). The gateway's browser authenticates with a dedicated per-instance snowgate profile signed in by a human (snowgate login), stored owner-only under $XDG_STATE_HOME/snowgate/profiles/<instance> outside the repo; because ServiceNow session cookies have no expiry, snowgate login re-saves the instance's session cookies with an explicit lifetime (SNOWGATE_SESSION_HOURS, default 12h) so the gateway can reuse them; ui_auth: password opts into the login.do form. Credentials and cookies are never written to output, evidence or audit.",
       "provenance": "repository",
@@ -2299,7 +2571,7 @@
       "supersedes": [
         "CTX-0027"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0040",
       "history": [
         {
           "action": "introduced",
@@ -2307,11 +2579,760 @@
           "workId": "PF-0007",
           "candidateId": "K-001",
           "supersedes": "CTX-0027"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T17:54:30.673Z",
+          "supersededBy": "CTX-0040",
+          "workId": "PF-0008",
+          "candidateId": "K-007"
         }
       ],
       "createdAt": "2026-10-19T17:01:21.459Z",
-      "updatedAt": "2026-10-19T17:01:21.459Z"
+      "updatedAt": "2026-10-19T17:54:30.673Z"
+    },
+    {
+      "id": "CTX-0040",
+      "area": "environment",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Credentials resolve as: SN_USER/SN_PASSWORD in the environment, else the store chosen by credentials: in .snowgate/config.yaml — protected (default; ~/.config/snowgate/credentials/<instance>.json, 0600, outside the project, written by TTY-only snowgate credentials set with a hidden prompt) or project (.snowgate.env, agent-visible, for dev). REST uses Basic auth; the browser uses the per-instance SSO profile from snowgate login (session cookies re-saved with SNOWGATE_SESSION_HOURS, default 12h) or, with ui_auth: password, the same credentials with automatic re-login. Credentials and cookies never reach output, evidence or audit.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0008",
+        "candidateId": "K-007"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/credentials.js",
+          "contentHash": "sha256:2013d589a9bb402020963c85e20de0a503ed93d6e7cc56596bdf988dec837c8c",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "repository",
+          "path": "src/login.js",
+          "contentHash": "sha256:23c2269384da8254f5c4f6e6eccf58ff5641397ee8d5525cef152c782e81bb61",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:945646c59e9c176f01bf7b9620bdb7d3b5809e6cea07dd3ab52bbaad37e238cb",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/config.js",
+          "contentHash": "sha256:1bb9e722acdc9e70aa58d121ad0f050b531036fa58190051e61b6baeb9369bd4",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-10-19T18:27:44.872Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0039"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T17:54:30.673Z",
+          "workId": "PF-0008",
+          "candidateId": "K-007",
+          "supersedes": "CTX-0039"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T18:27:44.872Z",
+          "workId": "PF-0009",
+          "candidateId": "K-004",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/credentials.js",
+              "contentHash": "sha256:2013d589a9bb402020963c85e20de0a503ed93d6e7cc56596bdf988dec837c8c",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/login.js",
+              "contentHash": "sha256:23c2269384da8254f5c4f6e6eccf58ff5641397ee8d5525cef152c782e81bb61",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "head"
+            },
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:945646c59e9c176f01bf7b9620bdb7d3b5809e6cea07dd3ab52bbaad37e238cb",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/config.js",
+              "contentHash": "sha256:2fa796e7d2b712b2b42c63836390b030788813bb8a0bc192989684ff83290432",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:54:30.673Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        }
+      ],
+      "createdAt": "2026-10-19T17:54:30.673Z",
+      "updatedAt": "2026-10-19T18:27:44.872Z"
+    },
+    {
+      "id": "CTX-0041",
+      "area": "database",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml, approvals/<id>.jsonl, audit/<id>.jsonl, evidence/<id>/, discovery/<instance>/<timestamp>/, bin/verify-change-packages, and optional config.yaml (changes_dir, validate.legacy_packages, ui_auth, credentials). Change packages live in changes/<ID>/. Outside the project: SSO profiles in $XDG_STATE_HOME/snowgate/profiles/<instance> and protected credentials in $XDG_CONFIG_HOME/snowgate/credentials/<instance>.json; agent-visible credentials in .snowgate.env (gitignored).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0008",
+        "candidateId": "K-008"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/work.js",
+          "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "src/config.js",
+          "contentHash": "sha256:2fa796e7d2b712b2b42c63836390b030788813bb8a0bc192989684ff83290432",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/credentials.js",
+          "contentHash": "sha256:2013d589a9bb402020963c85e20de0a503ed93d6e7cc56596bdf988dec837c8c",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "repository",
+          "path": "src/browser-profile.js",
+          "contentHash": "sha256:8299ffd912cd96a208070c55e35eafce91c8805894c24a4cdf785ee9a0dee9e5",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-10-19T17:54:30.825Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0029"
+      ],
+      "supersededBy": "CTX-0049",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T17:54:30.825Z",
+          "workId": "PF-0008",
+          "candidateId": "K-008",
+          "supersedes": "CTX-0029"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T18:27:45.789Z",
+          "supersededBy": "CTX-0049",
+          "workId": "PF-0009",
+          "candidateId": "K-009"
+        }
+      ],
+      "createdAt": "2026-10-19T17:54:30.825Z",
+      "updatedAt": "2026-10-19T18:27:45.789Z"
+    },
+    {
+      "id": "CTX-0042",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0008",
+        "candidateId": "K-009"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:3ed6945fc535931b3d099fb12db1e6137e55c5fee7736c26cfbb4c012f9e4670",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:49d7002ebf7f11ff2ae1344aecdf298dec2636b4319554c72b8c0d6ebfda7b28",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-10-19T18:27:45.051Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0034"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T17:54:31.028Z",
+          "workId": "PF-0008",
+          "candidateId": "K-009",
+          "supersedes": "CTX-0034"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T18:27:45.051Z",
+          "workId": "PF-0009",
+          "candidateId": "K-005",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:d3707e7f17fe9dff9476ed27a2e11fefaa38b3d98baff6a5f13772cc8297bd9d",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/policy.js",
+              "contentHash": "sha256:fc027f0f4811b3511c9223e731d146c1cc83d566cd2c10d677c5124348611ef5",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:54:31.028Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        }
+      ],
+      "createdAt": "2026-10-19T17:54:31.028Z",
+      "updatedAt": "2026-10-19T18:27:45.051Z"
+    },
+    {
+      "id": "CTX-0043",
+      "area": "business-rule",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Agents may not invoke the human-only commands (snowgate approve, login, target confirm, credentials set/remove): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0008",
+        "candidateId": "K-010"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:fc027f0f4811b3511c9223e731d146c1cc83d566cd2c10d677c5124348611ef5",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/adapters.test.js",
+          "contentHash": "sha256:737ffa6d7abd05aeb4101ee09571f8ae3fba0f13242ba4762382335b20f24658",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "test/credentials.test.js",
+          "contentHash": "sha256:5f214aef0ccb5f72a85227f214cd471ff2548d7229167f086049196e97a45ab5",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-10-19T17:54:31.203Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0037"
+      ],
+      "supersededBy": "CTX-0050",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T17:54:31.203Z",
+          "workId": "PF-0008",
+          "candidateId": "K-010",
+          "supersedes": "CTX-0037"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T18:27:45.975Z",
+          "supersededBy": "CTX-0050",
+          "workId": "PF-0009",
+          "candidateId": "K-010"
+        }
+      ],
+      "createdAt": "2026-10-19T17:54:31.203Z",
+      "updatedAt": "2026-10-19T18:27:45.975Z"
+    },
+    {
+      "id": "CTX-0044",
+      "area": "business-rule",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profiles or the protected credential store; git commit when validate or the staged-file secret scan fails. SessionStart adds the work item, target, package states and credentials mode; PostToolUse on changes/** reports validate problems.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0008",
+        "candidateId": "K-011"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:fc027f0f4811b3511c9223e731d146c1cc83d566cd2c10d677c5124348611ef5",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/adapters/run-hook.js",
+          "contentHash": "sha256:bdf5aca2148b3ce544ac9fb13d5a3d26fc846766d476bf5db3557f47dbb599f2",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/adapters.test.js",
+          "contentHash": "sha256:737ffa6d7abd05aeb4101ee09571f8ae3fba0f13242ba4762382335b20f24658",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-10-19T17:54:31.360Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0038"
+      ],
+      "supersededBy": "CTX-0051",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T17:54:31.360Z",
+          "workId": "PF-0008",
+          "candidateId": "K-011",
+          "supersedes": "CTX-0038"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T18:27:46.140Z",
+          "supersededBy": "CTX-0051",
+          "workId": "PF-0009",
+          "candidateId": "K-011"
+        }
+      ],
+      "createdAt": "2026-10-19T17:54:31.360Z",
+      "updatedAt": "2026-10-19T18:27:46.140Z"
+    },
+    {
+      "id": "CTX-0045",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate validate is a generic Node port of the origin change-package validator (manifest v2, lifecycle states, Evidence Register, Verified Mapping, well-formed XML; task_id is a YallaFlow work item; plan/upload/commit approval records by state; legacy packages from .snowgate/config.yaml). --secrets scans staged files for credential patterns and refuses any staged .snowgate.env.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0008",
+        "candidateId": "K-012"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/validate/packages.js",
+          "contentHash": "sha256:169e2636136bb070a725a6a775b0a66197304050ab3c1885cafb5e533a8e94cd",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "src/validate/secrets.js",
+          "contentHash": "sha256:5592dfb867e8ae7843e9d5bd1f1ff328f4d3f90befd13225ab8ed0dfac5308b4",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/validate.test.js",
+          "contentHash": "sha256:a4a0f8d448fbb385501a061cc1ba55f1078f674bb7204b23c6a608d1d1e4fe7a",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-10-19T17:54:31.523Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0026"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T17:54:31.523Z",
+          "workId": "PF-0008",
+          "candidateId": "K-012",
+          "supersedes": "CTX-0026"
+        }
+      ],
+      "createdAt": "2026-10-19T17:54:31.523Z",
+      "updatedAt": "2026-10-19T17:54:31.523Z"
+    },
+    {
+      "id": "CTX-0046",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate init --agent claude|codex generates: a Claude project plugin in .claude/skills/snowgate (${CLAUDE_PLUGIN_ROOT} hook and MCP shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, failing closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; .git/hooks/pre-commit running validate --secrets; and a .gitignore entry for .snowgate.env. Files without the 'managed by snowgate init' marker are never overwritten.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0008",
+        "candidateId": "K-013"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/install.js",
+          "contentHash": "sha256:b13a4beb1474e2033144b6fc8c7ba03ef59685369ba530dd2bdb386256511dd9",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/adapters.test.js",
+          "contentHash": "sha256:737ffa6d7abd05aeb4101ee09571f8ae3fba0f13242ba4762382335b20f24658",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-10-19T18:27:45.210Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0035"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T17:54:31.672Z",
+          "workId": "PF-0008",
+          "candidateId": "K-013",
+          "supersedes": "CTX-0035"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T18:27:45.210Z",
+          "workId": "PF-0009",
+          "candidateId": "K-006",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/install.js",
+              "contentHash": "sha256:d2e977bee9bee9e54e3deaa0c73aeb7d166678337bba120e058d11625ba3c94d",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/adapters.test.js",
+              "contentHash": "sha256:737ffa6d7abd05aeb4101ee09571f8ae3fba0f13242ba4762382335b20f24658",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "head"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T17:54:31.672Z",
+          "previousVerifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2"
+        }
+      ],
+      "createdAt": "2026-10-19T17:54:31.672Z",
+      "updatedAt": "2026-10-19T18:27:45.210Z"
+    },
+    {
+      "id": "CTX-0047",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "A target is per work item. A human approves instances once per project in .snowgate/config.yaml approved_instances (snowgate setup, with approved_by/approved_at); an agent's target set on an approved instance confirms automatically under that approver, and removing the instance from the list revokes those targets. Other instances stay candidates until a human runs target confirm (TTY, host typed back). Changing the candidate revokes a confirmed target. (Amends PLAN §4 per the user.)",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0009",
+        "candidateId": "K-007"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/work.js",
+          "contentHash": "sha256:112645b04682da4413257e3f3a807ab7a927c16759490c5c66d739f87a2f3578",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/config.js",
+          "contentHash": "sha256:1bb9e722acdc9e70aa58d121ad0f050b531036fa58190051e61b6baeb9369bd4",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/setup.test.js",
+          "contentHash": "sha256:9255b2d19bc922a25f7a8405bad911951ef9e1cc8b02750619329a0222299037",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "user-confirmed",
+          "description": "ليه انا بنفسي هروح اربط ال instance id بالتاسك ... موافق على الاتنين، ابدأ"
+        }
+      ],
+      "verifiedAt": "2026-10-19T18:27:45.406Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0011"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T18:27:45.406Z",
+          "workId": "PF-0009",
+          "candidateId": "K-007",
+          "supersedes": "CTX-0011"
+        }
+      ],
+      "createdAt": "2026-10-19T18:27:45.406Z",
+      "updatedAt": "2026-10-19T18:27:45.406Z"
+    },
+    {
+      "id": "CTX-0048",
+      "area": "project",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Implemented: M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login, M3 (claude/codex/yallaflow adapters, init, doctor, hook), credential stores and snowgate setup (one human run: adapters, approved instances, credentials, sign-in). The pack.yaml skills/*.md procedures are not written yet.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0009",
+        "candidateId": "K-008"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/setup.js",
+          "contentHash": "sha256:d6706e238a936e70fa4603c32f601d5223facca8ebbf250125af8214853ff166",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "repository",
+          "path": "docs/PLAN.md",
+          "contentHash": "sha256:1ff6411622acea3a5dfec0e6f82e32edd49a6480072b3c5ac8b6c2ec2409ce56",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-10-19T18:27:45.602Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0033"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T18:27:45.602Z",
+          "workId": "PF-0009",
+          "candidateId": "K-008",
+          "supersedes": "CTX-0033"
+        }
+      ],
+      "createdAt": "2026-10-19T18:27:45.602Z",
+      "updatedAt": "2026-10-19T18:27:45.602Z"
+    },
+    {
+      "id": "CTX-0049",
+      "area": "database",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml (target incl. confirmation.via human|approved_instances), approvals/<id>.jsonl, audit/<id>.jsonl (and _project.jsonl for setup approvals), evidence/<id>/, discovery/, bin/verify-change-packages, and config.yaml (changes_dir, validate.legacy_packages, ui_auth, credentials, approved_instances). Change packages live in changes/<ID>/. Outside the project: SSO profiles under $XDG_STATE_HOME/snowgate/profiles and protected credentials under $XDG_CONFIG_HOME/snowgate/credentials; agent-visible credentials in .snowgate.env (gitignored).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0009",
+        "candidateId": "K-009"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/work.js",
+          "contentHash": "sha256:112645b04682da4413257e3f3a807ab7a927c16759490c5c66d739f87a2f3578",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/config.js",
+          "contentHash": "sha256:1bb9e722acdc9e70aa58d121ad0f050b531036fa58190051e61b6baeb9369bd4",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/credentials.js",
+          "contentHash": "sha256:2013d589a9bb402020963c85e20de0a503ed93d6e7cc56596bdf988dec837c8c",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "repository",
+          "path": "src/setup.js",
+          "contentHash": "sha256:d6706e238a936e70fa4603c32f601d5223facca8ebbf250125af8214853ff166",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-10-19T18:27:45.789Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0041"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T18:27:45.789Z",
+          "workId": "PF-0009",
+          "candidateId": "K-009",
+          "supersedes": "CTX-0041"
+        }
+      ],
+      "createdAt": "2026-10-19T18:27:45.789Z",
+      "updatedAt": "2026-10-19T18:27:45.789Z"
+    },
+    {
+      "id": "CTX-0050",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0009",
+        "candidateId": "K-010"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:49d7002ebf7f11ff2ae1344aecdf298dec2636b4319554c72b8c0d6ebfda7b28",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/setup.test.js",
+          "contentHash": "sha256:9255b2d19bc922a25f7a8405bad911951ef9e1cc8b02750619329a0222299037",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "repository",
+          "path": "test/credentials.test.js",
+          "contentHash": "sha256:5f214aef0ccb5f72a85227f214cd471ff2548d7229167f086049196e97a45ab5",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "untracked"
+        }
+      ],
+      "verifiedAt": "2026-10-19T18:27:45.975Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0043"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T18:27:45.975Z",
+          "workId": "PF-0009",
+          "candidateId": "K-010",
+          "supersedes": "CTX-0043"
+        }
+      ],
+      "createdAt": "2026-10-19T18:27:45.975Z",
+      "updatedAt": "2026-10-19T18:27:45.975Z"
+    },
+    {
+      "id": "CTX-0051",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profiles or the protected credential store; git commit when validate or the staged-file secret scan fails. SessionStart tells the agent the work item, target, approved instances (and that it may bind them itself with target set), package states and credentials mode; PostToolUse on changes/** reports validate problems.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0009",
+        "candidateId": "K-011"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:49d7002ebf7f11ff2ae1344aecdf298dec2636b4319554c72b8c0d6ebfda7b28",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/adapters/run-hook.js",
+          "contentHash": "sha256:77e5ff55b428c7ac661c82348a049a436d6d2b8d7156bda293d1624e31f9a223",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/adapters.test.js",
+          "contentHash": "sha256:737ffa6d7abd05aeb4101ee09571f8ae3fba0f13242ba4762382335b20f24658",
+          "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+          "workingTree": "head"
+        }
+      ],
+      "verifiedAt": "2026-10-19T18:27:46.140Z",
+      "verifiedAtCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+      "supersedes": [
+        "CTX-0044"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T18:27:46.140Z",
+          "workId": "PF-0009",
+          "candidateId": "K-011",
+          "supersedes": "CTX-0044"
+        }
+      ],
+      "createdAt": "2026-10-19T18:27:46.140Z",
+      "updatedAt": "2026-10-19T18:27:46.140Z"
     }
   ],
-  "updatedAt": "2026-10-19T17:01:22.583Z"
+  "updatedAt": "2026-10-19T18:27:46.140Z"
 }

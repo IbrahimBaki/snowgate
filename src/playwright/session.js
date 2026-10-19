@@ -32,6 +32,7 @@ export class BrowserSession {
   #unlocked = false;
   #dialog = null;
   #blocked = [];
+  #missingHint;
 
   constructor({
     origin,
@@ -40,6 +41,7 @@ export class BrowserSession {
     user,
     password,
     headless = true,
+    missingHint = null,
     launch = (opts) => chromium.launch(opts),
     launchPersistent = (dir, opts) => chromium.launchPersistentContext(dir, opts),
   }) {
@@ -50,6 +52,7 @@ export class BrowserSession {
     this.#user = user;
     this.#password = password;
     this.#headless = headless;
+    this.#missingHint = missingHint;
     this.#launch = launch;
     this.#launchPersistent = launchPersistent;
   }
@@ -165,7 +168,7 @@ export class BrowserSession {
       return;
     }
     if (!this.#user || !this.#password) {
-      throw new SnowgateError('ServiceNow credentials are missing (set SN_USER and SN_PASSWORD in the environment).', 'NO_CREDENTIALS');
+      throw new SnowgateError(this.#missingHint ?? 'ServiceNow credentials are missing.', 'NO_CREDENTIALS');
     }
     // Standard ServiceNow login form ids. Credentials are filled here and
     // never pass through the agent or the audit trail.
@@ -211,12 +214,45 @@ export class BrowserSession {
     return f;
   }
 
-  async navigate(url) {
+  // Password login only: did the instance end the session and show its login
+  // form (top level or inside gsft_main)?
+  async #sessionEnded() {
+    if (this.#auth !== 'password' || !this.#page) return false;
+    if (/\/login\.do/.test(this.#page.url())) return true;
+    for (const f of this.#page.frames()) {
+      if (await f.locator('#user_password').count().catch(() => 0)) return true;
+    }
+    return false;
+  }
+
+  // Signs in again with the configured credentials; the caller decides
+  // whether the interrupted action can simply be repeated.
+  async #renewIfEnded() {
+    if (!(await this.#sessionEnded())) return false;
+    this.#loggedIn = false;
+    this.takeBlocked();
     await this.login();
+    return true;
+  }
+
+  async #goto(url) {
     await this.#page.goto(url, { waitUntil: 'domcontentloaded' }).catch((e) => {
       if (!/ERR_BLOCKED_BY_CLIENT|net::ERR_FAILED/.test(e.message)) throw e;
     });
     await this.#page.waitForLoadState('load').catch(() => {});
+  }
+
+  async navigate(url) {
+    await this.login();
+    await this.#goto(url);
+    // Navigation is safe to repeat after an automatic re-login.
+    if (await this.#renewIfEnded()) await this.#goto(url);
+  }
+
+  async #afterInteraction() {
+    if (await this.#renewIfEnded()) {
+      throw new SnowgateError('The instance session had ended; snowgate signed in again. Navigate back to the page and repeat the action.', 'SESSION_RENEWED');
+    }
   }
 
   async snapshot() {
@@ -252,6 +288,7 @@ export class BrowserSession {
     const loc = await this.locate(target);
     await loc.click({ timeout: 10000 });
     await this.#page.waitForLoadState('load').catch(() => {});
+    await this.#afterInteraction();
   }
 
   async type(target, value, { submit = false } = {}) {
@@ -262,6 +299,7 @@ export class BrowserSession {
     await loc.fill(value, { timeout: 10000 });
     if (submit) await loc.press('Enter');
     await this.#page.waitForLoadState('load').catch(() => {});
+    await this.#afterInteraction();
   }
 
   async screenshot(file) {

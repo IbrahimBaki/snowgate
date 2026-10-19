@@ -56,6 +56,10 @@ export function sessionContext(root, env = process.env) {
       lines.push(`Active work item ${workId} is not a YallaFlow work item in this project.`);
     }
   }
+  const approved = loadConfig(root).approved_instances.map((a) => a.instance);
+  lines.push(approved.length
+    ? `Instances approved for this project: ${approved.join(', ')}. To work on one, bind it to the active work item yourself with \`snowgate target set <instance> --work <work-id>\` (it confirms automatically), then use the gateway tools or \`snowgate discover --work <work-id>\`.`
+    : 'No instances are approved for this project yet; a human runs snowgate setup.');
   const changes = path.join(root, loadConfig(root).changes_dir);
   if (existsSync(changes)) {
     const states = [];
@@ -73,7 +77,10 @@ export function sessionContext(root, env = process.env) {
     const { errors } = validatePackages(root);
     if (errors.length) lines.push(`snowgate validate currently reports ${errors.length} problem(s).`);
   }
-  lines.push('Targets, approvals and SSO sign-in are recorded only by a human with snowgate target confirm, snowgate approve and snowgate login. Change-package checks run with snowgate validate (or yallaflow verify <id> --script .snowgate/bin/verify-change-packages).');
+  if (loadConfig(root).credentials === 'project') {
+    lines.push('Credentials are in agent-visible mode (.snowgate.env, dev instances); with ui_auth: password the gateway signs in again by itself when the session ends.');
+  }
+  lines.push('Instance approval, package approvals, credentials and SSO sign-in are human acts (snowgate setup, snowgate approve, snowgate credentials set, snowgate login). Change-package checks run with snowgate validate (or yallaflow verify <id> --script .snowgate/bin/verify-change-packages).');
   return lines.join('\n');
 }
 

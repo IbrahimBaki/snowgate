@@ -6,6 +6,7 @@ import { parse } from 'yaml';
 import { appendAudit } from '../audit.js';
 import { profileDir } from '../browser-profile.js';
 import { loadConfig } from '../config.js';
+import { missingCredentialsHint, resolveCredentials } from '../credentials.js';
 import { SnowgateError } from '../errors.js';
 import { BrowserSession } from '../playwright/session.js';
 import { ReadOnlyClient } from '../rest/client.js';
@@ -83,9 +84,8 @@ export function createGateway({
   originFor = (instance) => `https://${instance}`,
   now = () => new Date(),
 }) {
-  const userVar = pack.config.credentials.env?.user ?? 'SN_USER';
-  const passVar = pack.config.credentials.env?.password ?? 'SN_PASSWORD';
-  const secrets = [env[passVar]];
+  // Known secret values to mask; credentials are added once resolved.
+  const secrets = [];
   let client = null;
   let session = null;
   let boundInstance = null;
@@ -110,6 +110,13 @@ export function createGateway({
       }
     };
     try {
+      // Environment and project-store secrets are known before any target.
+      const early = resolveCredentials(root, null, { pack, env });
+      if (early.password && !secrets.includes(early.password)) secrets.push(early.password);
+    } catch {
+      // a broken store surfaces when a tool needs credentials
+    }
+    try {
       if (!tool) throw new SnowgateError(`Unknown tool ${name}.`, 'TOOL_UNKNOWN');
       const problems = checkArgs(tool, args);
       if (problems.length) throw new SnowgateError(`Invalid arguments for ${name}: ${problems.join('; ')}.`, 'ARGS_INVALID');
@@ -119,19 +126,42 @@ export function createGateway({
       requireWorkItem(root, workId);
       const instance = requireConfirmedTarget(root, workId);
       await bind(instance);
+      const credentials = () => {
+        const c = resolveCredentials(root, instance, { pack, env });
+        if (c.password && !secrets.includes(c.password)) secrets.push(c.password);
+        return c;
+      };
+      // Learn the secret values before anything is audited, even for tools
+      // that never use them, so an argument that contains one is masked.
+      try {
+        credentials();
+      } catch {
+        // an unreadable store surfaces when a tool actually needs credentials
+      }
       const ctx = {
         root,
         workId,
         instance,
         now,
-        client: () => (client ??= clientFactory({ instance, user: env[userVar], password: env[passVar], pattern: pack.instancePattern })),
-        session: () => (session ??= sessionFactory({
-          origin: originFor(instance),
-          auth: loadConfig(root).ui_auth,
-          profileDir: profileDir(instance, env),
-          user: env[userVar],
-          password: env[passVar],
-        })),
+        client: () => {
+          if (client) return client;
+          const c = credentials();
+          if (!c.user || !c.password) throw new SnowgateError(missingCredentialsHint(root, instance, workId, pack), 'NO_CREDENTIALS');
+          return (client = clientFactory({ instance, user: c.user, password: c.password, pattern: pack.instancePattern }));
+        },
+        session: () => {
+          if (session) return session;
+          const auth = loadConfig(root).ui_auth;
+          const c = auth === 'password' ? credentials() : {};
+          return (session = sessionFactory({
+            origin: originFor(instance),
+            auth,
+            profileDir: profileDir(instance, env),
+            user: c.user,
+            password: c.password,
+            missingHint: missingCredentialsHint(root, instance, workId, pack),
+          }));
+        },
       };
       const result = await HANDLERS[name](ctx, args);
       audit({ target: instance, ok: true });

@@ -38,6 +38,10 @@ export function stagedFiles(root) {
 export function scanFiles(root, files) {
   const problems = [];
   for (const f of files) {
+    if (path.basename(f) === '.snowgate.env') {
+      problems.push(`${f}: snowgate credentials file — never commit it (remove it from the index and keep it in .gitignore)`);
+      continue;
+    }
     const abs = path.join(root, f);
     let text;
     try {

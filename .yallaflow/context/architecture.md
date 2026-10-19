@@ -30,10 +30,10 @@
 - **Knowledge ID:** K-004
 - **Promoted at:** 2026-10-19T14:34:13.845Z
 - **Supersedes:** CTX-0005
-- **Verified:** 2026-10-19T17:01:22.081Z (commit 58b4f45)
+- **Verified:** 2026-10-19T18:27:44.711Z (commit c73fdf5)
 - **Evidence:**
-  - src/cli/main.js (repository @ 58b4f45)
-  - src/gateway/server.js#resolveWorkId (repository @ 58b4f45)
+  - src/cli/main.js (repository @ c73fdf5)
+  - src/gateway/server.js (repository @ c73fdf5)
 
 <!-- yallaflow-fact:CTX-0028 -->
 ### CTX-0028 — snowgate mcp is a stdio MCP server whose tool list is exactly PLAN §7.2 (6 read-only REST tools, 5 generic ui_* tools, 3 gated update-set tools). It drives its own Chromium (no @playwright/mcp proxy: its --allowed-origins is not a security boundary). A context route checks every request in all frames: other hosts and requests whose decoded URL or body carries an update-set token (incl. Next Experience / nav_to.do wrappers) are aborted; requests are fetched with redirects disabled and a redirect is followed only if its Location passes the same checks; service workers are blocked; calls are serialised and audited with credentials redacted.
@@ -45,40 +45,41 @@
 - **Knowledge ID:** K-002
 - **Promoted at:** 2026-10-19T14:50:51.722Z
 - **Supersedes:** CTX-0024
-- **Verified:** 2026-10-19T14:50:51.722Z
+- **Verified:** 2026-10-19T17:54:30.329Z (commit c73fdf5)
 - **Evidence:**
-  - src/gateway/tools.js#TOOLS (repository)
-  - src/gateway/guards.js (repository)
-  - src/playwright/session.js (repository)
-  - test/browser-lock.test.js (repository)
+  - src/gateway/tools.js (repository @ c73fdf5)
+  - src/gateway/guards.js (repository @ c73fdf5)
+  - src/playwright/session.js (repository @ c73fdf5)
+  - test/browser-lock.test.js (repository @ c73fdf5)
 
-<!-- yallaflow-fact:CTX-0034 -->
-### CTX-0034 — Known security limits (PLAN §15 A7): the target confirmation, approval records and SSO profile are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; the gateway stays the primary guard.
+<!-- yallaflow-fact:CTX-0042 -->
+### CTX-0042 — Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.
 
 - **State:** current
 - **Confidence:** confirmed
 - **Provenance:** repository
-- **Source work:** PF-0004
-- **Knowledge ID:** K-002
-- **Promoted at:** 2026-10-19T15:02:43.089Z
-- **Supersedes:** CTX-0030
-- **Verified:** 2026-10-19T17:01:22.583Z (commit 58b4f45)
+- **Source work:** PF-0008
+- **Knowledge ID:** K-009
+- **Promoted at:** 2026-10-19T17:54:31.028Z
+- **Supersedes:** CTX-0034
+- **Verified:** 2026-10-19T18:27:45.051Z (commit c73fdf5)
 - **Evidence:**
-  - README.md (repository @ 58b4f45)
-  - src/adapters/policy.js (repository @ 58b4f45)
+  - README.md (repository @ c73fdf5)
+  - src/adapters/policy.js (repository @ c73fdf5)
 
-<!-- yallaflow-fact:CTX-0035 -->
-### CTX-0035 — snowgate init --agent claude|codex generates adapters: a Claude project plugin in .claude/skills/snowgate (plugin.json, hooks/hooks.json and .mcp.json calling ${CLAUDE_PLUGIN_ROOT}/hook.mjs and mcp.mjs shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, and fail closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; and .git/hooks/pre-commit running validate --secrets. Files without the 'managed by snowgate init' marker are never overwritten.
+<!-- yallaflow-fact:CTX-0046 -->
+### CTX-0046 — snowgate init --agent claude|codex generates: a Claude project plugin in .claude/skills/snowgate (${CLAUDE_PLUGIN_ROOT} hook and MCP shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, failing closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; .git/hooks/pre-commit running validate --secrets; and a .gitignore entry for .snowgate.env. Files without the 'managed by snowgate init' marker are never overwritten.
 
 - **State:** current
 - **Confidence:** confirmed
 - **Provenance:** repository
-- **Source work:** PF-0004
-- **Knowledge ID:** K-003
-- **Promoted at:** 2026-10-19T15:02:43.225Z
-- **Verified:** 2026-10-19T15:05:44.076Z
+- **Source work:** PF-0008
+- **Knowledge ID:** K-013
+- **Promoted at:** 2026-10-19T17:54:31.672Z
+- **Supersedes:** CTX-0035
+- **Verified:** 2026-10-19T18:27:45.210Z (commit c73fdf5)
 - **Evidence:**
-  - src/adapters/install.js (repository)
-  - test/adapters.test.js (repository)
+  - src/adapters/install.js (repository @ c73fdf5)
+  - test/adapters.test.js (repository @ c73fdf5)
 
 <!-- yallaflow-context:end -->

@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 import { MARKER } from './adapters/install.js';
 import { profileDir } from './browser-profile.js';
 import { loadConfig } from './config.js';
+import { PROJECT_ENV_FILE, missingCredentialsHint, projectEnvFile, resolveCredentials } from './credentials.js';
 import { resolveWorkId } from './gateway/server.js';
 import { loadPack } from './pack.js';
 import { validatePackages } from './validate/packages.js';
@@ -73,15 +74,21 @@ export async function doctor(root, { env = process.env, workId, home = homedir()
   let config;
   try {
     config = loadConfig(root);
-    add('ok', `.snowgate/config.yaml: changes_dir=${config.changes_dir}, ui_auth=${config.ui_auth}.`);
+    add('ok', `.snowgate/config.yaml: changes_dir=${config.changes_dir}, ui_auth=${config.ui_auth}, credentials=${config.credentials}.`);
+    add(config.approved_instances.length ? 'ok' : 'warn', config.approved_instances.length
+      ? `Approved instances: ${config.approved_instances.map((a) => `${a.instance} (by ${a.approved_by})`).join(', ')}.`
+      : 'No approved instances: run snowgate setup.');
   } catch (e) {
     add('error', e.message);
   }
 
-  const userVar = pack?.config.credentials.env?.user ?? 'SN_USER';
-  const passVar = pack?.config.credentials.env?.password ?? 'SN_PASSWORD';
-  const missing = [userVar, passVar].filter((v) => !env[v]);
-  add(missing.length ? 'warn' : 'ok', missing.length ? `${missing.join(' and ')} not set: REST tools and discover need them.` : `${userVar} and ${passVar} are set (values not shown).`);
+  if (config?.credentials === 'project') {
+    add('warn', `credentials: project — credentials in ${PROJECT_ENV_FILE} are visible to agents; use this only for dev instances.`);
+    const ignore = readText(path.join(root, '.gitignore')) ?? '';
+    if (!/^\/?\.snowgate\.env\s*$/m.test(ignore)) add('error', `${PROJECT_ENV_FILE} is not in .gitignore: run snowgate init again or add it.`);
+  } else if (config && existsSync(projectEnvFile(root))) {
+    add('warn', `${PROJECT_ENV_FILE} exists but credentials: protected ignores it; delete it or switch modes.`);
+  }
 
   const id = resolveWorkId(root, workId ?? env.SNOWGATE_WORK);
   if (!id) {
@@ -93,6 +100,14 @@ export async function doctor(root, { env = process.env, workId, home = homedir()
         add('warn', `${id} has no confirmed target${target.candidate_instance ? ` (candidate ${target.candidate_instance})` : ''}.`);
       } else {
         add('ok', `${id} target ${target.instance}, confirmed by ${target.confirmed_by}.`);
+        if (pack && config) {
+          try {
+            const c = resolveCredentials(root, target.instance, { pack, env });
+            add(c.user ? 'ok' : 'warn', c.user ? `Credentials for ${target.instance}: user ${c.user} from ${c.source} (password not shown).` : missingCredentialsHint(root, target.instance, id, pack));
+          } catch (e) {
+            add('error', e.message);
+          }
+        }
         if (config?.ui_auth === 'profile') {
           add(existsSync(profileDir(target.instance, env)) ? 'ok' : 'warn',
             existsSync(profileDir(target.instance, env)) ? `SSO browser profile for ${target.instance} exists (validity is checked on first use).` : `No SSO browser profile for ${target.instance}: a human must run snowgate login --work ${id}.`);

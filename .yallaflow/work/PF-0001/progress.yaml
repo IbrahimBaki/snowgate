@@ -110,8 +110,14 @@
       "reason": "code.claude.com/docs/en/{plugins-reference,hooks,permissions,plugins/loading} and learn.chatgpt.com/docs/{config-file/config-reference,hooks} read in the agent session",
       "costIfWrong": "Codex behaviour is doc-verified only, not run; adapter may need fixes on first real use",
       "createdAt": "2026-10-19T14:56:35.204Z"
+    },
+    {
+      "decision": "Amend PLAN §4 per-task target rule: a human approves instances once per project (approved_instances in .snowgate/config.yaml, recorded with approved_by/approved_at); an agent's target set on an approved instance confirms automatically for that work item; other instances still need a human target confirm; package upload/commit approvals stay human per package",
+      "reason": "User (agent session): 'ليه انا بنفسي هروح اربط ال instance id بالتاسك .. عاوز اقلل رحلة المستخدم' and 'موافق على الاتنين، ابدأ'",
+      "costIfWrong": "An approved instance can be used by any task without a per-task human step; keep production instances off the list",
+      "createdAt": "2026-10-19T18:23:45.209Z"
     }
   ],
   "history": [],
-  "updatedAt": "2026-10-19T15:05:53.392Z"
+  "updatedAt": "2026-10-19T18:23:45.209Z"
 }

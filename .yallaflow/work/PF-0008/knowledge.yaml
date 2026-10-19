@@ -1,0 +1,289 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects: skills, guards, an MCP gateway, validators and a CLI; it carries no project-specific naming.",
+      "evidence": [
+        "README.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0001"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:28.085Z",
+      "factId": "CTX-0001",
+      "promotedAt": "2026-10-19T17:54:29.646Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "An instance is per work item: `target set` records only candidate_instance; `target confirm` requires an interactive TTY and the host typed back exactly, then records confirmed_by/confirmed_at; changing the candidate revokes a confirmed target.",
+      "evidence": [
+        "src/work.js",
+        "src/cli/main.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0011"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:28.190Z",
+      "factId": "CTX-0011",
+      "promotedAt": "2026-10-19T17:54:29.828Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Errors are SnowgateError subclasses with a stable code (e.g. TARGET_UNCONFIRMED, TABLE_NOT_ALLOWED); the CLI maps them to exit 1 and usage errors to exit 2.",
+      "evidence": [
+        "src/errors.js",
+        "src/cli/main.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0016"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:28.301Z",
+      "factId": "CTX-0016",
+      "promotedAt": "2026-10-19T17:54:29.997Z",
+      "target": "context/conventions.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate only runs inside a YallaFlow project (it walks up to find .yallaflow/). Every instance-touching command requires a YallaFlow work item: --work for CLI commands; snowgate mcp takes --work, SNOWGATE_WORK, or YallaFlow's active work item, and refuses instance tools without one.",
+      "evidence": [
+        "src/cli/main.js",
+        "src/gateway/server.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0021"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:28.412Z",
+      "factId": "CTX-0021",
+      "promotedAt": "2026-10-19T17:54:30.175Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-005",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is exactly PLAN §7.2 (6 read-only REST tools, 5 generic ui_* tools, 3 gated update-set tools). It drives its own Chromium (no @playwright/mcp proxy: its --allowed-origins is not a security boundary). A context route checks every request in all frames: other hosts and requests whose decoded URL or body carries an update-set token (incl. Next Experience / nav_to.do wrappers) are aborted; requests are fetched with redirects disabled and a redirect is followed only if its Location passes the same checks; service workers are blocked; calls are serialised and audited with credentials redacted.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/gateway/guards.js",
+        "src/playwright/session.js",
+        "test/browser-lock.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0028"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:28.517Z",
+      "factId": "CTX-0028",
+      "promotedAt": "2026-10-19T17:54:30.329Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-006",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "Milestones M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login (PF-0005) and M3 (claude/codex/yallaflow adapters, init, doctor, hook) are implemented. The pack.yaml skills/*.md procedures are not written yet.",
+      "evidence": [
+        "src/cli/main.js",
+        "docs/PLAN.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0033"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:28.625Z",
+      "factId": "CTX-0033",
+      "promotedAt": "2026-10-19T17:54:30.491Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-007",
+      "kind": "environment",
+      "source": "implementation-runtime",
+      "summary": "Credentials resolve as: SN_USER/SN_PASSWORD in the environment, else the store chosen by credentials: in .snowgate/config.yaml — protected (default; ~/.config/snowgate/credentials/<instance>.json, 0600, outside the project, written by TTY-only snowgate credentials set with a hidden prompt) or project (.snowgate.env, agent-visible, for dev). REST uses Basic auth; the browser uses the per-instance SSO profile from snowgate login (session cookies re-saved with SNOWGATE_SESSION_HOURS, default 12h) or, with ui_auth: password, the same credentials with automatic re-login. Credentials and cookies never reach output, evidence or audit.",
+      "evidence": [
+        "src/credentials.js",
+        "src/login.js",
+        "src/playwright/session.js",
+        "src/config.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0039"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:28.744Z",
+      "factId": "CTX-0040",
+      "promotedAt": "2026-10-19T17:54:30.673Z",
+      "target": "context/environments.md"
+    },
+    {
+      "id": "K-008",
+      "kind": "database",
+      "source": "implementation-runtime",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml, approvals/<id>.jsonl, audit/<id>.jsonl, evidence/<id>/, discovery/<instance>/<timestamp>/, bin/verify-change-packages, and optional config.yaml (changes_dir, validate.legacy_packages, ui_auth, credentials). Change packages live in changes/<ID>/. Outside the project: SSO profiles in $XDG_STATE_HOME/snowgate/profiles/<instance> and protected credentials in $XDG_CONFIG_HOME/snowgate/credentials/<instance>.json; agent-visible credentials in .snowgate.env (gitignored).",
+      "evidence": [
+        "src/work.js",
+        "src/config.js",
+        "src/credentials.js",
+        "src/browser-profile.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0029"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:28.854Z",
+      "factId": "CTX-0041",
+      "promotedAt": "2026-10-19T17:54:30.825Z",
+      "target": "context/database.md"
+    },
+    {
+      "id": "K-009",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records, SSO profile and protected credential store are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; credentials: project deliberately exposes credentials to the agent; the gateway stays the primary guard.",
+      "evidence": [
+        "README.md",
+        "src/adapters/policy.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0034"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:28.968Z",
+      "factId": "CTX-0042",
+      "promotedAt": "2026-10-19T17:54:31.028Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-010",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Agents may not invoke the human-only commands (snowgate approve, login, target confirm, credentials set/remove): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.",
+      "evidence": [
+        "src/adapters/policy.js",
+        "test/adapters.test.js",
+        "test/credentials.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0037"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:29.085Z",
+      "factId": "CTX-0043",
+      "promotedAt": "2026-10-19T17:54:31.203Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-011",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profiles or the protected credential store; git commit when validate or the staged-file secret scan fails. SessionStart adds the work item, target, package states and credentials mode; PostToolUse on changes/** reports validate problems.",
+      "evidence": [
+        "src/adapters/policy.js",
+        "src/adapters/run-hook.js",
+        "test/adapters.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0038"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:29.200Z",
+      "factId": "CTX-0044",
+      "promotedAt": "2026-10-19T17:54:31.360Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-012",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "snowgate validate is a generic Node port of the origin change-package validator (manifest v2, lifecycle states, Evidence Register, Verified Mapping, well-formed XML; task_id is a YallaFlow work item; plan/upload/commit approval records by state; legacy packages from .snowgate/config.yaml). --secrets scans staged files for credential patterns and refuses any staged .snowgate.env.",
+      "evidence": [
+        "src/validate/packages.js",
+        "src/validate/secrets.js",
+        "test/validate.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0026"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:29.308Z",
+      "factId": "CTX-0045",
+      "promotedAt": "2026-10-19T17:54:31.523Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-013",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate init --agent claude|codex generates: a Claude project plugin in .claude/skills/snowgate (${CLAUDE_PLUGIN_ROOT} hook and MCP shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, failing closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; .git/hooks/pre-commit running validate --secrets; and a .gitignore entry for .snowgate.env. Files without the 'managed by snowgate init' marker are never overwritten.",
+      "evidence": [
+        "src/adapters/install.js",
+        "test/adapters.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0035"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T17:54:29.417Z",
+      "factId": "CTX-0046",
+      "promotedAt": "2026-10-19T17:54:31.672Z",
+      "target": "context/architecture.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T17:54:31.672Z",
+  "reviewedAt": "2026-10-19T17:54:31.672Z"
+}

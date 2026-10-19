@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T18:27:25.912Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 (npm test 121/121) and a pty run of snowgate setup.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "setCandidate confirms an approved instance under its approver, leaves unlisted instances as candidates, and requireConfirmedTarget rejects targets whose approval was removed; config.yaml stays agent-write-protected and setup is human-only in the hook.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/work.js",
+              "contentHash": "sha256:112645b04682da4413257e3f3a807ab7a927c16759490c5c66d739f87a2f3578",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/config.js",
+              "symbol": "approvalFor",
+              "contentHash": "sha256:1bb9e722acdc9e70aa58d121ad0f050b531036fa58190051e61b6baeb9369bd4",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/setup.test.js",
+              "contentHash": "sha256:9255b2d19bc922a25f7a8405bad911951ef9e1cc8b02750619329a0222299037",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0009",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "snowgate setup refuses non-TTY, asks agent / instances / dev mode / user and hidden password (plus SSO yes-no in protected mode), installs adapters, writes approved_instances, credentials and ui_auth, creates or updates .snowgate.env (keeping other lines) or the protected file, offers SSO login per instance, runs doctor and prints the next step; no work item is asked.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/setup.js",
+              "contentHash": "sha256:d6706e238a936e70fa4603c32f601d5223facca8ebbf250125af8214853ff166",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:6020f6543b376140d8be5446047630924e795b14046eec3a2f69726d7de3598c",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/setup.test.js",
+              "contentHash": "sha256:9255b2d19bc922a25f7a8405bad911951ef9e1cc8b02750619329a0222299037",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0009",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "setup offers to install Playwright Chromium when missing.",
+          "reason": "Removes the separate npx playwright install step from the user journey.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/setup.js",
+              "contentHash": "sha256:d6706e238a936e70fa4603c32f601d5223facca8ebbf250125af8214853ff166",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-19T18:27:25.912Z"
+}

@@ -4,13 +4,34 @@ Agent-agnostic ServiceNow platform pack for projects governed by [YallaFlow](htt
 
 **Status: M3.** Implemented: `pack.yaml` loader, read-only REST client, per-work-item target (`target set|confirm|show`), `discover`, the MCP gateway (`mcp`), SSO sign-in (`login`), human approval records (`approve`), the change-package validator (`validate`), and the agent adapters (`init`, `doctor`, `hook`). The `skills/*.md` procedures named in `pack.yaml` are not written yet.
 
+## Quick start
+
 ```bash
-snowgate target set dev12345.service-now.com --work PF-0001   # candidate only
+npm install -g git+ssh://git@github.com/IbrahimBaki/snowgate.git
+cd my-servicenow-project          # a YallaFlow project
+snowgate setup                    # once: agent, approved instances, credentials, sign-in
+```
+
+`snowgate setup` asks four questions:
+1. Which agent: Claude or Codex.
+2. Which instances agents may use in this project.
+3. Whether the agent may see the credentials (dev instances only).
+4. The user name and password (hidden).
+
+It installs the agent files and writes `.snowgate/config.yaml`. It creates or updates `.snowgate.env` in dev mode, and otherwise the protected credentials file. It offers SSO sign-in when needed, and ends with `doctor`.
+
+Then open the agent in that folder and ask for a task, for example "Run snowgate discover on dev12345". YallaFlow creates the work item. The agent binds the approved instance to it with `snowgate target set`, which confirms automatically for approved instances, and runs the task. Instances that are not approved, package uploads, and commits still need a human.
+
+## Commands
+
+```bash
+snowgate target set dev12345.service-now.com --work PF-0001   # approved instance: confirmed at once; otherwise a candidate
 snowgate target confirm --work PF-0001                         # a human types the host back
 SN_USER=... SN_PASSWORD=... snowgate discover --work PF-0001 [--scope x_acme_app]
 snowgate validate [--secrets]                                  # change packages (+ staged-file secret scan)
 snowgate approve --work PF-0001 --package CHG-1 --for plan|upload|commit   # a human types the change_id back
 snowgate login --work PF-0001                                  # a human signs the snowgate browser profile in via SSO
+snowgate credentials set|show|remove --work PF-0001            # store ServiceNow credentials once (set/remove: a human)
 SN_USER=... SN_PASSWORD=... snowgate mcp --work PF-0001        # stdio MCP gateway for any agent
 snowgate init --agent claude|codex                             # adapter files, yallaflow verify script, git pre-commit hook
 snowgate doctor [--work PF-0001]                               # configuration, adapters, raw-Playwright check
@@ -27,10 +48,14 @@ It never overwrites a file it did not generate.
 
 Safety properties enforced in code:
 
-- The instance is per work item. `target confirm` refuses non-interactive input and requires the host to be typed back.
+- The target is per work item. An instance approved for the project in `.snowgate/config.yaml` (`approved_instances`, written by `snowgate setup` with the approver's name) confirms automatically when an agent runs `target set`. Removing it from the list revokes those targets. Any other instance needs `target confirm`, which refuses non-interactive input and requires the host to be typed back.
 - The REST client has no write path. It sends GET only, to allow-listed configuration tables, with mandatory allow-listed fields.
 - Anything unreadable goes to `limitations.md`. Every fact cites its query and URL in `evidence.json`.
-- Credentials come from the environment only. They never appear in output, evidence, or the audit trail (`.snowgate/audit/<work>.jsonl`). REST uses Basic auth with `SN_USER` / `SN_PASSWORD` (an integration account with local credentials).
+- Credentials (REST Basic auth, and the browser with `ui_auth: password`) come from `SN_USER` / `SN_PASSWORD` in the environment when set. Otherwise they come from the store chosen by `credentials:` in `.snowgate/config.yaml`:
+  - `protected` (default): a per-instance owner-only file outside the project, under `~/.config/snowgate/credentials/`. A human writes it with `snowgate credentials set`, which prompts for the password without echoing it. Agents cannot read it, and cannot run `credentials set` or `credentials remove`.
+  - `project`: `.snowgate.env` in the project root, for dev instances where the agent may see the credentials. With `ui_auth: password`, the gateway also signs in again by itself when the instance ends the session. `snowgate init` adds the file to `.gitignore`, and `validate --secrets` and the commit hook refuse to commit it.
+
+  The mode lives in `.snowgate/config.yaml`, which agents cannot write, so only a human can switch to the agent-visible store. Credentials never appear in output, evidence, or the audit trail (`.snowgate/audit/<work>.jsonl`).
 - The gateway's browser uses a dedicated snowgate profile per instance (`$XDG_STATE_HOME/snowgate/profiles/<instance>`, default `~/.local/state/...`, owner-only, outside the project). A human signs it in once through SSO with `snowgate login`; the agent never sees a password or cookie, and it never uses your personal browser. ServiceNow's session cookies have no expiry, so `snowgate login` saves the instance's session cookies with an explicit lifetime (default 12h, `SNOWGATE_SESSION_HOURS`) for the gateway to reuse; the instance's own session timeout still applies. An expired session is reported as `SESSION_EXPIRED`. For instances without SSO, set `ui_auth: password` in `.snowgate/config.yaml` to log in with the env credentials instead.
 - The gateway exposes only the tools of PLAN §7.2: no JavaScript evaluation, tabs, history, key presses, generic file upload, REST writes, delete, back out, or switching the current update set.
 - The gateway drives its own isolated Chromium. Every request from every frame is checked: any host other than the confirmed target is aborted, and update-set surfaces (`sys_remote_update_set*`, `sys_update_set*`, `sys_update_preview*`, `sys_update_xml*`, update-set processors, `upload.do`, including inside the `gsft_main` iframe and Next Experience / `nav_to.do` wrappers) are aborted for generic UI tools. Redirects are checked too: requests are fetched without following redirects, and a redirect is only followed when its target passes the same checks. Only `ui_upload_update_set`, `ui_preview_update_set` and `ui_commit_update_set` lift that lock, for one call, after their gates pass.

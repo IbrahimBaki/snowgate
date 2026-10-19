@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "A human approves instances once per project; an agent can bind an approved instance to its work item without a per-task human step.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T18:23:58.072Z",
+      "updatedAt": "2026-10-19T18:23:58.072Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "One interactive snowgate setup command takes a user from install to a ready project: agent adapters, approved instances, credential mode and credentials, sign-in, and a final check, without asking for a work item.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T18:23:58.072Z",
+      "updatedAt": "2026-10-19T18:23:58.072Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "target set on an instance listed in approved_instances confirms the target automatically, recording the approver; an unlisted instance stays a candidate; removing an instance from the list makes existing auto-confirmed targets unconfirmed; agents cannot write the list.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T18:23:58.072Z",
+      "updatedAt": "2026-10-19T18:23:58.072Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "snowgate setup (TTY only, human-only for agents) asks for the agent, the instances, the credential mode and the user/password (hidden), installs adapters, writes approved_instances/credentials/ui_auth to .snowgate/config.yaml, creates or updates .snowgate.env in dev mode or the protected file otherwise, offers SSO login when needed, and ends with doctor and a next-step line.",
+      "provenance": [
+        {
+          "type": "request"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T18:23:58.072Z",
+      "updatedAt": "2026-10-19T18:23:58.072Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-10-19T18:23:58.072Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-10-19T18:23:58.072Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-10-19T18:23:58.072Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-10-19T18:23:58.072Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-10-19T18:23:58.072Z"
+}

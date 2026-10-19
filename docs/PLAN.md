@@ -442,6 +442,14 @@ Review done before implementation. Step 1 of §14 is complete: the repo exists a
   - `snowgate hook` is one agent-agnostic hook entry point.
   - §13 resolved from the vendor docs: Claude `userConfig` exists; an exit-2 PreToolUse hook blocks before allow rules (A6); Codex supports MCP, hooks, skills and AGENTS.md.
   - The Stop-hook reminder was dropped (loop risk).
+- **Trial on dev446072 (2026-10-19), with follow-ups:**
+  - PF-0007: session cookies were lost after login; snowgate now keeps them.
+  - PF-0008: two credential stores, protected or agent-visible `.snowgate.env`, with automatic re-login.
+  - PF-0009: `snowgate setup` with project-approved instances. It amends §4 per the user: an approved instance confirms automatically per work item.
+  - Confirmed on the real instance:
+    - the gateway opens pages with the saved session;
+    - `URL_LOCKED` holds directly and through the Next Experience wrapper;
+    - `HOST_LOCKED` holds.
 - **Still open:**
   - the `skills/*.md` procedures;
   - how REST authenticates on SSO instances;

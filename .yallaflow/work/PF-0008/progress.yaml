@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T17:49:03.177Z",
+      "completedAt": "2026-10-19T17:49:03.177Z",
+      "summary": "Credentials are read from env only: src/cli/main.js (discover) and src/gateway/server.js (client + session factories) via pack.yaml SN_USER/SN_PASSWORD. ui_auth=password logs in once per browser via login.do and does not detect a later expiry. .snowgate/config.yaml is agent-write-protected, so a mode chosen there cannot be flipped by the agent. Hook policy access-protects only the SSO profiles.",
+      "evidence": [
+        "src/gateway/server.js"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T17:49:03.512Z",
+      "completedAt": "2026-10-19T17:49:03.512Z",
+      "summary": "User decision (agent session): offer both — an agent-visible store for dev work where the agent may see the credentials and re-login when the session ends, and a store the agent cannot read; selectable in configuration. Recorded REQ-001..003 / AC-001..003.",
+      "evidence": [
+        "user:يبقا ده من ضمن الconf ويبقا متاح ده وده"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T17:53:41.573Z",
+      "completedAt": "2026-10-19T17:53:41.573Z",
+      "summary": "src/credentials.js (resolve env > store; protected ~/.config/snowgate/credentials/<instance>.json 0600, project .snowgate.env), config credentials mode, CLI credentials set|show|remove (TTY, raw-mode hidden password), gateway/discover use the resolver and mask resolved passwords before any audit, BrowserSession ui_auth password re-login on login.do (navigate retried, click/type SESSION_RENEWED), policy denies the protected store and credentials set/remove, init adds .snowgate.env to .gitignore, secret scan refuses .snowgate.env, doctor/SessionStart report the mode. Hidden input verified under a pty (first version echoed the password; fixed).",
+      "evidence": [
+        "src/credentials.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T17:53:46.913Z",
+      "completedAt": "2026-10-19T17:53:46.913Z",
+      "summary": "V-001 npm test passed (113); re-login test mutation-checked; hidden prompt checked manually under script(1).",
+      "evidence": [
+        "verification:V-001"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T17:53:58.010Z",
+      "completedAt": "2026-10-19T17:53:58.010Z",
+      "summary": "AC-001..003 satisfied.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T17:53:58.010Z"
+}

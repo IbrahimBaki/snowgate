@@ -130,7 +130,8 @@ statusMessage = "snowgate guard"
 ## snowgate (ServiceNow)
 
 - Reach ServiceNow instances only through the \`snowgate\` MCP tools; direct browser or Playwright tools on an instance are blocked.
-- Targets, approvals and SSO sign-in are human acts: \`snowgate target confirm\`, \`snowgate approve\`, \`snowgate login\`. Never edit \`.snowgate/\`.
+- Bind an instance approved for this project to your work item with \`snowgate target set <instance> --work <work-id>\`; it confirms automatically. Other instances need a human.
+- Instance approval, package approvals, stored credentials and SSO sign-in are human acts (\`snowgate setup\`, \`snowgate approve\`, \`snowgate credentials set\`, \`snowgate login\`). Never edit \`.snowgate/\`.
 - Check change packages with \`snowgate validate\` or \`yallaflow verify <id> --script .snowgate/bin/verify-change-packages\`.
 ${AGENTS_END}
 `;
@@ -152,6 +153,16 @@ export function installYallaflow(root, { home = PACK_ROOT } = {}) {
 # ${MARKER} — used as: yallaflow verify <work-id> --script .snowgate/bin/verify-change-packages
 exec node ${JSON.stringify(path.join(home, 'bin', 'snowgate.js'))} validate
 `, result, { mode: 0o755 });
+  return result;
+}
+
+// The agent-visible credential store (.snowgate.env) must never reach git.
+export function ensureGitignore(root) {
+  const result = { written: [], skipped: [] };
+  const file = path.join(root, '.gitignore');
+  const current = existsSync(file) ? readFileSync(file, 'utf8') : '';
+  if (current.split('\n').some((l) => l.trim() === '.snowgate.env' || l.trim() === '/.snowgate.env')) return result;
+  result.written.push(write(file, `${current}${current && !current.endsWith('\n') ? '\n' : ''}# snowgate: agent-visible credentials (${MARKER})\n.snowgate.env\n`));
   return result;
 }
 

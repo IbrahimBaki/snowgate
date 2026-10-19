@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { profilesRoot } from '../browser-profile.js';
+import { credentialsRoot } from '../credentials.js';
 
 // The agent-side guard policy shared by the claude and codex hooks (PLAN §10,
 // §15 A6/A7). Hooks are defense layer 4: the gateway stays the primary guard.
@@ -18,9 +19,10 @@ export function writeProtected(root) {
   ];
 }
 
-// Paths the agent must not touch at all: the SSO browser profiles (cookies).
+// Paths the agent must not touch at all: the SSO browser profiles (cookies)
+// and the protected credential store.
 export function accessProtected(env = process.env) {
-  return [profilesRoot(env)];
+  return [profilesRoot(env), credentialsRoot(env)];
 }
 
 const within = (file, base) => file === base || file.startsWith(`${base}${path.sep}`);
@@ -41,7 +43,7 @@ export const isGitCommit = (command) => GIT_COMMIT.test(command ?? '');
 
 // Human-only commands check for a TTY, which an agent shell can fake (script,
 // unbuffer, expect, a pty module). Agents therefore may not invoke them at all.
-const HUMAN_ONLY = /snowgate(?:\.js)?["']?\s+(?:approve|login|target\s+confirm)\b/;
+const HUMAN_ONLY = /snowgate(?:\.js)?["']?\s+(?:approve|login|setup|target\s+confirm|credentials\s+(?:set|remove))\b/;
 export const invokesHumanOnly = (text) => HUMAN_ONLY.test(text ?? '');
 
 // Mentions of a protected path in free text (a shell command or a patch),
@@ -54,8 +56,8 @@ function mentions(text, bases, root) {
 }
 
 function profileMentioned(text, env) {
-  const base = profilesRoot(env);
-  return text.includes(base) || /snowgate\/profiles/.test(text) || text.includes(base.replace(process.env.HOME ?? '\0', '~'));
+  return accessProtected(env).some((base) => text.includes(base) || text.includes(base.replace(process.env.HOME ?? '\0', '~')))
+    || /snowgate\/(profiles|credentials)/.test(text);
 }
 
 // Returns a deny reason, or null to let the call through.
@@ -78,13 +80,13 @@ export function preToolUse(input, { root, env = process.env }) {
   }
 
   if (profileMentioned(raw, env)) {
-    return 'The snowgate SSO browser profiles hold session cookies; agents may not read or change them.';
+    return 'The snowgate SSO browser profiles and the protected credential store hold secrets; agents may not read or change them.';
   }
 
   if (WRITE_TOOLS.has(tool) || READ_TOOLS.has(tool)) {
     const file = resolveIn(cwd, args.file_path ?? args.notebook_path ?? args.path);
     if (file && accessProtected(env).some((b) => within(file, b))) {
-      return 'The snowgate SSO browser profiles hold session cookies; agents may not read or change them.';
+      return 'The snowgate SSO browser profiles and the protected credential store hold secrets; agents may not read or change them.';
     }
     if (file && root && WRITE_TOOLS.has(tool) && writeProtected(root).some((b) => within(file, b))) {
       return `${path.relative(root, file)} is protected: snowgate state, approvals, and agent settings are changed only by snowgate commands run by a human (PLAN §15 A7).`;

@@ -1,4 +1,4 @@
-import { execFileSync } from 'node:child_process';
+import { execFile, execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { userInfo } from 'node:os';
 import path from 'node:path';
@@ -6,10 +6,12 @@ import { createInterface } from 'node:readline/promises';
 import { parseArgs } from 'node:util';
 import { recordApproval } from '../approvals.js';
 import { appendAudit } from '../audit.js';
+import { PROJECT_ENV_FILE, missingCredentialsHint, removeCredentials, resolveCredentials, writeCredentials } from '../credentials.js';
 import { discover } from '../discover.js';
-import { installClaude, installCodex, installGitHook, installYallaflow } from '../adapters/install.js';
+import { ensureGitignore, installClaude, installCodex, installGitHook, installYallaflow } from '../adapters/install.js';
 import { doctor } from '../doctor.js';
 import { interactiveLogin } from '../login.js';
+import { setup } from '../setup.js';
 import { SnowgateError } from '../errors.js';
 import { PACK_ROOT, loadPack } from '../pack.js';
 import { ReadOnlyClient } from '../rest/client.js';
@@ -20,6 +22,9 @@ import { findProjectRoot } from '../workspace.js';
 
 const USAGE = `snowgate — ServiceNow platform pack for YallaFlow projects
 
+Start here (once per project, a human in a terminal):
+  snowgate setup                                    agent files, approved instances, credentials, sign-in, check
+
 Usage:
   snowgate target set <instance> --work <PF-id>     record a candidate instance (non-binding)
   snowgate target confirm --work <PF-id>            confirm the candidate (interactive, human only)
@@ -29,6 +34,8 @@ Usage:
   snowgate approve --work <PF-id> --package <change_id> --for plan|upload|commit
                                                     record a human approval (interactive, human only)
   snowgate login --work <PF-id>                     sign the snowgate browser profile into the target via SSO (human only)
+  snowgate credentials set|show|remove --work <PF-id>
+                                                    store ServiceNow credentials (set/remove: human only)
   snowgate validate [--secrets]                     validate change packages (+ scan staged files)
   snowgate mcp [--work <PF-id>]                     stdio MCP gateway (guards, audit)
   snowgate init --agent claude|codex                generate agent files, the yallaflow verify script and the git hook
@@ -36,9 +43,11 @@ Usage:
   snowgate hook <event>                             agent hook entry point (used by the generated adapter files)
   snowgate --version | --help
 
-REST credentials come from SN_USER / SN_PASSWORD in the environment. The gateway's
-browser uses the SSO session from \`snowgate login\` (or, with ui_auth: password in
-.snowgate/config.yaml, the same env credentials).`;
+Credentials: SN_USER / SN_PASSWORD in the environment win; otherwise the store set by
+\`credentials:\` in .snowgate/config.yaml — protected (default, outside the project,
+agents cannot read it) or project (.snowgate.env, agent-visible, for dev instances).
+The gateway's browser uses the SSO session from \`snowgate login\`, or the same
+credentials with ui_auth: password.`;
 
 const PLANNED = {};
 
@@ -91,13 +100,49 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
     const pack = loadPack();
     const root = findProjectRoot(cwd);
 
+    if (command === 'setup') {
+      if (!stdin.isTTY) {
+        err('setup must be run by a human in an interactive terminal; refusing non-interactive input.');
+        return 1;
+      }
+      const ask = async (q) => {
+        const rl = createInterface({ input: stdin, output: stdout });
+        try {
+          return await rl.question(q);
+        } finally {
+          rl.close();
+        }
+      };
+      const result = await setup({
+        root,
+        pack,
+        env,
+        who: identity(cwd),
+        ask,
+        askHidden: (q) => askHidden(stdin, stdout, q),
+        out,
+        installChromium: () => new Promise((resolve) => {
+          execFile('npx', ['playwright', 'install', 'chromium'], { cwd: PACK_ROOT }, (e) => {
+            out(e ? `Chromium install failed (${e.message}); run: npx playwright install chromium` : 'Chromium installed.');
+            resolve();
+          });
+        }),
+        login: async (instance) => {
+          const { kept } = await interactiveLogin({ instance, env, waitForHuman: ask });
+          out(`Signed in to ${instance} (${kept} session cookie(s) kept).`);
+        },
+      });
+      for (const a of result.approved) appendAudit(root, '_project', { tool: 'setup.approve-instance', instance: a.instance, approved_by: a.approved_by });
+      return result.ok ? 0 : 1;
+    }
+
     if (command === 'init') {
       const installers = { claude: installClaude, codex: installCodex };
       if (!installers[values.agent]) {
         err('Usage: snowgate init --agent claude|codex');
         return 2;
       }
-      const results = [installers[values.agent](root), installYallaflow(root), installGitHook(root)];
+      const results = [installers[values.agent](root), installYallaflow(root), installGitHook(root), ensureGitignore(root)];
       for (const r of results) {
         for (const f of r.written) out(`wrote ${path.relative(root, f)}`);
         for (const s of r.skipped) err(`skipped ${path.relative(root, s.file) || s.file}: ${s.reason}`);
@@ -160,8 +205,13 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
           return 2;
         }
         const work = setCandidate(root, workId, rest[0], pack.instancePattern);
+        if (work.target.confirmation?.via === 'approved_instances' && work.target.instance === work.target.candidate_instance) {
+          appendAudit(root, workId, { tool: 'target.set', target: work.target.instance, confirmed_by: work.target.confirmed_by, via: 'approved_instances' });
+          out(`Target for ${workId}: ${work.target.instance} (confirmed: approved for this project by ${work.target.confirmed_by} on ${work.target.confirmation.approved_at}).`);
+          return 0;
+        }
         appendAudit(root, workId, { tool: 'target.set', candidate_instance: work.target.candidate_instance });
-        out(`Candidate instance for ${workId}: ${work.target.candidate_instance} (not yet authorised).`);
+        out(`Candidate instance for ${workId}: ${work.target.candidate_instance} (not yet authorised; it is not in this project's approved instances).`);
         out(`A human must now run: snowgate target confirm --work ${workId}`);
         return 0;
       }
@@ -238,14 +288,52 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
       return 0;
     }
 
+    if (command === 'credentials') {
+      const target = requireConfirmedTarget(root, workId);
+      if (sub === 'show') {
+        const c = resolveCredentials(root, target, { pack, env });
+        out(c.user ? `${target}: user ${c.user} from ${c.source} (password not shown).` : missingCredentialsHint(root, target, workId, pack));
+        return 0;
+      }
+      if (sub !== 'set' && sub !== 'remove') {
+        err('Usage: snowgate credentials set|show|remove --work <PF-id>');
+        return 2;
+      }
+      // Storing or removing credentials is a human act.
+      if (!stdin.isTTY) {
+        err(`credentials ${sub} must be run by a human in an interactive terminal; refusing non-interactive input.`);
+        return 1;
+      }
+      if (sub === 'remove') {
+        const r = removeCredentials(root, target, { pack, env });
+        appendAudit(root, workId, { tool: 'credentials.remove', target, store: r.mode });
+        out(r.existed ? `Removed the ${target} credentials from ${r.file}.` : `No stored credentials at ${r.file}.`);
+        return 0;
+      }
+      const rl = createInterface({ input: stdin, output: stdout });
+      let user;
+      try {
+        user = (await rl.question(`ServiceNow user for ${target}: `)).trim();
+      } finally {
+        rl.close();
+      }
+      const password = await askHidden(stdin, stdout, 'Password (hidden): ');
+      const r = writeCredentials(root, target, { user, password, pack, env });
+      appendAudit(root, workId, { tool: 'credentials.set', target, store: r.mode, user });
+      out(r.mode === 'project'
+        ? `Saved to ${PROJECT_ENV_FILE} (agent-visible mode; it stays out of git and commits).`
+        : `Saved to ${r.file} (owner-only, outside the project; agents cannot read it).`);
+      return 0;
+    }
+
     if (command === 'discover') {
       const target = requireConfirmedTarget(root, workId);
-      const client = new ReadOnlyClient({
-        instance: target,
-        user: env[pack.config.credentials.env?.user ?? 'SN_USER'],
-        password: env[pack.config.credentials.env?.password ?? 'SN_PASSWORD'],
-        pattern: pack.instancePattern,
-      });
+      const creds = resolveCredentials(root, target, { pack, env });
+      if (!creds.user || !creds.password) {
+        err(`snowgate: ${missingCredentialsHint(root, target, workId, pack)}`);
+        return 1;
+      }
+      const client = new ReadOnlyClient({ instance: target, user: creds.user, password: creds.password, pattern: pack.instancePattern });
       const summary = await discover({ root, workId, instance: sub, scope: values.scope, client, pattern: pack.instancePattern });
       for (const w of summary.warnings) err(`warning: ${w}`);
       out(`Discovery of ${target} complete (read-only).`);
@@ -264,6 +352,33 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
     }
     throw e;
   }
+}
+
+// Reads a line from a TTY in raw mode without echoing it.
+function askHidden(stdin, stdout, prompt) {
+  stdout.write(prompt);
+  return new Promise((resolve, reject) => {
+    let value = '';
+    const done = (err) => {
+      stdin.off('data', onData);
+      stdin.setRawMode(false);
+      stdin.pause();
+      stdout.write('\n');
+      if (err) reject(err);
+      else resolve(value);
+    };
+    const onData = (chunk) => {
+      for (const ch of chunk.toString('utf8')) {
+        if (ch === '\r' || ch === '\n') return done();
+        if (ch === '\u0003') return done(new SnowgateError('Cancelled.', 'CANCELLED'));
+        if (ch === '\u007f' || ch === '\b') value = value.slice(0, -1);
+        else if (ch >= ' ') value += ch;
+      }
+    };
+    stdin.setRawMode(true);
+    stdin.resume();
+    stdin.on('data', onData);
+  });
 }
 
 function identity(cwd) {

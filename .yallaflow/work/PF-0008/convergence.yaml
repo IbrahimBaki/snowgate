@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T17:53:57.586Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 (npm test 113/113).",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "credentials: protected (default) reads a 0600 per-instance file outside the project written by a TTY-only credentials set; the hook denies Read/Bash access to it and credentials set/remove; credentials: project reads .snowgate.env, which init adds to .gitignore and the agent may read; config.yaml stays agent-write-protected.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/credentials.js",
+              "contentHash": "sha256:2013d589a9bb402020963c85e20de0a503ed93d6e7cc56596bdf988dec837c8c",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/policy.js",
+              "contentHash": "sha256:fc027f0f4811b3511c9223e731d146c1cc83d566cd2c10d677c5124348611ef5",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/install.js",
+              "symbol": "ensureGitignore",
+              "contentHash": "sha256:d2e977bee9bee9e54e3deaa0c73aeb7d166678337bba120e058d11625ba3c94d",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/credentials.test.js",
+              "contentHash": "sha256:5f214aef0ccb5f72a85227f214cd471ff2548d7229167f086049196e97a45ab5",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0008",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "With ui_auth: password, a navigation that lands on login.do signs in again and repeats the navigation; an interrupted click returns SESSION_RENEWED after signing in; the password is absent from audit. Fixture test mutation-checked.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:945646c59e9c176f01bf7b9620bdb7d3b5809e6cea07dd3ab52bbaad37e238cb",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/credentials.test.js",
+              "contentHash": "sha256:5f214aef0ccb5f72a85227f214cd471ff2548d7229167f086049196e97a45ab5",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0008",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "satisfied",
+          "reason": "discover and the gateway resolve env > configured store; doctor reports the source and user without the password; validate --secrets refuses a staged .snowgate.env.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:250a564c1f6c2fbae95ed7101113c427dbd60539c08c6e5a7b5bfe56ddeb1520",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "contentHash": "sha256:ad500788cc4113519fbb9fb25f0f6a3f18b020188e2464083a0fd6dcbc0b42a9",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/doctor.js",
+              "contentHash": "sha256:64d35d237263a9ef479e1b0f747fe1ceec521d1f2005185c63292b51da435448",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "src/validate/secrets.js",
+              "contentHash": "sha256:5592dfb867e8ae7843e9d5bd1f1ff328f4d3f90befd13225ab8ed0dfac5308b4",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            },
+            {
+              "type": "repository",
+              "path": "test/credentials.test.js",
+              "contentHash": "sha256:5f214aef0ccb5f72a85227f214cd471ff2548d7229167f086049196e97a45ab5",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "untracked"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0008",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "credentials show and credentials remove commands.",
+          "reason": "Needed to inspect the source without the password and to delete stored credentials.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:250a564c1f6c2fbae95ed7101113c427dbd60539c08c6e5a7b5bfe56ddeb1520",
+              "gitCommit": "c73fdf58ee29aa8ee96c2be0ec5be004bc6468f2",
+              "workingTree": "modified"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-19T17:53:57.586Z"
+}
