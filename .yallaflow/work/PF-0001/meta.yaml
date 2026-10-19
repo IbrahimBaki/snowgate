@@ -1,0 +1,54 @@
+{
+  "id": "PF-0001",
+  "type": "feature",
+  "scope": "architectural",
+  "routingStatus": "routed",
+  "rawRequest": "snowgate MVP",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T13:39:33.343Z",
+  "updatedAt": "2026-10-19T15:05:53.514Z",
+  "title": "snowgate MVP",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow feature --scope architectural`.",
+  "routedAt": "2026-10-19T13:39:33.347Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "brainstorm",
+    "specify",
+    "plan",
+    "implement",
+    "verify",
+    "converge",
+    "review"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "design-exploration",
+      "specification",
+      "implementation-planning",
+      "implementation",
+      "verification",
+      "delivery-convergence",
+      "code-review"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T15:05:53.514Z",
+      "verificationRunIds": [
+        "V-001",
+        "V-002"
+      ]
+    }
+  ]
+}

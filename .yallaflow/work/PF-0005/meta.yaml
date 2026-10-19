@@ -1,0 +1,45 @@
+{
+  "id": "PF-0005",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Dedicated snowgate browser profile for SSO login",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T14:46:00.831Z",
+  "updatedAt": "2026-10-19T14:50:57.414Z",
+  "title": "Dedicated snowgate browser profile for SSO login",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-10-19T14:46:00.840Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T14:50:57.414Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

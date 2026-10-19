@@ -1,0 +1,39 @@
+# snowgate pack definition — single neutral source of truth.
+# Adapters (claude, codex, yallaflow) are generated from this file (M3).
+name: servicenow
+version: 0.1.0
+
+config:
+  instance:
+    scope: per-task            # never a standing default; enforced by the loader
+    pattern: "^[a-z0-9-]+\\.service-now\\.com$"
+  credentials:
+    source: env                # SN_USER / SN_PASSWORD (MVP); OAuth/keychain later
+    env:
+      user: SN_USER
+      password: SN_PASSWORD
+
+skills:
+  - { id: sn-target-onboarding, file: skills/target-onboarding.md, stage: discovery }
+  - { id: sn-discovery,         file: skills/discovery.md,         stage: discovery }
+  - { id: sn-change-package,    file: skills/change-package.md,    stage: plan }
+  - { id: sn-capture-change,    file: skills/capture-change.md,    stage: implementation }
+  - { id: sn-export-xml,        file: skills/export-xml.md,        stage: implementation }
+  - { id: sn-import-preview,    file: skills/import-preview.md,    stage: implementation }
+  - { id: sn-commit-gate,       file: skills/commit-gate.md,       stage: approval }
+  - { id: sn-portal-verify,     file: skills/portal-verify.md,     stage: verification }
+  - { id: sn-rollback,          file: skills/rollback.md,          stage: close }
+  - { id: sn-instance-audit,    file: skills/instance-audit.md,    stage: any }
+
+guards:
+  - { id: instance-lock,          on: browser.navigate,                      rule: "host == target.instance" }
+  - { id: update-set-pages-lock,  on: [browser.navigate, browser.click, browser.type], rule: "deny on update-set record/processor URLs (PLAN §15 A2)" }
+  - { id: no-arbitrary-code,      on: [browser.run_code, browser.evaluate],  rule: deny }
+  - { id: upload-reviewed-only,   on: browser.file_upload,                   rule: "update-set.xml of a package >= peer-reviewed + user approval record (PLAN §15 A5)" }
+  - { id: commit-needs-approval,  on: commit_update_set,                     rule: "user approval record naming this package and XML hash (PLAN §15 A5)" }
+
+validators:
+  - { id: change-package, run: "snowgate validate" }
+
+mcp:
+  gateway: { command: "snowgate mcp" }

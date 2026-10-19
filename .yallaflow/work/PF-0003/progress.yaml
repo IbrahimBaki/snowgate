@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:15:16.713Z",
+      "completedAt": "2026-10-19T14:15:16.713Z",
+      "summary": "Reuses PF-0001 discovery and approved design D1-D8 (work.md of PF-0001). Existing modules to extend: src/work.js (target), src/audit.js, src/rest/client.js (ReadOnlyClient), src/errors.js, src/cli/main.js (PLANNED map). Origin validator and 18 parity cases in SW-ZO-Sessions/.claude/hooks/.",
+      "evidence": [
+        "src/cli/main.js"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:15:16.933Z",
+      "completedAt": "2026-10-19T14:15:16.933Z",
+      "summary": "Intent fixed by PF-0001 spec and the user's approval (D1=b playwright direct, dependencies, split). No open business question.",
+      "evidence": [
+        "docs/PLAN.md"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:15:26.275Z",
+      "completedAt": "2026-10-19T14:32:38.540Z",
+      "summary": "M2 implemented: src/approvals.js + snowgate approve (TTY, typed change_id, sha256-bound upload/commit); src/config.js; src/validate/packages.js (Node port, legacy from .snowgate/config.yaml) + secrets.js and snowgate validate [--secrets]; src/gateway/{guards,tools,server,stdio}.js (14 allowlisted tools, work resolution, confirmed-target check, redacted audit, serialised calls); src/playwright/{session,update-sets}.js (own isolated Chromium, route-level host and update-set lock across frames and wrappers, service workers blocked, dedicated gated upload/preview/commit). Tests: validate parity (18 origin cases + 8), approvals/secrets, gateway gates, real-Chromium lock fixture.",
+      "evidence": [
+        "src/gateway/server.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:33:03.507Z",
+      "completedAt": "2026-10-19T14:33:03.507Z",
+      "summary": "V-001: npm test passed, 83/83 (M1 suites, validator parity, approvals/secrets, gateway gates, real-Chromium lock fixture). Lock tests were mutation-checked: disabling route interception or allowing service workers makes them fail.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:34:30.595Z",
+      "completedAt": "2026-10-19T14:34:30.595Z",
+      "summary": "All 5 assigned criteria (AC-002..AC-006) satisfied after V-001; 3 unrequested behaviours accepted with reasons.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [
+    {
+      "decision": "Validator Fix3 parity cases map the origin tasks/ front-matter approval to snowgate plan approval records: 'pending' -> only a non-plan approval exists, 'no approval block' -> no record, 'scope mismatch' -> plan approval for another change_id; error texts differ from the origin",
+      "reason": "YallaFlow is the source of truth for work (PLAN §3.2) and A5 replaces agent-editable approval text with user-held records",
+      "costIfWrong": "A real origin rule could be weakened; mitigated because each origin case keeps its pass/fail outcome",
+      "createdAt": "2026-10-19T14:32:30.247Z"
+    },
+    {
+      "decision": "committed/verified packages require a current commit approval record (hash-bound) instead of the 'Approved by' line in verification.md",
+      "reason": "verification.md is agent-editable (PLAN §15 A5)",
+      "costIfWrong": "Packages committed with only verification.md text now fail validate; they need an approval record",
+      "createdAt": "2026-10-19T14:32:30.360Z"
+    },
+    {
+      "decision": "imported and later states (except rolled-back) require a current hash-bound upload approval; this rule did not exist in the origin",
+      "reason": "A5: the upload gate must bind the exact XML; validate must agree with the gateway gate",
+      "costIfWrong": "Existing packages without records fail validate until a human approves them",
+      "createdAt": "2026-10-19T14:32:30.476Z"
+    },
+    {
+      "decision": "sys_remote_update_set and sys_update_preview_problem added to the read-only REST allowlist; sys_user_preference is readable only through sn_update_sets, never via sn_query/sn_get_record",
+      "reason": "Preview/commit gates need the retrieved update set state and its problems; user preferences are user data (PLAN §4)",
+      "costIfWrong": "Field names are hypotheses until a confirmed instance answers",
+      "createdAt": "2026-10-19T14:32:30.596Z"
+    },
+    {
+      "decision": "The URL lock is token-based over the fully decoded URL and request body (update_set, updateset, sys_update_preview, sys_update_xml, sys_upgrade_history, upload.do) and intentionally also blocks the update-set picker",
+      "reason": "Iframe and Next Experience wrappers make path matching unsafe (PF-0001 discovery); switching the current update set is not allowed (PLAN §7.2)",
+      "costIfWrong": "Some ServiceNow pages may degrade when picker requests are aborted; unverified on a real instance",
+      "createdAt": "2026-10-19T14:32:30.708Z"
+    },
+    {
+      "decision": "Browser contexts block service workers (serviceWorkers: block) in addition to route interception",
+      "reason": "Playwright docs warn routes may miss service-worker requests; probe showed 1.64 routes them, block is defense in depth",
+      "costIfWrong": "None material",
+      "createdAt": "2026-10-19T14:32:30.828Z"
+    }
+  ],
+  "history": [],
+  "updatedAt": "2026-10-19T14:34:30.595Z"
+}

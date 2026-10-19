@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "integration",
+      "summary": "The generated Claude plugin passed claude plugin validate (Claude Code 2.1.296) but was not loaded in a live Claude session; the Codex config was not loaded because the project is not trusted in Codex",
+      "reason": "Starting agent sessions or changing Codex trust is outside this task without the user",
+      "recordedAt": "2026-10-19T15:01:33.175Z"
+    },
+    {
+      "id": "DL-002",
+      "type": "insufficient-evidence",
+      "area": "integration",
+      "summary": "Codex ships its own browser tooling (cua_repl, node_repl listed by codex mcp list); their tool names and arguments are unknown, so the service-now.com rule may not cover them",
+      "reason": "Not documented in the pages read",
+      "recordedAt": "2026-10-19T15:01:33.284Z"
+    },
+    {
+      "id": "DL-003",
+      "type": "out-of-scope",
+      "area": "requirement",
+      "summary": "The pack.yaml skills (skills/*.md procedures ported from SW-ZO-Sessions SKILL.md) are not written; adapters ship no skills yet",
+      "reason": "Not part of AC-007; needs its own work item",
+      "recordedAt": "2026-10-19T15:01:33.392Z"
+    }
+  ],
+  "updatedAt": "2026-10-19T15:01:33.392Z"
+}

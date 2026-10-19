@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "integration",
+      "summary": "Dedicated update-set tool steps (upload.do form, Preview/Commit Update Set buttons, sys_remote_update_set states, preview problem status values) and update-set processor names are not observed on a real instance",
+      "reason": "No target instance confirmed for this task",
+      "recordedAt": "2026-10-19T14:32:30.948Z"
+    },
+    {
+      "id": "DL-002",
+      "type": "insufficient-evidence",
+      "area": "testing",
+      "summary": "One run of test/browser-lock.test.js failed three sub-tests right after an edit; it did not reproduce in 12 standalone and 4 full-suite reruns",
+      "reason": "Cause not identified; possibly timing on a cold browser start",
+      "recordedAt": "2026-10-19T14:32:31.057Z"
+    }
+  ],
+  "updatedAt": "2026-10-19T14:32:31.057Z"
+}

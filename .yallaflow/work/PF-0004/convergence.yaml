@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T15:02:24.943Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "verificationRunIds": [
+          "V-001",
+          "V-002"
+        ]
+      },
+      "summary": "Assessed after V-001 (npm test 104/104) and V-002 (claude plugin validate) passed.",
+      "findings": [
+        {
+          "criterion": "PF-0001/AC-007",
+          "status": "satisfied",
+          "reason": "snowgate init --agent claude writes .claude/skills/snowgate with hooks/hooks.json and .mcp.json whose commands use ${CLAUDE_PLUGIN_ROOT}/hook.mjs and mcp.mjs (validated by claude plugin validate); the yallaflow adapter writes an executable .snowgate/bin/verify-change-packages that runs snowgate validate for yallaflow verify --script; snowgate doctor flags a raw Playwright MCP in project .mcp.json and in a Codex config.toml. Codex adapter added after doc verification. Not yet loaded in a live agent session (DL-001).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/install.js",
+              "contentHash": "sha256:860fc1c28988793030b4fd69a8f937a14c4baf033c7a691e8acacf4b25e12618"
+            },
+            {
+              "type": "repository",
+              "path": "src/doctor.js",
+              "symbol": "rawPlaywrightServers",
+              "contentHash": "sha256:03f985f3218734fc70edf3f14d059cfd6b13ed4d732ada13444a6e5a272624d6"
+            },
+            {
+              "type": "repository",
+              "path": "test/adapters.test.js",
+              "contentHash": "sha256:8ee13382ed4908146b208347de421a2c1ee0303decd1fd6f93dd9a4d42a4b44f"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0004",
+              "verificationRunId": "V-001"
+            },
+            {
+              "type": "runtime",
+              "description": "claude plugin validate /tmp/claude-1000/-home-ibrahim-Desktop-deployment-configuration-www-snowgate/4380aef2-13be-42e7-9f39-47663f57db4c/scratchpad/initproj/.claude/skills/snowgate (passed)",
+              "workId": "PF-0004",
+              "verificationRunId": "V-002"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "git pre-commit hook running snowgate validate --secrets.",
+          "reason": "PLAN §5 defense layer 3.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/install.js",
+              "symbol": "installGitHook",
+              "contentHash": "sha256:860fc1c28988793030b4fd69a8f937a14c4baf033c7a691e8acacf4b25e12618"
+            }
+          ]
+        },
+        {
+          "id": "UR-002",
+          "disposition": "accepted",
+          "summary": "SessionStart context and PostToolUse validation hooks.",
+          "reason": "PLAN §10 hook table.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/run-hook.js",
+              "contentHash": "sha256:0410bdee851422e20f5ab1ad6cfc330dd2737fe85e185709287f67333fa14556"
+            }
+          ]
+        },
+        {
+          "id": "UR-003",
+          "disposition": "accepted",
+          "summary": "Guard also denies any non-snowgate MCP tool aimed at service-now.com and any access to the SSO profile folder.",
+          "reason": "Extends A6 to other browser MCPs and protects the PF-0005 SSO session.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/policy.js",
+              "contentHash": "sha256:204bfd0f4469eaf951954dbb883e2b786347c3ecaa706775d5f89dd22ded0fa7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-19T15:02:24.943Z"
+}

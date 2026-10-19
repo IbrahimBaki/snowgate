@@ -1,0 +1,2082 @@
+{
+  "schemaVersion": 1,
+  "facts": [
+    {
+      "id": "CTX-0001",
+      "area": "project",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects: skills, guards, an MCP gateway, validators and a CLI; it carries no project-specific naming.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:e14b9452936a279e692f0265149d04f482288bf340a892bf3210dc0fd90c72a7"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:05:43.785Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-001"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:34:14.774Z",
+          "workId": "PF-0003",
+          "candidateId": "K-010",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "docs/PLAN.md",
+              "contentHash": "sha256:60338ed935b31dbb6845abe5729320a1c79149e0b62e457ce453de99ace9311d"
+            },
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:b1e5e1c683273e9c03416d2a3b19ed56567c96f9fdb67e92dbdf19d3d1a195ce"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:08:12.679Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:50:52.308Z",
+          "workId": "PF-0005",
+          "candidateId": "K-006",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:3d45434e0160658cc915c79e8ff4b56dce6f4d1e5c39bfd1bcf67b90d43303e2"
+            },
+            {
+              "type": "repository",
+              "path": "docs/PLAN.md",
+              "contentHash": "sha256:d29eb66e2ef47b1a3166780e5751285e4fce4808d7a3db6e0a831530108b66c3"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:34:14.774Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T15:02:43.507Z",
+          "workId": "PF-0004",
+          "candidateId": "K-005",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:0b79b19b3891ff18d5fe3b945f29c3efac7775c468832851d43193076921877f"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:50:52.308Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T15:05:43.785Z",
+          "workId": "PF-0001",
+          "candidateId": "K-001",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:37299f38c3fe8ae66ce126996e58046ddafa4c19b68bb080df5f9f3ac88b5198"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T15:02:43.507Z",
+          "previousVerifiedAtCommit": null
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T15:05:43.785Z"
+    },
+    {
+      "id": "CTX-0002",
+      "area": "project",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Delivery is split into milestones: M1 (CLI, pack.yaml loader, read-only REST client, target, discover) is implemented; M2 (MCP gateway, validator port) and M3 (claude/codex/yallaflow adapters, init, doctor) are not; the CLI refuses those commands with their milestone.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "docs/PLAN.md",
+          "contentHash": "sha256:60338ed935b31dbb6845abe5729320a1c79149e0b62e457ce453de99ace9311d"
+        },
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:12636b6bac3677bac29d5ce556e151ad96df17e0b8f5634292c2570dd2384f6e"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": "CTX-0018",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-002"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:34:13.386Z",
+          "supersededBy": "CTX-0018",
+          "workId": "PF-0003",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:34:13.386Z"
+    },
+    {
+      "id": "CTX-0003",
+      "area": "tech-stack",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Node.js ESM package (type: module), engines node >=22, single runtime dependency `yaml`; binary `snowgate` -> bin/snowgate.js.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-003"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "package.json",
+          "contentHash": "sha256:c16abc9cc148a499fabb556c24293044b702aedb7ce690bdff7dddbecaba7eb0"
+        },
+        {
+          "type": "repository",
+          "path": "bin/snowgate.js",
+          "contentHash": "sha256:b72288a1bfe19cb58709a905ebc22756ef3c3ad04e6c3101d8f794c4973251d9"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": "CTX-0019",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-003"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:34:13.530Z",
+          "supersededBy": "CTX-0019",
+          "workId": "PF-0003",
+          "candidateId": "K-002"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:34:13.530Z"
+    },
+    {
+      "id": "CTX-0004",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "pack.yaml is the single neutral source of truth (config, skills, guards, validators, mcp); src/pack.js validates it and rejects any instance scope other than per-task.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-004"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "pack.yaml",
+          "contentHash": "sha256:a674b930a4f353588c0fe4efeca2e6fe35e4312b429830991650ada888dc5ca5"
+        },
+        {
+          "type": "repository",
+          "path": "src/pack.js",
+          "contentHash": "sha256:53b1bf19b50a97d233559430df076c7254a63259f30498a9fa130a4c64821547"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-004"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:08:12.679Z"
+    },
+    {
+      "id": "CTX-0005",
+      "area": "architecture",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "snowgate only runs inside a YallaFlow project (it walks up to find .yallaflow/) and every instance-touching command requires --work naming an existing YallaFlow work item.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-005"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/workspace.js",
+          "contentHash": "sha256:7bb3cee45d795bf6cd60bc21012bd9c4ea8cd274f6a85c42669253a5748ca9c9"
+        },
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:12636b6bac3677bac29d5ce556e151ad96df17e0b8f5634292c2570dd2384f6e"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": "CTX-0021",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-005"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:34:13.845Z",
+          "supersededBy": "CTX-0021",
+          "workId": "PF-0003",
+          "candidateId": "K-004"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:34:13.845Z"
+    },
+    {
+      "id": "CTX-0006",
+      "area": "database",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml (target + change packages), audit/<id>.jsonl (append-only audit), discovery/<instance>/<timestamp>/ (inventory.json, evidence.json, report.md, limitations.md).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-006"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/work.js",
+          "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489"
+        },
+        {
+          "type": "repository",
+          "path": "src/audit.js",
+          "contentHash": "sha256:7525a4900b626825d7d2e5f513b0e77b8f216a910bbb620efd6baf1c6e504df8"
+        },
+        {
+          "type": "repository",
+          "path": "src/discover.js",
+          "contentHash": "sha256:c0e38858a9cec706e5b284844dce9e16c0937b317710289a3c3bc79bb743f020"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": "CTX-0020",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-006"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:34:13.669Z",
+          "supersededBy": "CTX-0020",
+          "workId": "PF-0003",
+          "candidateId": "K-003"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:34:13.669Z"
+    },
+    {
+      "id": "CTX-0007",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "ServiceNow integration is a read-only Table API client: every request goes through one private method hard-coded to GET, only allow-listed configuration tables, mandatory allow-listed fields, page size 500, safety cap 10000 records with a truncation flag.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-007"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/rest/client.js",
+          "contentHash": "sha256:5f68bdfd854c1f43c9dba30f0d0282c140e5ccb88865d5c6d167a5bb3c917f18"
+        },
+        {
+          "type": "repository",
+          "path": "src/rest/tables.js",
+          "contentHash": "sha256:e030eb4f3f0372c6a491b1fff22eeccf0115c8ec3b2a019414f3eacb9bfaacea"
+        },
+        {
+          "type": "repository",
+          "path": "test/rest-client.test.js",
+          "contentHash": "sha256:599a916ebbb47d9a855f0ca321f461a4984a63e49b6b9bb63dee3d902ed640b6"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:14.906Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-007"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:34:14.906Z",
+          "workId": "PF-0003",
+          "candidateId": "K-011",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/rest/client.js",
+              "contentHash": "sha256:5f68bdfd854c1f43c9dba30f0d0282c140e5ccb88865d5c6d167a5bb3c917f18"
+            },
+            {
+              "type": "repository",
+              "path": "src/rest/tables.js",
+              "contentHash": "sha256:cb12bcd068d60198c1cee1c7740f5c76c6a42b8a982cf2f423d4081a6363d607"
+            },
+            {
+              "type": "repository",
+              "path": "test/rest-client.test.js",
+              "contentHash": "sha256:599a916ebbb47d9a855f0ca321f461a4984a63e49b6b9bb63dee3d902ed640b6"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:08:12.679Z",
+          "previousVerifiedAtCommit": null
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:34:14.906Z"
+    },
+    {
+      "id": "CTX-0008",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Preflight reads (sys_user, sys_user_has_role, sys_properties) are fixed-shape queries outside the general allowlist; sys_user is only read for sys_id,user_name of the authenticated user.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-008"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/rest/client.js",
+          "contentHash": "sha256:5f68bdfd854c1f43c9dba30f0d0282c140e5ccb88865d5c6d167a5bb3c917f18"
+        },
+        {
+          "type": "repository",
+          "path": "test/discover.test.js",
+          "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-008"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:08:12.679Z"
+    },
+    {
+      "id": "CTX-0009",
+      "area": "integration",
+      "state": "current",
+      "confidence": "unresolved",
+      "summary": "The ServiceNow table and field names used by discovery have not been confirmed against any real instance; they are hypotheses until a confirmed target answers for them.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-009"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/rest/tables.js",
+          "contentHash": "sha256:e030eb4f3f0372c6a491b1fff22eeccf0115c8ec3b2a019414f3eacb9bfaacea"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:15.049Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-009"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:34:15.049Z",
+          "workId": "PF-0003",
+          "candidateId": "K-012",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/rest/tables.js",
+              "contentHash": "sha256:cb12bcd068d60198c1cee1c7740f5c76c6a42b8a982cf2f423d4081a6363d607"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:08:12.679Z",
+          "previousVerifiedAtCommit": null
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:34:15.049Z"
+    },
+    {
+      "id": "CTX-0010",
+      "area": "environment",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "ServiceNow credentials come only from environment variables named in pack.yaml (SN_USER / SN_PASSWORD) using Basic auth; they are never written to output, evidence or audit.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-010"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "pack.yaml",
+          "contentHash": "sha256:a674b930a4f353588c0fe4efeca2e6fe35e4312b429830991650ada888dc5ca5"
+        },
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:599d64ab76c84d70174abd0c3549212bae844c48276f4e8a256e124e027f4fa3"
+        },
+        {
+          "type": "repository",
+          "path": "src/gateway/server.js",
+          "symbol": "redact",
+          "contentHash": "sha256:f393b42cfcb4cc93cc59f3f86254dc40b42fbf6cbb048ec4402cc6e2dc84ae45"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:15.190Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": "CTX-0027",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-010"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:34:15.190Z",
+          "workId": "PF-0003",
+          "candidateId": "K-013",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "pack.yaml",
+              "contentHash": "sha256:a674b930a4f353588c0fe4efeca2e6fe35e4312b429830991650ada888dc5ca5"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:12636b6bac3677bac29d5ce556e151ad96df17e0b8f5634292c2570dd2384f6e"
+            },
+            {
+              "type": "repository",
+              "path": "test/discover.test.js",
+              "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:08:12.679Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:50:51.572Z",
+          "supersededBy": "CTX-0027",
+          "workId": "PF-0005",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:50:51.572Z"
+    },
+    {
+      "id": "CTX-0011",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "An instance is per work item: `target set` records only candidate_instance; `target confirm` requires an interactive TTY and the host typed back exactly, then records confirmed_by/confirmed_at; changing the candidate revokes a confirmed target.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-011"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/work.js",
+          "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489"
+        },
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:668d96107c6d120e3d4aa60d7d8de6b6ab8620bab4b0088accc7ac17208d6434"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:02:43.653Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-011"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:34:15.325Z",
+          "workId": "PF-0003",
+          "candidateId": "K-014",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/work.js",
+              "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:12636b6bac3677bac29d5ce556e151ad96df17e0b8f5634292c2570dd2384f6e"
+            },
+            {
+              "type": "repository",
+              "path": "test/target.test.js",
+              "contentHash": "sha256:ba291cdb83d71766fc12a86ddacf82fdf51ffe109088e9ed19619c16378e176d"
+            },
+            {
+              "type": "repository",
+              "path": "test/cli.test.js",
+              "contentHash": "sha256:6e14fbc929f94515d688d1c0ef1709417a280961c5a1a52fdcafccfbc685d357"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:08:12.679Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:50:52.448Z",
+          "workId": "PF-0005",
+          "candidateId": "K-007",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/work.js",
+              "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:599d64ab76c84d70174abd0c3549212bae844c48276f4e8a256e124e027f4fa3"
+            },
+            {
+              "type": "repository",
+              "path": "test/target.test.js",
+              "contentHash": "sha256:ba291cdb83d71766fc12a86ddacf82fdf51ffe109088e9ed19619c16378e176d"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:34:15.325Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T15:02:43.653Z",
+          "workId": "PF-0004",
+          "candidateId": "K-006",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/work.js",
+              "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:74446314cb28752a53600d0a1c96bdab8c3f1de3932553ccedb2aeac07179733"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:50:52.448Z",
+          "previousVerifiedAtCommit": null
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T15:02:43.653Z"
+    },
+    {
+      "id": "CTX-0012",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Instance hosts must match ^[a-z0-9-]+\\.service-now\\.com$ after normalisation; paths, ports, userinfo and other domains are rejected.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-012"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/instance.js",
+          "contentHash": "sha256:11ac2285bd88af6ce68c78fc702fcd8b96984db2f1adfb015e453088cffcf19a"
+        },
+        {
+          "type": "repository",
+          "path": "pack.yaml",
+          "contentHash": "sha256:a674b930a4f353588c0fe4efeca2e6fe35e4312b429830991650ada888dc5ca5"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-012"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:08:12.679Z"
+    },
+    {
+      "id": "CTX-0013",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "discover refuses to run without a confirmed target for the work item and makes no request in that case; anything unreadable is recorded in limitations.md instead of being guessed; every fact cites an evidence entry with query and URL.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-013"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/discover.js",
+          "contentHash": "sha256:c0e38858a9cec706e5b284844dce9e16c0937b317710289a3c3bc79bb743f020"
+        },
+        {
+          "type": "repository",
+          "path": "test/discover.test.js",
+          "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-013"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:08:12.679Z"
+    },
+    {
+      "id": "CTX-0014",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Discovery hazards flagged: In Progress update sets idle >= 30 days or current for a user, customer updates captured in the Default update set, and customer updates in the global scope.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-014"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/discover.js",
+          "contentHash": "sha256:c0e38858a9cec706e5b284844dce9e16c0937b317710289a3c3bc79bb743f020"
+        },
+        {
+          "type": "repository",
+          "path": "test/discover.test.js",
+          "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-014"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:08:12.679Z"
+    },
+    {
+      "id": "CTX-0015",
+      "area": "convention",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Tests use node:test with a local mock ServiceNow Table API (node:http) and never contact a real instance; `npm test` runs test/*.test.js.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-015"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "test/helpers.js",
+          "contentHash": "sha256:60b5bf16f73c09fe4162dda9f23b339343c985576e79059cd3510fe0777897ed"
+        },
+        {
+          "type": "repository",
+          "path": "package.json",
+          "contentHash": "sha256:c16abc9cc148a499fabb556c24293044b702aedb7ce690bdff7dddbecaba7eb0"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": "CTX-0023",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-015"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:34:14.135Z",
+          "supersededBy": "CTX-0023",
+          "workId": "PF-0003",
+          "candidateId": "K-006"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:34:14.135Z"
+    },
+    {
+      "id": "CTX-0016",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Errors are SnowgateError subclasses with a stable code (e.g. TARGET_UNCONFIRMED, TABLE_NOT_ALLOWED); the CLI maps them to exit 1 and usage errors to exit 2.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-016"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/errors.js",
+          "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810"
+        },
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:668d96107c6d120e3d4aa60d7d8de6b6ab8620bab4b0088accc7ac17208d6434"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:02:43.796Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-016"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:34:15.491Z",
+          "workId": "PF-0003",
+          "candidateId": "K-015",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/errors.js",
+              "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:12636b6bac3677bac29d5ce556e151ad96df17e0b8f5634292c2570dd2384f6e"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:08:12.679Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:50:52.591Z",
+          "workId": "PF-0005",
+          "candidateId": "K-008",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/errors.js",
+              "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:599d64ab76c84d70174abd0c3549212bae844c48276f4e8a256e124e027f4fa3"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:34:15.491Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T15:02:43.796Z",
+          "workId": "PF-0004",
+          "candidateId": "K-007",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/errors.js",
+              "contentHash": "sha256:926e41c3eba08bbcd9ba70e2f6dad01273d628f29e5823b0d7bd284a40b65810"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:74446314cb28752a53600d0a1c96bdab8c3f1de3932553ccedb2aeac07179733"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:50:52.591Z",
+          "previousVerifiedAtCommit": null
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T15:02:43.796Z"
+    },
+    {
+      "id": "CTX-0017",
+      "area": "architecture",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Known security gap (PLAN §15 A7): the target confirmation lives in .snowgate/work/<id>.yaml, which any writer can edit; mitigation is planned for M3 and documented in the README.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0002",
+        "baselineFactId": "BF-017"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "docs/PLAN.md",
+          "contentHash": "sha256:60338ed935b31dbb6845abe5729320a1c79149e0b62e457ce453de99ace9311d"
+        },
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:b1e5e1c683273e9c03416d2a3b19ed56567c96f9fdb67e92dbdf19d3d1a195ce"
+        },
+        {
+          "type": "repository",
+          "path": "src/work.js",
+          "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:08:12.679Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": "CTX-0022",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:08:12.679Z",
+          "workId": "PF-0002",
+          "baselineFactId": "BF-017"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:34:13.976Z",
+          "supersededBy": "CTX-0022",
+          "workId": "PF-0003",
+          "candidateId": "K-005"
+        }
+      ],
+      "createdAt": "2026-10-19T14:08:12.679Z",
+      "updatedAt": "2026-10-19T14:34:13.976Z"
+    },
+    {
+      "id": "CTX-0018",
+      "area": "project",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Delivery is split into milestones: M1 (CLI, pack.yaml loader, read-only REST client, target, discover) and M2 (MCP gateway, approvals, Node validator) are implemented; M3 (claude/codex/yallaflow adapters, init, doctor) is not, and the CLI refuses init/doctor with their milestone.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0003",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:74446314cb28752a53600d0a1c96bdab8c3f1de3932553ccedb2aeac07179733"
+        },
+        {
+          "type": "repository",
+          "path": "docs/PLAN.md",
+          "contentHash": "sha256:b8c1aeaea5f9559f2347ab8fd1c6802f41a93045674de87b0d75ecbf1902fa92"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:50:52.728Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0002"
+      ],
+      "supersededBy": "CTX-0033",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:34:13.386Z",
+          "workId": "PF-0003",
+          "candidateId": "K-001",
+          "supersedes": "CTX-0002"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:50:52.728Z",
+          "workId": "PF-0005",
+          "candidateId": "K-009",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:599d64ab76c84d70174abd0c3549212bae844c48276f4e8a256e124e027f4fa3"
+            },
+            {
+              "type": "repository",
+              "path": "docs/PLAN.md",
+              "contentHash": "sha256:d29eb66e2ef47b1a3166780e5751285e4fce4808d7a3db6e0a831530108b66c3"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:34:13.386Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T15:02:42.930Z",
+          "supersededBy": "CTX-0033",
+          "workId": "PF-0004",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-10-19T14:34:13.386Z",
+      "updatedAt": "2026-10-19T15:02:42.930Z"
+    },
+    {
+      "id": "CTX-0019",
+      "area": "tech-stack",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Node.js ESM package (type: module), engines node >=22; runtime dependencies yaml, @modelcontextprotocol/sdk, playwright (its Chromium must be installed) and fast-xml-parser; binary snowgate -> bin/snowgate.js.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0003",
+        "candidateId": "K-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "package.json",
+          "contentHash": "sha256:7f6b9cf1dfbf994944ed1b97989a111b2aa97565309ece5979cac542e98e3517"
+        },
+        {
+          "type": "repository",
+          "path": "bin/snowgate.js",
+          "contentHash": "sha256:b72288a1bfe19cb58709a905ebc22756ef3c3ad04e6c3101d8f794c4973251d9"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:13.530Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0003"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:34:13.530Z",
+          "workId": "PF-0003",
+          "candidateId": "K-002",
+          "supersedes": "CTX-0003"
+        }
+      ],
+      "createdAt": "2026-10-19T14:34:13.530Z",
+      "updatedAt": "2026-10-19T14:34:13.530Z"
+    },
+    {
+      "id": "CTX-0020",
+      "area": "database",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml (target + change packages), approvals/<id>.jsonl (append-only human approvals), audit/<id>.jsonl (append-only audit), evidence/<id>/ (screenshots without a package), discovery/<instance>/<timestamp>/, and optional config.yaml (changes_dir, validate.legacy_packages). Change packages live in changes/<ID>/ by default.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0003",
+        "candidateId": "K-003"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/work.js",
+          "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489"
+        },
+        {
+          "type": "repository",
+          "path": "src/approvals.js",
+          "contentHash": "sha256:7c1cd21cd9bbaa8855f7418483b301bdfd0d56739bbc1ebc976a6d8906d7f7a9"
+        },
+        {
+          "type": "repository",
+          "path": "src/audit.js",
+          "contentHash": "sha256:7525a4900b626825d7d2e5f513b0e77b8f216a910bbb620efd6baf1c6e504df8"
+        },
+        {
+          "type": "repository",
+          "path": "src/config.js",
+          "contentHash": "sha256:c8681b08a71b910008b01ee0cf58413313eda2e7e4f71f44c5d6e24618dd5476"
+        },
+        {
+          "type": "repository",
+          "path": "src/discover.js",
+          "contentHash": "sha256:c0e38858a9cec706e5b284844dce9e16c0937b317710289a3c3bc79bb743f020"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:13.669Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0006"
+      ],
+      "supersededBy": "CTX-0029",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:34:13.669Z",
+          "workId": "PF-0003",
+          "candidateId": "K-003",
+          "supersedes": "CTX-0006"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:50:51.879Z",
+          "supersededBy": "CTX-0029",
+          "workId": "PF-0005",
+          "candidateId": "K-003"
+        }
+      ],
+      "createdAt": "2026-10-19T14:34:13.669Z",
+      "updatedAt": "2026-10-19T14:50:51.879Z"
+    },
+    {
+      "id": "CTX-0021",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate only runs inside a YallaFlow project (it walks up to find .yallaflow/). Every instance-touching command requires a YallaFlow work item: --work for CLI commands; snowgate mcp takes --work, SNOWGATE_WORK, or YallaFlow's active work item, and refuses instance tools without one.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0003",
+        "candidateId": "K-004"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:668d96107c6d120e3d4aa60d7d8de6b6ab8620bab4b0088accc7ac17208d6434"
+        },
+        {
+          "type": "repository",
+          "path": "src/gateway/server.js",
+          "symbol": "resolveWorkId",
+          "contentHash": "sha256:ff7228bb56b45ab81f0cfb4d9a287aead1874fc9a2e8e3d697c38559c244f480"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:02:43.941Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0005"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:34:13.845Z",
+          "workId": "PF-0003",
+          "candidateId": "K-004",
+          "supersedes": "CTX-0005"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T14:50:52.885Z",
+          "workId": "PF-0005",
+          "candidateId": "K-010",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/workspace.js",
+              "contentHash": "sha256:7bb3cee45d795bf6cd60bc21012bd9c4ea8cd274f6a85c42669253a5748ca9c9"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:599d64ab76c84d70174abd0c3549212bae844c48276f4e8a256e124e027f4fa3"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "symbol": "resolveWorkId",
+              "contentHash": "sha256:f393b42cfcb4cc93cc59f3f86254dc40b42fbf6cbb048ec4402cc6e2dc84ae45"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:34:13.845Z",
+          "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T15:02:43.941Z",
+          "workId": "PF-0004",
+          "candidateId": "K-008",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:74446314cb28752a53600d0a1c96bdab8c3f1de3932553ccedb2aeac07179733"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "symbol": "resolveWorkId",
+              "contentHash": "sha256:ff7228bb56b45ab81f0cfb4d9a287aead1874fc9a2e8e3d697c38559c244f480"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T14:50:52.885Z",
+          "previousVerifiedAtCommit": null
+        }
+      ],
+      "createdAt": "2026-10-19T14:34:13.845Z",
+      "updatedAt": "2026-10-19T15:02:43.941Z"
+    },
+    {
+      "id": "CTX-0022",
+      "area": "architecture",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Known security gap (PLAN §15 A7): the target confirmation (.snowgate/work/<id>.yaml) and the approval records (.snowgate/approvals/<id>.jsonl) are files any writer can edit; the mitigation (agent write deny on .snowgate/**) is planned for the M3 claude adapter and documented in the README.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0003",
+        "candidateId": "K-005"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:3d45434e0160658cc915c79e8ff4b56dce6f4d1e5c39bfd1bcf67b90d43303e2"
+        },
+        {
+          "type": "repository",
+          "path": "src/work.js",
+          "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489"
+        },
+        {
+          "type": "repository",
+          "path": "src/approvals.js",
+          "contentHash": "sha256:7c1cd21cd9bbaa8855f7418483b301bdfd0d56739bbc1ebc976a6d8906d7f7a9"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:13.976Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0017"
+      ],
+      "supersededBy": "CTX-0030",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:34:13.976Z",
+          "workId": "PF-0003",
+          "candidateId": "K-005",
+          "supersedes": "CTX-0017"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:50:52.026Z",
+          "supersededBy": "CTX-0030",
+          "workId": "PF-0005",
+          "candidateId": "K-004"
+        }
+      ],
+      "createdAt": "2026-10-19T14:34:13.976Z",
+      "updatedAt": "2026-10-19T14:50:52.026Z"
+    },
+    {
+      "id": "CTX-0023",
+      "area": "convention",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Tests use node:test and never contact a real instance: a local mock Table API (node:http), validator fixtures, and a local fixture site driven by real headless Chromium for the URL lock; npm test runs test/*.test.js.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0003",
+        "candidateId": "K-006"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "test/helpers.js",
+          "contentHash": "sha256:60b5bf16f73c09fe4162dda9f23b339343c985576e79059cd3510fe0777897ed"
+        },
+        {
+          "type": "repository",
+          "path": "test/browser-lock.test.js",
+          "contentHash": "sha256:62f43d2bad30b56738fc0c85afddce42acc356359081c40f1b8662ead8081eb6"
+        },
+        {
+          "type": "repository",
+          "path": "package.json",
+          "contentHash": "sha256:7f6b9cf1dfbf994944ed1b97989a111b2aa97565309ece5979cac542e98e3517"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:14.135Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0015"
+      ],
+      "supersededBy": "CTX-0031",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:34:14.135Z",
+          "workId": "PF-0003",
+          "candidateId": "K-006",
+          "supersedes": "CTX-0015"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:50:52.171Z",
+          "supersededBy": "CTX-0031",
+          "workId": "PF-0005",
+          "candidateId": "K-005"
+        }
+      ],
+      "createdAt": "2026-10-19T14:34:14.135Z",
+      "updatedAt": "2026-10-19T14:50:52.171Z"
+    },
+    {
+      "id": "CTX-0024",
+      "area": "architecture",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is exactly PLAN §7.2 (6 read-only REST tools, 5 generic ui_* tools, 3 gated update-set tools). It drives its own isolated Chromium (no @playwright/mcp proxy: its --allowed-origins is not a security boundary); a context route aborts every request to another host and every request whose decoded URL or body carries an update-set token, in all frames and through Next Experience / nav_to.do wrappers; service workers are blocked; calls are serialised and audited with credentials redacted.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0003",
+        "candidateId": "K-007"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/gateway/tools.js",
+          "symbol": "TOOLS",
+          "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383"
+        },
+        {
+          "type": "repository",
+          "path": "src/gateway/guards.js",
+          "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8"
+        },
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:1c57e781fc6a1232f35a792a3fe574ef4d57ea89b47bfaaafa4d991ff0dda908"
+        },
+        {
+          "type": "repository",
+          "path": "src/gateway/server.js",
+          "contentHash": "sha256:f393b42cfcb4cc93cc59f3f86254dc40b42fbf6cbb048ec4402cc6e2dc84ae45"
+        },
+        {
+          "type": "repository",
+          "path": "test/browser-lock.test.js",
+          "contentHash": "sha256:62f43d2bad30b56738fc0c85afddce42acc356359081c40f1b8662ead8081eb6"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:14.301Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": "CTX-0028",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:34:14.301Z",
+          "workId": "PF-0003",
+          "candidateId": "K-007"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T14:50:51.722Z",
+          "supersededBy": "CTX-0028",
+          "workId": "PF-0005",
+          "candidateId": "K-002"
+        }
+      ],
+      "createdAt": "2026-10-19T14:34:14.301Z",
+      "updatedAt": "2026-10-19T14:50:51.722Z"
+    },
+    {
+      "id": "CTX-0025",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Human approvals are recorded only by snowgate approve in a TTY with the change_id typed back, for plan, upload or commit; upload and commit approvals bind the SHA-256 of the exact update-set.xml and go stale when it changes. Upload needs >= peer-reviewed, a clean validate and a current upload approval; commit needs awaiting-human-approval, a previewed retrieved update set with no unresolved problems and a current commit approval.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0003",
+        "candidateId": "K-008"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/approvals.js",
+          "contentHash": "sha256:7c1cd21cd9bbaa8855f7418483b301bdfd0d56739bbc1ebc976a6d8906d7f7a9"
+        },
+        {
+          "type": "repository",
+          "path": "src/gateway/tools.js",
+          "symbol": "HANDLERS",
+          "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383"
+        },
+        {
+          "type": "repository",
+          "path": "test/gateway.test.js",
+          "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:14.430Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:34:14.430Z",
+          "workId": "PF-0003",
+          "candidateId": "K-008"
+        }
+      ],
+      "createdAt": "2026-10-19T14:34:14.430Z",
+      "updatedAt": "2026-10-19T14:34:14.430Z"
+    },
+    {
+      "id": "CTX-0026",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate validate is a generic Node port of the origin change-package validator: manifest v2, lifecycle states, Evidence Register, Verified Mapping, well-formed XML; task_id must be an existing YallaFlow work item; update-set.xml requires a plan approval; imported+ requires a current upload approval and committed/verified a current commit approval; legacy packages only from .snowgate/config.yaml; --secrets scans staged files.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0003",
+        "candidateId": "K-009"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/validate/packages.js",
+          "contentHash": "sha256:169e2636136bb070a725a6a775b0a66197304050ab3c1885cafb5e533a8e94cd"
+        },
+        {
+          "type": "repository",
+          "path": "src/validate/secrets.js",
+          "contentHash": "sha256:fb3e6d3657f8aebfc4bcdb9fe9f35b0069768bbf677567700ef1e8ae5a7080c7"
+        },
+        {
+          "type": "repository",
+          "path": "test/validate.test.js",
+          "contentHash": "sha256:a4a0f8d448fbb385501a061cc1ba55f1078f674bb7204b23c6a608d1d1e4fe7a"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:34:14.625Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:34:14.625Z",
+          "workId": "PF-0003",
+          "candidateId": "K-009"
+        }
+      ],
+      "createdAt": "2026-10-19T14:34:14.625Z",
+      "updatedAt": "2026-10-19T14:34:14.625Z"
+    },
+    {
+      "id": "CTX-0027",
+      "area": "environment",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "REST credentials come only from environment variables named in pack.yaml (SN_USER / SN_PASSWORD, Basic auth, an integration account with local credentials). The gateway's browser authenticates with a dedicated per-instance snowgate profile signed in by a human via SSO (snowgate login), stored owner-only under $XDG_STATE_HOME/snowgate/profiles/<instance> outside the repo; ui_auth: password in .snowgate/config.yaml opts into the login.do form with the env credentials. Credentials and cookies are never written to output, evidence or audit.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0005",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "pack.yaml",
+          "contentHash": "sha256:a674b930a4f353588c0fe4efeca2e6fe35e4312b429830991650ada888dc5ca5"
+        },
+        {
+          "type": "repository",
+          "path": "src/browser-profile.js",
+          "contentHash": "sha256:8299ffd912cd96a208070c55e35eafce91c8805894c24a4cdf785ee9a0dee9e5"
+        },
+        {
+          "type": "repository",
+          "path": "src/login.js",
+          "contentHash": "sha256:a4f7ab245f60640e8b59d3fab28c9da04e064c9ecee6a2c7d707bf43a58069e2"
+        },
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:beeebfc4c8b8a3cb7fff241ef17769cf115322c21a0df3e350de8279707978a7"
+        },
+        {
+          "type": "repository",
+          "path": "src/config.js",
+          "contentHash": "sha256:692e625b826760e61a4965091ceb89b85d69119c15aacd992def1f4003c6ae4c"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:50:51.572Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0010"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:50:51.572Z",
+          "workId": "PF-0005",
+          "candidateId": "K-001",
+          "supersedes": "CTX-0010"
+        }
+      ],
+      "createdAt": "2026-10-19T14:50:51.572Z",
+      "updatedAt": "2026-10-19T14:50:51.572Z"
+    },
+    {
+      "id": "CTX-0028",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is exactly PLAN §7.2 (6 read-only REST tools, 5 generic ui_* tools, 3 gated update-set tools). It drives its own Chromium (no @playwright/mcp proxy: its --allowed-origins is not a security boundary). A context route checks every request in all frames: other hosts and requests whose decoded URL or body carries an update-set token (incl. Next Experience / nav_to.do wrappers) are aborted; requests are fetched with redirects disabled and a redirect is followed only if its Location passes the same checks; service workers are blocked; calls are serialised and audited with credentials redacted.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0005",
+        "candidateId": "K-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/gateway/tools.js",
+          "symbol": "TOOLS",
+          "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383"
+        },
+        {
+          "type": "repository",
+          "path": "src/gateway/guards.js",
+          "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8"
+        },
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:beeebfc4c8b8a3cb7fff241ef17769cf115322c21a0df3e350de8279707978a7"
+        },
+        {
+          "type": "repository",
+          "path": "test/browser-lock.test.js",
+          "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:50:51.722Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0024"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:50:51.722Z",
+          "workId": "PF-0005",
+          "candidateId": "K-002",
+          "supersedes": "CTX-0024"
+        }
+      ],
+      "createdAt": "2026-10-19T14:50:51.722Z",
+      "updatedAt": "2026-10-19T14:50:51.722Z"
+    },
+    {
+      "id": "CTX-0029",
+      "area": "database",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml (target + change packages), approvals/<id>.jsonl, audit/<id>.jsonl, evidence/<id>/, discovery/<instance>/<timestamp>/, and optional config.yaml (changes_dir, validate.legacy_packages, ui_auth). Change packages live in changes/<ID>/ by default. The SSO browser profile lives outside the project ($XDG_STATE_HOME/snowgate/profiles/<instance>).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0005",
+        "candidateId": "K-003"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/work.js",
+          "contentHash": "sha256:77814cbf44a3de4b2b4499d956f7ec3528ddfec70cf2f6b9c6c2dea106e50489"
+        },
+        {
+          "type": "repository",
+          "path": "src/approvals.js",
+          "contentHash": "sha256:7c1cd21cd9bbaa8855f7418483b301bdfd0d56739bbc1ebc976a6d8906d7f7a9"
+        },
+        {
+          "type": "repository",
+          "path": "src/config.js",
+          "contentHash": "sha256:692e625b826760e61a4965091ceb89b85d69119c15aacd992def1f4003c6ae4c"
+        },
+        {
+          "type": "repository",
+          "path": "src/browser-profile.js",
+          "contentHash": "sha256:8299ffd912cd96a208070c55e35eafce91c8805894c24a4cdf785ee9a0dee9e5"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:50:51.879Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0020"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:50:51.879Z",
+          "workId": "PF-0005",
+          "candidateId": "K-003",
+          "supersedes": "CTX-0020"
+        }
+      ],
+      "createdAt": "2026-10-19T14:50:51.879Z",
+      "updatedAt": "2026-10-19T14:50:51.879Z"
+    },
+    {
+      "id": "CTX-0030",
+      "area": "architecture",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "Known security gaps (PLAN §15 A7): the target confirmation (.snowgate/work/<id>.yaml) and approval records (.snowgate/approvals/<id>.jsonl) are editable by any writer, and the SSO profile folder is readable by any process of the same OS user; agent write/read denies are planned for the M3 claude adapter and documented in the README.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0005",
+        "candidateId": "K-004"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:0b79b19b3891ff18d5fe3b945f29c3efac7775c468832851d43193076921877f"
+        },
+        {
+          "type": "repository",
+          "path": "src/approvals.js",
+          "contentHash": "sha256:7c1cd21cd9bbaa8855f7418483b301bdfd0d56739bbc1ebc976a6d8906d7f7a9"
+        },
+        {
+          "type": "repository",
+          "path": "src/browser-profile.js",
+          "contentHash": "sha256:8299ffd912cd96a208070c55e35eafce91c8805894c24a4cdf785ee9a0dee9e5"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:50:52.026Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0022"
+      ],
+      "supersededBy": "CTX-0034",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:50:52.026Z",
+          "workId": "PF-0005",
+          "candidateId": "K-004",
+          "supersedes": "CTX-0022"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T15:02:43.089Z",
+          "supersededBy": "CTX-0034",
+          "workId": "PF-0004",
+          "candidateId": "K-002"
+        }
+      ],
+      "createdAt": "2026-10-19T14:50:52.026Z",
+      "updatedAt": "2026-10-19T15:02:43.089Z"
+    },
+    {
+      "id": "CTX-0031",
+      "area": "convention",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Tests use node:test and never contact a real instance: a local mock Table API, validator fixtures, and local fixture sites (instance + identity provider) driven by real headless Chromium for the URL lock and SSO profile; npm test runs test/*.test.js.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0005",
+        "candidateId": "K-005"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "test/helpers.js",
+          "contentHash": "sha256:60b5bf16f73c09fe4162dda9f23b339343c985576e79059cd3510fe0777897ed"
+        },
+        {
+          "type": "repository",
+          "path": "test/browser-lock.test.js",
+          "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812"
+        },
+        {
+          "type": "repository",
+          "path": "test/sso-profile.test.js",
+          "contentHash": "sha256:ba419eaf271aac8b58f489a4f4955afd48bd2ac1ed66f3294201b35f841a8a07"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:50:52.171Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0023"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:50:52.171Z",
+          "workId": "PF-0005",
+          "candidateId": "K-005",
+          "supersedes": "CTX-0023"
+        }
+      ],
+      "createdAt": "2026-10-19T14:50:52.171Z",
+      "updatedAt": "2026-10-19T14:50:52.171Z"
+    },
+    {
+      "id": "CTX-0032",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "The target ServiceNow instances use SSO for interactive sign-in (user-confirmed), so the gateway's browser relies on the snowgate SSO profile rather than the login.do password form.",
+      "provenance": "user-confirmed",
+      "origin": {
+        "workId": "PF-0005",
+        "candidateId": "K-011"
+      },
+      "evidence": [
+        {
+          "type": "user-confirmed",
+          "description": "بنستخدم SSO، موافق على الملف المخصّص لـ snowgate"
+        }
+      ],
+      "verifiedAt": "2026-10-19T14:50:53.030Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T14:50:53.030Z",
+          "workId": "PF-0005",
+          "candidateId": "K-011"
+        }
+      ],
+      "createdAt": "2026-10-19T14:50:53.030Z",
+      "updatedAt": "2026-10-19T14:50:53.030Z"
+    },
+    {
+      "id": "CTX-0033",
+      "area": "project",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Milestones M1 (CLI, pack.yaml loader, read-only REST client, target, discover), M2 (MCP gateway, approvals, Node validator), SSO login (PF-0005) and M3 (claude/codex/yallaflow adapters, init, doctor, hook) are implemented. The pack.yaml skills/*.md procedures are not written yet.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0004",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:668d96107c6d120e3d4aa60d7d8de6b6ab8620bab4b0088accc7ac17208d6434"
+        },
+        {
+          "type": "repository",
+          "path": "docs/PLAN.md",
+          "contentHash": "sha256:1ff6411622acea3a5dfec0e6f82e32edd49a6480072b3c5ac8b6c2ec2409ce56"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:02:42.930Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0018"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T15:02:42.930Z",
+          "workId": "PF-0004",
+          "candidateId": "K-001",
+          "supersedes": "CTX-0018"
+        }
+      ],
+      "createdAt": "2026-10-19T15:02:42.930Z",
+      "updatedAt": "2026-10-19T15:02:42.930Z"
+    },
+    {
+      "id": "CTX-0034",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records and SSO profile are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; the gateway stays the primary guard.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0004",
+        "candidateId": "K-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "README.md",
+          "contentHash": "sha256:e14b9452936a279e692f0265149d04f482288bf340a892bf3210dc0fd90c72a7"
+        },
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:64f47e1307bf8cd1acaf11fbd9fdc3c7817f077c7de24310ba0d6105d45d4663"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:05:43.923Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0030"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T15:02:43.089Z",
+          "workId": "PF-0004",
+          "candidateId": "K-002",
+          "supersedes": "CTX-0030"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T15:05:43.923Z",
+          "workId": "PF-0001",
+          "candidateId": "K-002",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:37299f38c3fe8ae66ce126996e58046ddafa4c19b68bb080df5f9f3ac88b5198"
+            },
+            {
+              "type": "repository",
+              "path": "src/adapters/policy.js",
+              "contentHash": "sha256:204bfd0f4469eaf951954dbb883e2b786347c3ecaa706775d5f89dd22ded0fa7"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T15:02:43.089Z",
+          "previousVerifiedAtCommit": null
+        }
+      ],
+      "createdAt": "2026-10-19T15:02:43.089Z",
+      "updatedAt": "2026-10-19T15:05:43.923Z"
+    },
+    {
+      "id": "CTX-0035",
+      "area": "architecture",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate init --agent claude|codex generates adapters: a Claude project plugin in .claude/skills/snowgate (plugin.json, hooks/hooks.json and .mcp.json calling ${CLAUDE_PLUGIN_ROOT}/hook.mjs and mcp.mjs shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, and fail closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; and .git/hooks/pre-commit running validate --secrets. Files without the 'managed by snowgate init' marker are never overwritten.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0004",
+        "candidateId": "K-003"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/install.js",
+          "contentHash": "sha256:860fc1c28988793030b4fd69a8f937a14c4baf033c7a691e8acacf4b25e12618"
+        },
+        {
+          "type": "repository",
+          "path": "test/adapters.test.js",
+          "contentHash": "sha256:737ffa6d7abd05aeb4101ee09571f8ae3fba0f13242ba4762382335b20f24658"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:05:44.076Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T15:02:43.225Z",
+          "workId": "PF-0004",
+          "candidateId": "K-003"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-19T15:05:44.076Z",
+          "workId": "PF-0001",
+          "candidateId": "K-003",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/install.js",
+              "contentHash": "sha256:860fc1c28988793030b4fd69a8f937a14c4baf033c7a691e8acacf4b25e12618"
+            },
+            {
+              "type": "repository",
+              "path": "test/adapters.test.js",
+              "contentHash": "sha256:8ee13382ed4908146b208347de421a2c1ee0303decd1fd6f93dd9a4d42a4b44f"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T15:02:43.225Z",
+          "previousVerifiedAtCommit": null
+        }
+      ],
+      "createdAt": "2026-10-19T15:02:43.225Z",
+      "updatedAt": "2026-10-19T15:05:44.076Z"
+    },
+    {
+      "id": "CTX-0036",
+      "area": "business-rule",
+      "state": "superseded",
+      "confidence": "confirmed",
+      "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profile folder; git commit when validate or the staged-file secret scan fails. SessionStart adds the active work item, target and package states; PostToolUse on changes/** reports validate problems.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0004",
+        "candidateId": "K-004"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:204bfd0f4469eaf951954dbb883e2b786347c3ecaa706775d5f89dd22ded0fa7"
+        },
+        {
+          "type": "repository",
+          "path": "src/adapters/run-hook.js",
+          "contentHash": "sha256:0410bdee851422e20f5ab1ad6cfc330dd2737fe85e185709287f67333fa14556"
+        },
+        {
+          "type": "repository",
+          "path": "test/adapters.test.js",
+          "contentHash": "sha256:8ee13382ed4908146b208347de421a2c1ee0303decd1fd6f93dd9a4d42a4b44f"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:02:43.366Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": "CTX-0038",
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T15:02:43.366Z",
+          "workId": "PF-0004",
+          "candidateId": "K-004"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-19T15:05:44.240Z",
+          "supersededBy": "CTX-0038",
+          "workId": "PF-0001",
+          "candidateId": "K-004"
+        }
+      ],
+      "createdAt": "2026-10-19T15:02:43.366Z",
+      "updatedAt": "2026-10-19T15:05:44.240Z"
+    },
+    {
+      "id": "CTX-0037",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Agents may not invoke the human-only commands (snowgate approve, login, target confirm): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them; the user runs them in their own terminal.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0006",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "symbol": "invokesHumanOnly",
+          "contentHash": "sha256:64f47e1307bf8cd1acaf11fbd9fdc3c7817f077c7de24310ba0d6105d45d4663"
+        },
+        {
+          "type": "repository",
+          "path": "test/adapters.test.js",
+          "contentHash": "sha256:737ffa6d7abd05aeb4101ee09571f8ae3fba0f13242ba4762382335b20f24658"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:05:12.648Z",
+      "verifiedAtCommit": null,
+      "supersedes": [],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T15:05:12.648Z",
+          "workId": "PF-0006",
+          "candidateId": "K-001"
+        }
+      ],
+      "createdAt": "2026-10-19T15:05:12.648Z",
+      "updatedAt": "2026-10-19T15:05:12.648Z"
+    },
+    {
+      "id": "CTX-0038",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands that invoke the human-only snowgate approve/login/target confirm; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profile folder; git commit when validate or the staged-file secret scan fails. SessionStart adds the active work item, target and package states; PostToolUse on changes/** reports validate problems.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0001",
+        "candidateId": "K-004"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:64f47e1307bf8cd1acaf11fbd9fdc3c7817f077c7de24310ba0d6105d45d4663"
+        },
+        {
+          "type": "repository",
+          "path": "src/adapters/run-hook.js",
+          "contentHash": "sha256:0410bdee851422e20f5ab1ad6cfc330dd2737fe85e185709287f67333fa14556"
+        },
+        {
+          "type": "repository",
+          "path": "test/adapters.test.js",
+          "contentHash": "sha256:737ffa6d7abd05aeb4101ee09571f8ae3fba0f13242ba4762382335b20f24658"
+        }
+      ],
+      "verifiedAt": "2026-10-19T15:05:44.240Z",
+      "verifiedAtCommit": null,
+      "supersedes": [
+        "CTX-0036"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-19T15:05:44.240Z",
+          "workId": "PF-0001",
+          "candidateId": "K-004",
+          "supersedes": "CTX-0036"
+        }
+      ],
+      "createdAt": "2026-10-19T15:05:44.240Z",
+      "updatedAt": "2026-10-19T15:05:44.240Z"
+    }
+  ],
+  "updatedAt": "2026-10-19T15:05:44.240Z"
+}

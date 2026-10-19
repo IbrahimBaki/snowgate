@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "gates": {
+    "specification": {
+      "status": "approved",
+      "respondedAt": "2026-10-19T14:14:16.953Z",
+      "note": "Approved by IbrahimBaghdadi in the agent session after reviewing the presented spec and M2 plan: موافق على (ب) وعلى الاعتماديات والتقسيم، ابدأ M2",
+      "history": [
+        {
+          "status": "awaiting_review",
+          "at": "2026-10-19T14:14:11.258Z"
+        },
+        {
+          "status": "approved",
+          "at": "2026-10-19T14:14:16.953Z",
+          "note": "Approved by IbrahimBaghdadi in the agent session after reviewing the presented spec and M2 plan: موافق على (ب) وعلى الاعتماديات والتقسيم، ابدأ M2"
+        }
+      ]
+    },
+    "plan": {
+      "status": "approved",
+      "respondedAt": "2026-10-19T14:14:28.978Z",
+      "note": "Approved by IbrahimBaghdadi in the agent session after reviewing the presented spec and M2 plan: موافق على (ب) وعلى الاعتماديات والتقسيم، ابدأ M2",
+      "history": [
+        {
+          "status": "approved",
+          "at": "2026-10-19T14:14:28.978Z",
+          "note": "Approved by IbrahimBaghdadi in the agent session after reviewing the presented spec and M2 plan: موافق على (ب) وعلى الاعتماديات والتقسيم، ابدأ M2"
+        }
+      ]
+    },
+    "decomposition": {
+      "status": "approved",
+      "respondedAt": "2026-10-19T14:15:02.519Z",
+      "note": "Approved by IbrahimBaghdadi in the agent session (M2/M3 split): موافق على (ب) وعلى الاعتماديات والتقسيم، ابدأ M2",
+      "history": [
+        {
+          "status": "awaiting_review",
+          "at": "2026-10-19T14:14:56.963Z"
+        },
+        {
+          "status": "approved",
+          "at": "2026-10-19T14:15:02.519Z",
+          "note": "Approved by IbrahimBaghdadi in the agent session (M2/M3 split): موافق على (ب) وعلى الاعتماديات والتقسيم، ابدأ M2"
+        }
+      ]
+    }
+  },
+  "updatedAt": "2026-10-19T14:15:02.519Z"
+}

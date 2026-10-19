@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T14:33:03.732Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Assessed after V-001 (npm test 83/83) passed.",
+      "findings": [
+        {
+          "criterion": "PF-0001/AC-002",
+          "status": "satisfied",
+          "reason": "Tool list over MCP equals the PLAN §7.2 allowlist; unknown tools error; with only a candidate target or no work item every tool returns TARGET_UNCONFIRMED and the mock and browser record no request.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/gateway/tools.js",
+              "symbol": "TOOLS",
+              "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "symbol": "createGateway",
+              "contentHash": "sha256:f393b42cfcb4cc93cc59f3f86254dc40b42fbf6cbb048ec4402cc6e2dc84ae45"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0003",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "PF-0001/AC-003",
+          "status": "satisfied",
+          "reason": "Real Chromium against a local fixture: locked paths are aborted top-level, inside gsft_main, via Next Experience and nav_to.do wrappers and via clicks; off-target hosts are refused by URL and click and never served; service workers are blocked. Real-instance paths remain hypotheses (DL-001).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/gateway/guards.js",
+              "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8"
+            },
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:1c57e781fc6a1232f35a792a3fe574ef4d57ea89b47bfaaafa4d991ff0dda908"
+            },
+            {
+              "type": "repository",
+              "path": "test/browser-lock.test.js",
+              "contentHash": "sha256:62f43d2bad30b56738fc0c85afddce42acc356359081c40f1b8662ead8081eb6"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0003",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "PF-0001/AC-004",
+          "status": "satisfied",
+          "reason": "Upload refuses below peer-reviewed, without approval and with a stale hash, and passes with a current approval; preview refuses without and passes with an upload approval; commit refuses without approval, with a stale hash, with unresolved preview problems, for another target, and passes with a current commit approval running unlocked once; approve refuses non-TTY input.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/approvals.js",
+              "contentHash": "sha256:7c1cd21cd9bbaa8855f7418483b301bdfd0d56739bbc1ebc976a6d8906d7f7a9"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/tools.js",
+              "symbol": "HANDLERS",
+              "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "repository",
+              "path": "test/approvals.test.js",
+              "contentHash": "sha256:f1c5a62775c7d5b22a0c962f5faaf74f0463bf46ab20ec303af04c34e8f8931c"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0003",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "PF-0001/AC-005",
+          "status": "satisfied",
+          "reason": "Every call (success and refusal) appends an audit line; secret-looking keys and the password value are redacted; the test asserts neither the password nor the Basic auth value appears in the audit file.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "symbol": "redact",
+              "contentHash": "sha256:f393b42cfcb4cc93cc59f3f86254dc40b42fbf6cbb048ec4402cc6e2dc84ae45"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0003",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "PF-0001/AC-006",
+          "status": "satisfied",
+          "reason": "All 18 origin cases pass under node:test with the mapping recorded as a ruling, plus snowgate-specific cases; the secret scan flags all 8 origin patterns and ignores placeholders.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/validate/packages.js",
+              "contentHash": "sha256:169e2636136bb070a725a6a775b0a66197304050ab3c1885cafb5e533a8e94cd"
+            },
+            {
+              "type": "repository",
+              "path": "src/validate/secrets.js",
+              "contentHash": "sha256:fb3e6d3657f8aebfc4bcdb9fe9f35b0069768bbf677567700ef1e8ae5a7080c7"
+            },
+            {
+              "type": "repository",
+              "path": "test/validate.test.js",
+              "contentHash": "sha256:a4a0f8d448fbb385501a061cc1ba55f1078f674bb7204b23c6a608d1d1e4fe7a"
+            },
+            {
+              "type": "repository",
+              "path": "test/approvals.test.js",
+              "contentHash": "sha256:f1c5a62775c7d5b22a0c962f5faaf74f0463bf46ab20ec303af04c34e8f8931c"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0003",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "A 'plan' approval purpose (scope approval before update-set.xml may exist).",
+          "reason": "Replaces the origin's tasks/ front-matter approval that the ported Fix3 rule depends on.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/approvals.js",
+              "symbol": "PURPOSES",
+              "contentHash": "sha256:7c1cd21cd9bbaa8855f7418483b301bdfd0d56739bbc1ebc976a6d8906d7f7a9"
+            }
+          ]
+        },
+        {
+          "id": "UR-002",
+          "disposition": "accepted",
+          "summary": "snowgate validate --secrets (staged-file secret scan).",
+          "reason": "Port of the origin check_secrets.py named in PLAN §10 for the git commit gate.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/validate/secrets.js",
+              "contentHash": "sha256:fb3e6d3657f8aebfc4bcdb9fe9f35b0069768bbf677567700ef1e8ae5a7080c7"
+            },
+            {
+              "type": "repository",
+              "path": "src/cli/main.js",
+              "contentHash": "sha256:599d64ab76c84d70174abd0c3549212bae844c48276f4e8a256e124e027f4fa3"
+            }
+          ]
+        },
+        {
+          "id": "UR-003",
+          "disposition": "accepted",
+          "summary": "Browser contexts block service workers.",
+          "reason": "Defense in depth for the REQ-003 lock.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:1c57e781fc6a1232f35a792a3fe574ef4d57ea89b47bfaaafa4d991ff0dda908"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-19T14:33:03.732Z"
+}

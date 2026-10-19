@@ -1,0 +1,324 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "Delivery is split into milestones: M1 (CLI, pack.yaml loader, read-only REST client, target, discover) and M2 (MCP gateway, approvals, Node validator) are implemented; M3 (claude/codex/yallaflow adapters, init, doctor) is not, and the CLI refuses init/doctor with their milestone.",
+      "evidence": [
+        "src/cli/main.js",
+        "docs/PLAN.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0002"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:33:58.018Z",
+      "factId": "CTX-0018",
+      "promotedAt": "2026-10-19T14:34:13.386Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "tech-stack",
+      "source": "implementation-runtime",
+      "summary": "Node.js ESM package (type: module), engines node >=22; runtime dependencies yaml, @modelcontextprotocol/sdk, playwright (its Chromium must be installed) and fast-xml-parser; binary snowgate -> bin/snowgate.js.",
+      "evidence": [
+        "package.json",
+        "bin/snowgate.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0003"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:33:58.133Z",
+      "factId": "CTX-0019",
+      "promotedAt": "2026-10-19T14:34:13.530Z",
+      "target": "context/tech-stack.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "database",
+      "source": "implementation-runtime",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml (target + change packages), approvals/<id>.jsonl (append-only human approvals), audit/<id>.jsonl (append-only audit), evidence/<id>/ (screenshots without a package), discovery/<instance>/<timestamp>/, and optional config.yaml (changes_dir, validate.legacy_packages). Change packages live in changes/<ID>/ by default.",
+      "evidence": [
+        "src/work.js",
+        "src/approvals.js",
+        "src/audit.js",
+        "src/config.js",
+        "src/discover.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0006"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:33:58.244Z",
+      "factId": "CTX-0020",
+      "promotedAt": "2026-10-19T14:34:13.669Z",
+      "target": "context/database.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate only runs inside a YallaFlow project (it walks up to find .yallaflow/). Every instance-touching command requires a YallaFlow work item: --work for CLI commands; snowgate mcp takes --work, SNOWGATE_WORK, or YallaFlow's active work item, and refuses instance tools without one.",
+      "evidence": [
+        "src/workspace.js",
+        "src/cli/main.js",
+        "src/gateway/server.js#resolveWorkId"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0005"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:33:58.355Z",
+      "factId": "CTX-0021",
+      "promotedAt": "2026-10-19T14:34:13.845Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-005",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Known security gap (PLAN §15 A7): the target confirmation (.snowgate/work/<id>.yaml) and the approval records (.snowgate/approvals/<id>.jsonl) are files any writer can edit; the mitigation (agent write deny on .snowgate/**) is planned for the M3 claude adapter and documented in the README.",
+      "evidence": [
+        "README.md",
+        "src/work.js",
+        "src/approvals.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0017"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:33:58.464Z",
+      "factId": "CTX-0022",
+      "promotedAt": "2026-10-19T14:34:13.976Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-006",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Tests use node:test and never contact a real instance: a local mock Table API (node:http), validator fixtures, and a local fixture site driven by real headless Chromium for the URL lock; npm test runs test/*.test.js.",
+      "evidence": [
+        "test/helpers.js",
+        "test/browser-lock.test.js",
+        "package.json"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0015"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:33:58.575Z",
+      "factId": "CTX-0023",
+      "promotedAt": "2026-10-19T14:34:14.135Z",
+      "target": "context/conventions.md"
+    },
+    {
+      "id": "K-007",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is exactly PLAN §7.2 (6 read-only REST tools, 5 generic ui_* tools, 3 gated update-set tools). It drives its own isolated Chromium (no @playwright/mcp proxy: its --allowed-origins is not a security boundary); a context route aborts every request to another host and every request whose decoded URL or body carries an update-set token, in all frames and through Next Experience / nav_to.do wrappers; service workers are blocked; calls are serialised and audited with credentials redacted.",
+      "evidence": [
+        "src/gateway/tools.js#TOOLS",
+        "src/gateway/guards.js",
+        "src/playwright/session.js",
+        "src/gateway/server.js",
+        "test/browser-lock.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:33:58.685Z",
+      "factId": "CTX-0024",
+      "promotedAt": "2026-10-19T14:34:14.301Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-008",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Human approvals are recorded only by snowgate approve in a TTY with the change_id typed back, for plan, upload or commit; upload and commit approvals bind the SHA-256 of the exact update-set.xml and go stale when it changes. Upload needs >= peer-reviewed, a clean validate and a current upload approval; commit needs awaiting-human-approval, a previewed retrieved update set with no unresolved problems and a current commit approval.",
+      "evidence": [
+        "src/approvals.js",
+        "src/gateway/tools.js#HANDLERS",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:33:58.792Z",
+      "factId": "CTX-0025",
+      "promotedAt": "2026-10-19T14:34:14.430Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-009",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "snowgate validate is a generic Node port of the origin change-package validator: manifest v2, lifecycle states, Evidence Register, Verified Mapping, well-formed XML; task_id must be an existing YallaFlow work item; update-set.xml requires a plan approval; imported+ requires a current upload approval and committed/verified a current commit approval; legacy packages only from .snowgate/config.yaml; --secrets scans staged files.",
+      "evidence": [
+        "src/validate/packages.js",
+        "src/validate/secrets.js",
+        "test/validate.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:33:58.906Z",
+      "factId": "CTX-0026",
+      "promotedAt": "2026-10-19T14:34:14.625Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-010",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects: skills, guards, an MCP gateway, validators and a CLI; it carries no project-specific naming.",
+      "evidence": [
+        "README.md",
+        "docs/PLAN.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0001"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:34:12.724Z",
+      "factId": "CTX-0001",
+      "promotedAt": "2026-10-19T14:34:14.774Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-011",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "ServiceNow integration is a read-only Table API client: every request goes through one private method hard-coded to GET, only allow-listed configuration tables, mandatory allow-listed fields, page size 500, safety cap 10000 records with a truncation flag.",
+      "evidence": [
+        "src/rest/client.js",
+        "src/rest/tables.js",
+        "test/rest-client.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0007"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:34:12.831Z",
+      "factId": "CTX-0007",
+      "promotedAt": "2026-10-19T14:34:14.906Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-012",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "The ServiceNow table and field names used by discovery and the gateway have not been confirmed against any real instance; they are hypotheses until a confirmed target answers for them.",
+      "evidence": [
+        "src/rest/tables.js"
+      ],
+      "confidence": "unresolved",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0009"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:34:12.940Z",
+      "factId": "CTX-0009",
+      "promotedAt": "2026-10-19T14:34:15.049Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-013",
+      "kind": "environment",
+      "source": "implementation-runtime",
+      "summary": "ServiceNow credentials come only from environment variables named in pack.yaml (SN_USER / SN_PASSWORD) using Basic auth; they are never written to output, evidence or audit.",
+      "evidence": [
+        "pack.yaml",
+        "src/cli/main.js",
+        "src/gateway/server.js#redact"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0010"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:34:13.055Z",
+      "factId": "CTX-0010",
+      "promotedAt": "2026-10-19T14:34:15.190Z",
+      "target": "context/environments.md"
+    },
+    {
+      "id": "K-014",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "An instance is per work item: target set records only candidate_instance; target confirm requires an interactive TTY and the host typed back exactly, then records confirmed_by/confirmed_at; changing the candidate revokes a confirmed target.",
+      "evidence": [
+        "src/work.js",
+        "src/cli/main.js",
+        "test/target.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0011"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:34:13.162Z",
+      "factId": "CTX-0011",
+      "promotedAt": "2026-10-19T14:34:15.325Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-015",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Errors are SnowgateError subclasses with a stable code (e.g. TARGET_UNCONFIRMED, TABLE_NOT_ALLOWED); the CLI maps them to exit 1 and usage errors to exit 2.",
+      "evidence": [
+        "src/errors.js",
+        "src/cli/main.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0016"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T14:34:13.275Z",
+      "factId": "CTX-0016",
+      "promotedAt": "2026-10-19T14:34:15.491Z",
+      "target": "context/conventions.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T14:34:15.491Z",
+  "reviewedAt": "2026-10-19T14:34:15.491Z"
+}

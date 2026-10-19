@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:10:27.226Z",
+      "completedAt": "2026-10-19T14:10:27.226Z",
+      "summary": "Intent discovery for M2/M3 on top of the approved baseline (no stale facts). Origin assets read: SW-ZO-Sessions/.claude/hooks/validate_change_packages.py (603 lines; manifest v2, lifecycle states, evidence register, verified mapping, tasks/ front-matter approval, hard-coded LEGACY_PACKAGES), its 18 parity cases, check_secrets.py, git_commit_gate.py. @playwright/mcp 0.0.83 has --isolated and --allowed-origins, but its help states --allowed-origins does NOT serve as a security boundary, contradicting PLAN §5 layer 2: the gateway must be the only origin/URL lock. ServiceNow classic UI loads records in the gsft_main iframe and Next Experience encodes the target in the path, so a top-URL-only lock is insufficient. No MCP SDK is installed yet (@modelcontextprotocol/sdk 1.32.1 on npm).",
+      "evidence": [
+        "docs/PLAN.md"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:10:41.148Z",
+      "completedAt": "2026-10-19T14:10:41.148Z",
+      "summary": "Intent is fully stated in docs/PLAN.md §1-§11 and §15, with user decisions in §3 and the user's approval of A2-A6, Node validator and M1 scope (§15.4). Confirmed decisions: REST Basic auth for MVP; validator ported to Node with the Python cases as parity fixtures; codex adapter only after its support is verified. Working assumptions: change packages live in changes/<ID>/ at the project root; per-repo validator config (legacy packages) in .snowgate/config.yaml; the origin's tasks/ front-matter approval is replaced by the A5 user approval record. No open business question; the URL-lock architecture fork is a design decision for the plan gate. Requirements/ACs are recorded at the specification checkpoint.",
+      "evidence": [
+        "docs/PLAN.md"
+      ]
+    },
+    "design-exploration": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:11:42.338Z",
+      "completedAt": "2026-10-19T14:11:42.338Z",
+      "summary": "Decisions D1-D8 recorded in work.md. Confirmed: A2 locked surfaces, allowlist exposure, A5 approval record with sha256, Node validator. Proposed for the user: D1 drive playwright directly (recommended over proxying @playwright/mcp, whose --allowed-origins is not a security boundary), D5 work resolution, D7 dependencies, D8 M2/M3 child split. Open as Q-001/Q-002.",
+      "evidence": [
+        "docs/PLAN.md"
+      ]
+    },
+    "specification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:14:11.151Z",
+      "completedAt": "2026-10-19T14:14:11.151Z",
+      "summary": "Specification in work.md with REQ-001..007 / AC-001..007. D1=b, D7 dependencies and D8 M2/M3 split approved by the user (Q-001, Q-002).",
+      "evidence": [
+        "docs/PLAN.md"
+      ]
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:14:22.834Z",
+      "completedAt": "2026-10-19T14:14:22.834Z",
+      "summary": "Plan in work.md: M2 steps 1-6 (approvals, validator port with 18 parity fixtures, MCP gateway with REST tools and audit, guards, playwright session and ui tools with gates, secret scan); M3 adapters, init, doctor; verification via npm test against local fixtures only.",
+      "evidence": [
+        "docs/PLAN.md"
+      ]
+    },
+    "implementation": {
+      "status": "pending"
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:03:23.780Z",
+      "completedAt": "2026-10-19T15:03:23.780Z",
+      "summary": "Parent verification after all children DONE: npm test 104/104 (M1 suites, validator parity, gateway gates, real-Chromium lock incl. redirects and service workers, SSO profile, adapters).",
+      "evidence": [
+        "verification:V-001"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:03:41.817Z",
+      "completedAt": "2026-10-19T15:03:41.817Z",
+      "summary": "All 7 criteria currently satisfied (CV-002, CV-003); SSO profile accepted as user-requested addition.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    },
+    "code-review": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:05:53.392Z",
+      "completedAt": "2026-10-19T15:05:53.392Z",
+      "summary": "Review of M1-M3, SSO and the fix, against the spec and rulings. Blocking found and fixed in PF-0006: agents could fake a TTY to run approve/login/target confirm. Fixed earlier with tests: redirect bypass of the URL lock (PF-0005), service-worker bypass (PF-0003). Non-blocking: (1) shell-hook path checks are heuristic, e.g. 'cd .snowgate && rm -rf work'; the gateway stays the primary guard. (2) sn_query accepts free encoded queries on allow-listed tables, so dot-walk filters can act as a yes/no oracle on referenced fields; consider a query grammar allowlist. (3) every browser response is proxied through route.fetch, so very large downloads are slower. (4) dedicated update-set steps and processor names are unverified on a real instance. (5) skills/*.md are not written. (6) no live Claude/Codex session run yet. No unrelated scope changes.",
+      "evidence": [
+        "verification:V-002"
+      ]
+    }
+  },
+  "rulings": [
+    {
+      "decision": "M1 code (CLI, pack.yaml loader, read-only REST client, target set/confirm/show, discover, 26 tests) was written before this work item existed",
+      "reason": "The authoring session's shell was blocked by the origin repo's relative-path hooks, so the code was written with file tools before yallaflow commands could run; the user approved starting M1 in chat on 2026-10-19 (docs/PLAN.md §15.4)",
+      "costIfWrong": "M1 must be re-validated against the approved specification and requirements; code that contradicts them is revised or removed",
+      "createdAt": "2026-10-19T13:48:54.308Z"
+    },
+    {
+      "decision": "Continue the existing PF-0001 (feature, architectural) for the MVP instead of creating a new intake via yallaflow start after baseline approval",
+      "reason": "PF-0001 already captures the same request (Build the snowgate MVP per docs/PLAN.md) and was classified before the baseline; a second intake would duplicate it",
+      "costIfWrong": "A duplicate or mis-scoped work item; low and reversible",
+      "createdAt": "2026-10-19T14:10:26.889Z"
+    },
+    {
+      "decision": "Route the M2 and M3 children as bounded features; M1 (REQ-001/AC-001) stays assessed at the parent",
+      "reason": "Architectural design, specification and plan were explored and approved at the parent (D1-D8); repeating architectural gates per child would duplicate them. M1 code already exists and is judged by the parent's convergence.",
+      "costIfWrong": "A child could skip a needed design review; mitigated because the child plans follow the approved parent plan",
+      "createdAt": "2026-10-19T14:14:56.625Z"
+    },
+    {
+      "decision": "Amend D1: the gateway's browser uses a dedicated persistent snowgate profile per instance, logged in once by a human via SSO, instead of the login.do password form; the user's personal Chrome session is not used",
+      "reason": "User (in agent session): 'بنستخدم SSO، موافق على الملف المخصّص لـ snowgate' — the instances use SSO, so the login.do form cannot authenticate",
+      "costIfWrong": "A stored SSO session on disk is a secret; mitigated by a per-instance profile outside the repository with owner-only permissions",
+      "createdAt": "2026-10-19T14:46:00.649Z"
+    },
+    {
+      "decision": "PLAN §13 items resolved from vendor docs (2026-10-19): Claude Code plugin userConfig exists (sensitive values in secure storage); a PreToolUse hook exiting 2 blocks before permission rules, so it holds over allow rules (A6), but an installed mod's tool.check can still approve unless the hook is managed; Codex supports [mcp_servers.<id>] command/args/env/cwd, [[hooks.PreToolUse]] with the same deny JSON or exit 2, SKILL.md skills and AGENTS.md; project .codex hooks load only after trust",
+      "reason": "code.claude.com/docs/en/{plugins-reference,hooks,permissions,plugins/loading} and learn.chatgpt.com/docs/{config-file/config-reference,hooks} read in the agent session",
+      "costIfWrong": "Codex behaviour is doc-verified only, not run; adapter may need fixes on first real use",
+      "createdAt": "2026-10-19T14:56:35.204Z"
+    }
+  ],
+  "history": [],
+  "updatedAt": "2026-10-19T15:05:53.392Z"
+}

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "Q-001",
+      "category": "architecture",
+      "question": "D1: Should the gateway drive the playwright library directly (network-level lock across all frames) instead of proxying @playwright/mcp?",
+      "status": "resolved",
+      "material": true,
+      "proposal": "Drive playwright directly (option b); proxying cannot prove an iframe-safe lock",
+      "createdAt": "2026-10-19T14:11:42.129Z",
+      "updatedAt": "2026-10-19T14:13:47.883Z",
+      "answer": "User (in agent session): موافق على (ب) — drive the playwright library directly",
+      "resolution": "D1=b confirmed",
+      "resolvedAt": "2026-10-19T14:13:47.883Z"
+    },
+    {
+      "id": "Q-002",
+      "category": "architecture",
+      "question": "D7/D8: Approve new dependencies (@modelcontextprotocol/sdk, playwright, fast-xml-parser) and splitting PF-0001 into M2 and M3 child work items?",
+      "status": "resolved",
+      "material": true,
+      "proposal": "Approve both",
+      "createdAt": "2026-10-19T14:11:42.233Z",
+      "updatedAt": "2026-10-19T14:13:47.992Z",
+      "answer": "User (in agent session): موافق على الاعتماديات والتقسيم — approve @modelcontextprotocol/sdk, playwright, fast-xml-parser and the M2/M3 child split",
+      "resolution": "D7, D8 confirmed",
+      "resolvedAt": "2026-10-19T14:13:47.992Z"
+    }
+  ],
+  "updatedAt": "2026-10-19T14:13:47.992Z"
+}

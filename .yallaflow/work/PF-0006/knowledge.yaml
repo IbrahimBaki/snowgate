@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Agents may not invoke the human-only commands (snowgate approve, login, target confirm): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them; the user runs them in their own terminal.",
+      "evidence": [
+        "src/adapters/policy.js#invokesHumanOnly",
+        "test/adapters.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "status": "promoted",
+      "createdAt": "2026-10-19T15:05:12.521Z",
+      "factId": "CTX-0037",
+      "promotedAt": "2026-10-19T15:05:12.648Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T15:05:12.648Z",
+  "reviewedAt": "2026-10-19T15:05:12.648Z"
+}

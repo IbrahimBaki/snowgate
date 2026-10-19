@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:04:15.322Z",
+      "completedAt": "2026-10-19T15:04:15.322Z",
+      "summary": "target confirm, approve and login gate on stdin.isTTY (src/cli/main.js). An agent shell can allocate a pseudo-terminal (e.g. script -qc, unbuffer, expect, python pty) and pipe the typed-back value, so the TTY check alone does not prove a human. The PreToolUse policy (src/adapters/policy.js) does not inspect these commands.",
+      "evidence": [
+        "src/cli/main.js"
+      ]
+    },
+    "systematic-debugging": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:04:15.551Z",
+      "completedAt": "2026-10-19T15:04:15.551Z",
+      "summary": "Root cause: human-only commands trust a TTY that an agent can create. Fix at defense layer 4: the agent hook refuses any shell command or non-snowgate tool input that invokes snowgate (or bin/snowgate.js) approve, login or target confirm. Residual: an agent outside hook coverage can still fake a TTY; documented with A7.",
+      "evidence": [
+        "src/adapters/policy.js"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:05:07.394Z",
+      "completedAt": "2026-10-19T15:05:07.394Z",
+      "summary": "policy.js: shell tools (Bash, shell, exec_command) that invoke snowgate approve, login or target confirm (incl. via script/unbuffer/npx/bin path) are refused as human-only; documentation writes are not affected. Tests in test/adapters.test.js; README updated.",
+      "evidence": [
+        "src/adapters/policy.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:05:12.411Z",
+      "completedAt": "2026-10-19T15:05:12.411Z",
+      "summary": "V-001 npm test 105/105 incl. fake-TTY invocation cases.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T15:05:12.411Z"
+}

@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "integration",
+      "summary": "No ServiceNow instance was contacted; frame/iframe and Next Experience URL behaviour for the URL lock is not observed",
+      "reason": "No target instance has been named and confirmed for this task",
+      "recordedAt": "2026-10-19T14:10:26.998Z"
+    },
+    {
+      "id": "DL-002",
+      "type": "insufficient-evidence",
+      "area": "integration",
+      "summary": "@playwright/mcp 0.0.83 behaviour was read from --help only; it was not run, so whether its tool results expose iframe URLs is unknown",
+      "reason": "Running a browser is out of scope for read-only discovery",
+      "recordedAt": "2026-10-19T14:10:27.119Z"
+    }
+  ],
+  "updatedAt": "2026-10-19T14:10:27.119Z"
+}

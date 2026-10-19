@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "project",
+      "source": "implementation-runtime",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects: skills, guards, an MCP gateway, validators and a CLI; it carries no project-specific naming.",
+      "evidence": [
+        "README.md"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0001"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T15:05:43.330Z",
+      "factId": "CTX-0001",
+      "promotedAt": "2026-10-19T15:05:43.785Z",
+      "target": "PROJECT.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Known security limits (PLAN §15 A7): the target confirmation, approval records and SSO profile are protected from agents by hooks, not by the OS; shell checks are heuristic and an installed Claude Code mod can override a non-managed hook; the gateway stays the primary guard.",
+      "evidence": [
+        "README.md",
+        "src/adapters/policy.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0034"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T15:05:43.447Z",
+      "factId": "CTX-0034",
+      "promotedAt": "2026-10-19T15:05:43.923Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate init --agent claude|codex generates adapters: a Claude project plugin in .claude/skills/snowgate (plugin.json, hooks/hooks.json and .mcp.json calling ${CLAUDE_PLUGIN_ROOT}/hook.mjs and mcp.mjs shims that locate snowgate via SNOWGATE_HOME, project node_modules, or the init-time path, and fail closed); .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook plus an AGENTS.md block; .snowgate/bin/verify-change-packages for yallaflow verify --script; and .git/hooks/pre-commit running validate --secrets. Files without the 'managed by snowgate init' marker are never overwritten.",
+      "evidence": [
+        "src/adapters/install.js",
+        "test/adapters.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0035"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T15:05:43.558Z",
+      "factId": "CTX-0035",
+      "promotedAt": "2026-10-19T15:05:44.076Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands that invoke the human-only snowgate approve/login/target confirm; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profile folder; git commit when validate or the staged-file secret scan fails. SessionStart adds the active work item, target and package states; PostToolUse on changes/** reports validate problems.",
+      "evidence": [
+        "src/adapters/policy.js",
+        "src/adapters/run-hook.js",
+        "test/adapters.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0036"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-19T15:05:43.674Z",
+      "factId": "CTX-0038",
+      "promotedAt": "2026-10-19T15:05:44.240Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-10-19T15:05:44.240Z",
+  "reviewedAt": "2026-10-19T15:05:44.240Z"
+}

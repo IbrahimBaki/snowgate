@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "gates": {
+    "baseline": {
+      "status": "approved",
+      "respondedAt": "2026-10-19T14:08:12.679Z",
+      "note": "Approved by IbrahimBaghdadi in the agent session: موافق على الـ baseline، كمّل",
+      "history": [
+        {
+          "status": "approved",
+          "at": "2026-10-19T14:08:12.679Z",
+          "note": "Approved by IbrahimBaghdadi in the agent session: موافق على الـ baseline، كمّل"
+        }
+      ]
+    }
+  },
+  "updatedAt": "2026-10-19T14:08:12.679Z"
+}

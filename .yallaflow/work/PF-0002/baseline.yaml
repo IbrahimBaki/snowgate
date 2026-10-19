@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "facts": [
+    {
+      "id": "BF-001",
+      "area": "project",
+      "status": "confirmed",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects: skills, guards, an MCP gateway, validators and a CLI; it carries no project-specific naming.",
+      "evidence": [
+        "docs/PLAN.md",
+        "README.md"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-002",
+      "area": "project",
+      "status": "confirmed",
+      "summary": "Delivery is split into milestones: M1 (CLI, pack.yaml loader, read-only REST client, target, discover) is implemented; M2 (MCP gateway, validator port) and M3 (claude/codex/yallaflow adapters, init, doctor) are not; the CLI refuses those commands with their milestone.",
+      "evidence": [
+        "docs/PLAN.md",
+        "src/cli/main.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-003",
+      "area": "tech-stack",
+      "status": "confirmed",
+      "summary": "Node.js ESM package (type: module), engines node >=22, single runtime dependency `yaml`; binary `snowgate` -> bin/snowgate.js.",
+      "evidence": [
+        "package.json",
+        "bin/snowgate.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-004",
+      "area": "architecture",
+      "status": "confirmed",
+      "summary": "pack.yaml is the single neutral source of truth (config, skills, guards, validators, mcp); src/pack.js validates it and rejects any instance scope other than per-task.",
+      "evidence": [
+        "pack.yaml",
+        "src/pack.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-005",
+      "area": "architecture",
+      "status": "confirmed",
+      "summary": "snowgate only runs inside a YallaFlow project (it walks up to find .yallaflow/) and every instance-touching command requires --work naming an existing YallaFlow work item.",
+      "evidence": [
+        "src/workspace.js",
+        "src/cli/main.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-006",
+      "area": "database",
+      "status": "confirmed",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml (target + change packages), audit/<id>.jsonl (append-only audit), discovery/<instance>/<timestamp>/ (inventory.json, evidence.json, report.md, limitations.md).",
+      "evidence": [
+        "src/work.js",
+        "src/audit.js",
+        "src/discover.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-007",
+      "area": "integration",
+      "status": "confirmed",
+      "summary": "ServiceNow integration is a read-only Table API client: every request goes through one private method hard-coded to GET, only allow-listed configuration tables, mandatory allow-listed fields, page size 500, safety cap 10000 records with a truncation flag.",
+      "evidence": [
+        "src/rest/client.js",
+        "src/rest/tables.js",
+        "test/rest-client.test.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-008",
+      "area": "integration",
+      "status": "confirmed",
+      "summary": "Preflight reads (sys_user, sys_user_has_role, sys_properties) are fixed-shape queries outside the general allowlist; sys_user is only read for sys_id,user_name of the authenticated user.",
+      "evidence": [
+        "src/rest/client.js",
+        "test/discover.test.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-009",
+      "area": "integration",
+      "status": "unresolved",
+      "summary": "The ServiceNow table and field names used by discovery have not been confirmed against any real instance; they are hypotheses until a confirmed target answers for them.",
+      "evidence": [
+        "src/rest/tables.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-010",
+      "area": "environment",
+      "status": "confirmed",
+      "summary": "ServiceNow credentials come only from environment variables named in pack.yaml (SN_USER / SN_PASSWORD) using Basic auth; they are never written to output, evidence or audit.",
+      "evidence": [
+        "pack.yaml",
+        "src/cli/main.js",
+        "test/discover.test.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-011",
+      "area": "business-rule",
+      "status": "confirmed",
+      "summary": "An instance is per work item: `target set` records only candidate_instance; `target confirm` requires an interactive TTY and the host typed back exactly, then records confirmed_by/confirmed_at; changing the candidate revokes a confirmed target.",
+      "evidence": [
+        "src/work.js",
+        "src/cli/main.js",
+        "test/target.test.js",
+        "test/cli.test.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-012",
+      "area": "business-rule",
+      "status": "confirmed",
+      "summary": "Instance hosts must match ^[a-z0-9-]+\\.service-now\\.com$ after normalisation; paths, ports, userinfo and other domains are rejected.",
+      "evidence": [
+        "src/instance.js",
+        "pack.yaml"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-013",
+      "area": "business-rule",
+      "status": "confirmed",
+      "summary": "discover refuses to run without a confirmed target for the work item and makes no request in that case; anything unreadable is recorded in limitations.md instead of being guessed; every fact cites an evidence entry with query and URL.",
+      "evidence": [
+        "src/discover.js",
+        "test/discover.test.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-014",
+      "area": "business-rule",
+      "status": "confirmed",
+      "summary": "Discovery hazards flagged: In Progress update sets idle >= 30 days or current for a user, customer updates captured in the Default update set, and customer updates in the global scope.",
+      "evidence": [
+        "src/discover.js",
+        "test/discover.test.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-015",
+      "area": "convention",
+      "status": "confirmed",
+      "summary": "Tests use node:test with a local mock ServiceNow Table API (node:http) and never contact a real instance; `npm test` runs test/*.test.js.",
+      "evidence": [
+        "test/helpers.js",
+        "package.json"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-016",
+      "area": "convention",
+      "status": "confirmed",
+      "summary": "Errors are SnowgateError subclasses with a stable code (e.g. TARGET_UNCONFIRMED, TABLE_NOT_ALLOWED); the CLI maps them to exit 1 and usage errors to exit 2.",
+      "evidence": [
+        "src/errors.js",
+        "src/cli/main.js"
+      ],
+      "source": "repository"
+    },
+    {
+      "id": "BF-017",
+      "area": "architecture",
+      "status": "confirmed",
+      "summary": "Known security gap (PLAN §15 A7): the target confirmation lives in .snowgate/work/<id>.yaml, which any writer can edit; mitigation is planned for M3 and documented in the README.",
+      "evidence": [
+        "docs/PLAN.md",
+        "README.md",
+        "src/work.js"
+      ],
+      "source": "repository"
+    }
+  ],
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "runtime-unavailable",
+      "area": "integration",
+      "summary": "No ServiceNow instance was contacted.",
+      "reason": "No target instance has been named and confirmed by the user for any task.",
+      "recordedAt": "2026-10-19T13:49:43.573Z"
+    },
+    {
+      "id": "DL-002",
+      "type": "not-inspected",
+      "area": "environment",
+      "summary": "No CI/CD or release pipeline exists to inspect.",
+      "reason": "None recognized by yallaflow inspect; not yet built.",
+      "recordedAt": "2026-10-19T13:49:43.573Z"
+    },
+    {
+      "id": "DL-003",
+      "type": "not-inspected",
+      "area": "tech-stack",
+      "summary": "node_modules/yaml internals and package-lock.json were not inspected.",
+      "reason": "Third-party dependency; out of scope for project understanding.",
+      "recordedAt": "2026-10-19T13:49:43.573Z"
+    }
+  ],
+  "coverage": {
+    "inspected": [
+      "package.json",
+      "pack.yaml",
+      "bin/",
+      "src/",
+      "test/",
+      "README.md",
+      "docs/PLAN.md"
+    ],
+    "sampled": []
+  },
+  "history": [
+    {
+      "action": "drafted",
+      "at": "2026-10-19T13:49:43.573Z",
+      "factCount": 17
+    },
+    {
+      "action": "approved",
+      "at": "2026-10-19T14:08:12.679Z",
+      "note": "Approved by IbrahimBaghdadi in the agent session: موافق على الـ baseline، كمّل"
+    }
+  ],
+  "draftedAt": "2026-10-19T13:49:43.573Z",
+  "updatedAt": "2026-10-19T14:08:12.679Z",
+  "approvedAt": "2026-10-19T14:08:12.679Z"
+}

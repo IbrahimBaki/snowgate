@@ -1,0 +1,43 @@
+{
+  "id": "PF-0006",
+  "type": "bug",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Agents can fake a TTY to run human-only snowgate commands",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T15:04:05.612Z",
+  "updatedAt": "2026-10-19T15:05:12.803Z",
+  "title": "Agents can fake a TTY to run human-only snowgate commands",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow bug --scope bounded`.",
+  "routedAt": "2026-10-19T15:04:05.615Z",
+  "workflow": "bug",
+  "requiredCapabilities": [
+    "discover",
+    "systematic-debugging",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "systematic-debugging",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T15:05:12.803Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "status": "executing",
+  "requirementsUniverse": [],
+  "acceptanceCriteriaUniverse": [],
+  "children": [
+    {
+      "key": "m2",
+      "title": "snowgate M2: MCP gateway, guards, approvals, audit, Node validator",
+      "type": "feature",
+      "scope": "bounded",
+      "required": true,
+      "requirements": [
+        "REQ-002",
+        "REQ-003",
+        "REQ-004",
+        "REQ-005",
+        "REQ-006"
+      ],
+      "acceptanceCriteria": [
+        "AC-002",
+        "AC-003",
+        "AC-004",
+        "AC-005",
+        "AC-006"
+      ],
+      "dependsOn": [],
+      "workId": "PF-0003"
+    },
+    {
+      "key": "m3",
+      "title": "snowgate M3: claude and yallaflow adapters, init, doctor (codex after verification)",
+      "type": "feature",
+      "scope": "bounded",
+      "required": true,
+      "requirements": [
+        "REQ-007"
+      ],
+      "acceptanceCriteria": [
+        "AC-007"
+      ],
+      "dependsOn": [
+        "m2"
+      ],
+      "workId": "PF-0004"
+    }
+  ],
+  "history": [
+    {
+      "action": "proposed",
+      "at": "2026-10-19T14:14:56.735Z"
+    },
+    {
+      "action": "validated",
+      "at": "2026-10-19T14:14:56.849Z"
+    },
+    {
+      "action": "executed",
+      "at": "2026-10-19T14:15:02.625Z",
+      "childrenCreated": true
+    }
+  ],
+  "proposedAt": "2026-10-19T14:14:56.735Z",
+  "updatedAt": "2026-10-19T14:15:02.625Z",
+  "validatedAt": "2026-10-19T14:14:56.849Z",
+  "executedAt": "2026-10-19T14:15:02.625Z"
+}

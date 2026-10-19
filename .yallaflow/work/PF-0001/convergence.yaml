@@ -1,0 +1,574 @@
+{
+  "schemaVersion": 1,
+  "assessments": [
+    {
+      "id": "CV-001",
+      "recordedAt": "2026-10-19T15:03:23.992Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Project-level convergence after PF-0003, PF-0004 and PF-0005 are DONE and parent V-001 passed.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "The M1 suites (target, discover, rest-client, pack, cli) pass in the parent run; M1 behaviour is unchanged apart from the documented CLI additions.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "test/target.test.js",
+              "contentHash": "sha256:ba291cdb83d71766fc12a86ddacf82fdf51ffe109088e9ed19619c16378e176d"
+            },
+            {
+              "type": "repository",
+              "path": "test/discover.test.js",
+              "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777"
+            },
+            {
+              "type": "repository",
+              "path": "test/rest-client.test.js",
+              "contentHash": "sha256:599a916ebbb47d9a855f0ca321f461a4984a63e49b6b9bb63dee3d902ed640b6"
+            },
+            {
+              "type": "repository",
+              "path": "test/pack.test.js",
+              "contentHash": "sha256:2cbc9368d3c9161db0c2c4a48d2639fb4eab0afaee0e2ce541e2886b2985146b"
+            },
+            {
+              "type": "repository",
+              "path": "test/cli.test.js",
+              "contentHash": "sha256:4cbf14e6bd844b5bb90401ac4fc0b87dd2a429a7d3c7c57aa16bede2358c3572"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "Assessed by the M2 child; tool list and refusal tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0003",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "satisfied",
+          "reason": "Re-assessed here because src/playwright/session.js changed after the M2 assessment (PF-0005 redirect fix): the real-Chromium fixture now also proves redirects to other hosts or locked pages are refused and service workers are blocked; the parent run passes.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:beeebfc4c8b8a3cb7fff241ef17769cf115322c21a0df3e350de8279707978a7"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/guards.js",
+              "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8"
+            },
+            {
+              "type": "repository",
+              "path": "test/browser-lock.test.js",
+              "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812"
+            },
+            {
+              "type": "repository",
+              "path": "test/sso-profile.test.js",
+              "contentHash": "sha256:ba419eaf271aac8b58f489a4f4955afd48bd2ac1ed66f3294201b35f841a8a07"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-004",
+          "status": "satisfied",
+          "reason": "Assessed by the M2 child; gate tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0003",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-005",
+          "status": "satisfied",
+          "reason": "Assessed by the M2 child; audit tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0003",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-006",
+          "status": "satisfied",
+          "reason": "Assessed by the M2 child; parity and secret-scan tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0003",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/validate.test.js",
+              "contentHash": "sha256:a4a0f8d448fbb385501a061cc1ba55f1078f674bb7204b23c6a608d1d1e4fe7a"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-007",
+          "status": "satisfied",
+          "reason": "Assessed by the M3 child; adapter tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0004",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/adapters.test.js",
+              "contentHash": "sha256:8ee13382ed4908146b208347de421a2c1ee0303decd1fd6f93dd9a4d42a4b44f"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-001",
+          "disposition": "accepted",
+          "summary": "SSO sign-in with a dedicated snowgate browser profile (snowgate login, ui_auth).",
+          "reason": "Requested by the user in the agent session after the spec (PF-0005, D1 amendment).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/login.js",
+              "contentHash": "sha256:a4f7ab245f60640e8b59d3fab28c9da04e064c9ecee6a2c7d707bf43a58069e2"
+            },
+            {
+              "type": "repository",
+              "path": "src/browser-profile.js",
+              "contentHash": "sha256:8299ffd912cd96a208070c55e35eafce91c8805894c24a4cdf785ee9a0dee9e5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CV-002",
+      "recordedAt": "2026-10-19T15:03:30.174Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Project-level convergence after PF-0003, PF-0004 and PF-0005 are DONE and parent V-001 passed.",
+      "findings": [
+        {
+          "criterion": "AC-001",
+          "status": "satisfied",
+          "reason": "The M1 suites (target, discover, rest-client, pack, cli) pass in the parent run; M1 behaviour is unchanged apart from the documented CLI additions.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "test/target.test.js",
+              "contentHash": "sha256:ba291cdb83d71766fc12a86ddacf82fdf51ffe109088e9ed19619c16378e176d"
+            },
+            {
+              "type": "repository",
+              "path": "test/discover.test.js",
+              "contentHash": "sha256:5fadf94d610debd7a3c174e9ac5bd9e025c67d7cab5ff3915c0e966520a1e777"
+            },
+            {
+              "type": "repository",
+              "path": "test/rest-client.test.js",
+              "contentHash": "sha256:599a916ebbb47d9a855f0ca321f461a4984a63e49b6b9bb63dee3d902ed640b6"
+            },
+            {
+              "type": "repository",
+              "path": "test/pack.test.js",
+              "contentHash": "sha256:2cbc9368d3c9161db0c2c4a48d2639fb4eab0afaee0e2ce541e2886b2985146b"
+            },
+            {
+              "type": "repository",
+              "path": "test/cli.test.js",
+              "contentHash": "sha256:4cbf14e6bd844b5bb90401ac4fc0b87dd2a429a7d3c7c57aa16bede2358c3572"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "Assessed by the M2 child; tool list and refusal tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0003",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-003",
+          "status": "satisfied",
+          "reason": "Re-assessed here because src/playwright/session.js changed after the M2 assessment (PF-0005 redirect fix): the real-Chromium fixture now also proves redirects to other hosts or locked pages are refused and service workers are blocked; the parent run passes.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/playwright/session.js",
+              "contentHash": "sha256:beeebfc4c8b8a3cb7fff241ef17769cf115322c21a0df3e350de8279707978a7"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/guards.js",
+              "contentHash": "sha256:fe415e8f3f96c0598550e59283bf99bf143904809862ceba33271218417a0dc8"
+            },
+            {
+              "type": "repository",
+              "path": "test/browser-lock.test.js",
+              "contentHash": "sha256:00014184312de82acfcb593b9dd37d5b18bcf703328753c846ca0ff87a6f7812"
+            },
+            {
+              "type": "repository",
+              "path": "test/sso-profile.test.js",
+              "contentHash": "sha256:ba419eaf271aac8b58f489a4f4955afd48bd2ac1ed66f3294201b35f841a8a07"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-004",
+          "status": "satisfied",
+          "reason": "Assessed by the M2 child; gate tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0003",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-005",
+          "status": "satisfied",
+          "reason": "Assessed by the M2 child; audit tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0003",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-006",
+          "status": "satisfied",
+          "reason": "Assessed by the M2 child; parity and secret-scan tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0003",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/validate.test.js",
+              "contentHash": "sha256:a4a0f8d448fbb385501a061cc1ba55f1078f674bb7204b23c6a608d1d1e4fe7a"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-007",
+          "status": "satisfied",
+          "reason": "Assessed by the M3 child; adapter tests still pass.",
+          "evidence": [
+            {
+              "type": "convergence",
+              "workId": "PF-0004",
+              "assessmentId": "CV-001"
+            },
+            {
+              "type": "repository",
+              "path": "test/adapters.test.js",
+              "contentHash": "sha256:8ee13382ed4908146b208347de421a2c1ee0303decd1fd6f93dd9a4d42a4b44f"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-002",
+          "disposition": "accepted",
+          "summary": "SSO sign-in with a dedicated snowgate browser profile (snowgate login, ui_auth).",
+          "reason": "Requested by the user in the agent session after the spec (PF-0005, D1 amendment).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/login.js",
+              "contentHash": "sha256:a4f7ab245f60640e8b59d3fab28c9da04e064c9ecee6a2c7d707bf43a58069e2"
+            },
+            {
+              "type": "repository",
+              "path": "src/browser-profile.js",
+              "contentHash": "sha256:8299ffd912cd96a208070c55e35eafce91c8805894c24a4cdf785ee9a0dee9e5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CV-003",
+      "recordedAt": "2026-10-19T15:03:41.616Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "verificationRunIds": [
+          "V-001"
+        ]
+      },
+      "summary": "Re-assessed AC-002 and AC-005 at the parent: src/gateway/server.js changed after the M2 child's assessment (PF-0005 wired ui_auth and the profile dir into the session factory).",
+      "findings": [
+        {
+          "criterion": "AC-002",
+          "status": "satisfied",
+          "reason": "The tool list still equals the PLAN §7.2 allowlist and instance tools still refuse with TARGET_UNCONFIRMED without a work item or confirmed target, making no request; the PF-0005 change only adds auth/profile options to the session factory.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "symbol": "createGateway",
+              "contentHash": "sha256:ff7228bb56b45ab81f0cfb4d9a287aead1874fc9a2e8e3d697c38559c244f480"
+            },
+            {
+              "type": "repository",
+              "path": "src/gateway/tools.js",
+              "symbol": "TOOLS",
+              "contentHash": "sha256:a2cf23fa2ca8927af3dba9951c09ae9b4110326c5b8e6efa01cc479b7ae9b383"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        },
+        {
+          "criterion": "AC-005",
+          "status": "satisfied",
+          "reason": "Every call is still audited with secret keys and the password value redacted; the audit test passes in the parent run.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/gateway/server.js",
+              "symbol": "redact",
+              "contentHash": "sha256:ff7228bb56b45ab81f0cfb4d9a287aead1874fc9a2e8e3d697c38559c244f480"
+            },
+            {
+              "type": "repository",
+              "path": "test/gateway.test.js",
+              "contentHash": "sha256:d6ab84965f584369119995ecc86d900ba6cbc13775c296541a3a1919a16bb7b7"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-001"
+            }
+          ]
+        }
+      ],
+      "unrequested": []
+    },
+    {
+      "id": "CV-004",
+      "recordedAt": "2026-10-19T15:05:43.169Z",
+      "stage": "VERIFICATION",
+      "basis": {
+        "requirementsRevision": 1,
+        "verificationRunIds": [
+          "V-002"
+        ]
+      },
+      "summary": "Re-assessed AC-007 at the parent after PF-0006 changed src/adapters/policy.js and test/adapters.test.js.",
+      "findings": [
+        {
+          "criterion": "AC-007",
+          "status": "satisfied",
+          "reason": "init still generates the claude plugin with ${CLAUDE_PLUGIN_ROOT} hook and MCP shims, the yallaflow verify script, and doctor still flags a raw Playwright MCP; PF-0006 only added the human-only command rule to the hook policy. Parent run V-002 passes.",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/install.js",
+              "contentHash": "sha256:860fc1c28988793030b4fd69a8f937a14c4baf033c7a691e8acacf4b25e12618"
+            },
+            {
+              "type": "repository",
+              "path": "src/doctor.js",
+              "symbol": "rawPlaywrightServers",
+              "contentHash": "sha256:03f985f3218734fc70edf3f14d059cfd6b13ed4d732ada13444a6e5a272624d6"
+            },
+            {
+              "type": "repository",
+              "path": "test/adapters.test.js",
+              "contentHash": "sha256:737ffa6d7abd05aeb4101ee09571f8ae3fba0f13242ba4762382335b20f24658"
+            },
+            {
+              "type": "runtime",
+              "description": "npm test (passed)",
+              "workId": "PF-0001",
+              "verificationRunId": "V-002"
+            }
+          ]
+        }
+      ],
+      "unrequested": [
+        {
+          "id": "UR-003",
+          "disposition": "accepted",
+          "summary": "Hook refuses agent invocation of snowgate approve/login/target confirm.",
+          "reason": "Closes a fake-TTY bypass of the human-only checks found in code review (PF-0006).",
+          "evidence": [
+            {
+              "type": "repository",
+              "path": "src/adapters/policy.js",
+              "symbol": "invokesHumanOnly",
+              "contentHash": "sha256:64f47e1307bf8cd1acaf11fbd9fdc3c7817f077c7de24310ba0d6105d45d4663"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-19T15:05:43.169Z"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "PF-0003",
+  "type": "feature",
+  "title": "snowgate M2: MCP gateway, guards, approvals, audit, Node validator",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "routingConfidence": "high",
+  "routingReason": "Decomposed from PF-0001.",
+  "routedAt": "2026-10-19T14:15:02.625Z",
+  "workflow": "feature",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "implement",
+    "verify",
+    "converge"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation",
+      "verification",
+      "delivery-convergence"
+    ]
+  },
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "parent": "PF-0001",
+  "decompositionKey": "m2",
+  "requirements": [
+    "REQ-002",
+    "REQ-003",
+    "REQ-004",
+    "REQ-005",
+    "REQ-006"
+  ],
+  "acceptanceCriteria": [
+    "AC-002",
+    "AC-003",
+    "AC-004",
+    "AC-005",
+    "AC-006"
+  ],
+  "createdAt": "2026-10-19T14:15:02.625Z",
+  "updatedAt": "2026-10-19T14:34:30.714Z",
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-19T14:34:30.714Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

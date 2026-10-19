@@ -1,0 +1,29 @@
+{
+  "id": "PF-0002",
+  "type": "investigation",
+  "title": "Repository Baseline",
+  "scope": "architectural",
+  "workflow": "investigation",
+  "readOnly": true,
+  "baseline": true,
+  "routingStatus": "routed",
+  "routingConfidence": "high",
+  "routingReason": "Explicit brownfield baseline discovery (yallaflow baseline start).",
+  "routedAt": "2026-10-19T13:48:54.410Z",
+  "requiredCapabilities": [
+    "baseline"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "repository-baseline"
+    ]
+  },
+  "status": "DONE",
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": false
+  },
+  "createdAt": "2026-10-19T13:48:54.410Z",
+  "updatedAt": "2026-10-19T14:08:12.679Z"
+}

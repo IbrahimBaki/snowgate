@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "workId": "PF-0002",
+  "mode": "bootstrap",
+  "objective": "Build the snowgate MVP per docs/PLAN.md (M1 written, M2 gateway+validator, M3 adapters)",
+  "preservation": [
+    "Read-only REST client (GET only, allow-listed tables and fields)",
+    "Per-task instance target that requires human confirmation"
+  ],
+  "focus": [],
+  "history": [
+    {
+      "action": "recorded",
+      "at": "2026-10-19T13:48:54.414Z"
+    }
+  ],
+  "recordedAt": "2026-10-19T13:48:54.414Z",
+  "updatedAt": "2026-10-19T13:48:54.414Z"
+}

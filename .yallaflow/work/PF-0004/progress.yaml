@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:56:35.314Z",
+      "completedAt": "2026-10-19T14:56:35.314Z",
+      "summary": "Docs verified (see PF-0001 ruling): project plugin dir .claude/skills/<name>/ with .claude-plugin/plugin.json loads in place as @skills-dir after workspace trust; hooks/hooks.json exec form with ${CLAUDE_PLUGIN_ROOT}; plugin .mcp.json servers need per-server approval; plugin MCP tools are named mcp__plugin_<plugin>_<server>__<tool>; exit 2 blocks before allow rules. Codex: .codex/config.toml [mcp_servers.<id>] and [[hooks.PreToolUse]], deny via exit 2. Reusable code: validatePackages, scanFiles/stagedFiles, resolveWorkId, readWork, profilesRoot.",
+      "evidence": [
+        "src/gateway/server.js"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:56:35.531Z",
+      "completedAt": "2026-10-19T14:56:35.531Z",
+      "summary": "Intent: PLAN §6 adapters, §9 init/doctor, §10 hooks, §15 A6/A7, AC-007; user said start M3. Decisions recorded as rulings: plugin installed as project skills-dir plugin with shims; hooks fail closed; deny agent writes to .snowgate/**, the snowgate plugin dir, .claude settings, and any access to the SSO profile dir; codex adapter included because its support is now doc-verified. Skills content (pack.yaml skills/*.md) is not part of AC-007 and stays open.",
+      "evidence": [
+        "docs/PLAN.md"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:01:59.863Z",
+      "completedAt": "2026-10-19T15:01:59.863Z",
+      "summary": "M3: src/adapters/{policy,run-hook,install}.js, src/doctor.js; CLI init --agent claude|codex, doctor, hook. Claude project plugin with ${CLAUDE_PLUGIN_ROOT} shims (fail closed), codex config.toml + AGENTS.md block, yallaflow verify script, git pre-commit. Tests: test/adapters.test.js (policy, shims via real node processes, commit gate, SessionStart/PostToolUse, codex/yallaflow/git adapters, doctor A6, CLI init+doctor); policy mutation-checked; generated plugin passes claude plugin validate.",
+      "evidence": [
+        "src/adapters/install.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:02:24.724Z",
+      "completedAt": "2026-10-19T15:02:24.724Z",
+      "summary": "V-001 npm test passed (104 tests); V-002 claude plugin validate passed on a generated plugin. Policy tests mutation-checked.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    },
+    "delivery-convergence": {
+      "status": "completed",
+      "startedAt": "2026-10-19T15:02:25.109Z",
+      "completedAt": "2026-10-19T15:02:25.109Z",
+      "summary": "AC-007 satisfied; 3 unrequested behaviours accepted.",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [
+    {
+      "decision": "The claude adapter is a project skills-dir plugin (.claude/skills/snowgate) whose hooks and MCP server call ${CLAUDE_PLUGIN_ROOT} shims; the shims locate snowgate via SNOWGATE_HOME, the project's node_modules, then the path recorded at init, and the PreToolUse shim exits 2 if snowgate cannot load (fail closed)",
+      "reason": "Docs: skills-dir plugins load in place; hooks need absolute or plugin-root paths (PLAN §15.2); a guard that fails open is no guard",
+      "costIfWrong": "A missing snowgate install blocks matched tool calls until init is rerun",
+      "createdAt": "2026-10-19T15:01:32.702Z"
+    },
+    {
+      "decision": "The PLAN §10 Stop-hook reminder is not implemented",
+      "reason": "A Stop hook that returns context makes Claude continue instead of stopping, which risks loops; YallaFlow guide/finish already enforce checkpoints",
+      "costIfWrong": "Agents may forget a checkpoint; YallaFlow finish still catches it",
+      "createdAt": "2026-10-19T15:01:32.827Z"
+    },
+    {
+      "decision": "Agent guard (layer 4) denies: raw Playwright MCP tools; any non-snowgate MCP tool whose arguments mention service-now.com; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json, .codex/; any access to the SSO profile folder; git commit when validate or the secret scan fails. Shell checks are heuristic (path mentions with non-read-only commands)",
+      "reason": "PLAN §10 and §15 A6/A7, extended to the SSO profile from PF-0005",
+      "costIfWrong": "Obfuscated shell commands can evade the heuristic; the gateway remains the primary guard",
+      "createdAt": "2026-10-19T15:01:32.933Z"
+    },
+    {
+      "decision": "The codex adapter is included in M3: .codex/config.toml with [mcp_servers.snowgate] and a PreToolUse hook, plus an AGENTS.md block",
+      "reason": "Codex hook, MCP and AGENTS.md support is now documented (learn.chatgpt.com docs); user asked to start M3",
+      "costIfWrong": "Doc-verified only: not run, because the project is not trusted in Codex here",
+      "createdAt": "2026-10-19T15:01:33.065Z"
+    }
+  ],
+  "history": [],
+  "updatedAt": "2026-10-19T15:02:25.109Z"
+}

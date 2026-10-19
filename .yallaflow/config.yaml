@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "name": "snowgate",
+    "kind": "greenfield",
+    "root": "."
+  },
+  "workflow": {
+    "discoverBeforeAsk": true,
+    "verifyBeforeDone": true,
+    "knowledgeUpdateOnClose": true
+  },
+  "quality": {
+    "testingStrategy": "tdd"
+  },
+  "interaction": {
+    "profile": "developer",
+    "mode": "adaptive",
+    "gates": {}
+  }
+}

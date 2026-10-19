@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "Nothing touches an instance without a target confirmed by a human for that work item; REST stays structurally GET-only with allow-listed tables and mandatory fields.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Functional Requirements and Business Rules"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "snowgate mcp exposes exactly the PLAN §7.2 tools and refuses instance-touching tools without a resolved work item and confirmed target.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Functional Requirements and Business Rules"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "REQ-003",
+      "statement": "Generic UI tools cannot reach locked update-set surfaces in any frame or through Next Experience URLs, nor any host other than the target.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Functional Requirements and Business Rules"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "REQ-004",
+      "statement": "Upload and commit require a current human approval record whose hash matches the exact update-set.xml; upload also requires peer-reviewed or later and a passing validator.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Functional Requirements and Business Rules"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "REQ-005",
+      "statement": "Every gateway call is appended to the work item's audit trail with credentials redacted.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Functional Requirements and Business Rules"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "REQ-006",
+      "statement": "snowgate validate reproduces the origin change-package rules generically in Node, with legacy packages from .snowgate/config.yaml, plus a staged-file secret scan.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Functional Requirements and Business Rules"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "REQ-007",
+      "statement": "Adapters and tooling: claude and yallaflow adapters, init and doctor (warning on a raw Playwright MCP); codex only after its support is verified.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Goal and Scope"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-001",
+      "requirement": "REQ-001",
+      "statement": "The M1 test suite (target, discover, rest-client, pack, cli) passes.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Acceptance Criteria"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "REQ-002",
+      "statement": "A test lists the gateway tools and they equal the allowlist; calls with no work or an unconfirmed target return TARGET_UNCONFIRMED and make no request.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Acceptance Criteria"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "AC-003",
+      "requirement": "REQ-003",
+      "statement": "Against a local fixture, a locked path loaded in a child frame and a Next Experience-encoded locked path are both aborted, and navigation to an off-target host is refused.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Acceptance Criteria"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "AC-004",
+      "requirement": "REQ-004",
+      "statement": "Upload/commit gates refuse with no approval, with a stale hash, and below peer-reviewed; they pass with a current approval; approve refuses non-TTY input.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Acceptance Criteria"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "AC-005",
+      "requirement": "REQ-005",
+      "statement": "Audit entries are written per call and contain no credential values.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Acceptance Criteria"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "AC-006",
+      "requirement": "REQ-006",
+      "statement": "All 18 origin parity cases pass under node:test, and the secret scan flags the origin patterns and ignores placeholders.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Acceptance Criteria"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    },
+    {
+      "id": "AC-007",
+      "requirement": "REQ-007",
+      "statement": "init generates claude adapter files using ${CLAUDE_PLUGIN_ROOT} paths, the yallaflow adapter wires validate as verify --script, and doctor flags a raw Playwright MCP.",
+      "provenance": [
+        {
+          "type": "specification",
+          "section": "Acceptance Criteria"
+        }
+      ],
+      "status": "active",
+      "recordedAt": "2026-10-19T14:14:11.043Z",
+      "updatedAt": "2026-10-19T14:14:11.043Z"
+    }
+  ],
+  "history": [
+    {
+      "action": "added",
+      "id": "REQ-001",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-002",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-003",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-004",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-005",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-006",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "REQ-007",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-001",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-002",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-003",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-004",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-005",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-006",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    },
+    {
+      "action": "added",
+      "id": "AC-007",
+      "at": "2026-10-19T14:14:11.043Z",
+      "revision": 1
+    }
+  ],
+  "updatedAt": "2026-10-19T14:14:11.043Z"
+}

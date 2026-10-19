@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "repository-baseline": {
+      "status": "completed",
+      "startedAt": "2026-10-19T13:49:43.454Z",
+      "completedAt": "2026-10-19T13:49:43.454Z",
+      "summary": "Discovered package.json, pack.yaml, bin, src, test, README and docs/PLAN.md; M1 code and the plan read in full."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-19T13:49:43.454Z"
+}

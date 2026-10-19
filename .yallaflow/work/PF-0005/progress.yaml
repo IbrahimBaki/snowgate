@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:46:13.802Z",
+      "completedAt": "2026-10-19T14:46:13.802Z",
+      "summary": "Affected: src/playwright/session.js (BrowserSession.login via login.do with SN_USER/SN_PASSWORD; in-memory context), src/gateway/server.js (sessionFactory), src/cli/main.js, src/config.js. SSO login redirects to the IdP host, which the host lock aborts, so login cannot run inside the gateway. Playwright launchPersistentContext supports a profile dir with the same route/serviceWorkers options.",
+      "evidence": [
+        "src/playwright/session.js"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:46:14.015Z",
+      "completedAt": "2026-10-19T14:46:14.015Z",
+      "summary": "User decision: instances use SSO; use a dedicated snowgate profile, not the personal Chrome. Behaviour: snowgate login --work <id> (human, TTY, confirmed target) opens a headed browser on that profile for SSO; the gateway reuses the profile with the same locks and reports SESSION_EXPIRED when the instance redirects to the IdP. Password form kept as an explicit opt-in (ui_auth: password). REST stays Basic with SN_USER/SN_PASSWORD (assumption: an integration account with local credentials; flagged to the user).",
+      "evidence": [
+        "src/playwright/session.js"
+      ]
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:46:14.246Z",
+      "completedAt": "2026-10-19T14:46:14.246Z",
+      "summary": "1) src/browser-profile.js: per-instance profile dir (SNOWGATE_PROFILE_DIR or XDG state ~/.local/state/snowgate/profiles/<instance>, mode 0700, outside the repo). 2) BrowserSession: auth 'profile' uses launchPersistentContext(profile, {acceptDownloads:false, serviceWorkers:'block'}) and checks the session (expired -> SESSION_EXPIRED); auth 'password' keeps login.do. 3) .snowgate/config.yaml ui_auth (default profile). 4) CLI snowgate login: TTY only, confirmed target, headed persistent browser without the gateway lock, waits for Enter, verifies the page is on the target, audits. 5) Tests: fixture with valid/expired cookie, non-TTY refusal. 6) README/PLAN.",
+      "evidence": [
+        "src/playwright/session.js"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:50:20.440Z",
+      "completedAt": "2026-10-19T14:50:20.440Z",
+      "summary": "Added src/browser-profile.js (per-instance owner-only profile outside the repo), src/login.js + snowgate login (TTY, confirmed target, headed SSO, verifies sign-in, audited), BrowserSession auth modes profile (launchPersistentContext, SESSION_EXPIRED/NO_SESSION) and password (opt-in via .snowgate/config.yaml ui_auth). Fixed redirect bypass in the route handler (route.fetch maxRedirects 0 + Location check). Tests: test/sso-profile.test.js and redirect cases in test/browser-lock.test.js (mutation-checked).",
+      "evidence": [
+        "src/playwright/session.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T14:50:29.265Z",
+      "completedAt": "2026-10-19T14:50:29.265Z",
+      "summary": "V-001: npm test passed (89 tests incl. SSO profile and redirect lock cases; redirect tests mutation-checked).",
+      "evidence": [
+        "verification:V-001"
+      ]
+    }
+  },
+  "rulings": [
+    {
+      "decision": "Fix an M2 (PF-0003) lock defect found while testing SSO: route.continue() let the browser follow 3xx redirects without re-checking them, so an allowed URL could redirect to another host or a locked page. The route handler now fetches with maxRedirects 0 and checks each Location before handing the redirect back",
+      "reason": "The SSO expiry test showed the IdP being reached through a redirect; a probe confirmed redirects bypass the handler; a mutation test proves the new redirect tests fail with route.continue()",
+      "costIfWrong": "All browser traffic is proxied through route.fetch; very large or streaming responses may be slower",
+      "createdAt": "2026-10-19T14:50:06.208Z"
+    },
+    {
+      "decision": "REST stays Basic auth with SN_USER/SN_PASSWORD (an integration account with local credentials) while the browser uses the SSO profile; ui_auth: password remains an opt-in for non-SSO instances",
+      "reason": "SSO users usually cannot use Basic auth on the Table API; the user has not yet said how REST should authenticate on their instances",
+      "costIfWrong": "REST tools and discover fail on instances without a local-credential integration account; OAuth is the planned follow-up (PLAN §13)",
+      "createdAt": "2026-10-19T14:50:06.320Z"
+    }
+  ],
+  "history": [],
+  "updatedAt": "2026-10-19T14:50:29.265Z"
+}
