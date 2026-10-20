@@ -1,0 +1,45 @@
+{
+  "id": "PF-0022",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Hook splits shell commands on newlines; snowgate check verifies records against the instance",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-20T00:55:31.729Z",
+  "updatedAt": "2026-10-20T01:01:03.361Z",
+  "title": "Hook splits shell commands on newlines; snowgate check verifies records against the instance",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-10-20T00:55:31.732Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-20T01:01:03.361Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

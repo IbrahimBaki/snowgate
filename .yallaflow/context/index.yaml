@@ -5878,7 +5878,7 @@
     {
       "id": "CTX-0063",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/ (shell commands that mention them are allowed only when read-only: cat/find/sed -n/awk/jq/tree/... without -i, -delete, -exec, system() or redirection); any access to the SSO profiles or the protected credential store; git commit when validate or the secret scan fails.",
       "provenance": "repository",
@@ -5907,7 +5907,7 @@
       "supersedes": [
         "CTX-0051"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0086",
       "history": [
         {
           "action": "introduced",
@@ -5939,10 +5939,17 @@
           ],
           "previousVerifiedAt": "2026-10-19T19:49:19.582Z",
           "previousVerifiedAtCommit": "c68d8276d436d079157fd5becc87af99972b389e"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-20T01:01:02.820Z",
+          "supersededBy": "CTX-0086",
+          "workId": "PF-0022",
+          "candidateId": "K-001"
         }
       ],
       "createdAt": "2026-10-19T19:49:19.582Z",
-      "updatedAt": "2026-10-19T21:40:24.022Z"
+      "updatedAt": "2026-10-20T01:01:02.820Z"
     },
     {
       "id": "CTX-0064",
@@ -6013,7 +6020,7 @@
     {
       "id": "CTX-0065",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove, feedback send): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.",
       "provenance": "repository",
@@ -6049,7 +6056,7 @@
       "supersedes": [
         "CTX-0050"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0087",
       "history": [
         {
           "action": "introduced",
@@ -6088,10 +6095,17 @@
           ],
           "previousVerifiedAt": "2026-10-19T21:40:24.208Z",
           "previousVerifiedAtCommit": "87b03c61b34cfd165faea73141b662448e61b79a"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-20T01:01:02.997Z",
+          "supersededBy": "CTX-0087",
+          "workId": "PF-0022",
+          "candidateId": "K-002"
         }
       ],
       "createdAt": "2026-10-19T21:40:24.208Z",
-      "updatedAt": "2026-10-19T22:06:07.331Z"
+      "updatedAt": "2026-10-20T01:01:02.997Z"
     },
     {
       "id": "CTX-0066",
@@ -6684,7 +6698,7 @@
     {
       "id": "CTX-0075",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item) via the form's Submit and Make Current / Make This My Current Set actions and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools, verified, and recorded in the work item; the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
       "provenance": "repository",
@@ -6725,7 +6739,7 @@
       "verifiedAt": "2026-10-20T00:08:39.255Z",
       "verifiedAtCommit": "b99d789766a8eeb683a1e6718f98aee67c83fdfd",
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0088",
       "history": [
         {
           "action": "introduced",
@@ -6884,10 +6898,17 @@
           ],
           "previousVerifiedAt": "2026-10-19T23:31:41.264Z",
           "previousVerifiedAtCommit": "23b171de617de5ec7c7ce1b7bb289379ee63a19c"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-20T01:01:03.180Z",
+          "supersededBy": "CTX-0088",
+          "workId": "PF-0022",
+          "candidateId": "K-003"
         }
       ],
       "createdAt": "2026-10-19T22:27:04.760Z",
-      "updatedAt": "2026-10-20T00:08:39.255Z"
+      "updatedAt": "2026-10-20T01:01:03.180Z"
     },
     {
       "id": "CTX-0076",
@@ -7498,7 +7519,152 @@
       ],
       "createdAt": "2026-10-20T00:45:23.064Z",
       "updatedAt": "2026-10-20T00:45:23.064Z"
+    },
+    {
+      "id": "CTX-0086",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profiles or the protected credential store; git commit when validate or the secret scan fails. Shell commands are judged one command at a time (shellSegments: split at ; & | && || and newlines outside quotes; a quoted script or heredoc body stays with the command that runs it; 2>&1 and &> are not separators); a command that mentions a protected path is allowed only when read-only (cat/find/sed -n/awk/jq/tree/yallaflow/snowgate... without -i, -delete, -exec, system() or redirection to a file; redirects to the other stream or /dev/null do not count).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0022",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:508067e67e81e110e3f7416e35b407e6e972d22e0b690e2f2d7427b25bd1719f",
+          "gitCommit": "80027cab85c00c1ca029e946e1f707d5b3510c3e",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/adapters.test.js",
+          "contentHash": "sha256:35868bbc5259c788ca6faba9b896cbc0b2c402297b1b222891ab6c23ffc2c9fc",
+          "gitCommit": "80027cab85c00c1ca029e946e1f707d5b3510c3e",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "npm test (passed)",
+          "workId": "PF-0022",
+          "verificationRunId": "V-001"
+        }
+      ],
+      "verifiedAt": "2026-10-20T01:01:02.820Z",
+      "verifiedAtCommit": "80027cab85c00c1ca029e946e1f707d5b3510c3e",
+      "supersedes": [
+        "CTX-0063"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-20T01:01:02.820Z",
+          "workId": "PF-0022",
+          "candidateId": "K-001",
+          "supersedes": "CTX-0063"
+        }
+      ],
+      "createdAt": "2026-10-20T01:01:02.820Z",
+      "updatedAt": "2026-10-20T01:01:02.820Z"
+    },
+    {
+      "id": "CTX-0087",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove, feedback send/clear): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0022",
+        "candidateId": "K-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/adapters/policy.js",
+          "contentHash": "sha256:508067e67e81e110e3f7416e35b407e6e972d22e0b690e2f2d7427b25bd1719f",
+          "gitCommit": "80027cab85c00c1ca029e946e1f707d5b3510c3e",
+          "workingTree": "modified"
+        }
+      ],
+      "verifiedAt": "2026-10-20T01:01:02.997Z",
+      "verifiedAtCommit": "80027cab85c00c1ca029e946e1f707d5b3510c3e",
+      "supersedes": [
+        "CTX-0065"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-20T01:01:02.997Z",
+          "workId": "PF-0022",
+          "candidateId": "K-002",
+          "supersedes": "CTX-0065"
+        }
+      ],
+      "createdAt": "2026-10-20T01:01:02.997Z",
+      "updatedAt": "2026-10-20T01:01:02.997Z"
+    },
+    {
+      "id": "CTX-0088",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item, work id not repeated, cut at a word within 80 characters) and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools and verified with yallaflow verify <id> -- snowgate check <table> <sys_id> <field>=<value>... --work <id>, which reads the stored values through the read-only REST client and exits 1 on any difference (snowgate validate checks changes/ packages only); the change is recorded in the work item and the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0022",
+        "candidateId": "K-003"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:d4d013a040fc6da6a693d1fcef0d3796d954287a0eff856744624fa063b2265e",
+          "gitCommit": "80027cab85c00c1ca029e946e1f707d5b3510c3e",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "skills/servicenow-changes/SKILL.md",
+          "contentHash": "sha256:9efe76badf8d54b94bc23ec25cb73b17be14ce42c84aa808a8a35fe6f80d8e5d",
+          "gitCommit": "80027cab85c00c1ca029e946e1f707d5b3510c3e",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/gateway/tools.js",
+          "contentHash": "sha256:d3fa1c216f84d2c88731c2a06b4eac0a6d87d699ae8874ff2f1c6679de00b880",
+          "gitCommit": "80027cab85c00c1ca029e946e1f707d5b3510c3e",
+          "workingTree": "head"
+        },
+        {
+          "type": "runtime",
+          "description": "dev446072 snowgate check on the PF-0007 variable passed for include_none=false show_help=true help_text and failed with MISMATCH for include_none=true"
+        }
+      ],
+      "verifiedAt": "2026-10-20T01:01:03.180Z",
+      "verifiedAtCommit": "80027cab85c00c1ca029e946e1f707d5b3510c3e",
+      "supersedes": [
+        "CTX-0075"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-20T01:01:03.180Z",
+          "workId": "PF-0022",
+          "candidateId": "K-003",
+          "supersedes": "CTX-0075"
+        }
+      ],
+      "createdAt": "2026-10-20T01:01:03.180Z",
+      "updatedAt": "2026-10-20T01:01:03.180Z"
     }
   ],
-  "updatedAt": "2026-10-20T00:45:23.064Z"
+  "updatedAt": "2026-10-20T01:01:03.180Z"
 }

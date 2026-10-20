@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profiles or the protected credential store; git commit when validate or the secret scan fails. Shell commands are judged one command at a time (shellSegments: split at ; & | && || and newlines outside quotes; a quoted script or heredoc body stays with the command that runs it; 2>&1 and &> are not separators); a command that mentions a protected path is allowed only when read-only (cat/find/sed -n/awk/jq/tree/yallaflow/snowgate... without -i, -delete, -exec, system() or redirection to a file; redirects to the other stream or /dev/null do not count).",
+      "evidence": [
+        "src/adapters/policy.js",
+        "test/adapters.test.js",
+        "verification:V-001"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0063"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T01:01:02.475Z",
+      "factId": "CTX-0086",
+      "promotedAt": "2026-10-20T01:01:02.820Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove, feedback send/clear): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.",
+      "evidence": [
+        "src/adapters/policy.js"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0065"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T01:01:02.588Z",
+      "factId": "CTX-0087",
+      "promotedAt": "2026-10-20T01:01:02.997Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item, work id not repeated, cut at a word within 80 characters) and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools and verified with yallaflow verify <id> -- snowgate check <table> <sys_id> <field>=<value>... --work <id>, which reads the stored values through the read-only REST client and exits 1 on any difference (snowgate validate checks changes/ packages only); the change is recorded in the work item and the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
+      "evidence": [
+        "src/cli/main.js",
+        "skills/servicenow-changes/SKILL.md",
+        "src/gateway/tools.js",
+        "runtime:dev446072 snowgate check on the PF-0007 variable passed for include_none=false show_help=true help_text and failed with MISMATCH for include_none=true"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0075"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T01:01:02.709Z",
+      "factId": "CTX-0088",
+      "promotedAt": "2026-10-20T01:01:03.180Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-10-20T01:01:03.180Z",
+  "reviewedAt": "2026-10-20T01:01:03.180Z"
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:56:05.109Z",
+      "completedAt": "2026-10-20T00:56:05.220Z",
+      "summary": "PF-0007 trial: the agent's multi-line shell command (W=PF-0007 newline yallaflow checkpoint ... --summary mentioning .snowgate) was refused because src/adapters/policy.js splits commands on && || ; | but not newlines, so the segment started with W= (not read-only) and named .snowgate. Verification for UI changes used snowgate validate, which only checks changes/ packages and passes vacuously; the real check was an sn_get_record read-back, not recorded as YallaFlow evidence. REST client (src/rest/client.js) reads raw values (sysparm_display_value=false); CLI discover builds the client from confirmed target + credentials + optional browser session."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:56:15.016Z",
+      "completedAt": "2026-10-20T00:56:15.126Z",
+      "summary": "Approved by the user ('موافق، ابدأ في الاتنين'): (1) the guard hook treats newlines as command separators so each line is judged alone; protection of .snowgate unchanged. (2) New read-only command: snowgate check <table> <sys_id> field=value... --work <id> reads the record through the same REST client and read policy and exits non-zero on any mismatch, so agents can run it under yallaflow verify; the change skill and AGENTS.md block say validate is for change packages only and UI changes are verified with snowgate check."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:56:15.354Z",
+      "completedAt": "2026-10-20T00:56:15.461Z",
+      "summary": "policy.js: split on newlines too. main.js: extract the REST client construction from discover into a helper shared with a new check command; parse field=value pairs, compare as strings with the raw stored values, print one line per field, audit the read, exit 1 on mismatch or missing record, 2 on bad usage. Update skills/servicenow-changes/SKILL.md step 4, the AGENTS.md block in install.js, USAGE, README. Tests: hook newline case; check with a fake REST server (match, mismatch, missing record, usage)."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-20T01:00:26.308Z",
+      "completedAt": "2026-10-20T01:00:26.308Z",
+      "summary": "Guard hook: shellSegments() splits shell commands at ; & | && || and newlines outside quotes, keeps quoted scripts and heredoc bodies with their command, treats 2>&1/&> as redirections, and ignores redirects to the other stream or /dev/null when judging writes (also closes a bypass where splitting on ; inside a quoted script made a segment look read-only). New read-only command snowgate check <table> <sys_id> field=value... --work <id> (shared instanceClient helper with discover), audited, exit 1 on mismatch/missing, 2 on usage. Change skill step 4, AGENTS.md block, USAGE and README updated."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-20T01:00:38.373Z",
+      "completedAt": "2026-10-20T01:00:38.484Z",
+      "summary": "npm test 165/165 (V-001). Real dev instance from a scratch project, read-only: snowgate check on the PF-0007 variable with include_none=false show_help=true and the Arabic help_text passed (exit 0); include_none=true reported MISMATCH (exit 1)."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-20T01:00:38.484Z"
+}

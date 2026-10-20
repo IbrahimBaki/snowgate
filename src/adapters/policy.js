@@ -66,6 +66,51 @@ function profileMentioned(text, env) {
     || /snowgate\/(profiles|credentials)/.test(text);
 }
 
+// Split a shell command into its commands at ; & | && || and newlines, but
+// only outside quotes: a quoted script (node -e "...") stays with the command
+// that runs it. After a heredoc starts, its body lines belong to that command.
+export function shellSegments(command) {
+  const segments = [];
+  let current = '';
+  let quote = null;
+  let heredoc = false;
+  for (let i = 0; i < command.length; i += 1) {
+    const c = command[i];
+    if (quote) {
+      if (c === '\\' && quote === '"' && i + 1 < command.length) {
+        current += c + command[i + 1];
+        i += 1;
+      } else {
+        if (c === quote) quote = null;
+        current += c;
+      }
+      continue;
+    }
+    if (c === '\\' && i + 1 < command.length) {
+      // A backslash-newline continues the line.
+      current += command[i + 1] === '\n' ? ' ' : c + command[i + 1];
+      i += 1;
+      continue;
+    }
+    if (c === "'" || c === '"') {
+      quote = c;
+      current += c;
+      continue;
+    }
+    if (c === '<' && command[i + 1] === '<') heredoc = true;
+    // 2>&1 and &> are redirections, not separators.
+    const redirect = c === '&' && (command[i - 1] === '>' || command[i + 1] === '>');
+    if (c === ';' || c === '|' || (c === '&' && !redirect) || (c === '\n' && !heredoc)) {
+      if (current.trim()) segments.push(current);
+      current = '';
+      continue;
+    }
+    current += c;
+  }
+  if (current.trim()) segments.push(current);
+  return segments;
+}
+
 // Returns a deny reason, or null to let the call through.
 export function preToolUse(input, { root, env = process.env }) {
   const tool = String(input?.tool_name ?? '');
@@ -103,10 +148,12 @@ export function preToolUse(input, { root, env = process.env }) {
   if (SHELL_TOOLS.has(tool)) {
     const command = String(args.command ?? (Array.isArray(args.cmd) ? args.cmd.join(' ') : args.cmd ?? ''));
     if (root) {
-      for (const segment of command.split(/&&|\|\||;|\|/)) {
+      for (const segment of shellSegments(command)) {
         const words = segment.trim().split(/\s+/);
         const hits = mentions(segment, writeProtected(root), root);
-        const readOnly = READ_ONLY_COMMANDS.has(words[0]) && !WRITING_FLAGS.test(segment);
+        // Redirecting to the other stream or to /dev/null writes no file.
+        const writes = segment.replace(/\d?>&\d|&?\d?>\s*\/dev\/null/g, '');
+        const readOnly = READ_ONLY_COMMANDS.has(words[0]) && !WRITING_FLAGS.test(writes);
         if (hits.length && !readOnly) {
           return `This command touches ${path.relative(root, hits[0])}, which only snowgate commands run by a human may change (PLAN §15 A7).`;
         }

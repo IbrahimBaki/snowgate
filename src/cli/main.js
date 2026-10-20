@@ -40,7 +40,9 @@ Usage:
   snowgate login --work <PF-id>                     sign the snowgate browser profile into the target via SSO (human only)
   snowgate credentials set|show|remove --work <PF-id>
                                                     store ServiceNow credentials (set/remove: human only)
-  snowgate validate [--secrets]                     validate change packages (+ scan staged files)
+  snowgate check <table> <sys_id> <field>=<value>... --work <PF-id>
+                                                    verify stored values on the target (read-only; exit 1 on mismatch)
+  snowgate validate [--secrets]                     validate change packages in changes/ (+ scan staged files)
   snowgate mcp [--work <PF-id>]                     stdio MCP gateway (guards, audit)
   snowgate init --agent claude|codex                generate agent files, the yallaflow verify script and the git hook
   snowgate doctor [--work <PF-id>]                  check configuration, adapters and gateway exclusivity
@@ -398,28 +400,17 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
     }
 
     if (command === 'discover') {
-      const target = requireConfirmedTarget(root, workId);
-      const creds = resolveCredentials(root, target, { pack, env });
-      const config = loadConfig(root);
-      if (config.rest_auth === 'basic' && (!creds.user || !creds.password)) {
-        err(`snowgate: ${missingCredentialsHint(root, target, workId, pack)}`);
+      const conn = instanceClient(root, workId, pack, env);
+      if (conn.error) {
+        err(`snowgate: ${conn.error}`);
         return 1;
       }
-      let session = null;
-      const sessionFetch = (url, init) => (session ??= new BrowserSession({
-        origin: `https://${target}`,
-        auth: config.ui_auth,
-        profileDir: profileDir(target, env),
-        user: creds.user,
-        password: creds.password,
-        missingHint: missingCredentialsHint(root, target, workId, pack),
-      })).restFetch(url, init);
-      const client = new ReadOnlyClient({ instance: target, user: creds.user, password: creds.password, mode: config.rest_auth, sessionFetch, pattern: pack.instancePattern, readPolicy: { data: config.data, data_tables: config.data_tables } });
+      const { target, client } = conn;
       let summary;
       try {
         summary = await discover({ root, workId, instance: sub, scope: values.scope, client, pattern: pack.instancePattern });
       } finally {
-        await session?.close();
+        await conn.close();
       }
       if (client.authMode === 'session') out('REST used the browser session (this instance refuses Basic auth).');
       for (const w of summary.warnings) err(`warning: ${w}`);
@@ -430,6 +421,55 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
       out(`  output: ${rel}`);
       out(`Read ${rel}/report.md (hazards, project map by update set) and ${rel}/project-map.json with your file-reading tool before deciding.`);
       return 0;
+    }
+
+    if (command === 'check') {
+      // Read-only verification of a change: the stored values must match.
+      const [table, sysId] = [sub, rest[0]];
+      const pairs = rest.slice(1);
+      const expected = [];
+      for (const p of pairs) {
+        const at = p.indexOf('=');
+        if (at <= 0) {
+          err(`"${p}" is not field=value.`);
+          err('Usage: snowgate check <table> <sys_id> <field>=<value>... --work <PF-id>');
+          return 2;
+        }
+        expected.push([p.slice(0, at), p.slice(at + 1)]);
+      }
+      if (!table || !/^[0-9a-f]{32}$/.test(sysId ?? '') || !expected.length) {
+        err('Usage: snowgate check <table> <sys_id> <field>=<value>... --work <PF-id>');
+        return 2;
+      }
+      const conn = instanceClient(root, workId, pack, env);
+      if (conn.error) {
+        err(`snowgate: ${conn.error}`);
+        return 1;
+      }
+      let record;
+      try {
+        ({ record } = await conn.client.getRecord(table, sysId, [...new Set(expected.map(([f]) => f))]));
+      } finally {
+        await conn.close();
+      }
+      if (!record) {
+        appendAudit(root, workId, { tool: 'check', target: conn.target, table, sys_id: sysId, ok: false, missing: true });
+        err(`No ${table} record ${sysId} on ${conn.target}.`);
+        return 1;
+      }
+      let mismatches = 0;
+      for (const [field, want] of expected) {
+        const got = String(record[field] ?? '');
+        if (got === want) {
+          out(`ok        ${field} = ${JSON.stringify(got)}`);
+        } else {
+          mismatches += 1;
+          out(`MISMATCH  ${field}: expected ${JSON.stringify(want)}, stored ${JSON.stringify(got)}`);
+        }
+      }
+      appendAudit(root, workId, { tool: 'check', target: conn.target, table, sys_id: sysId, fields: expected.map(([f]) => f), ok: !mismatches });
+      out(mismatches ? `${mismatches} of ${expected.length} field(s) differ on ${table} ${sysId}.` : `All ${expected.length} field(s) match on ${table} ${sysId} (${conn.target}).`);
+      return mismatches ? 1 : 0;
     }
 
     err(`Unknown command: ${command}`);
@@ -515,4 +555,26 @@ function identity(cwd) {
     // fall through to the OS user
   }
   return userInfo().username;
+}
+
+// The read-only REST client for a work item's confirmed target, with the
+// browser session as a fallback for instances that refuse Basic auth.
+function instanceClient(root, workId, pack, env) {
+  const target = requireConfirmedTarget(root, workId);
+  const creds = resolveCredentials(root, target, { pack, env });
+  const config = loadConfig(root);
+  if (config.rest_auth === 'basic' && (!creds.user || !creds.password)) {
+    return { error: missingCredentialsHint(root, target, workId, pack) };
+  }
+  let session = null;
+  const sessionFetch = (url, init) => (session ??= new BrowserSession({
+    origin: `https://${target}`,
+    auth: config.ui_auth,
+    profileDir: profileDir(target, env),
+    user: creds.user,
+    password: creds.password,
+    missingHint: missingCredentialsHint(root, target, workId, pack),
+  })).restFetch(url, init);
+  const client = new ReadOnlyClient({ instance: target, user: creds.user, password: creds.password, mode: config.rest_auth, sessionFetch, pattern: pack.instancePattern, readPolicy: { data: config.data, data_tables: config.data_tables } });
+  return { target, client, close: async () => session?.close() };
 }

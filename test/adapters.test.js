@@ -107,6 +107,21 @@ test('policy: a Codex apply_patch naming a protected path is refused', () => {
   assert.equal(deny(root, 'apply_patch', { command: '*** Begin Patch\n*** Update File: src/app.js\n' }), null);
 });
 
+test('policy: each line of a multi-line command is judged alone; quoted scripts and heredocs stay whole', () => {
+  const root = makeProject(WORK);
+  // PF-0007 trial: an assignment line, then yallaflow with a summary naming .snowgate.
+  assert.equal(deny(root, 'Bash', { command: 'W=PF-0001\nyallaflow checkpoint $W --skill verification --complete --summary "no .snowgate files changed"' }), null);
+  assert.equal(deny(root, 'Bash', { command: 'cat .snowgate/audit/PF-0001.jsonl 2>&1 | tail -5' }), null);
+  assert.equal(deny(root, 'Bash', { command: 'ls .snowgate >/dev/null 2>&1 && echo ok' }), null);
+  // Writes are still refused, on their own line or hidden in a script.
+  assert.ok(deny(root, 'Bash', { command: 'W=1\nrm -rf .snowgate/approvals' }));
+  assert.ok(deny(root, 'Bash', { command: 'W=1\necho x > .snowgate/work/PF-0001.yaml' }));
+  assert.ok(deny(root, 'Bash', { command: 'node -e "1; test = require(\'fs\').writeFileSync(\'.snowgate/x\', \'\')"' }));
+  assert.ok(deny(root, 'Bash', { command: 'node -e "\ntest = require(\'fs\').writeFileSync(\'.snowgate/x\', \'\')"' }));
+  assert.ok(deny(root, 'Bash', { command: "python3 - <<EOF\ntest = open('.snowgate/x', 'w')\nEOF" }));
+  assert.ok(deny(root, 'Bash', { command: 'cat .snowgate/a > .snowgate/b' }));
+});
+
 // --- generated adapter files -------------------------------------------------
 
 function runShim(shim, event, input, extraEnv = {}) {

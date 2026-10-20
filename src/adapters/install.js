@@ -136,7 +136,8 @@ statusMessage = "snowgate guard"
 - To change the instance: call \`ui_use_update_set\` first (the task's own update set), change through the UI tools, verify, record it in the YallaFlow work item, and leave the update set In Progress unless the user asks.
 - Bind an instance approved for this project to your work item with \`snowgate target set <instance> --work <work-id>\`; it confirms automatically. Other instances need a human.
 - Instance approval, package approvals, stored credentials and SSO sign-in are human acts (\`snowgate setup\`, \`snowgate approve\`, \`snowgate credentials set\`, \`snowgate login\`). Never edit \`.snowgate/\`.
-- Check change packages with \`snowgate validate\` or \`yallaflow verify <id> --script .snowgate/bin/verify-change-packages\`.
+- Verify a change made through the browser with \`yallaflow verify <id> -- snowgate check <table> <sys_id> <field>=<value>... --work <id>\` (stored values, read from the instance).
+- Check change packages in \`changes/\` with \`snowgate validate\` or \`yallaflow verify <id> --script .snowgate/bin/verify-change-packages\`.
 ${AGENTS_END}
 `;
   const current = existsSync(file) ? readFileSync(file, 'utf8') : '';

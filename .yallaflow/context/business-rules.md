@@ -108,37 +108,6 @@
   - test/discover.test.js (repository @ 87b03c6)
   - test/project-map.test.js (repository @ 87b03c6)
 
-<!-- yallaflow-fact:CTX-0063 -->
-### CTX-0063 — snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/ (shell commands that mention them are allowed only when read-only: cat/find/sed -n/awk/jq/tree/... without -i, -delete, -exec, system() or redirection); any access to the SSO profiles or the protected credential store; git commit when validate or the secret scan fails.
-
-- **State:** current
-- **Confidence:** confirmed
-- **Provenance:** repository
-- **Source work:** PF-0012
-- **Knowledge ID:** K-017
-- **Promoted at:** 2026-10-19T19:49:19.582Z
-- **Supersedes:** CTX-0051
-- **Verified:** 2026-10-19T21:40:24.022Z (commit 87b03c6)
-- **Evidence:**
-  - src/adapters/policy.js (repository @ 87b03c6)
-  - test/adapters.test.js (repository @ 87b03c6)
-
-<!-- yallaflow-fact:CTX-0065 -->
-### CTX-0065 — Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove, feedback send): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.
-
-- **State:** current
-- **Confidence:** confirmed
-- **Provenance:** repository
-- **Source work:** PF-0014
-- **Knowledge ID:** K-015
-- **Promoted at:** 2026-10-19T21:40:24.208Z
-- **Supersedes:** CTX-0050
-- **Verified:** 2026-10-19T22:06:07.331Z (commit 0b3e5ec)
-- **Evidence:**
-  - src/adapters/policy.js (repository @ 0b3e5ec)
-  - test/feedback.test.js (repository @ 0b3e5ec)
-  - test/adapters.test.js (repository @ 0b3e5ec)
-
 <!-- yallaflow-fact:CTX-0073 -->
 ### CTX-0073 — Default read policy is open: agents may read data tables too (data: all), except sensitive data; the restricting option (data: listed|none) is documented and announced to the agent but not offered during setup, to keep the first use simple.
 
@@ -151,22 +120,6 @@
 - **Verified:** 2026-10-19T22:06:08.385Z (commit 0b3e5ec)
 - **Evidence:**
   - ابنيه بشكل افتراضي انه يقدر يوصل للداتا ووضحله ان في اوبشن يقدر يغيره لكن انا مش عاوز اكبر الخيارات في بداية الاستخدام (user-confirmed)
-
-<!-- yallaflow-fact:CTX-0075 -->
-### CTX-0075 — Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item) via the form's Submit and Make Current / Make This My Current Set actions and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools, verified, and recorded in the work item; the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.
-
-- **State:** current
-- **Confidence:** confirmed
-- **Provenance:** repository
-- **Source work:** PF-0016
-- **Knowledge ID:** K-006
-- **Promoted at:** 2026-10-19T22:27:04.760Z
-- **Verified:** 2026-10-20T00:08:39.255Z (commit b99d789)
-- **Evidence:**
-  - src/gateway/tools.js (repository @ b99d789)
-  - skills/servicenow-changes/SKILL.md (repository @ b99d789)
-  - src/adapters/run-hook.js (repository @ b99d789)
-  - test/use-update-set.test.js (repository @ b99d789)
 
 <!-- yallaflow-fact:CTX-0077 -->
 ### CTX-0077 — The gateway browser accepts 'leave page?' (beforeunload) prompts, because dismissing one cancels the navigation (net::ERR_ABORTED); alerts and confirms are dismissed unless a dedicated tool handles them. After each dedicated update-set step and on any lock violation the page is replaced by a fresh one in the same context, so no locked or half-submitted page is left behind.
@@ -198,5 +151,52 @@
   - src/gateway/server.js (repository @ b3d97f6)
   - src/feedback.js (repository @ b3d97f6)
   - npm test (passed) (runtime, PF-0021 V-001)
+
+<!-- yallaflow-fact:CTX-0086 -->
+### CTX-0086 — snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profiles or the protected credential store; git commit when validate or the secret scan fails. Shell commands are judged one command at a time (shellSegments: split at ; & | && || and newlines outside quotes; a quoted script or heredoc body stays with the command that runs it; 2>&1 and &> are not separators); a command that mentions a protected path is allowed only when read-only (cat/find/sed -n/awk/jq/tree/yallaflow/snowgate... without -i, -delete, -exec, system() or redirection to a file; redirects to the other stream or /dev/null do not count).
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0022
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-10-20T01:01:02.820Z
+- **Supersedes:** CTX-0063
+- **Verified:** 2026-10-20T01:01:02.820Z (commit 80027ca)
+- **Evidence:**
+  - src/adapters/policy.js (repository @ 80027ca)
+  - test/adapters.test.js (repository @ 80027ca)
+  - npm test (passed) (runtime, PF-0022 V-001)
+
+<!-- yallaflow-fact:CTX-0087 -->
+### CTX-0087 — Agents may not invoke the human-only commands (snowgate setup, approve, login, target confirm, credentials set/remove, feedback send/clear): their TTY check can be faked with a pseudo-terminal, so the PreToolUse hook refuses any shell command that invokes them.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0022
+- **Knowledge ID:** K-002
+- **Promoted at:** 2026-10-20T01:01:02.997Z
+- **Supersedes:** CTX-0065
+- **Verified:** 2026-10-20T01:01:02.997Z (commit 80027ca)
+- **Evidence:**
+  - src/adapters/policy.js (repository @ 80027ca)
+
+<!-- yallaflow-fact:CTX-0088 -->
+### CTX-0088 — Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item, work id not repeated, cut at a word within 80 characters) and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools and verified with yallaflow verify <id> -- snowgate check <table> <sys_id> <field>=<value>... --work <id>, which reads the stored values through the read-only REST client and exits 1 on any difference (snowgate validate checks changes/ packages only); the change is recorded in the work item and the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0022
+- **Knowledge ID:** K-003
+- **Promoted at:** 2026-10-20T01:01:03.180Z
+- **Supersedes:** CTX-0075
+- **Verified:** 2026-10-20T01:01:03.180Z (commit 80027ca)
+- **Evidence:**
+  - src/cli/main.js (repository @ 80027ca)
+  - skills/servicenow-changes/SKILL.md (repository @ 80027ca)
+  - src/gateway/tools.js (repository @ 80027ca)
+  - dev446072 snowgate check on the PF-0007 variable passed for include_none=false show_help=true help_text and failed with MISMATCH for include_none=true (runtime)
 
 <!-- yallaflow-context:end -->

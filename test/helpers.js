@@ -37,7 +37,7 @@ export async function startMockServiceNow({ tables = {}, forbidden = [], missing
   const { port } = server.address();
   // Redirect https://<instance> to the local mock; the client itself is unchanged.
   const fetchImpl = (url, init) => fetch(String(url).replace(`https://${INSTANCE}`, `http://127.0.0.1:${port}`), init);
-  return { requests, fetchImpl, close: () => new Promise((r) => server.close(r)) };
+  return { requests, fetchImpl, origin: `http://127.0.0.1:${port}`, close: () => new Promise((r) => server.close(r)) };
 }
 
 // sys_db_object / sys_dictionary for the mock instance, from
