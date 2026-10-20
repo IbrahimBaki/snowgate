@@ -18,7 +18,10 @@ test('aliases map common slips, but never override the real parameter', () => {
   assert.deepEqual(normalizeArgs(tool('ui_use_update_set'), { name: 'Fix title' }), { title: 'Fix title' });
   assert.deepEqual(normalizeArgs(tool('ui_screenshot'), { name: 'after' }), { label: 'after' });
   assert.deepEqual(normalizeArgs(tool('sn_update_set_contents'), { sys_id: 'a'.repeat(32) }), { update_set: 'a'.repeat(32) });
-  assert.deepEqual(normalizeArgs(tool('ui_use_update_set'), { name: 'x', title: 'y' }), { name: 'x', title: 'y' });
+  // The real parameter wins; the leftover alias is dropped as unknown.
+  const both = normalizeArgs(tool('ui_use_update_set'), { name: 'x', title: 'y' });
+  assert.deepEqual(both, { title: 'y' });
+  assert.deepEqual(both._ignored, ['name']);
   // ui_type's own `text` locates by visible text; it is not an alias of value.
   assert.deepEqual(normalizeArgs(tool('ui_type'), { text: 'Search', value: 'abc' }), { text: 'Search', value: 'abc' });
 });
@@ -39,4 +42,12 @@ test('argument errors state the expected parameters', async () => {
     await gw.close();
     await mock.close();
   }
+});
+
+test('PF-0021: unknown parameters are dropped and reported; screenshot label defaults; text means value next to a locator', () => {
+  const extra = normalizeArgs(tool('ui_use_update_set'), { create: 'true', title: 'Fix' });
+  assert.deepEqual(extra, { title: 'Fix' });
+  assert.deepEqual(extra._ignored, ['create']);
+  assert.deepEqual(normalizeArgs(tool('ui_screenshot'), {}), { label: 'screenshot' });
+  assert.deepEqual(normalizeArgs(tool('ui_type'), { role: 'textbox', name: 'Default value', text: '' }), { role: 'textbox', name: 'Default value', value: '' });
 });

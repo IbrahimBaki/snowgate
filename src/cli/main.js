@@ -12,7 +12,7 @@ import { ensureGitignore, installClaude, installCodex, installGitHook, installYa
 import { doctor } from '../doctor.js';
 import { interactiveLogin } from '../login.js';
 import { setup } from '../setup.js';
-import { buildIssue, feedbackRepo, issueUrl, markSent, pendingGaps, saveMarkdown } from '../feedback.js';
+import { buildIssue, clearGaps, feedbackRepo, issueUrl, markSent, pendingGaps, saveMarkdown } from '../feedback.js';
 import { loadConfig } from '../config.js';
 import { profileDir } from '../browser-profile.js';
 import { BrowserSession } from '../playwright/session.js';
@@ -44,7 +44,7 @@ Usage:
   snowgate mcp [--work <PF-id>]                     stdio MCP gateway (guards, audit)
   snowgate init --agent claude|codex                generate agent files, the yallaflow verify script and the git hook
   snowgate doctor [--work <PF-id>]                  check configuration, adapters and gateway exclusivity
-  snowgate feedback list|send                       review / send collected gaps to the snowgate developers (send: human only)
+  snowgate feedback list|send|clear [--sent]       review / send / clear collected gaps (send, clear: human only)
   snowgate hook <event>                             agent hook entry point (used by the generated adapter files)
   snowgate --version | --help
 
@@ -71,6 +71,7 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
         for: { type: 'string' },
         agent: { type: 'string' },
         secrets: { type: 'boolean' },
+        sent: { type: 'boolean' },
         help: { type: 'boolean' },
         version: { type: 'boolean' },
       },
@@ -153,8 +154,17 @@ export async function main(argv, { cwd = process.cwd(), env = process.env, stdin
         out('Send them with: snowgate feedback send');
         return 0;
       }
+      if (sub === 'clear') {
+        if (!stdin.isTTY) {
+          err('feedback clear must be run by a human in an interactive terminal; refusing non-interactive input.');
+          return 1;
+        }
+        const removed = clearGaps(root, { sentOnly: Boolean(values.sent) });
+        out(`Removed ${removed} gap(s)${values.sent ? ' that were already sent' : ''}.`);
+        return 0;
+      }
       if (sub !== 'send') {
-        err('Usage: snowgate feedback list|send');
+        err('Usage: snowgate feedback list|send|clear [--sent]');
         return 2;
       }
       // Sending reaches a public site: a human confirms what leaves the machine.

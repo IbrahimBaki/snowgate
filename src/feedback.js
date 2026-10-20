@@ -84,6 +84,14 @@ export function pendingGaps(root) {
   return readGaps(root).filter((g) => g.count > g.sent_count);
 }
 
+// Remove gaps (all, or only those already sent).
+export function clearGaps(root, { sentOnly = false } = {}) {
+  const gaps = readGaps(root);
+  const kept = sentOnly ? gaps.filter((g) => g.count > g.sent_count) : [];
+  writeGaps(root, kept);
+  return gaps.length - kept.length;
+}
+
 export function markSent(root, fingerprints, now = new Date()) {
   const gaps = readGaps(root);
   for (const g of gaps) {

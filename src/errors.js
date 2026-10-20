@@ -1,8 +1,11 @@
 export class SnowgateError extends Error {
-  constructor(message, code = 'SNOWGATE_ERROR') {
+  // details: structured facts about the failure (table, fields, action, kind)
+  // used by feedback; never shown instead of the message.
+  constructor(message, code = 'SNOWGATE_ERROR', details = undefined) {
     super(message);
     this.name = 'SnowgateError';
     this.code = code;
+    if (details) this.details = details;
   }
 }
 

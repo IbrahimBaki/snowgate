@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:24:13.754Z",
+      "completedAt": "2026-10-20T00:24:13.754Z",
+      "summary": "Trial PF-0006 (demo project, dev446072): 36 calls, 7 refused. (1) Update on a form returned to the update-set form ServiceNow had on its navigation stack (from ui_use_update_set) → URL_LOCKED although the save succeeded; (2) set name 'PF-0006 - PF-0006 - Remove … Preferred lan' (title already carried the work id; 70-char cut mid-word); (3) ui_click on checkbox 'Include none' timed out: classic ServiceNow checkboxes hide the input and show its label; (4) UI_ACTION_FAILED gaps lack action/kind because SnowgateError ignores a third constructor argument; (5) ARGS_INVALID for an extra 'create' param, a screenshot without label, and text instead of value to clear a field; (6) the developer's own gateway checks ran inside the user's project and were recorded as its feedback.",
+      "evidence": [
+        "src/playwright/session.js",
+        "runtime:demo_snowGateV.0.0.1 .snowgate/audit/PF-0006.jsonl 2026-10-20"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:24:13.979Z",
+      "completedAt": "2026-10-20T00:24:13.979Z",
+      "summary": "User approved the six fixes (agent session). Developer checks on the instance will run from a separate scratch project from now on.",
+      "evidence": [
+        "user:موافق، ابدأ في الإصلاحات الستة"
+      ]
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:24:14.209Z",
+      "completedAt": "2026-10-20T00:24:14.209Z",
+      "summary": "session.postCheck({afterAction}) treats a blocked return to sys_update_set(.do|_list) after a click/submit as a notice (page reset, lock kept); updateSetNameFor strips a leading work id and cuts at a word boundary within 80 chars; click/type toggle hidden checkboxes/radios through their label; errors carry details via Object.assign; normalizeArgs drops unknown params (reported as ignored_arguments), defaults ui_screenshot label, maps ui_type text→value when another locator is given; snowgate feedback clear (human-only); tests; real check from a scratch project.",
+      "evidence": [
+        "src/playwright/session.js"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:44:28.257Z",
+      "completedAt": "2026-10-20T00:44:28.257Z",
+      "summary": "Six fixes: post-save return to an update-set page is a success notice; update-set names drop the work id and cut at a word (80 chars); ServiceNow checkboxes driven through their label, fields on closed form tabs revealed by tabbed-section order (.tab_section, aria-controls on the active tab only); UI errors carry action/kind details into feedback; ui_screenshot label optional, unknown arguments dropped and reported, ui_type text->value; snowgate feedback clear [--sent]. Navigation waits for commit first (Next Experience home timed out at load)."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:44:46.468Z",
+      "completedAt": "2026-10-20T00:44:46.468Z",
+      "summary": "npm test 160/160 (V-001). Real dev instance via a scratch project, no save: ui_click 'Include none' opened Type Specifications and toggled the checkbox, ui_type true restored it, stored include_none unchanged; Next Experience home navigation no longer times out."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-20T00:44:46.468Z"
+}

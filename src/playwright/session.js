@@ -23,6 +23,7 @@ function describe(loc) {
     type: (e.getAttribute('type') || e.type || '').toLowerCase(),
     id: e.id || '',
     hidden: e.offsetParent === null && getComputedStyle(e).position !== 'fixed',
+    checked: 'checked' in e ? e.checked : null,
     value: 'value' in e ? e.value : null,
     selected: e.tagName === 'SELECT' ? e.selectedOptions[0]?.text?.trim() ?? null : null,
     options: e.tagName === 'SELECT' ? [...e.options].map((o) => o.text.trim()).slice(0, 30) : [],
@@ -65,6 +66,7 @@ export class BrowserSession {
   #missingHint;
   #userToken = null;
   #opening = false;
+  #notice = null;
 
   constructor({
     origin,
@@ -202,6 +204,12 @@ export class BrowserSession {
     }
   }
 
+  takeNotice() {
+    const n = this.#notice;
+    this.#notice = null;
+    return n;
+  }
+
   takeBlocked() {
     const blocked = this.#blocked;
     this.#blocked = [];
@@ -301,11 +309,24 @@ export class BrowserSession {
   // Frames keep loading after the main page's load event, so wait for the
   // network to settle first; otherwise a frame request blocked a moment later
   // would be missed (and wrongly blamed on the next action).
-  async postCheck() {
+  //
+  // afterAction: after a click or submit, ServiceNow returns to the previous
+  // page on its navigation stack; when that is the update-set form left there
+  // by ui_use_update_set, the return is blocked (the lock holds) but the save
+  // itself succeeded — that is reported as a notice, not a failure.
+  async postCheck({ afterAction = false } = {}) {
     await this.#page.waitForLoadState('networkidle', { timeout: 3000 }).catch(() => {});
     const blocked = this.takeBlocked();
+    this.#notice = null;
     const bad = this.frames().find((f) => !/^(about:|chrome-error:)/.test(f.url) && !classifyRequest(f.url, { origin: this.#origin }).allowed);
     const lockedNav = blocked.find((b) => b.navigation);
+    const stackReturn = (url) => /\/sys_update_set(_list)?\.do(\?|$)/.test(new URL(url).pathname + '?');
+    const navs = blocked.filter((b) => b.navigation);
+    if (afterAction && !bad && navs.length && navs.every((b) => b.code === 'URL_LOCKED' && stackReturn(b.url))) {
+      await this.#resetPage();
+      this.#notice = 'Done. Afterwards the instance tried to return to an update-set page (its "previous page"), which generic UI tools may not open, so the browser was reset. Verify the record with sn_get_record, then navigate on.';
+      return blocked;
+    }
     if (bad || lockedNav) {
       await this.#resetPage();
       const where = bad ? bad.url : lockedNav.url;
@@ -349,11 +370,14 @@ export class BrowserSession {
     return true;
   }
 
+  // Heavy pages (the Next Experience shell) may take long to finish loading:
+  // wait until the navigation is under way, then give loading a bounded time.
   async #goto(url) {
-    await this.#page.goto(url, { waitUntil: 'domcontentloaded' }).catch((e) => {
+    await uiStep('navigate', () => this.#page.goto(url, { waitUntil: 'commit', timeout: 30000 }).catch((e) => {
       if (!/ERR_BLOCKED_BY_CLIENT|net::ERR_FAILED/.test(e.message)) throw e;
-    });
-    await this.#page.waitForLoadState('load').catch(() => {});
+    }));
+    await this.#page.waitForLoadState('domcontentloaded', { timeout: 20000 }).catch(() => {});
+    await this.#page.waitForLoadState('load', { timeout: 10000 }).catch(() => {});
   }
 
   async navigate(url) {
@@ -411,7 +435,7 @@ export class BrowserSession {
     };
     if (nth !== undefined) {
       if (nth >= count) throw new SnowgateError(`nth ${nth} is out of range: the locator matched ${count} element(s).`, 'LOCATOR_AMBIGUOUS');
-      return pin(loc.nth(nth));
+      return this.#ready(f, await pin(loc.nth(nth)));
     }
     if (count === 0) throw new SnowgateError('The locator matched no element; check the frame and names with ui_snapshot.', 'LOCATOR_AMBIGUOUS');
     // prefer is an ordered list of tag groups: the first group with exactly
@@ -420,17 +444,52 @@ export class BrowserSession {
       const tags = await loc.evaluateAll((els) => els.map((e) => e.tagName.toLowerCase()));
       for (const group of prefer) {
         const fields = tags.map((t, i) => (group.includes(t) ? i : -1)).filter((i) => i >= 0);
-        if (fields.length === 1) return pin(loc.nth(fields[0]));
+        if (fields.length === 1) return this.#ready(f, await pin(loc.nth(fields[0])));
       }
     }
     if (count > 1) throw new SnowgateError(`The locator matched ${count} elements; pass nth (0-${count - 1}) to pick one, e.g. nth: 0 for the first form button.`, 'LOCATOR_AMBIGUOUS');
-    return loc;
+    return this.#ready(f, loc);
+  }
+
+  // Make a located element usable the way a person would: a <label> stands
+  // for the control it names, and a field on a closed ServiceNow form tab is
+  // revealed by clicking that tab first.
+  async #ready(frame, loc) {
+    let target = loc;
+    const forId = await loc.evaluate((e) => (e.tagName === 'LABEL' && e.htmlFor ? e.htmlFor : null)).catch(() => null);
+    if (forId) {
+      const control = frame.locator(`[id="${forId.replace(/"/g, '\\"')}"]`).first();
+      if (await control.count()) target = control;
+    }
+    // Tab headers follow the order of the tabbed sections (.tab_section; the
+    // form header is a .tabs2_section too, always shown). Only the active tab
+    // carries aria-controls, so that is a shortcut, not the rule.
+    const closed = await target.evaluate((e) => {
+      const section = e.closest('.tab_section') ?? e.closest('.tabs2_section');
+      if (!section || getComputedStyle(section).display !== 'none') return null;
+      const tabbed = [...document.querySelectorAll('.tab_section')];
+      const sections = tabbed.includes(section) ? tabbed : [...document.querySelectorAll('.tabs2_section')];
+      return { id: section.id || null, index: sections.indexOf(section) };
+    }).catch(() => null);
+    if (closed) {
+      let header = closed.id ? frame.locator(`.tabs2_tab[aria-controls="${closed.id.replace(/"/g, '\\"')}"]`).first() : null;
+      if (!header || !(await header.count())) header = frame.locator('.tabs2_tab').nth(closed.index);
+      if (await header.count()) {
+        await uiStep('open form tab', () => header.click({ timeout: 10000 }));
+        await target.waitFor({ state: 'visible', timeout: 2000 }).catch(() => {});
+      }
+    }
+    return target;
   }
 
   async click(target) {
     const loc = await this.locate(target);
     this.takeBlocked();
-    await uiStep('click', () => loc.click({ timeout: 10000 }));
+    const el = await describe(loc);
+    // ServiceNow draws its checkboxes as a label over the real input: click
+    // the label, as a person would (it toggles the input either way).
+    const proxy = await this.#labelFor(target, el);
+    await uiStep('click', () => (proxy ? proxy.click({ timeout: 10000 }) : loc.click({ timeout: 10000 })));
     await this.#page.waitForLoadState('load').catch(() => {});
     await this.#afterInteraction();
   }
@@ -447,13 +506,33 @@ export class BrowserSession {
     if (el.tag === 'select') {
       await this.#choose(target, loc, el, value);
     } else if (el.type === 'checkbox' || el.type === 'radio') {
-      await uiStep('check', () => loc.setChecked(/^(true|yes|1|on|checked)$/i.test(String(value)), { timeout: 10000 }));
+      const want = /^(true|yes|1|on|checked)$/i.test(String(value));
+      const proxy = await this.#labelFor(target, el);
+      if (proxy) {
+        // Toggle through the label, and only when the state differs.
+        if (el.checked !== want) await uiStep('check', () => proxy.click({ timeout: 10000 }));
+      } else {
+        await uiStep('check', () => loc.setChecked(want, { timeout: 10000 }));
+      }
     } else {
       await uiStep('type', () => loc.fill(value, { timeout: 10000 }));
       if (submit) await loc.press('Enter');
     }
     await this.#page.waitForLoadState('load').catch(() => {});
     await this.#afterInteraction();
+  }
+
+  async #labelFor(target, el) {
+    if (!(el.type === 'checkbox' || el.type === 'radio') || !el.id) return null;
+    // A field can have two labels for its checkbox: the form column label and
+    // the one drawn over the box (.checkbox-label); the latter toggles it.
+    const sel = `label[for="${el.id.replace(/"/g, '\\"')}"]`;
+    const frame = this.frame(target.frame ?? 0);
+    for (const candidate of [frame.locator(`${sel}.checkbox-label`), frame.locator(sel)]) {
+      const visible = candidate.filter({ visible: true }).first();
+      if (await visible.count()) return visible;
+    }
+    return null;
   }
 
   // ui_select: pick an option by its visible text in a native dropdown, a

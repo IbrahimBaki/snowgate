@@ -80,18 +80,19 @@
   - src/playwright/session.js (repository @ b99d789)
   - [object Object] (reference)
 
-<!-- yallaflow-fact:CTX-0080 -->
-### CTX-0080 — ServiceNow UI controls (dev446072): classic form choice fields are visible native <select> (e.g. UI policy action Mandatory: Leave alone/True/False); Service Portal select fields are select2 — the real <select id=sp_formfield_<name>> is moved off-screen (not hidden) and owned by #s2id_sp_formfield_<name>, whose list opens on click or ArrowDown on its focusser; setting the hidden select directly is undone, the value must be chosen in the select2 list; portal forms render late (Angular) and a field label also matches its group and select2 inputs.
+<!-- yallaflow-fact:CTX-0084 -->
+### CTX-0084 — ServiceNow UI controls (dev446072): classic form choice fields are visible native <select>; classic checkboxes are a hidden input drawn by label.checkbox-label[for=id], toggled by clicking the label; form fields sit in tabbed sections (.tab_section, in the same order as the .tabs2_tab headers; the always-shown form header is also a .tabs2_section, and only the active tab carries aria-controls); classic forms render each button twice; after a save ServiceNow returns to the previous page on its navigation stack (e.g. an update-set form); Service Portal select fields are select2 — the real <select id=sp_formfield_<name>> is off-screen and owned by #s2id_sp_formfield_<name>, opened by click or ArrowDown, and must be chosen in the select2 list; portal forms render late (Angular).
 
 - **State:** current
 - **Confidence:** confirmed
-- **Provenance:** runtime
-- **Source work:** PF-0020
+- **Provenance:** repository
+- **Source work:** PF-0021
 - **Knowledge ID:** K-001
-- **Promoted at:** 2026-10-20T00:08:06.815Z
-- **Verified:** 2026-10-20T00:08:06.815Z (commit b99d789)
+- **Promoted at:** 2026-10-20T00:45:22.900Z
+- **Supersedes:** CTX-0080
+- **Verified:** 2026-10-20T00:45:22.900Z (commit b3d97f6)
 - **Evidence:**
-  - src/playwright/session.js (repository @ b99d789)
-  - dev446072 portal and form probes 2026-10-20 (runtime)
+  - src/playwright/session.js (repository @ b3d97f6)
+  - dev446072 item_option_new form: Include none in section tabs2_section_3 opened via the Type Specifications tab (third .tab_section) (runtime)
 
 <!-- yallaflow-context:end -->

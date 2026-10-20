@@ -42,7 +42,7 @@ export const TOOLS = [
   { name: 'ui_click', kind: 'ui', description: 'Click the single element matching role+name, label, or text.', inputSchema: obj(TARGET) },
   { name: 'ui_type', kind: 'ui', description: 'Fill the single matching input with text (never a password field).', inputSchema: obj({ ...TARGET, value: { type: 'string' }, submit: { type: 'boolean' } }, ['value']), aliases: { text_value: 'value', input: 'value', content: 'value' } },
   { name: 'ui_select', kind: 'ui', description: 'Choose an option by its visible text in a dropdown: a form choice list, a Service Portal (select2) field, or a reference/autocomplete field. Verifies the value changed.', inputSchema: obj({ ...TARGET, option: { type: 'string', description: 'Visible text of the option, e.g. "Parent" or "True".' } }, ['option']), aliases: { value: 'option', choice: 'option' } },
-  { name: 'ui_screenshot', kind: 'ui', description: 'Full-page screenshot saved as evidence (under the package when given).', inputSchema: obj({ label: { type: 'string', pattern: '^[A-Za-z0-9_-]{1,60}$' }, package: PACKAGE }, ['label']), aliases: { name: 'label', filename: 'label' } },
+  { name: 'ui_screenshot', kind: 'ui', description: 'Full-page screenshot saved as evidence (under the package when given).', inputSchema: obj({ label: { type: 'string', pattern: '^[A-Za-z0-9_-]{1,60}$' }, package: PACKAGE }), defaults: { label: 'screenshot' }, aliases: { name: 'label', filename: 'label' } },
   { name: 'ui_use_update_set', kind: 'gate', description: 'Call this before changing anything on the instance: creates (or reuses) the update set for the current YallaFlow work item, named "<work-id> - <title>", and makes it your current update set, so your changes are captured there instead of Default.', inputSchema: obj({ title: { type: 'string', description: 'Optional short title; defaults to the YallaFlow work item title.' } }), aliases: { name: 'title' } },
   { name: 'ui_upload_update_set', kind: 'gate', description: 'Upload changes/<ID>/update-set.xml: package >= peer-reviewed, validator clean, current upload approval for this exact file.', inputSchema: obj({ package: PACKAGE }, ['package']) },
   { name: 'ui_preview_update_set', kind: 'gate', description: 'Preview the retrieved update set of an uploaded package and return its problems.', inputSchema: obj({ package: PACKAGE }, ['package']) },
@@ -76,7 +76,7 @@ async function remoteFor(ctx, pkg) {
 }
 
 // "<work-id> - <title>": the title comes from the YallaFlow work item.
-function updateSetNameFor(root, workId, title) {
+export function updateSetNameFor(root, workId, title) {
   let text = title;
   if (!text) {
     const meta = path.join(root, '.yallaflow', 'work', workId, 'meta.yaml');
@@ -86,8 +86,14 @@ function updateSetNameFor(root, workId, title) {
       text = null;
     }
   }
-  const clean = String(text ?? 'snowgate task').replace(/[\^\r\n]+/g, ' ').trim().slice(0, 70);
-  return `${workId} - ${clean}`;
+  // The title may already start with the work id ("PF-0006 - …"): not twice.
+  let clean = String(text ?? 'snowgate task').replace(/[\^\r\n]+/g, ' ').trim();
+  const lead = new RegExp(`^${workId.replace(/[-]/g, '\\-')}\\s*[-:–]?\\s*`, 'i');
+  while (lead.test(clean)) clean = clean.replace(lead, '').trim();
+  // sys_update_set.name holds 80 characters; cut at a word, not mid-word.
+  const room = 80 - `${workId} - `.length;
+  if (clean.length > room) clean = clean.slice(0, room + 1).replace(/\s+\S*$/, '').trim() || clean.slice(0, room);
+  return `${workId} - ${clean || 'snowgate task'}`;
 }
 
 export const HANDLERS = {
@@ -168,15 +174,17 @@ export const HANDLERS = {
   async ui_click(ctx, target) {
     const session = ctx.session();
     await session.click(target);
-    const blocked = await session.postCheck();
-    return { url: session.pageUrl(), frames: session.frames(), blocked };
+    const blocked = await session.postCheck({ afterAction: true });
+    const notice = session.takeNotice();
+    return { url: session.pageUrl(), frames: session.frames(), blocked, ...(notice ? { notice } : {}) };
   },
 
   async ui_type(ctx, { value, submit, ...target }) {
     const session = ctx.session();
     await session.type(target, value, { submit });
-    const blocked = await session.postCheck();
-    return { url: session.pageUrl(), frames: session.frames(), blocked };
+    const blocked = await session.postCheck({ afterAction: Boolean(submit) });
+    const notice = session.takeNotice();
+    return { url: session.pageUrl(), frames: session.frames(), blocked, ...(notice ? { notice } : {}) };
   },
 
   async ui_select(ctx, { option, ...target }) {

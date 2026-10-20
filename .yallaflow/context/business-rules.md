@@ -182,19 +182,21 @@
   - src/playwright/session.js (repository @ b99d789)
   - test/browser-recovery.test.js (repository @ b99d789)
 
-<!-- yallaflow-fact:CTX-0081 -->
-### CTX-0081 — Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false, text → typed); ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value changed; locators wait up to 5s for late elements, prefer the single select/input among several label matches, accept nth, and pin the chosen element by id; Playwright failures surface as UI_ACTION_FAILED with a hint and are recorded as feedback.
+<!-- yallaflow-fact:CTX-0085 -->
+### CTX-0085 — Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false through the label only when it differs, text → typed); ui_click on a checkbox clicks its label; a field on a closed form tab is revealed by opening its tab first; ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value; locators wait up to 5s, prefer the single select/input among label matches, accept nth and pin by id; unknown arguments are dropped and reported as ignored_arguments, ui_type text is taken as value; a post-save return to an update-set page is reported as a success notice; Playwright failures surface as UI_ACTION_FAILED with action/kind details and are recorded as feedback (clearable with snowgate feedback clear).
 
 - **State:** current
 - **Confidence:** confirmed
 - **Provenance:** repository
-- **Source work:** PF-0020
+- **Source work:** PF-0021
 - **Knowledge ID:** K-002
-- **Promoted at:** 2026-10-20T00:08:07.038Z
-- **Verified:** 2026-10-20T00:08:07.038Z (commit b99d789)
+- **Promoted at:** 2026-10-20T00:45:23.064Z
+- **Supersedes:** CTX-0081
+- **Verified:** 2026-10-20T00:45:23.064Z (commit b3d97f6)
 - **Evidence:**
-  - src/playwright/session.js (repository @ b99d789)
-  - src/gateway/tools.js (repository @ b99d789)
-  - test/ui-controls.test.js (repository @ b99d789)
+  - src/playwright/session.js (repository @ b3d97f6)
+  - src/gateway/server.js (repository @ b3d97f6)
+  - src/feedback.js (repository @ b3d97f6)
+  - npm test (passed) (runtime, PF-0021 V-001)
 
 <!-- yallaflow-context:end -->

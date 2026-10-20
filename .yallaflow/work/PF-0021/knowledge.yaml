@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "ServiceNow UI controls (dev446072): classic form choice fields are visible native <select>; classic checkboxes are a hidden input drawn by label.checkbox-label[for=id], toggled by clicking the label; form fields sit in tabbed sections (.tab_section, in the same order as the .tabs2_tab headers; the always-shown form header is also a .tabs2_section, and only the active tab carries aria-controls); classic forms render each button twice; after a save ServiceNow returns to the previous page on its navigation stack (e.g. an update-set form); Service Portal select fields are select2 — the real <select id=sp_formfield_<name>> is off-screen and owned by #s2id_sp_formfield_<name>, opened by click or ArrowDown, and must be chosen in the select2 list; portal forms render late (Angular).",
+      "evidence": [
+        "src/playwright/session.js",
+        "runtime:dev446072 item_option_new form: Include none in section tabs2_section_3 opened via the Type Specifications tab (third .tab_section)"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0080"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:45:13.686Z",
+      "factId": "CTX-0084",
+      "promotedAt": "2026-10-20T00:45:22.900Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false through the label only when it differs, text → typed); ui_click on a checkbox clicks its label; a field on a closed form tab is revealed by opening its tab first; ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value; locators wait up to 5s, prefer the single select/input among label matches, accept nth and pin by id; unknown arguments are dropped and reported as ignored_arguments, ui_type text is taken as value; a post-save return to an update-set page is reported as a success notice; Playwright failures surface as UI_ACTION_FAILED with action/kind details and are recorded as feedback (clearable with snowgate feedback clear).",
+      "evidence": [
+        "src/playwright/session.js",
+        "src/gateway/server.js",
+        "src/feedback.js",
+        "verification:V-001"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0081"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:45:13.811Z",
+      "factId": "CTX-0085",
+      "promotedAt": "2026-10-20T00:45:23.064Z",
+      "target": "context/business-rules.md"
+    }
+  ],
+  "updatedAt": "2026-10-20T00:45:23.064Z",
+  "reviewedAt": "2026-10-20T00:45:23.064Z"
+}

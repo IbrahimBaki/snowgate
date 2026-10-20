@@ -7196,7 +7196,7 @@
     {
       "id": "CTX-0080",
       "area": "integration",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "ServiceNow UI controls (dev446072): classic form choice fields are visible native <select> (e.g. UI policy action Mandatory: Leave alone/True/False); Service Portal select fields are select2 — the real <select id=sp_formfield_<name>> is moved off-screen (not hidden) and owned by #s2id_sp_formfield_<name>, whose list opens on click or ArrowDown on its focusser; setting the hidden select directly is undone, the value must be chosen in the select2 list; portal forms render late (Angular) and a field label also matches its group and select2 inputs.",
       "provenance": "runtime",
@@ -7220,22 +7220,29 @@
       "verifiedAt": "2026-10-20T00:08:06.815Z",
       "verifiedAtCommit": "b99d789766a8eeb683a1e6718f98aee67c83fdfd",
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0084",
       "history": [
         {
           "action": "introduced",
           "at": "2026-10-20T00:08:06.815Z",
           "workId": "PF-0020",
           "candidateId": "K-001"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-20T00:45:22.900Z",
+          "supersededBy": "CTX-0084",
+          "workId": "PF-0021",
+          "candidateId": "K-001"
         }
       ],
       "createdAt": "2026-10-20T00:08:06.815Z",
-      "updatedAt": "2026-10-20T00:08:06.815Z"
+      "updatedAt": "2026-10-20T00:45:22.900Z"
     },
     {
       "id": "CTX-0081",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false, text → typed); ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value changed; locators wait up to 5s for late elements, prefer the single select/input among several label matches, accept nth, and pin the chosen element by id; Playwright failures surface as UI_ACTION_FAILED with a hint and are recorded as feedback.",
       "provenance": "repository",
@@ -7269,17 +7276,24 @@
       "verifiedAt": "2026-10-20T00:08:07.038Z",
       "verifiedAtCommit": "b99d789766a8eeb683a1e6718f98aee67c83fdfd",
       "supersedes": [],
-      "supersededBy": null,
+      "supersededBy": "CTX-0085",
       "history": [
         {
           "action": "introduced",
           "at": "2026-10-20T00:08:07.038Z",
           "workId": "PF-0020",
           "candidateId": "K-002"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-20T00:45:23.064Z",
+          "supersededBy": "CTX-0085",
+          "workId": "PF-0021",
+          "candidateId": "K-002"
         }
       ],
       "createdAt": "2026-10-20T00:08:07.038Z",
-      "updatedAt": "2026-10-20T00:08:07.038Z"
+      "updatedAt": "2026-10-20T00:45:23.064Z"
     },
     {
       "id": "CTX-0082",
@@ -7384,7 +7398,107 @@
       ],
       "createdAt": "2026-10-20T00:08:40.103Z",
       "updatedAt": "2026-10-20T00:08:40.103Z"
+    },
+    {
+      "id": "CTX-0084",
+      "area": "integration",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "ServiceNow UI controls (dev446072): classic form choice fields are visible native <select>; classic checkboxes are a hidden input drawn by label.checkbox-label[for=id], toggled by clicking the label; form fields sit in tabbed sections (.tab_section, in the same order as the .tabs2_tab headers; the always-shown form header is also a .tabs2_section, and only the active tab carries aria-controls); classic forms render each button twice; after a save ServiceNow returns to the previous page on its navigation stack (e.g. an update-set form); Service Portal select fields are select2 — the real <select id=sp_formfield_<name>> is off-screen and owned by #s2id_sp_formfield_<name>, opened by click or ArrowDown, and must be chosen in the select2 list; portal forms render late (Angular).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0021",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:6bfba811cd4bd8bae5ea86b604156270e6959a1e74c94182c77a483cb343efc1",
+          "gitCommit": "b3d97f6ed41a68203810a9e94d5f82570ca647da",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "dev446072 item_option_new form: Include none in section tabs2_section_3 opened via the Type Specifications tab (third .tab_section)"
+        }
+      ],
+      "verifiedAt": "2026-10-20T00:45:22.900Z",
+      "verifiedAtCommit": "b3d97f6ed41a68203810a9e94d5f82570ca647da",
+      "supersedes": [
+        "CTX-0080"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-20T00:45:22.900Z",
+          "workId": "PF-0021",
+          "candidateId": "K-001",
+          "supersedes": "CTX-0080"
+        }
+      ],
+      "createdAt": "2026-10-20T00:45:22.900Z",
+      "updatedAt": "2026-10-20T00:45:22.900Z"
+    },
+    {
+      "id": "CTX-0085",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false through the label only when it differs, text → typed); ui_click on a checkbox clicks its label; a field on a closed form tab is revealed by opening its tab first; ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value; locators wait up to 5s, prefer the single select/input among label matches, accept nth and pin by id; unknown arguments are dropped and reported as ignored_arguments, ui_type text is taken as value; a post-save return to an update-set page is reported as a success notice; Playwright failures surface as UI_ACTION_FAILED with action/kind details and are recorded as feedback (clearable with snowgate feedback clear).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0021",
+        "candidateId": "K-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:6bfba811cd4bd8bae5ea86b604156270e6959a1e74c94182c77a483cb343efc1",
+          "gitCommit": "b3d97f6ed41a68203810a9e94d5f82570ca647da",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/gateway/server.js",
+          "contentHash": "sha256:666c757885dc332d9717628700ae36eeb21e7c33d4afe0b97e595c06fce62802",
+          "gitCommit": "b3d97f6ed41a68203810a9e94d5f82570ca647da",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/feedback.js",
+          "contentHash": "sha256:ebe16541d6ce01214e7c3a2ccc51ad61125f88c9c91f9407a687e71958f7306f",
+          "gitCommit": "b3d97f6ed41a68203810a9e94d5f82570ca647da",
+          "workingTree": "modified"
+        },
+        {
+          "type": "runtime",
+          "description": "npm test (passed)",
+          "workId": "PF-0021",
+          "verificationRunId": "V-001"
+        }
+      ],
+      "verifiedAt": "2026-10-20T00:45:23.064Z",
+      "verifiedAtCommit": "b3d97f6ed41a68203810a9e94d5f82570ca647da",
+      "supersedes": [
+        "CTX-0081"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-20T00:45:23.064Z",
+          "workId": "PF-0021",
+          "candidateId": "K-002",
+          "supersedes": "CTX-0081"
+        }
+      ],
+      "createdAt": "2026-10-20T00:45:23.064Z",
+      "updatedAt": "2026-10-20T00:45:23.064Z"
     }
   ],
-  "updatedAt": "2026-10-20T00:08:40.103Z"
+  "updatedAt": "2026-10-20T00:45:23.064Z"
 }

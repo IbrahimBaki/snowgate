@@ -57,12 +57,23 @@ export function redact(value, secrets = []) {
 export function normalizeArgs(tool, args) {
   if (!args || typeof args !== 'object' || Array.isArray(args)) return args;
   const out = { ...args };
+  // ui_type: `text` given next to another locator was meant as the value.
+  if (tool.name === 'ui_type' && out.value === undefined && out.text !== undefined && (out.label || out.role || out.name)) {
+    out.value = out.text;
+    delete out.text;
+  }
   for (const [alias, real] of Object.entries(tool.aliases ?? {})) {
     if (out[alias] !== undefined && out[real] === undefined) {
       out[real] = out[alias];
       delete out[alias];
     }
   }
+  for (const [key, value] of Object.entries(tool.defaults ?? {})) if (out[key] === undefined) out[key] = value;
+  // Parameters a tool does not have are dropped (and reported) rather than
+  // failing the whole call.
+  const ignored = Object.keys(out).filter((k) => !(k in tool.inputSchema.properties));
+  for (const k of ignored) delete out[k];
+  if (ignored.length) Object.defineProperty(out, '_ignored', { value: ignored, enumerable: false });
   for (const [key, prop] of Object.entries(tool.inputSchema.properties)) {
     if (prop.type === 'array' && typeof out[key] === 'string') out[key] = out[key].split(',').map((s) => s.trim()).filter(Boolean);
     if (prop.type === 'integer' && typeof out[key] === 'string' && /^\d+$/.test(out[key])) out[key] = Number(out[key]);
@@ -208,7 +219,8 @@ export function createGateway({
       };
       const result = await HANDLERS[name](ctx, args);
       audit({ target: instance, ok: true });
-      return { content: [{ type: 'text', text: JSON.stringify(redact(result, secrets), null, 2) }] };
+      const shown = args._ignored ? { ...result, ignored_arguments: args._ignored } : result;
+      return { content: [{ type: 'text', text: JSON.stringify(redact(shown, secrets), null, 2) }] };
     } catch (e) {
       if (!(e instanceof SnowgateError)) {
         audit({ ok: false, code: 'INTERNAL', error: redact(e.message, secrets) });
