@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:53:20.374Z",
+      "completedAt": "2026-10-19T23:53:20.374Z",
+      "summary": "Trial PF-0005 audit: 4 INTERNAL failures from raw Playwright (fill on a <select> 'Variable name', fill 'True' on the 'Mandatory' choice, click on role=option timing out, click on the portal 'Register as' combobox timing out). dev446072: classic form choice fields are visible native <select> (catalog_ui_policy_action.catalog_variable / .mandatory with Leave alone/True/False); Service Portal select fields are select2: a hidden <select id=sp_formfield_<name>> with a visible #s2id_sp_formfield_<name> control whose list opens on click. Raw errors are not wrapped or reported as feedback.",
+      "evidence": [
+        "src/playwright/session.js",
+        "runtime:dev446072 form and portal controls 2026-10-20"
+      ]
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:53:20.593Z",
+      "completedAt": "2026-10-19T23:53:20.593Z",
+      "summary": "User approved (agent session): ui_type recognises selects and checkboxes; a new ui_select picks an option in native, select2 and autocomplete dropdowns and verifies the value; UI failures become UI_ACTION_FAILED with a hint and are recorded as feedback.",
+      "evidence": [
+        "user:موافق، ابدأ في الإصلاح"
+      ]
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-10-19T23:53:20.819Z",
+      "completedAt": "2026-10-19T23:53:20.819Z",
+      "summary": "session.js: describe element (tag/type/id/hidden); setValue for ui_type (select→selectOption by label then value; checkbox/radio→setChecked; hidden select with select2→select2 pick; else fill); select(target, option) for ui_select (native select, select2 by #s2id_<id>, input autocomplete via visible role=option / select2 results / ac_results); wrap non-snowgate errors as UI_ACTION_FAILED with ANSI stripped and a hint; tools.js ui_select tool; feedback records UI_ACTION_FAILED; tests in a real browser with a select2-like fixture; read-only check on the real portal page.",
+      "evidence": [
+        "src/playwright/session.js"
+      ]
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:07:54.298Z",
+      "completedAt": "2026-10-20T00:07:54.298Z",
+      "summary": "session.js: describe(); ui_type picks by element kind (select → option by visible text or value, checked up front; checkbox/radio → setChecked from true/false; text → fill); new select(): select2 path whenever #s2id_<id> exists (the real select is only off-screen and direct setting is undone), click then keyboard ArrowDown fallback to reopen, option clicked after settle+hover, value verified with a short poll; autocomplete via visible role=option/.ac_results; locate waits up to 5s for late-rendered elements, prefers a single select then a single input among several label matches, and pins the chosen element by id (indexes shift when a dropdown opens); Playwright errors wrapped as UI_ACTION_FAILED (ANSI stripped, hint) and recorded as feedback by tool+kind. tools.js: ui_select (alias value/choice→option). Real portal on dev446072: Parent→Teacher→Parent with the policy's asterisk following; classic form select set without saving, stored value unchanged.",
+      "evidence": [
+        "src/playwright/session.js",
+        "src/gateway/tools.js"
+      ]
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-20T00:08:06.210Z",
+      "completedAt": "2026-10-20T00:08:06.210Z",
+      "summary": "V-001 npm test passed (155, twice). Real instance: ui_select/ui_type drove the portal select2 'Register as' through Parent/Teacher/Parent and the PF-0005 policy toggled the required asterisk accordingly; ui_type set a classic form choice list and leaving without saving kept the stored value.",
+      "evidence": [
+        "verification:V-001",
+        "runtime:dev446072 portal select2 and form select checks 2026-10-20"
+      ]
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-20T00:08:06.210Z"
+}

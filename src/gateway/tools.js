@@ -41,6 +41,7 @@ export const TOOLS = [
   { name: 'ui_snapshot', kind: 'ui', description: 'Accessibility snapshot of every frame, with frame indexes and URLs.', inputSchema: obj({}) },
   { name: 'ui_click', kind: 'ui', description: 'Click the single element matching role+name, label, or text.', inputSchema: obj(TARGET) },
   { name: 'ui_type', kind: 'ui', description: 'Fill the single matching input with text (never a password field).', inputSchema: obj({ ...TARGET, value: { type: 'string' }, submit: { type: 'boolean' } }, ['value']), aliases: { text_value: 'value', input: 'value', content: 'value' } },
+  { name: 'ui_select', kind: 'ui', description: 'Choose an option by its visible text in a dropdown: a form choice list, a Service Portal (select2) field, or a reference/autocomplete field. Verifies the value changed.', inputSchema: obj({ ...TARGET, option: { type: 'string', description: 'Visible text of the option, e.g. "Parent" or "True".' } }, ['option']), aliases: { value: 'option', choice: 'option' } },
   { name: 'ui_screenshot', kind: 'ui', description: 'Full-page screenshot saved as evidence (under the package when given).', inputSchema: obj({ label: { type: 'string', pattern: '^[A-Za-z0-9_-]{1,60}$' }, package: PACKAGE }, ['label']), aliases: { name: 'label', filename: 'label' } },
   { name: 'ui_use_update_set', kind: 'gate', description: 'Call this before changing anything on the instance: creates (or reuses) the update set for the current YallaFlow work item, named "<work-id> - <title>", and makes it your current update set, so your changes are captured there instead of Default.', inputSchema: obj({ title: { type: 'string', description: 'Optional short title; defaults to the YallaFlow work item title.' } }), aliases: { name: 'title' } },
   { name: 'ui_upload_update_set', kind: 'gate', description: 'Upload changes/<ID>/update-set.xml: package >= peer-reviewed, validator clean, current upload approval for this exact file.', inputSchema: obj({ package: PACKAGE }, ['package']) },
@@ -176,6 +177,13 @@ export const HANDLERS = {
     await session.type(target, value, { submit });
     const blocked = await session.postCheck();
     return { url: session.pageUrl(), frames: session.frames(), blocked };
+  },
+
+  async ui_select(ctx, { option, ...target }) {
+    const session = ctx.session();
+    const now = await session.select(target, option);
+    const blocked = await session.postCheck();
+    return { url: session.pageUrl(), selected: now.selected ?? now.value, blocked };
   },
 
   async ui_screenshot(ctx, { label, package: change }) {

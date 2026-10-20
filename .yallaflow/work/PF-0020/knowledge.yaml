@@ -1,0 +1,263 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "ServiceNow UI controls (dev446072): classic form choice fields are visible native <select> (e.g. UI policy action Mandatory: Leave alone/True/False); Service Portal select fields are select2 — the real <select id=sp_formfield_<name>> is moved off-screen (not hidden) and owned by #s2id_sp_formfield_<name>, whose list opens on click or ArrowDown on its focusser; setting the hidden select directly is undone, the value must be chosen in the select2 list; portal forms render late (Angular) and a field label also matches its group and select2 inputs.",
+      "evidence": [
+        "src/playwright/session.js",
+        "runtime:dev446072 portal and form probes 2026-10-20"
+      ],
+      "confidence": "confirmed",
+      "provenance": "runtime",
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:06.457Z",
+      "factId": "CTX-0080",
+      "promotedAt": "2026-10-20T00:08:06.815Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false, text → typed); ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value changed; locators wait up to 5s for late elements, prefer the single select/input among several label matches, accept nth, and pin the chosen element by id; Playwright failures surface as UI_ACTION_FAILED with a hint and are recorded as feedback.",
+      "evidence": [
+        "src/playwright/session.js",
+        "src/gateway/tools.js",
+        "test/ui-controls.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:06.597Z",
+      "factId": "CTX-0081",
+      "promotedAt": "2026-10-20T00:08:07.038Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-003",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Human approvals are recorded only by snowgate approve in a TTY with the change_id typed back, for plan, upload or commit; upload and commit approvals bind the SHA-256 of the exact update-set.xml and go stale when it changes. Upload needs >= peer-reviewed, a clean validate and a current upload approval; commit needs awaiting-human-approval, a previewed retrieved update set with no unresolved problems and a current commit approval.",
+      "evidence": [
+        "src/approvals.js",
+        "src/gateway/tools.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0025"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:37.064Z",
+      "factId": "CTX-0025",
+      "promotedAt": "2026-10-20T00:08:38.564Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-004",
+      "kind": "environment",
+      "source": "implementation-runtime",
+      "summary": "Credentials resolve as SN_USER/SN_PASSWORD in the environment, else the store chosen by credentials: (protected default: ~/.config/snowgate/credentials/<instance>.json 0600 written by TTY-only credentials set/setup; project: agent-visible .snowgate.env). REST follows rest_auth (auto/basic/session); the browser uses the SSO profile from snowgate login (session cookies kept SNOWGATE_SESSION_HOURS, default 12h) or, with ui_auth: password, the credentials with automatic re-login. Credentials and cookies never reach output, evidence or audit.",
+      "evidence": [
+        "src/credentials.js",
+        "src/rest/client.js",
+        "src/playwright/session.js",
+        "src/config.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0055"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:37.175Z",
+      "factId": "CTX-0055",
+      "promotedAt": "2026-10-20T00:08:38.733Z",
+      "target": "context/environments.md"
+    },
+    {
+      "id": "K-005",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "Some instances refuse Basic auth on the Table API even for a valid password (dev446072: 401 'User is not authenticated' while login.do sign-in works); the same GET with the UI session cookies plus X-UserToken succeeds. navpage.do redirects to the Next Experience shell there, which still carries g_ck.",
+      "evidence": [
+        "[object Object]",
+        "src/playwright/session.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "runtime",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0056"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:37.296Z",
+      "factId": "CTX-0056",
+      "promotedAt": "2026-10-20T00:08:38.910Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-006",
+      "kind": "database",
+      "source": "implementation-runtime",
+      "summary": "No database. State is files under .snowgate/: work/<id>.yaml, approvals/<id>.jsonl, audit/<id>.jsonl and _project.jsonl, evidence/<id>/, discovery/, feedback/ (gaps.json and Markdown copies), bin/verify-change-packages, and config.yaml (changes_dir, validate.legacy_packages, ui_auth, credentials, rest_auth, data, data_tables, approved_instances). Change packages live in changes/<ID>/. Outside the project: SSO profiles and protected credentials under XDG state/config dirs; agent-visible credentials in .snowgate.env (gitignored).",
+      "evidence": [
+        "src/config.js",
+        "src/feedback.js",
+        "src/credentials.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0071"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:37.410Z",
+      "factId": "CTX-0071",
+      "promotedAt": "2026-10-20T00:08:39.083Z",
+      "target": "context/database.md"
+    },
+    {
+      "id": "K-007",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item) via the form's Submit and Make Current / Make This My Current Set actions and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools, verified, and recorded in the work item; the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "skills/servicenow-changes/SKILL.md",
+        "src/adapters/run-hook.js",
+        "test/use-update-set.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0075"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:37.533Z",
+      "factId": "CTX-0075",
+      "promotedAt": "2026-10-20T00:08:39.255Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-008",
+      "kind": "business-rule",
+      "source": "implementation-runtime",
+      "summary": "The gateway browser accepts 'leave page?' (beforeunload) prompts, because dismissing one cancels the navigation (net::ERR_ABORTED); alerts and confirms are dismissed unless a dedicated tool handles them. After each dedicated update-set step and on any lock violation the page is replaced by a fresh one in the same context, so no locked or half-submitted page is left behind.",
+      "evidence": [
+        "src/playwright/session.js",
+        "test/browser-recovery.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0077"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:37.648Z",
+      "factId": "CTX-0077",
+      "promotedAt": "2026-10-20T00:08:39.418Z",
+      "target": "context/business-rules.md"
+    },
+    {
+      "id": "K-009",
+      "kind": "integration",
+      "source": "implementation-runtime",
+      "summary": "ServiceNow shows 'Make This My Current Set' only for an in-progress update set that is not already the user's current set, and classic forms render each form button (e.g. Update) twice, at the top and bottom; ui_use_update_set therefore checks sys_user_preference before any UI step, and ui_click/ui_type take nth to pick one of several matches.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/playwright/session.js",
+        "[object Object]"
+      ],
+      "confidence": "confirmed",
+      "provenance": "runtime",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0078"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:37.766Z",
+      "factId": "CTX-0078",
+      "promotedAt": "2026-10-20T00:08:39.596Z",
+      "target": "context/integrations.md"
+    },
+    {
+      "id": "K-010",
+      "kind": "convention",
+      "source": "implementation-runtime",
+      "summary": "Gateway tool arguments are normalised before validation: a comma-separated string for a list parameter becomes a list, numeric strings for integers become numbers, and per-tool aliases (TOOLS[].aliases, applied only when the real name is absent) accept common slips; argument errors end with 'Expected: <parameters with types and required>' so an agent can correct itself in one step.",
+      "evidence": [
+        "src/gateway/server.js",
+        "src/gateway/tools.js",
+        "test/args.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0079"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:37.896Z",
+      "factId": "CTX-0079",
+      "promotedAt": "2026-10-20T00:08:39.773Z",
+      "target": "context/conventions.md"
+    },
+    {
+      "id": "K-011",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "Feedback: refusals worth reporting (FIELD_NOT_ALLOWED, TABLE_NOT_ALLOWED, TABLE_ACCESS, TOOL_UNKNOWN, sensitive-data refusals, and UI_ACTION_FAILED grouped by tool and failure kind), discover limitations and sn_report_gap agent reports are stored redacted in .snowgate/feedback/gaps.json, one entry per fingerprint (one per field) with counts; snowgate feedback list/send (send TTY-only, preview, Markdown copy, gh create/comment or prefilled GitHub URL) to package.json snowgate.feedbackRepo or SNOWGATE_FEEDBACK_REPO.",
+      "evidence": [
+        "src/feedback.js",
+        "test/feedback.test.js",
+        "test/ui-controls.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0072"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:38.015Z",
+      "factId": "CTX-0082",
+      "promotedAt": "2026-10-20T00:08:39.944Z",
+      "target": "context/architecture.md"
+    },
+    {
+      "id": "K-012",
+      "kind": "architecture",
+      "source": "implementation-runtime",
+      "summary": "snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page, sn_report_gap, ui_use_update_set and ui_select: 7 read-only REST tools, 1 local feedback tool, 6 generic ui_* tools (navigate, snapshot, click, type, select, screenshot) and 4 gated update-set tools. It drives its own Chromium with a route-level host and update-set lock across frames, wrappers and redirects, blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.",
+      "evidence": [
+        "src/gateway/tools.js",
+        "src/gateway/guards.js",
+        "test/gateway.test.js"
+      ],
+      "confidence": "confirmed",
+      "provenance": "repository",
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0074"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T00:08:38.129Z",
+      "factId": "CTX-0083",
+      "promotedAt": "2026-10-20T00:08:40.103Z",
+      "target": "context/architecture.md"
+    }
+  ],
+  "updatedAt": "2026-10-20T00:08:40.103Z",
+  "reviewedAt": "2026-10-20T00:08:40.103Z"
+}

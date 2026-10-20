@@ -29,10 +29,10 @@
 - **Source work:** PF-0010
 - **Knowledge ID:** K-014
 - **Promoted at:** 2026-10-19T19:06:25.449Z
-- **Verified:** 2026-10-19T23:03:05.499Z (commit 8a4c741)
+- **Verified:** 2026-10-20T00:08:38.910Z (commit b99d789)
 - **Evidence:**
   - [object Object] (reference)
-  - src/playwright/session.js (repository @ 8a4c741)
+  - src/playwright/session.js (repository @ b99d789)
 
 <!-- yallaflow-fact:CTX-0059 -->
 ### CTX-0059 — On a real instance (dev446072, glide australia patch 7, 2026-10-19) all 19 discovery inventory tables were read with 0 unreadable, and the project-map artifact tables (incl. sp_instance with the sp_widget.name dot-walk) answered by sys_id; other instances or releases may differ, so unreadable tables stay limitations.
@@ -74,10 +74,24 @@
 - **Source work:** PF-0018
 - **Knowledge ID:** K-001
 - **Promoted at:** 2026-10-19T23:02:51.133Z
-- **Verified:** 2026-10-19T23:31:41.426Z (commit 23b171d)
+- **Verified:** 2026-10-20T00:08:39.596Z (commit b99d789)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ 23b171d)
-  - src/playwright/session.js (repository @ 23b171d)
+  - src/gateway/tools.js (repository @ b99d789)
+  - src/playwright/session.js (repository @ b99d789)
   - [object Object] (reference)
+
+<!-- yallaflow-fact:CTX-0080 -->
+### CTX-0080 — ServiceNow UI controls (dev446072): classic form choice fields are visible native <select> (e.g. UI policy action Mandatory: Leave alone/True/False); Service Portal select fields are select2 — the real <select id=sp_formfield_<name>> is moved off-screen (not hidden) and owned by #s2id_sp_formfield_<name>, whose list opens on click or ArrowDown on its focusser; setting the hidden select directly is undone, the value must be chosen in the select2 list; portal forms render late (Angular) and a field label also matches its group and select2 inputs.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** runtime
+- **Source work:** PF-0020
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-10-20T00:08:06.815Z
+- **Verified:** 2026-10-20T00:08:06.815Z (commit b99d789)
+- **Evidence:**
+  - src/playwright/session.js (repository @ b99d789)
+  - dev446072 portal and form probes 2026-10-20 (runtime)
 
 <!-- yallaflow-context:end -->

@@ -40,11 +40,11 @@
 - **Source work:** PF-0003
 - **Knowledge ID:** K-008
 - **Promoted at:** 2026-10-19T14:34:14.430Z
-- **Verified:** 2026-10-19T23:31:40.902Z (commit 23b171d)
+- **Verified:** 2026-10-20T00:08:38.564Z (commit b99d789)
 - **Evidence:**
-  - src/approvals.js (repository @ 23b171d)
-  - src/gateway/tools.js (repository @ 23b171d)
-  - test/gateway.test.js (repository @ 23b171d)
+  - src/approvals.js (repository @ b99d789)
+  - src/gateway/tools.js (repository @ b99d789)
+  - test/gateway.test.js (repository @ b99d789)
 
 <!-- yallaflow-fact:CTX-0032 -->
 ### CTX-0032 — The target ServiceNow instances use SSO for interactive sign-in (user-confirmed), so the gateway's browser relies on the snowgate SSO profile rather than the login.do password form.
@@ -161,12 +161,12 @@
 - **Source work:** PF-0016
 - **Knowledge ID:** K-006
 - **Promoted at:** 2026-10-19T22:27:04.760Z
-- **Verified:** 2026-10-19T23:31:41.264Z (commit 23b171d)
+- **Verified:** 2026-10-20T00:08:39.255Z (commit b99d789)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ 23b171d)
-  - skills/servicenow-changes/SKILL.md (repository @ 23b171d)
-  - src/adapters/run-hook.js (repository @ 23b171d)
-  - test/use-update-set.test.js (repository @ 23b171d)
+  - src/gateway/tools.js (repository @ b99d789)
+  - skills/servicenow-changes/SKILL.md (repository @ b99d789)
+  - src/adapters/run-hook.js (repository @ b99d789)
+  - test/use-update-set.test.js (repository @ b99d789)
 
 <!-- yallaflow-fact:CTX-0077 -->
 ### CTX-0077 — The gateway browser accepts 'leave page?' (beforeunload) prompts, because dismissing one cancels the navigation (net::ERR_ABORTED); alerts and confirms are dismissed unless a dedicated tool handles them. After each dedicated update-set step and on any lock violation the page is replaced by a fresh one in the same context, so no locked or half-submitted page is left behind.
@@ -177,9 +177,24 @@
 - **Source work:** PF-0017
 - **Knowledge ID:** K-001
 - **Promoted at:** 2026-10-19T22:36:20.009Z
-- **Verified:** 2026-10-19T23:03:06.037Z (commit 8a4c741)
+- **Verified:** 2026-10-20T00:08:39.418Z (commit b99d789)
 - **Evidence:**
-  - src/playwright/session.js (repository @ 8a4c741)
-  - test/browser-recovery.test.js (repository @ 8a4c741)
+  - src/playwright/session.js (repository @ b99d789)
+  - test/browser-recovery.test.js (repository @ b99d789)
+
+<!-- yallaflow-fact:CTX-0081 -->
+### CTX-0081 — Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false, text → typed); ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value changed; locators wait up to 5s for late elements, prefer the single select/input among several label matches, accept nth, and pin the chosen element by id; Playwright failures surface as UI_ACTION_FAILED with a hint and are recorded as feedback.
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0020
+- **Knowledge ID:** K-002
+- **Promoted at:** 2026-10-20T00:08:07.038Z
+- **Verified:** 2026-10-20T00:08:07.038Z (commit b99d789)
+- **Evidence:**
+  - src/playwright/session.js (repository @ b99d789)
+  - src/gateway/tools.js (repository @ b99d789)
+  - test/ui-controls.test.js (repository @ b99d789)
 
 <!-- yallaflow-context:end -->

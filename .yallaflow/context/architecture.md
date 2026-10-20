@@ -81,36 +81,36 @@
   - src/discover.js (repository @ 87b03c6)
   - test/project-map.test.js (repository @ 87b03c6)
 
-<!-- yallaflow-fact:CTX-0072 -->
-### CTX-0072 — Feedback: refusals worth reporting (FIELD_NOT_ALLOWED, TABLE_NOT_ALLOWED, TABLE_ACCESS, TOOL_UNKNOWN, and sensitive-data refusals FIELD/TABLE/QUERY_SENSITIVE to catch over-broad rules), discover limitations and sn_report_gap agent reports are stored redacted in .snowgate/feedback/gaps.json, one entry per fingerprint (one per field) with counts; snowgate feedback list/send (send TTY-only, preview, Markdown copy, gh create/comment or prefilled GitHub URL) to package.json snowgate.feedbackRepo or SNOWGATE_FEEDBACK_REPO.
+<!-- yallaflow-fact:CTX-0082 -->
+### CTX-0082 — Feedback: refusals worth reporting (FIELD_NOT_ALLOWED, TABLE_NOT_ALLOWED, TABLE_ACCESS, TOOL_UNKNOWN, sensitive-data refusals, and UI_ACTION_FAILED grouped by tool and failure kind), discover limitations and sn_report_gap agent reports are stored redacted in .snowgate/feedback/gaps.json, one entry per fingerprint (one per field) with counts; snowgate feedback list/send (send TTY-only, preview, Markdown copy, gh create/comment or prefilled GitHub URL) to package.json snowgate.feedbackRepo or SNOWGATE_FEEDBACK_REPO.
 
 - **State:** current
 - **Confidence:** confirmed
 - **Provenance:** repository
-- **Source work:** PF-0015
-- **Knowledge ID:** K-015
-- **Promoted at:** 2026-10-19T22:06:08.203Z
-- **Supersedes:** CTX-0068
-- **Verified:** 2026-10-19T22:06:08.203Z (commit 0b3e5ec)
+- **Source work:** PF-0020
+- **Knowledge ID:** K-011
+- **Promoted at:** 2026-10-20T00:08:39.944Z
+- **Supersedes:** CTX-0072
+- **Verified:** 2026-10-20T00:08:39.944Z (commit b99d789)
 - **Evidence:**
-  - src/feedback.js (repository @ 0b3e5ec)
-  - test/feedback.test.js (repository @ 0b3e5ec)
-  - test/read-policy.test.js (repository @ 0b3e5ec)
+  - src/feedback.js (repository @ b99d789)
+  - test/feedback.test.js (repository @ b99d789)
+  - test/ui-controls.test.js (repository @ b99d789)
 
-<!-- yallaflow-fact:CTX-0074 -->
-### CTX-0074 — snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page, sn_report_gap and ui_use_update_set: 7 read-only REST tools, 1 local feedback tool, 5 generic ui_* tools and 4 gated update-set tools (use/upload/preview/commit). It drives its own Chromium with a route-level host and update-set lock across frames, wrappers and redirects (request bodies inspected only for xmlhttp.do processors), blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.
+<!-- yallaflow-fact:CTX-0083 -->
+### CTX-0083 — snowgate mcp is a stdio MCP server whose tool list is PLAN §7.2 plus sn_portal_page, sn_report_gap, ui_use_update_set and ui_select: 7 read-only REST tools, 1 local feedback tool, 6 generic ui_* tools (navigate, snapshot, click, type, select, screenshot) and 4 gated update-set tools. It drives its own Chromium with a route-level host and update-set lock across frames, wrappers and redirects, blocks service workers, waits for network idle before post-action checks, serialises calls and audits them with credentials redacted.
 
 - **State:** current
 - **Confidence:** confirmed
 - **Provenance:** repository
-- **Source work:** PF-0016
-- **Knowledge ID:** K-005
-- **Promoted at:** 2026-10-19T22:27:04.587Z
-- **Supersedes:** CTX-0066
-- **Verified:** 2026-10-19T23:31:41.104Z (commit 23b171d)
+- **Source work:** PF-0020
+- **Knowledge ID:** K-012
+- **Promoted at:** 2026-10-20T00:08:40.103Z
+- **Supersedes:** CTX-0074
+- **Verified:** 2026-10-20T00:08:40.103Z (commit b99d789)
 - **Evidence:**
-  - src/gateway/tools.js (repository @ 23b171d)
-  - src/gateway/guards.js (repository @ 23b171d)
-  - test/gateway.test.js (repository @ 23b171d)
+  - src/gateway/tools.js (repository @ b99d789)
+  - src/gateway/guards.js (repository @ b99d789)
+  - test/gateway.test.js (repository @ b99d789)
 
 <!-- yallaflow-context:end -->

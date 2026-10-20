@@ -15,10 +15,10 @@
 - **Knowledge ID:** K-014
 - **Promoted at:** 2026-10-19T22:06:08.034Z
 - **Supersedes:** CTX-0057
-- **Verified:** 2026-10-19T22:06:08.034Z (commit 0b3e5ec)
+- **Verified:** 2026-10-20T00:08:39.083Z (commit b99d789)
 - **Evidence:**
-  - src/config.js (repository @ 0b3e5ec)
-  - src/feedback.js (repository @ 0b3e5ec)
-  - src/credentials.js (repository @ 0b3e5ec)
+  - src/config.js (repository @ b99d789)
+  - src/feedback.js (repository @ b99d789)
+  - src/credentials.js (repository @ b99d789)
 
 <!-- yallaflow-context:end -->

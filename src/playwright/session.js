@@ -16,6 +16,36 @@ import { classifyRequest } from '../gateway/guards.js';
 // Either way: no downloads, no service workers, popups closed, dialogs
 // dismissed unless a dedicated tool takes over. There is no evaluate/run_code
 // surface anywhere in this class.
+// What an element is, for choosing how to set it.
+function describe(loc) {
+  return loc.evaluate((e) => ({
+    tag: e.tagName.toLowerCase(),
+    type: (e.getAttribute('type') || e.type || '').toLowerCase(),
+    id: e.id || '',
+    hidden: e.offsetParent === null && getComputedStyle(e).position !== 'fixed',
+    value: 'value' in e ? e.value : null,
+    selected: e.tagName === 'SELECT' ? e.selectedOptions[0]?.text?.trim() ?? null : null,
+    options: e.tagName === 'SELECT' ? [...e.options].map((o) => o.text.trim()).slice(0, 30) : [],
+  }));
+}
+
+const ANSI = /\u001b\[[0-9;]*m/g;
+
+// Playwright errors become short, actionable snowgate errors.
+async function uiStep(action, fn, extra = '') {
+  try {
+    return await fn();
+  } catch (e) {
+    if (e instanceof SnowgateError) throw e;
+    const first = String(e.message).replace(ANSI, '').split('\n')[0].replace(/^locator\.\w+:\s*/, '');
+    const kind = /not an <input>|not a <select>|not a checkbox/i.test(first) ? 'wrong-kind' : /Timeout/i.test(first) ? 'timeout' : 'other';
+    const hint = kind === 'wrong-kind' ? 'Use ui_type with the option text for dropdowns and "true"/"false" for checkboxes, or ui_select for portal and reference pickers.'
+      : kind === 'timeout' ? 'The element did not respond; check it with ui_snapshot. Dropdown options are picked with ui_select, not ui_click.'
+        : 'Check the element with ui_snapshot.';
+    throw new SnowgateError(`${action} failed: ${first}${extra ? ` (${extra})` : ''}. ${hint}`, 'UI_ACTION_FAILED', { action, kind });
+  }
+}
+
 export class BrowserSession {
   #origin;
   #user;
@@ -357,7 +387,9 @@ export class BrowserSession {
   }
 
   // Exactly one element must match: role (+ accessible name), label, or text.
-  async locate({ frame = 0, role, name, label, text, exact = false, nth }) {
+  // prefer: when several elements match (a portal label also names its group
+  // and its select2 control), the one that is a field of this kind wins.
+  async locate({ frame = 0, role, name, label, text, exact = false, nth }, { prefer } = {}) {
     await this.login();
     const f = this.frame(frame);
     let loc;
@@ -365,12 +397,32 @@ export class BrowserSession {
     else if (label) loc = f.getByLabel(label, { exact });
     else if (text) loc = f.getByText(text, { exact });
     else throw new SnowgateError('Give role (+ name), label, or text to locate an element.', 'LOCATOR_REQUIRED');
-    const count = await loc.count();
+    // Pages that render late (Angular in the portal) get a moment to show it.
+    let count = await loc.count();
+    if (count === 0) {
+      await loc.first().waitFor({ state: 'attached', timeout: 5000 }).catch(() => {});
+      count = await loc.count();
+    }
+    // A position among matches shifts when the page adds elements (an open
+    // dropdown does), so a chosen element is pinned by its id when it has one.
+    const pin = async (one) => {
+      const id = await one.evaluate((e) => e.id).catch(() => '');
+      return id ? f.locator(`[id="${id.replace(/"/g, '\\"')}"]`) : one;
+    };
     if (nth !== undefined) {
       if (nth >= count) throw new SnowgateError(`nth ${nth} is out of range: the locator matched ${count} element(s).`, 'LOCATOR_AMBIGUOUS');
-      return loc.nth(nth);
+      return pin(loc.nth(nth));
     }
     if (count === 0) throw new SnowgateError('The locator matched no element; check the frame and names with ui_snapshot.', 'LOCATOR_AMBIGUOUS');
+    // prefer is an ordered list of tag groups: the first group with exactly
+    // one match wins (a select first, then a single text input).
+    if (count > 1 && prefer) {
+      const tags = await loc.evaluateAll((els) => els.map((e) => e.tagName.toLowerCase()));
+      for (const group of prefer) {
+        const fields = tags.map((t, i) => (group.includes(t) ? i : -1)).filter((i) => i >= 0);
+        if (fields.length === 1) return pin(loc.nth(fields[0]));
+      }
+    }
     if (count > 1) throw new SnowgateError(`The locator matched ${count} elements; pass nth (0-${count - 1}) to pick one, e.g. nth: 0 for the first form button.`, 'LOCATOR_AMBIGUOUS');
     return loc;
   }
@@ -378,21 +430,112 @@ export class BrowserSession {
   async click(target) {
     const loc = await this.locate(target);
     this.takeBlocked();
-    await loc.click({ timeout: 10000 });
+    await uiStep('click', () => loc.click({ timeout: 10000 }));
     await this.#page.waitForLoadState('load').catch(() => {});
     await this.#afterInteraction();
   }
 
+  // Fills a field according to what it is: text is typed, a dropdown gets the
+  // option chosen, a checkbox or radio is set from "true"/"false".
   async type(target, value, { submit = false } = {}) {
-    const loc = await this.locate(target);
+    const loc = await this.locate(target, { prefer: [['select'], ['input', 'textarea']] });
     this.takeBlocked();
-    if ((await loc.getAttribute('type')) === 'password') {
+    const el = await describe(loc);
+    if (el.type === 'password') {
       throw new SnowgateError('Typing into password fields is not allowed through the gateway.', 'PASSWORD_FIELD');
     }
-    await loc.fill(value, { timeout: 10000 });
-    if (submit) await loc.press('Enter');
+    if (el.tag === 'select') {
+      await this.#choose(target, loc, el, value);
+    } else if (el.type === 'checkbox' || el.type === 'radio') {
+      await uiStep('check', () => loc.setChecked(/^(true|yes|1|on|checked)$/i.test(String(value)), { timeout: 10000 }));
+    } else {
+      await uiStep('type', () => loc.fill(value, { timeout: 10000 }));
+      if (submit) await loc.press('Enter');
+    }
     await this.#page.waitForLoadState('load').catch(() => {});
     await this.#afterInteraction();
+  }
+
+  // ui_select: pick an option by its visible text in a native dropdown, a
+  // Service Portal select2 dropdown, or an autocomplete/reference field.
+  async select(target, option) {
+    const loc = await this.locate(target, { prefer: [['select'], ['input']] });
+    this.takeBlocked();
+    const el = await describe(loc);
+    if (el.tag === 'select') {
+      await this.#choose(target, loc, el, option);
+    } else {
+      // Autocomplete or reference input: type, then pick from the list.
+      await uiStep('type', () => loc.fill(option, { timeout: 10000 }));
+      await this.#pickFromList(this.frame(target.frame ?? 0), option);
+    }
+    await this.#page.waitForLoadState('load').catch(() => {});
+    await this.#afterInteraction();
+    return describe(loc);
+  }
+
+  async #choose(target, loc, el, option) {
+    const frame = this.frame(target.frame ?? 0);
+    // Known options are checked up front: no waiting for one that is not there.
+    const values = await loc.evaluate((e) => [...e.options].map((o) => o.value));
+    if (el.options.length && !el.options.includes(option) && !values.includes(option)) {
+      throw new SnowgateError(`"${option}" is not one of: ${el.options.join(', ')}.`, 'UI_ACTION_FAILED', { action: 'select', kind: 'option-not-found' });
+    }
+    // select2 (Service Portal) owns the value whenever its control exists; the
+    // real <select> is only moved off-screen, and setting it directly is undone.
+    const control = el.id ? frame.locator(`[id="s2id_${el.id}"]`).locator('a.select2-choice, .select2-choices').first() : null;
+    if (control && (await control.count())) {
+      await uiStep('open dropdown', () => control.click({ timeout: 10000 }));
+      // After a previous choice select2 keeps focus on its own input and a
+      // click may not reopen it; the keyboard (arrow down) always does.
+      const open = frame.locator('.select2-drop-active .select2-result-label').first();
+      if (!(await open.waitFor({ state: 'visible', timeout: 1500 }).then(() => true).catch(() => false))) {
+        const focusser = frame.locator(`[id="s2id_${el.id}"] .select2-focusser`).first();
+        if (await focusser.count()) {
+          await focusser.focus().catch(() => {});
+          await focusser.press('ArrowDown').catch(() => {});
+        }
+      }
+      await this.#pickFromList(frame, option);
+    } else {
+      await uiStep('select', () => loc.selectOption(el.options.includes(option) ? { label: option } : option, { timeout: 10000, force: el.hidden }));
+    }
+    // The page updates the field asynchronously (Angular in the portal).
+    let now = await describe(loc);
+    for (let i = 0; i < 20 && now.selected !== option && now.value !== option; i += 1) {
+      await new Promise((r) => setTimeout(r, 100));
+      now = await describe(loc);
+    }
+    if (now.selected !== option && now.value !== option) {
+      throw new SnowgateError(`The dropdown shows "${now.selected ?? now.value}", not "${option}". Options: ${el.options.join(', ')}.`, 'UI_ACTION_FAILED', { action: 'select', kind: 'dropdown-not-changed' });
+    }
+  }
+
+  async #pickFromList(frame, option) {
+    const exact = new RegExp(`^\\s*${option.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`);
+    const candidates = [
+      frame.locator('.select2-drop-active .select2-result-label').filter({ hasText: exact }),
+      frame.getByRole('option', { name: option, exact: true }),
+      frame.locator('.ac_results li, .ui-menu-item, [role=listbox] li').filter({ hasText: exact }),
+    ];
+    // Whichever kind of list shows the option first, within a few seconds.
+    const deadline = Date.now() + 5000;
+    while (Date.now() < deadline) {
+      for (const c of candidates) {
+        if (await c.first().isVisible().catch(() => false)) {
+          // select2 ignores a click that lands while its list is still opening:
+          // let it settle and hover the option first, as a person would.
+          await new Promise((r) => setTimeout(r, 300));
+          await uiStep('choose option', async () => {
+            await c.first().hover({ timeout: 5000 });
+            await c.first().click({ timeout: 5000 });
+          });
+          return;
+        }
+      }
+      await new Promise((r) => setTimeout(r, 150));
+    }
+    throw new SnowgateError(`No visible option "${option}" appeared in the dropdown list. Check the exact text with ui_snapshot.`, 'UI_ACTION_FAILED', { action: 'select', kind: 'option-not-found' });
   }
 
   async screenshot(file) {

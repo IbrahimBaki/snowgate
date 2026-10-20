@@ -1,0 +1,45 @@
+{
+  "id": "PF-0020",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "UI tools handle selects, checkboxes and Service Portal pickers; clear UI errors reported as feedback",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-19T23:50:19.065Z",
+  "updatedAt": "2026-10-20T00:08:40.422Z",
+  "title": "UI tools handle selects, checkboxes and Service Portal pickers; clear UI errors reported as feedback",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-10-19T23:50:19.069Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-20T00:08:40.422Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

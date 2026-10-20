@@ -133,7 +133,7 @@ export function saveMarkdown(root, { title, body }, now = new Date()) {
 
 // Which refusals are worth reporting: capability gaps, and sensitive-data
 // refusals (so a rule that blocks something harmless can be corrected).
-const GAP_CODES = new Set(['FIELD_NOT_ALLOWED', 'TABLE_NOT_ALLOWED', 'TABLE_ACCESS', 'TOOL_UNKNOWN', 'FIELD_SENSITIVE', 'TABLE_SENSITIVE', 'QUERY_SENSITIVE']);
+const GAP_CODES = new Set(['FIELD_NOT_ALLOWED', 'TABLE_NOT_ALLOWED', 'TABLE_ACCESS', 'TOOL_UNKNOWN', 'FIELD_SENSITIVE', 'TABLE_SENSITIVE', 'QUERY_SENSITIVE', 'UI_ACTION_FAILED']);
 
 // One gap per refused field, so the same field asked in different requests
 // adds to one count.
@@ -143,6 +143,8 @@ export function gapsFromError(error, { tool }) {
   const detail = `${tool}: ${error.message}`;
   if (error.code === 'FIELD_NOT_ALLOWED' || error.code === 'FIELD_SENSITIVE') return (d.fields ?? []).map((f) => ({ kind: 'refusal', code: error.code, subject: `${d.table}.${f}`, detail }));
   if (error.code === 'QUERY_SENSITIVE') return [{ kind: 'refusal', code: error.code, subject: 'query filter', detail }];
+  // UI failures are grouped by tool and kind of failure, not by page.
+  if (error.code === 'UI_ACTION_FAILED') return [{ kind: 'ui-failure', code: error.code, subject: `${tool} ${d.action ?? ''} ${d.kind ?? ''}`.replace(/\s+/g, ' ').trim(), detail }];
   const subject = error.code === 'TOOL_UNKNOWN' ? `tool ${tool}` : d.table ?? error.table ?? tool;
   return [{ kind: 'refusal', code: error.code, subject, detail }];
 }

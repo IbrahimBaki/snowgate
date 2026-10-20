@@ -20,7 +20,7 @@ const env = { SN_USER: USER, SN_PASSWORD: PASSWORD };
 // sn_report_gap (PF-0014, local only) and ui_use_update_set (PF-0016) — nothing more.
 const ALLOWLIST = [
   'sn_instance_info', 'sn_query', 'sn_get_record', 'sn_update_sets', 'sn_update_set_contents', 'sn_customizations', 'sn_portal_page', 'sn_report_gap',
-  'ui_navigate', 'ui_snapshot', 'ui_click', 'ui_type', 'ui_screenshot',
+  'ui_navigate', 'ui_snapshot', 'ui_click', 'ui_type', 'ui_select', 'ui_screenshot',
   'ui_use_update_set', 'ui_upload_update_set', 'ui_preview_update_set', 'ui_commit_update_set',
 ];
 
