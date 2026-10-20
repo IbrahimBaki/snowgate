@@ -1,0 +1,32 @@
+mindmap
+  root((snowgate))
+    You do once
+      npm install -g snowgate
+      snowgate setup
+        Pick the agent
+        Approve instances
+        Save credentials
+      Approve risky steps
+        Upload / commit
+        Other instances
+    The agent does
+      Opens a YallaFlow task
+      Binds the instance
+      Reads the instance
+        sn_query
+        sn_get_record
+        snowgate discover
+      Changes through the browser
+        ui_use_update_set first
+        ui_type / ui_select / ui_click
+      Verifies
+        snowgate check
+    Always guarded
+      One instance per task
+      Own update set, never Default
+      Read only REST
+      Secrets never read
+      Every call audited
+    Learns from you
+      snowgate feedback list
+      snowgate feedback send

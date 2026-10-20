@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-20T12:15:03.344Z",
+      "completedAt": "2026-10-20T12:15:03.454Z",
+      "summary": "User asked for a more professional, clearer and easier README with a mindmap. npm does not render Mermaid, so diagrams are shipped as PNG images rendered with Mermaid in Playwright Chromium and referenced by absolute raw.githubusercontent URLs (work on GitHub and npm). Facts in the current README stay; layout changes."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-20T12:15:03.707Z",
+      "completedAt": "2026-10-20T12:15:03.824Z",
+      "summary": "Approved direction (user request): a mindmap overview, a task-flow diagram, a 3-step start, a you-vs-agent table, reference sections collapsible; same facts, simpler language."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-10-20T12:15:04.042Z",
+      "completedAt": "2026-10-20T12:15:04.148Z",
+      "summary": "Render docs/images/mindmap.png, task-flow.png, architecture.png from Mermaid sources kept in docs/diagrams/*.mmd (regenerable); rewrite README around them; verify images load, npm pack contents unchanged (docs not shipped), tests pass."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-20T12:18:15.500Z",
+      "completedAt": "2026-10-20T12:18:15.500Z",
+      "summary": "README rewritten around three diagrams (docs/images/mindmap.png, task-flow.png, architecture.png rendered from docs/diagrams/*.mmd with docs/diagrams/render.mjs, referenced by absolute raw.githubusercontent URLs so they show on GitHub and npm): centered header with badges and quick links, at-a-glance table, 3-step start, task steps table, you-vs-agent table, safety layers, grouped commands, collapsible reference (tools, config, examples, security detail), FAQ, troubleshooting, limitations, development. Facts unchanged from the previous README; two statements tightened (update-set lock lifted by all dedicated update-set tools; browser tools cannot open update-set pages)."
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-20T12:18:27.990Z",
+      "completedAt": "2026-10-20T12:18:28.100Z",
+      "summary": "npm test 167/167 (V-001); the three images exist and the README references all three by absolute URL (V-002); npm pack unchanged (39 files, docs not shipped). Images were viewed after rendering. They show on GitHub/npm only after the push to main."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-20T12:18:28.100Z"
+}

@@ -1,0 +1,16 @@
+flowchart TB
+    U(["You"]) --> AG["Agent<br/>Claude Code · Codex"]
+    AG -. "blocked by hooks" .-x X["Raw browser · direct access<br/>writes to .snowgate · human-only commands"]
+    AG --> GW["snowgate MCP gateway<br/>one call at a time · audited"]
+    GW --> R["REST · read only<br/>GET only · sensitive data refused"]
+    GW --> BR["Own Chromium<br/>target host only · update-set pages locked"]
+    R --> SN[("ServiceNow instance<br/>confirmed for this task")]
+    BR --> SN
+    classDef you fill:#fff4d6,stroke:#d9a400,color:#3b2f00
+    classDef gate fill:#e8f1ff,stroke:#3b74d9,color:#0b2350
+    classDef sn fill:#e6f7ea,stroke:#2f9e4f,color:#0d3b1c
+    classDef no fill:#fdecec,stroke:#d33,color:#5a0000
+    class U,AG you
+    class GW,R,BR gate
+    class SN sn
+    class X no

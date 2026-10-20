@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "npm test",
+      "executionMode": "argv",
+      "executable": "npm",
+      "args": [
+        "test"
+      ],
+      "displayCommand": "npm test",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-20T12:18:15.726Z",
+      "finishedAt": "2026-10-20T12:18:27.746Z",
+      "verifiedAt": "2026-10-20T12:18:27.746Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "test -s docs/images/mindmap.png && test -s docs/images/task-flow.png && test -s docs/images/architecture.png && grep -c 'raw.githubusercontent.com/IbrahimBaki/snowgate/main/docs/images/' README.md",
+      "executionMode": "shell",
+      "executable": "test -s docs/images/mindmap.png && test -s docs/images/task-flow.png && test -s docs/images/architecture.png && grep -c 'raw.githubusercontent.com/IbrahimBaki/snowgate/main/docs/images/' README.md",
+      "args": [],
+      "displayCommand": "test -s docs/images/mindmap.png && test -s docs/images/task-flow.png && test -s docs/images/architecture.png && grep -c 'raw.githubusercontent.com/IbrahimBaki/snowgate/main/docs/images/' README.md",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-20T12:18:27.869Z",
+      "finishedAt": "2026-10-20T12:18:27.876Z",
+      "verifiedAt": "2026-10-20T12:18:27.876Z",
+      "log": "V-002-verification.log"
+    }
+  ]
+}

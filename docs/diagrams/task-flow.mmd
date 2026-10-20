@@ -1,0 +1,18 @@
+flowchart TB
+    subgraph S1[" "]
+      direction LR
+      A["① You ask<br/><i>“Add a French choice…”</i>"] --> B["② YallaFlow<br/>opens the task<br/><b>PF-0008</b>"] --> C["③ Bind the instance<br/><code>target set</code>"] --> D["④ Read & discover<br/><code>sn_query</code>"]
+    end
+    subgraph S2[" "]
+      direction LR
+      E["⑤ Task update set<br/><code>ui_use_update_set</code>"] --> F["⑥ Change in the browser<br/><code>ui_type · ui_click</code>"] --> G["⑦ Verify stored values<br/><code>snowgate check</code>"] --> H["⑧ Report & finish<br/>update set stays<br/><b>In Progress</b>"]
+    end
+    S1 --> S2
+    classDef you fill:#fff4d6,stroke:#d9a400,color:#3b2f00
+    classDef flow fill:#e8f1ff,stroke:#3b74d9,color:#0b2350
+    classDef done fill:#e6f7ea,stroke:#2f9e4f,color:#0d3b1c
+    class A you
+    class B,C,D,E,F flow
+    class G,H done
+    style S1 fill:transparent,stroke:transparent
+    style S2 fill:transparent,stroke:transparent
