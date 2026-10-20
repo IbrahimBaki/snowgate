@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "runs": [
+    {
+      "id": "V-001",
+      "command": "npm test",
+      "executionMode": "argv",
+      "executable": "npm",
+      "args": [
+        "test"
+      ],
+      "displayCommand": "npm test",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-20T11:53:08.597Z",
+      "finishedAt": "2026-10-20T11:53:21.425Z",
+      "verifiedAt": "2026-10-20T11:53:21.425Z",
+      "log": "V-001-verification.log"
+    },
+    {
+      "id": "V-002",
+      "command": "npm pack --dry-run 2>&1 | grep -E 'LICENSE|README.md|bin/snowgate.js|total files'",
+      "executionMode": "shell",
+      "executable": "npm pack --dry-run 2>&1 | grep -E 'LICENSE|README.md|bin/snowgate.js|total files'",
+      "args": [],
+      "displayCommand": "npm pack --dry-run 2>&1 | grep -E 'LICENSE|README.md|bin/snowgate.js|total files'",
+      "success": true,
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-20T11:53:21.668Z",
+      "finishedAt": "2026-10-20T11:53:21.943Z",
+      "verifiedAt": "2026-10-20T11:53:21.943Z",
+      "log": "V-002-verification.log"
+    }
+  ]
+}

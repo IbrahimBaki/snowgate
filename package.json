@@ -1,7 +1,29 @@
 {
   "name": "snowgate",
   "version": "0.1.0",
-  "description": "Agent-agnostic ServiceNow platform pack for YallaFlow projects: read-only discovery, per-task instance targets, and guarded change delivery.",
+  "description": "Let AI coding agents (Claude Code, Codex) carry out ServiceNow tasks safely: a guarded MCP gateway, read-only REST, per-task instance targets and update sets, inside YallaFlow projects.",
+  "keywords": [
+    "servicenow",
+    "mcp",
+    "model-context-protocol",
+    "claude-code",
+    "codex",
+    "ai-agents",
+    "playwright",
+    "update-set",
+    "yallaflow",
+    "devops"
+  ],
+  "homepage": "https://github.com/IbrahimBaki/snowgate#readme",
+  "bugs": {
+    "url": "https://github.com/IbrahimBaki/snowgate-feedback/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IbrahimBaki/snowgate.git"
+  },
+  "license": "MIT",
+  "author": "IbrahimBaki (https://github.com/IbrahimBaki)",
   "type": "module",
   "bin": {
     "snowgate": "bin/snowgate.js"
@@ -10,11 +32,11 @@
     "bin/",
     "src/",
     "pack.yaml",
-    "skills/",
-    "templates/"
+    "skills/"
   ],
   "scripts": {
-    "test": "node --test \"test/*.test.js\""
+    "test": "node --test \"test/*.test.js\"",
+    "prepublishOnly": "npm test"
   },
   "engines": {
     "node": ">=22"
@@ -25,8 +47,6 @@
     "playwright": "^1.64.1",
     "yaml": "^2.5.0"
   },
-  "license": "UNLICENSED",
-  "private": true,
   "snowgate": {
     "feedbackRepo": "IbrahimBaki/snowgate-feedback"
   }

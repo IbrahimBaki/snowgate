@@ -1538,7 +1538,7 @@
     {
       "id": "CTX-0019",
       "area": "tech-stack",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Node.js ESM package (type: module), engines node >=22; runtime dependencies yaml, @modelcontextprotocol/sdk, playwright (its Chromium must be installed) and fast-xml-parser; binary snowgate -> bin/snowgate.js.",
       "provenance": "repository",
@@ -1567,7 +1567,7 @@
       "supersedes": [
         "CTX-0003"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0091",
       "history": [
         {
           "action": "introduced",
@@ -1595,10 +1595,17 @@
           ],
           "previousVerifiedAt": "2026-10-19T14:34:13.530Z",
           "previousVerifiedAtCommit": null
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-20T11:54:01.938Z",
+          "supersededBy": "CTX-0091",
+          "workId": "PF-0024",
+          "candidateId": "K-001"
         }
       ],
       "createdAt": "2026-10-19T14:34:13.530Z",
-      "updatedAt": "2026-10-19T21:40:22.314Z"
+      "updatedAt": "2026-10-20T11:54:01.938Z"
     },
     {
       "id": "CTX-0020",
@@ -6300,17 +6307,13 @@
         {
           "type": "repository",
           "path": "README.md",
-          "contentHash": "sha256:30efe9b607837b05bad24c3020cf451e5fc3479230e4dc0a66b7c9a81724cb68",
-          "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+          "contentHash": "sha256:910b95bd390c414d94e4565c3b4dc19fa6c93d1c7b14cd72f77723589337e59f",
+          "gitCommit": "7c645adff0c6dfa121730f4fd8f37e4608efa714",
           "workingTree": "modified"
-        },
-        {
-          "type": "reference",
-          "ref": "[object Object]"
         }
       ],
-      "verifiedAt": "2026-10-19T22:27:04.422Z",
-      "verifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+      "verifiedAt": "2026-10-20T11:54:02.124Z",
+      "verifiedAtCommit": "7c645adff0c6dfa121730f4fd8f37e4608efa714",
       "supersedes": [
         "CTX-0001"
       ],
@@ -6343,10 +6346,31 @@
           ],
           "previousVerifiedAt": "2026-10-19T22:06:07.680Z",
           "previousVerifiedAtCommit": "0b3e5ecc4b0c68283e06929605643b312703683a"
+        },
+        {
+          "action": "reconfirmed",
+          "at": "2026-10-20T11:54:02.124Z",
+          "workId": "PF-0024",
+          "candidateId": "K-002",
+          "previousEvidence": [
+            {
+              "type": "repository",
+              "path": "README.md",
+              "contentHash": "sha256:30efe9b607837b05bad24c3020cf451e5fc3479230e4dc0a66b7c9a81724cb68",
+              "gitCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a",
+              "workingTree": "modified"
+            },
+            {
+              "type": "reference",
+              "ref": "[object Object]"
+            }
+          ],
+          "previousVerifiedAt": "2026-10-19T22:27:04.422Z",
+          "previousVerifiedAtCommit": "0dbadccc9f3d66a4bb64fb46c6990e1839fa405a"
         }
       ],
       "createdAt": "2026-10-19T22:06:07.680Z",
-      "updatedAt": "2026-10-19T22:27:04.422Z"
+      "updatedAt": "2026-10-20T11:54:02.124Z"
     },
     {
       "id": "CTX-0070",
@@ -7787,7 +7811,58 @@
       ],
       "createdAt": "2026-10-20T10:43:45.363Z",
       "updatedAt": "2026-10-20T10:43:45.363Z"
+    },
+    {
+      "id": "CTX-0091",
+      "area": "tech-stack",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Node.js ESM package (type: module), engines node >=22; runtime dependencies yaml, @modelcontextprotocol/sdk, playwright (its Chromium must be installed) and fast-xml-parser; binary snowgate -> bin/snowgate.js. Published to the public npm registry as 'snowgate' under the MIT license (LICENSE); the tarball holds bin/, src/, pack.yaml, skills/, README and LICENSE, and prepublishOnly runs npm test; users install with npm install -g snowgate.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0024",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "package.json",
+          "contentHash": "sha256:5f3bd2b1a0ce48d9c3a03e0ec3b882a17c076720e1445f93c481cab055a30dba",
+          "gitCommit": "7c645adff0c6dfa121730f4fd8f37e4608efa714",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "LICENSE",
+          "contentHash": "sha256:aaf57e6963120be9701a073b72678f27493c1af495ff23e07fa26fd660cdf165",
+          "gitCommit": "7c645adff0c6dfa121730f4fd8f37e4608efa714",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "runtime",
+          "description": "npm pack --dry-run 2>&1 | grep -E 'LICENSE|README.md|bin/snowgate.js|total files' (passed)",
+          "workId": "PF-0024",
+          "verificationRunId": "V-002"
+        }
+      ],
+      "verifiedAt": "2026-10-20T11:54:01.938Z",
+      "verifiedAtCommit": "7c645adff0c6dfa121730f4fd8f37e4608efa714",
+      "supersedes": [
+        "CTX-0019"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-20T11:54:01.938Z",
+          "workId": "PF-0024",
+          "candidateId": "K-001",
+          "supersedes": "CTX-0019"
+        }
+      ],
+      "createdAt": "2026-10-20T11:54:01.938Z",
+      "updatedAt": "2026-10-20T11:54:01.938Z"
     }
   ],
-  "updatedAt": "2026-10-20T10:43:45.363Z"
+  "updatedAt": "2026-10-20T11:54:02.124Z"
 }

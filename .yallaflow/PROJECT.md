@@ -48,10 +48,9 @@ greenfield
 - **Knowledge ID:** K-012
 - **Promoted at:** 2026-10-19T22:06:07.680Z
 - **Supersedes:** CTX-0001
-- **Verified:** 2026-10-19T22:27:04.422Z (commit 0dbadcc)
+- **Verified:** 2026-10-20T11:54:02.124Z (commit 7c645ad)
 - **Evidence:**
-  - README.md (repository @ 0dbadcc)
-  - [object Object] (reference)
+  - README.md (repository @ 7c645ad)
 
 <!-- yallaflow-fact:CTX-0076 -->
 ### CTX-0076 — Product direction (user): reach a working, simplest-correct version that executes changes through the browser quickly, keep user steps minimal, let YallaFlow own tasks, and improve over time from usage and feedback rather than building heavy controls up front.

@@ -1,0 +1,46 @@
+{
+  "id": "PF-0024",
+  "type": "release",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "Publish snowgate 0.1.0 on npm (MIT) with a full README",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-20T11:50:10.200Z",
+  "updatedAt": "2026-10-20T11:54:02.335Z",
+  "title": "Publish snowgate 0.1.0 on npm (MIT) with a full README",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow release --scope bounded`.",
+  "routedAt": "2026-10-20T11:50:10.203Z",
+  "workflow": "release",
+  "requiredCapabilities": [
+    "discover",
+    "plan",
+    "implement",
+    "verify",
+    "review"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "implementation-planning",
+      "implementation",
+      "verification",
+      "code-review"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-20T11:54:02.335Z",
+      "verificationRunIds": [
+        "V-001",
+        "V-002"
+      ]
+    }
+  ]
+}

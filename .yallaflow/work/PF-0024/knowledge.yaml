@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "reviewStatus": "reviewed",
+  "candidates": [
+    {
+      "id": "K-001",
+      "kind": "tech-stack",
+      "source": "implementation-runtime",
+      "summary": "Node.js ESM package (type: module), engines node >=22; runtime dependencies yaml, @modelcontextprotocol/sdk, playwright (its Chromium must be installed) and fast-xml-parser; binary snowgate -> bin/snowgate.js. Published to the public npm registry as 'snowgate' under the MIT license (LICENSE); the tarball holds bin/, src/, pack.yaml, skills/, README and LICENSE, and prepublishOnly runs npm test; users install with npm install -g snowgate.",
+      "evidence": [
+        "package.json",
+        "LICENSE",
+        "verification:V-002"
+      ],
+      "relation": {
+        "type": "supersedes",
+        "factId": "CTX-0019"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T11:54:01.686Z",
+      "factId": "CTX-0091",
+      "promotedAt": "2026-10-20T11:54:01.938Z",
+      "target": "context/tech-stack.md"
+    },
+    {
+      "id": "K-002",
+      "kind": "project",
+      "source": "design-spec",
+      "summary": "snowgate is an agent-agnostic ServiceNow platform pack for YallaFlow-governed projects (skills, guards, an MCP gateway, validators and a CLI, no project-specific naming), aimed at letting an agent carry out ServiceNow tasks safely; read restrictions favour usefulness (open reads except sensitive data) while writes stay gated.",
+      "evidence": [
+        "README.md"
+      ],
+      "relation": {
+        "type": "reconfirms",
+        "factId": "CTX-0069"
+      },
+      "status": "promoted",
+      "createdAt": "2026-10-20T11:54:01.817Z",
+      "factId": "CTX-0069",
+      "promotedAt": "2026-10-20T11:54:02.124Z",
+      "target": "PROJECT.md"
+    }
+  ],
+  "updatedAt": "2026-10-20T11:54:02.124Z",
+  "reviewedAt": "2026-10-20T11:54:02.124Z"
+}
