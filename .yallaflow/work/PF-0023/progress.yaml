@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "behavior": {
+    "registryVersion": 8
+  },
+  "skills": {
+    "context-discovery": {
+      "status": "completed",
+      "startedAt": "2026-10-20T10:40:51.793Z",
+      "completedAt": "2026-10-20T10:40:51.898Z",
+      "summary": "PF-0008 trial: after Submit on a new question_choice (opened from the variable's related list) ServiceNow returned to the item_option_new form; the agent saw the old form's URL and had to check the instance to know whether the save worked. postCheck only gives a notice when the return lands on a blocked update-set page. updateSetNameFor cuts at a word within 80 characters, which left 'PF-0008 - Add French choice to preferred_language variable of Register for'; the agent then blamed the instance's length limit."
+    },
+    "requirement-clarification": {
+      "status": "completed",
+      "startedAt": "2026-10-20T10:40:52.108Z",
+      "completedAt": "2026-10-20T10:40:52.209Z",
+      "summary": "Approved by the user ('موافق، ابدأ في الاتنين'): (1) any form submit (navigation POST) after which no frame shows the submitted page gets a notice: saved, ServiceNow returned to its previous page <path>; verify with snowgate check. (2) A shortened update-set title drops trailing short words (a, an, the, of, for, to, and, or, in, on, with, by, from, at) and ui_use_update_set says snowgate shortened it to fit sys_update_set.name (80 characters)."
+    },
+    "implementation-planning": {
+      "status": "completed",
+      "startedAt": "2026-10-20T10:40:52.445Z",
+      "completedAt": "2026-10-20T10:40:52.551Z",
+      "summary": "session.js: record the path of allowed navigation POSTs in #onRequest; postCheck(afterAction) sets the notice when no frame is on that path, keeping the update-set-page case; clear it at the end of every postCheck. tools.js: updateSetName() returns {name, shortened}, stop-word trim after the cut; ui_use_update_set adds a note when shortened. Tests in test/pf0023.test.js with a local fixture (related-list New -> Submit -> back) and name cases."
+    },
+    "implementation": {
+      "status": "completed",
+      "startedAt": "2026-10-20T10:42:41.586Z",
+      "completedAt": "2026-10-20T10:42:41.586Z",
+      "summary": "session.js: allowed navigation POSTs record their path (#submitted, cleared on navigate, page reset and every postCheck); postCheck(afterAction) gives a notice when no frame is on the submitted path any more: 'Submitted <path>; ServiceNow then returned to its previous page (<path?query>)... verify with snowgate check'. The update-set-page case is kept. tools.js: updateSetTitle() returns {name, shortened}; a shortened title drops trailing short words (a/an/the/of/for/to/and/or/in/on/with/by/from/at/into/as) and punctuation; ui_use_update_set adds note 'snowgate shortened the work item title to fit sys_update_set.name (80 characters).'"
+    },
+    "verification": {
+      "status": "completed",
+      "startedAt": "2026-10-20T10:43:10.274Z",
+      "completedAt": "2026-10-20T10:43:10.393Z",
+      "summary": "npm test 167/167 (V-001), including test/pf0023.test.js: name trimming and shortened flag; notice after a submit that returns to the parent form, none after a failed save or a link. Real-instance run of the notice not done (limitation recorded)."
+    }
+  },
+  "rulings": [],
+  "history": [],
+  "updatedAt": "2026-10-20T10:43:10.393Z"
+}

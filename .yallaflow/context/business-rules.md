@@ -135,23 +135,6 @@
   - src/playwright/session.js (repository @ b99d789)
   - test/browser-recovery.test.js (repository @ b99d789)
 
-<!-- yallaflow-fact:CTX-0085 -->
-### CTX-0085 — Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false through the label only when it differs, text → typed); ui_click on a checkbox clicks its label; a field on a closed form tab is revealed by opening its tab first; ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value; locators wait up to 5s, prefer the single select/input among label matches, accept nth and pin by id; unknown arguments are dropped and reported as ignored_arguments, ui_type text is taken as value; a post-save return to an update-set page is reported as a success notice; Playwright failures surface as UI_ACTION_FAILED with action/kind details and are recorded as feedback (clearable with snowgate feedback clear).
-
-- **State:** current
-- **Confidence:** confirmed
-- **Provenance:** repository
-- **Source work:** PF-0021
-- **Knowledge ID:** K-002
-- **Promoted at:** 2026-10-20T00:45:23.064Z
-- **Supersedes:** CTX-0081
-- **Verified:** 2026-10-20T00:45:23.064Z (commit b3d97f6)
-- **Evidence:**
-  - src/playwright/session.js (repository @ b3d97f6)
-  - src/gateway/server.js (repository @ b3d97f6)
-  - src/feedback.js (repository @ b3d97f6)
-  - npm test (passed) (runtime, PF-0021 V-001)
-
 <!-- yallaflow-fact:CTX-0086 -->
 ### CTX-0086 — snowgate hook pre-tool-use (Claude and Codex) exits 2 to block: raw Playwright MCP tools; non-snowgate MCP tools whose arguments mention service-now.com; shell commands invoking the human-only commands; writes to .snowgate/**, .claude/skills/snowgate, .claude/settings*.json and .codex/; any access to the SSO profiles or the protected credential store; git commit when validate or the secret scan fails. Shell commands are judged one command at a time (shellSegments: split at ; & | && || and newlines outside quotes; a quoted script or heredoc body stays with the command that runs it; 2>&1 and &> are not separators); a command that mentions a protected path is allowed only when read-only (cat/find/sed -n/awk/jq/tree/yallaflow/snowgate... without -i, -delete, -exec, system() or redirection to a file; redirects to the other stream or /dev/null do not count).
 
@@ -182,21 +165,37 @@
 - **Evidence:**
   - src/adapters/policy.js (repository @ 80027ca)
 
-<!-- yallaflow-fact:CTX-0088 -->
-### CTX-0088 — Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item, work id not repeated, cut at a word within 80 characters) and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools and verified with yallaflow verify <id> -- snowgate check <table> <sys_id> <field>=<value>... --work <id>, which reads the stored values through the read-only REST client and exits 1 on any difference (snowgate validate checks changes/ packages only); the change is recorded in the work item and the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.
+<!-- yallaflow-fact:CTX-0089 -->
+### CTX-0089 — Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item, work id not repeated; a title too long for sys_update_set.name's 80 characters is cut at a word, drops trailing short words, and the result carries a note that snowgate shortened it) and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools and verified with yallaflow verify <id> -- snowgate check <table> <sys_id> <field>=<value>... --work <id>, which reads the stored values through the read-only REST client and exits 1 on any difference (snowgate validate checks changes/ packages only); the change is recorded in the work item and the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.
 
 - **State:** current
 - **Confidence:** confirmed
 - **Provenance:** repository
-- **Source work:** PF-0022
-- **Knowledge ID:** K-003
-- **Promoted at:** 2026-10-20T01:01:03.180Z
-- **Supersedes:** CTX-0075
-- **Verified:** 2026-10-20T01:01:03.180Z (commit 80027ca)
+- **Source work:** PF-0023
+- **Knowledge ID:** K-001
+- **Promoted at:** 2026-10-20T10:43:45.172Z
+- **Supersedes:** CTX-0088
+- **Verified:** 2026-10-20T10:43:45.172Z (commit c6d0efd)
 - **Evidence:**
-  - src/cli/main.js (repository @ 80027ca)
-  - skills/servicenow-changes/SKILL.md (repository @ 80027ca)
-  - src/gateway/tools.js (repository @ 80027ca)
-  - dev446072 snowgate check on the PF-0007 variable passed for include_none=false show_help=true help_text and failed with MISMATCH for include_none=true (runtime)
+  - src/gateway/tools.js (repository @ c6d0efd)
+  - src/cli/main.js (repository @ c6d0efd)
+  - skills/servicenow-changes/SKILL.md (repository @ c6d0efd)
+  - npm test (passed) (runtime, PF-0023 V-001)
+
+<!-- yallaflow-fact:CTX-0090 -->
+### CTX-0090 — Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false through the label only when it differs, text → typed); ui_click on a checkbox clicks its label; a field on a closed form tab is revealed by opening its tab first; ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value; locators wait up to 5s, prefer the single select/input among label matches, accept nth and pin by id; unknown arguments are dropped and reported as ignored_arguments, ui_type text is taken as value; after a click or submit, a form submitted (navigation POST) whose page no frame shows any more — ServiceNow saved it and returned to its previous page — is reported as a notice naming that page (a blocked return to an update-set page resets the browser and is also a notice); Playwright failures surface as UI_ACTION_FAILED with action/kind details and are recorded as feedback (clearable with snowgate feedback clear).
+
+- **State:** current
+- **Confidence:** confirmed
+- **Provenance:** repository
+- **Source work:** PF-0023
+- **Knowledge ID:** K-002
+- **Promoted at:** 2026-10-20T10:43:45.363Z
+- **Supersedes:** CTX-0085
+- **Verified:** 2026-10-20T10:43:45.363Z (commit c6d0efd)
+- **Evidence:**
+  - src/playwright/session.js (repository @ c6d0efd)
+  - test/pf0023.test.js (repository @ c6d0efd)
+  - npm test (passed) (runtime, PF-0023 V-001)
 
 <!-- yallaflow-context:end -->

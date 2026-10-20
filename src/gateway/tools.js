@@ -76,7 +76,15 @@ async function remoteFor(ctx, pkg) {
 }
 
 // "<work-id> - <title>": the title comes from the YallaFlow work item.
+// Short words a shortened title should not end on.
+const DANGLING = /\s+(a|an|the|of|for|to|and|or|in|on|with|by|from|at|into|as)$/i;
+
 export function updateSetNameFor(root, workId, title) {
+  return updateSetTitle(root, workId, title).name;
+}
+
+// { name, shortened }: the update-set name for a work item.
+export function updateSetTitle(root, workId, title) {
   let text = title;
   if (!text) {
     const meta = path.join(root, '.yallaflow', 'work', workId, 'meta.yaml');
@@ -92,8 +100,13 @@ export function updateSetNameFor(root, workId, title) {
   while (lead.test(clean)) clean = clean.replace(lead, '').trim();
   // sys_update_set.name holds 80 characters; cut at a word, not mid-word.
   const room = 80 - `${workId} - `.length;
-  if (clean.length > room) clean = clean.slice(0, room + 1).replace(/\s+\S*$/, '').trim() || clean.slice(0, room);
-  return `${workId} - ${clean || 'snowgate task'}`;
+  const shortened = clean.length > room;
+  if (shortened) {
+    let cut = clean.slice(0, room + 1).replace(/\s+\S*$/, '').trim() || clean.slice(0, room);
+    while (DANGLING.test(cut)) cut = cut.replace(DANGLING, '').trim();
+    clean = cut.replace(/[\s,;:–-]+$/, '');
+  }
+  return { name: `${workId} - ${clean || 'snowgate task'}`, shortened };
 }
 
 export const HANDLERS = {
@@ -210,7 +223,9 @@ export const HANDLERS = {
   },
 
   async ui_use_update_set(ctx, { title } = {}) {
-    const name = updateSetNameFor(ctx.root, ctx.workId, title);
+    const { name, shortened } = updateSetTitle(ctx.root, ctx.workId, title);
+    // Said plainly, so the agent does not blame the instance for the cut.
+    const note = (set) => (shortened && set.name === name ? { note: 'snowgate shortened the work item title to fit sys_update_set.name (80 characters).' } : {});
     const client = ctx.client();
     const find = async () => (await client.query('sys_update_set', {
       fields: ['sys_id', 'name', 'state'],
@@ -224,7 +239,7 @@ export const HANDLERS = {
     // Already current: nothing to do in the UI (the "make current" link is
     // not even shown then).
     if (set && (await currentSet()) === set.sys_id) {
-      return { update_set: set.name, sys_id: set.sys_id, created: false, current: true, already_current: true, record_url: client.recordUrl('sys_update_set', set.sys_id), next: 'Make the changes through the UI tools; they are captured in this update set. Do not complete it or commit unless the user asks.' };
+      return { update_set: set.name, sys_id: set.sys_id, created: false, current: true, already_current: true, record_url: client.recordUrl('sys_update_set', set.sys_id), ...note(set), next: 'Make the changes through the UI tools; they are captured in this update set. Do not complete it or commit unless the user asks.' };
     }
     const session = ctx.session();
     await session.withUnlocked((page) => (set ? makeCurrent(page, session.origin, set.sys_id) : createAndMakeCurrent(page, session.origin, name)));
@@ -237,7 +252,7 @@ export const HANDLERS = {
       if (current !== set.sys_id) await new Promise((r) => setTimeout(r, 1000));
     }
     if (current !== set.sys_id) throw new SnowgateError(`"${set.name}" exists but is not your current update set yet; nothing should be changed until it is.`, 'UPDATE_SET_NOT_CURRENT');
-    return { update_set: set.name, sys_id: set.sys_id, created, current: true, record_url: client.recordUrl('sys_update_set', set.sys_id), next: 'Make the changes through the UI tools; they are captured in this update set. Do not complete it or commit unless the user asks.' };
+    return { update_set: set.name, sys_id: set.sys_id, created, current: true, record_url: client.recordUrl('sys_update_set', set.sys_id), ...note(set), next: 'Make the changes through the UI tools; they are captured in this update set. Do not complete it or commit unless the user asks.' };
   },
 
   async ui_upload_update_set(ctx, { package: change }) {

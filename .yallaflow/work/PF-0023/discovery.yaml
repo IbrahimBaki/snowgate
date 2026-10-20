@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "id": "DL-001",
+      "type": "not-inspected",
+      "area": "testing",
+      "summary": "The general post-submit notice was not exercised on the real instance",
+      "reason": "Triggering it needs a real save on the user's instance; checks there stay read-only. Covered by a local fixture (related-list New -> Submit -> parent form, and a failed save that stays on the form); the next user trial will show it.",
+      "recordedAt": "2026-10-20T10:43:19.269Z"
+    }
+  ],
+  "updatedAt": "2026-10-20T10:43:19.269Z"
+}

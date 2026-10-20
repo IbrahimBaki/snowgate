@@ -1,0 +1,45 @@
+{
+  "id": "PF-0023",
+  "type": "change",
+  "scope": "bounded",
+  "routingStatus": "routed",
+  "rawRequest": "General post-save return notice; update-set names drop dangling short words",
+  "status": "DONE",
+  "readOnly": false,
+  "knowledgePolicy": {
+    "version": 1,
+    "reviewRequired": true
+  },
+  "createdAt": "2026-10-20T10:40:10.093Z",
+  "updatedAt": "2026-10-20T10:43:45.551Z",
+  "title": "General post-save return notice; update-set names drop dangling short words",
+  "routingConfidence": "high",
+  "routingReason": "Explicitly classified by the user: `yallaflow change --scope bounded`.",
+  "routedAt": "2026-10-20T10:40:10.096Z",
+  "workflow": "change",
+  "requiredCapabilities": [
+    "discover",
+    "clarify",
+    "plan",
+    "implement",
+    "verify"
+  ],
+  "behaviorContract": {
+    "registryVersion": 8,
+    "skills": [
+      "context-discovery",
+      "requirement-clarification",
+      "implementation-planning",
+      "implementation",
+      "verification"
+    ]
+  },
+  "completionHistory": [
+    {
+      "completedAt": "2026-10-20T10:43:45.551Z",
+      "verificationRunIds": [
+        "V-001"
+      ]
+    }
+  ]
+}

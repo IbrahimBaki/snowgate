@@ -67,6 +67,8 @@ export class BrowserSession {
   #userToken = null;
   #opening = false;
   #notice = null;
+  // Path of the last form submitted (a navigation POST) since the last check.
+  #submitted = null;
 
   constructor({
     origin,
@@ -136,6 +138,7 @@ export class BrowserSession {
   // the session (cookies) but none of the old page's state.
   async #resetPage() {
     const old = this.#page;
+    this.#submitted = null;
     this.#opening = true;
     try {
       this.#attach(await this.#context.newPage());
@@ -166,6 +169,7 @@ export class BrowserSession {
     const verdict = classifyRequest(url, { origin: this.#origin, body: request.postData() ?? '' });
     if (!this.#permits(verdict)) return this.#block(route, request, url, verdict);
     if (/^(about|data|blob):/i.test(url)) return route.continue();
+    if (request.isNavigationRequest() && request.method() === 'POST') this.#submitted = new URL(url).pathname;
     let response;
     try {
       response = await route.fetch({ maxRedirects: 0 });
@@ -313,11 +317,15 @@ export class BrowserSession {
   // afterAction: after a click or submit, ServiceNow returns to the previous
   // page on its navigation stack; when that is the update-set form left there
   // by ui_use_update_set, the return is blocked (the lock holds) but the save
-  // itself succeeded — that is reported as a notice, not a failure.
+  // itself succeeded — that is reported as a notice, not a failure. Any other
+  // return after a submit is reported as a notice too, so it is not mistaken
+  // for an unsaved form.
   async postCheck({ afterAction = false } = {}) {
     await this.#page.waitForLoadState('networkidle', { timeout: 3000 }).catch(() => {});
     const blocked = this.takeBlocked();
     this.#notice = null;
+    const submitted = this.#submitted;
+    this.#submitted = null;
     const bad = this.frames().find((f) => !/^(about:|chrome-error:)/.test(f.url) && !classifyRequest(f.url, { origin: this.#origin }).allowed);
     const lockedNav = blocked.find((b) => b.navigation);
     const stackReturn = (url) => /\/sys_update_set(_list)?\.do(\?|$)/.test(new URL(url).pathname + '?');
@@ -326,6 +334,15 @@ export class BrowserSession {
       await this.#resetPage();
       this.#notice = 'Done. Afterwards the instance tried to return to an update-set page (its "previous page"), which generic UI tools may not open, so the browser was reset. Verify the record with sn_get_record, then navigate on.';
       return blocked;
+    }
+    // A form was submitted and no frame shows it any more: ServiceNow saved
+    // it and returned to the previous page on its stack.
+    if (afterAction && !bad && !lockedNav && submitted) {
+      const paths = this.frames().map((f) => { try { return new URL(f.url); } catch { return null; } }).filter(Boolean);
+      const now = paths.find((u) => u.origin === this.#origin && /\.do$/.test(u.pathname)) ?? paths[0];
+      if (now && !paths.some((u) => u.pathname === submitted)) {
+        this.#notice = `Submitted ${submitted.replace(/^\//, '')}; ServiceNow then returned to its previous page (${now.pathname.replace(/^\//, '')}${now.search}). That return is normal after a save. Verify the stored values with snowgate check (or sn_get_record) rather than from this page.`;
+      }
     }
     if (bad || lockedNav) {
       await this.#resetPage();
@@ -384,6 +401,7 @@ export class BrowserSession {
     await this.login();
     // Requests blocked late by an earlier action must not fail this one.
     this.takeBlocked();
+    this.#submitted = null;
     await this.#goto(url);
     // Navigation is safe to repeat after an automatic re-login.
     if (await this.#renewIfEnded()) await this.#goto(url);

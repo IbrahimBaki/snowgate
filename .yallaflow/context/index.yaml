@@ -7465,7 +7465,7 @@
     {
       "id": "CTX-0085",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false through the label only when it differs, text → typed); ui_click on a checkbox clicks its label; a field on a closed form tab is revealed by opening its tab first; ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value; locators wait up to 5s, prefer the single select/input among label matches, accept nth and pin by id; unknown arguments are dropped and reported as ignored_arguments, ui_type text is taken as value; a post-save return to an update-set page is reported as a success notice; Playwright failures surface as UI_ACTION_FAILED with action/kind details and are recorded as feedback (clearable with snowgate feedback clear).",
       "provenance": "repository",
@@ -7507,7 +7507,7 @@
       "supersedes": [
         "CTX-0081"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0090",
       "history": [
         {
           "action": "introduced",
@@ -7515,10 +7515,17 @@
           "workId": "PF-0021",
           "candidateId": "K-002",
           "supersedes": "CTX-0081"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-20T10:43:45.363Z",
+          "supersededBy": "CTX-0090",
+          "workId": "PF-0023",
+          "candidateId": "K-002"
         }
       ],
       "createdAt": "2026-10-20T00:45:23.064Z",
-      "updatedAt": "2026-10-20T00:45:23.064Z"
+      "updatedAt": "2026-10-20T10:43:45.363Z"
     },
     {
       "id": "CTX-0086",
@@ -7612,7 +7619,7 @@
     {
       "id": "CTX-0088",
       "area": "business-rule",
-      "state": "current",
+      "state": "superseded",
       "confidence": "confirmed",
       "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item, work id not repeated, cut at a word within 80 characters) and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools and verified with yallaflow verify <id> -- snowgate check <table> <sys_id> <field>=<value>... --work <id>, which reads the stored values through the read-only REST client and exits 1 on any difference (snowgate validate checks changes/ packages only); the change is recorded in the work item and the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
       "provenance": "repository",
@@ -7652,7 +7659,7 @@
       "supersedes": [
         "CTX-0075"
       ],
-      "supersededBy": null,
+      "supersededBy": "CTX-0089",
       "history": [
         {
           "action": "introduced",
@@ -7660,11 +7667,127 @@
           "workId": "PF-0022",
           "candidateId": "K-003",
           "supersedes": "CTX-0075"
+        },
+        {
+          "action": "superseded",
+          "at": "2026-10-20T10:43:45.172Z",
+          "supersededBy": "CTX-0089",
+          "workId": "PF-0023",
+          "candidateId": "K-001"
         }
       ],
       "createdAt": "2026-10-20T01:01:03.180Z",
-      "updatedAt": "2026-10-20T01:01:03.180Z"
+      "updatedAt": "2026-10-20T10:43:45.172Z"
+    },
+    {
+      "id": "CTX-0089",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Changing the instance (minimal path): YallaFlow owns the task; the agent first calls ui_use_update_set, which creates or reuses the in-progress update set '<work-id> - <title>' (title from the YallaFlow work item, work id not repeated; a title too long for sys_update_set.name's 80 characters is cut at a word, drops trailing short words, and the result carries a note that snowgate shortened it) and verifies it through sys_user_preference, never Default or another work item's set; changes are made through the browser tools and verified with yallaflow verify <id> -- snowgate check <table> <sys_id> <field>=<value>... --work <id>, which reads the stored values through the read-only REST client and exits 1 on any difference (snowgate validate checks changes/ packages only); the change is recorded in the work item and the update set stays In Progress unless the user asks. Change packages, XML export and cross-instance deploy are deferred.",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0023",
+        "candidateId": "K-001"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/gateway/tools.js",
+          "contentHash": "sha256:353bdbddbe6353706ac226571ba53b92327e2bb0e8d969c4404b959aed668baa",
+          "gitCommit": "c6d0efd5440e4fd6d8e24749e49745a7dcf1f2e5",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "src/cli/main.js",
+          "contentHash": "sha256:d4d013a040fc6da6a693d1fcef0d3796d954287a0eff856744624fa063b2265e",
+          "gitCommit": "c6d0efd5440e4fd6d8e24749e49745a7dcf1f2e5",
+          "workingTree": "head"
+        },
+        {
+          "type": "repository",
+          "path": "skills/servicenow-changes/SKILL.md",
+          "contentHash": "sha256:9efe76badf8d54b94bc23ec25cb73b17be14ce42c84aa808a8a35fe6f80d8e5d",
+          "gitCommit": "c6d0efd5440e4fd6d8e24749e49745a7dcf1f2e5",
+          "workingTree": "head"
+        },
+        {
+          "type": "runtime",
+          "description": "npm test (passed)",
+          "workId": "PF-0023",
+          "verificationRunId": "V-001"
+        }
+      ],
+      "verifiedAt": "2026-10-20T10:43:45.172Z",
+      "verifiedAtCommit": "c6d0efd5440e4fd6d8e24749e49745a7dcf1f2e5",
+      "supersedes": [
+        "CTX-0088"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-20T10:43:45.172Z",
+          "workId": "PF-0023",
+          "candidateId": "K-001",
+          "supersedes": "CTX-0088"
+        }
+      ],
+      "createdAt": "2026-10-20T10:43:45.172Z",
+      "updatedAt": "2026-10-20T10:43:45.172Z"
+    },
+    {
+      "id": "CTX-0090",
+      "area": "business-rule",
+      "state": "current",
+      "confidence": "confirmed",
+      "summary": "Gateway UI input: ui_type sets a field by its kind (dropdown → option by visible text or value, checkbox/radio → true/false through the label only when it differs, text → typed); ui_click on a checkbox clicks its label; a field on a closed form tab is revealed by opening its tab first; ui_select picks an option in native, select2 or autocomplete dropdowns and verifies the value; locators wait up to 5s, prefer the single select/input among label matches, accept nth and pin by id; unknown arguments are dropped and reported as ignored_arguments, ui_type text is taken as value; after a click or submit, a form submitted (navigation POST) whose page no frame shows any more — ServiceNow saved it and returned to its previous page — is reported as a notice naming that page (a blocked return to an update-set page resets the browser and is also a notice); Playwright failures surface as UI_ACTION_FAILED with action/kind details and are recorded as feedback (clearable with snowgate feedback clear).",
+      "provenance": "repository",
+      "origin": {
+        "workId": "PF-0023",
+        "candidateId": "K-002"
+      },
+      "evidence": [
+        {
+          "type": "repository",
+          "path": "src/playwright/session.js",
+          "contentHash": "sha256:4392d7845ff8b8144c4110e4d86dfb63b617aa8d8cedae436f76d009d3f82547",
+          "gitCommit": "c6d0efd5440e4fd6d8e24749e49745a7dcf1f2e5",
+          "workingTree": "modified"
+        },
+        {
+          "type": "repository",
+          "path": "test/pf0023.test.js",
+          "contentHash": "sha256:c56bfd55b21bc7f1654eb2ac7f3b0a410786860b22457a03cdb2981095eca753",
+          "gitCommit": "c6d0efd5440e4fd6d8e24749e49745a7dcf1f2e5",
+          "workingTree": "untracked"
+        },
+        {
+          "type": "runtime",
+          "description": "npm test (passed)",
+          "workId": "PF-0023",
+          "verificationRunId": "V-001"
+        }
+      ],
+      "verifiedAt": "2026-10-20T10:43:45.363Z",
+      "verifiedAtCommit": "c6d0efd5440e4fd6d8e24749e49745a7dcf1f2e5",
+      "supersedes": [
+        "CTX-0085"
+      ],
+      "supersededBy": null,
+      "history": [
+        {
+          "action": "introduced",
+          "at": "2026-10-20T10:43:45.363Z",
+          "workId": "PF-0023",
+          "candidateId": "K-002",
+          "supersedes": "CTX-0085"
+        }
+      ],
+      "createdAt": "2026-10-20T10:43:45.363Z",
+      "updatedAt": "2026-10-20T10:43:45.363Z"
     }
   ],
-  "updatedAt": "2026-10-20T01:01:03.180Z"
+  "updatedAt": "2026-10-20T10:43:45.363Z"
 }
